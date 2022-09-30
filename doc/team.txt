@@ -1,6 +1,6 @@
 Company: CMPUT301F22T06
 Team Name: GitErDone
 
-
 CCID: headrick , github username: dheadrick1618
 CCID: rieberg1 , gitHub username: rieberg1
+CCID: kshao , gitHub username: gentoxic
