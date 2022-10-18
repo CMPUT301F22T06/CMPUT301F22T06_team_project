@@ -4,12 +4,19 @@ public class Ingredient {
 
     private String name;
     private String desc;
-    private String bestBefore;
+    private String best_before;
     private String location;
     private String units;
     private String category;
 
-    public Ingredient() {
+    public Ingredient(String name, String desc, String best_before, String location, String units,
+                      String category) {
+        this.name = name;
+        this.desc = desc;
+        this.best_before = best_before;
+        this.location = location;
+        this.units = units;
+        this.category = category;
 
     }
 
@@ -21,12 +28,12 @@ public class Ingredient {
         this.desc = desc;
     }
 
-    public String getBestBefore() {
-        return bestBefore;
+    public String getBest_before() {
+        return best_before;
     }
 
-    public void setBestBefore(String bestBefore) {
-        this.bestBefore = bestBefore;
+    public void setBest_before(String best_before) {
+        this.best_before = best_before;
     }
 
     public String getLocation() {
