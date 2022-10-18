@@ -14,6 +14,14 @@ public class Recipe {
 
     }
 
+    public ArrayList<Ingredient> get_ingredients() {
+        return ingredients;
+    }
+
+    public void set_ingredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     public String get_title() {
         return title;
     }
