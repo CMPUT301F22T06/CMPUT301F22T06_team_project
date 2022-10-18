@@ -14,51 +14,43 @@ public class Recipe {
 
     }
 
-    public ArrayList<Ingredient> get_ingredients() {
-        return ingredients;
-    }
-
-    public void set_ingredients(ArrayList<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public String get_title() {
+    public String getTitle() {
         return title;
     }
 
-    public void set_title(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String get_comments() {
+    public String getComments() {
         return comments;
     }
 
-    public void set_comments(String comments) {
+    public void setComments(String comments) {
         this.comments = comments;
     }
 
-    public String get_category() {
+    public String getCategory() {
         return category;
     }
 
-    public void set_category(String category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
-    public int get_prep_time() {
+    public int getPrep_time() {
         return prep_time;
     }
 
-    public void set_prep_time(int prep_time) {
+    public void setPrep_time(int prep_time) {
         this.prep_time = prep_time;
     }
 
-    public int get_servings() {
+    public int getServings() {
         return servings;
     }
 
-    public void set_servings(int servings) {
+    public void setServings(int servings) {
         this.servings = servings;
     }
 }
