@@ -10,8 +10,29 @@ public class Recipe {
     private int prep_time;
     private int servings;
 
-    public Recipe(){
+    public Recipe() {
 
+    }
+
+
+    public ArrayList<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+        if (ingredients.contains(ingredient)) {
+            ingredients.remove(ingredient);
+        } else {
+            throw new IllegalArgumentException("That ingredient does not exist in this recipe!");
+        }
     }
 
     public String getTitle() {
