@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project;
+package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.git_er_done.cmput301f22t06_team_project.R;
 
 public class IngredientsFragment extends Fragment {
 

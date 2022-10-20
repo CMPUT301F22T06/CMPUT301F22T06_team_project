@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project;
+package com.git_er_done.cmput301f22t06_team_project.models;
 
 public class Ingredient {
 
@@ -8,15 +8,17 @@ public class Ingredient {
     private String location;
     private String units;
     private String category;
+    private Integer amount;
 
     public Ingredient(String name, String desc, String best_before, String location, String units,
-                      String category) {
+                      String category, Integer amount ) {
         this.name = name;
         this.desc = desc;
         this.best_before = best_before;
         this.location = location;
         this.units = units;
         this.category = category;
+        this.amount = amount;
 
     }
 
@@ -67,8 +69,6 @@ public class Ingredient {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
-    private int amount;
 
     public String getName() {
         return name;

@@ -1,4 +1,6 @@
-package com.git_er_done.cmput301f22t06_team_project;
+package com.git_er_done.cmput301f22t06_team_project.models;
+
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
 
