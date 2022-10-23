@@ -3,8 +3,6 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 import static android.service.controls.ControlsProviderService.TAG;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 
@@ -14,14 +12,13 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class IngredientDBHelper {
-
+public class MealPlannerDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference ingredientsDB = db.collection("ingredients");
+    final CollectionReference mealPlansDB = db.collection("mealPlans");
 
-    public void addIngredient(String ingredient){
-        ingredientsDB
-                .add(ingredient)
+    public void addMealPlan(String mealPlan){
+        mealPlansDB
+                .add(mealPlan)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -36,9 +33,9 @@ public class IngredientDBHelper {
                 });
     }
 
-    public void deleteIngredient(String ingredient){
-        ingredientsDB
-                .document(ingredient)
+    public void deleteMealPlan(String mealPlan){
+        mealPlansDB
+                .document(mealPlan)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -54,5 +51,4 @@ public class IngredientDBHelper {
                     }
                 });
     }
-
 }
