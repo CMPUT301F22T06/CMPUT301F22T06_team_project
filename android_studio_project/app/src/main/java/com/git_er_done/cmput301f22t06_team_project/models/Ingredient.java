@@ -9,6 +9,8 @@ public abstract class Ingredient {
     private String units;
     private String category;
     private Integer amount;
+    private boolean isVegetarian;
+    private boolean isVegan;
 
     public Ingredient(String name, String desc, String best_before, String location, String units,
                       String category, Integer amount ) {
@@ -62,11 +64,11 @@ public abstract class Ingredient {
         this.category = category;
     }
 
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
@@ -76,5 +78,21 @@ public abstract class Ingredient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isVegetarian() {
+        return isVegetarian;
+    }
+
+    public void setVegetarian(boolean vegetarian) {
+        isVegetarian = vegetarian;
+    }
+
+    public boolean isVegan() {
+        return isVegan;
+    }
+
+    public void setVegan(boolean vegan) {
+        isVegan = vegan;
     }
 }
