@@ -11,9 +11,17 @@ public class Recipe {
     private String category;
     private int prep_time;
     private int servings;
+    private boolean isVegetarian;
+    private boolean isVegan;
 
     public Recipe() {
-
+        title = "N/A";
+        comments = "N/A";
+        category = "N/A";
+        prep_time = -1;
+        servings = -1;
+        isVegan = false;
+        isVegetarian = false;
     }
 
 
@@ -75,5 +83,21 @@ public class Recipe {
 
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    public boolean isVegetarian() {
+        return isVegetarian;
+    }
+
+    public void setVegetarian(boolean vegetarian) {
+        isVegetarian = vegetarian;
+    }
+
+    public boolean isVegan() {
+        return isVegan;
+    }
+
+    public void setVegan(boolean vegan) {
+        isVegan = vegan;
     }
 }
