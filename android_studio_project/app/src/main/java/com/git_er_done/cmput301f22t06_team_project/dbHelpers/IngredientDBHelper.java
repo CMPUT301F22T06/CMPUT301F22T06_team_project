@@ -14,24 +14,29 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+
 public class IngredientDBHelper {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference ingredientsDB = db.collection("ingredients");
+    final CollectionReference ingredientsDB = db.collection("Ingredients");
 
-    public void addIngredient(String ingredient){
+    public void addIngredient(String ingredient,HashMap<String,String> data){
         ingredientsDB
-                .add(ingredient)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .document(ingredient)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess(Void aVoid) {
+// These are a method which gets executed when the task is succeeded
+                        Log.d(TAG, "Data has been added successfully!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+// These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
     }
