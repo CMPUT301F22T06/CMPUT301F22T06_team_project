@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public class VeganIngredient extends Ingredient {
     public VeganIngredient(String name, String desc, LocalDate best_before, String location,
-                           String units, float amount) {
-        super(name, desc, best_before, location, units, amount);
+                           String units, String category, float amount) {
+        super(name, desc, best_before, location, units, category, amount);
         setVegan(true);
         setVegetarian(true);
     }
