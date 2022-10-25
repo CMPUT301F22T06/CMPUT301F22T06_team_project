@@ -1,17 +1,25 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+
 public class Ingredient {
 
     private String name;
     private String desc;
-    private String best_before;
+    private LocalDate best_before;
     private String location;
     private String units;
     private String category;
-    private Integer amount;
+    private Float amount;
 
-    public Ingredient(String name, String desc, String best_before, String location, String units,
-                      String category, Integer amount ) {
+    public Ingredient(String name, String desc, LocalDate best_before, String location, String units,
+                      String category, Float amount ) {
         this.name = name;
         this.desc = desc;
         this.best_before = best_before;
@@ -22,6 +30,25 @@ public class Ingredient {
 
     }
 
+    /**
+     * Quick and dirty generator of arraylist of ingredients for UI testing
+     * @return ArrayList of {@link Ingredient} instances
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static ArrayList<Ingredient> createIngredientList(){
+        ArrayList<Ingredient> testIngredients = new ArrayList<Ingredient>();
+
+        Ingredient apple = new Ingredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
+        Ingredient sugar  = new Ingredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
+        Ingredient flour  = new Ingredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
+
+        testIngredients.add(apple);
+        testIngredients.add(sugar);
+        testIngredients.add(flour);
+
+        return testIngredients;
+    }
+
     public String getDesc() {
         return desc;
     }
@@ -30,11 +57,11 @@ public class Ingredient {
         this.desc = desc;
     }
 
-    public String getBest_before() {
+    public LocalDate getBest_before() {
         return best_before;
     }
 
-    public void setBest_before(String best_before) {
+    public void setBest_before(LocalDate best_before) {
         this.best_before = best_before;
     }
 
@@ -62,11 +89,11 @@ public class Ingredient {
         this.category = category;
     }
 
-    public int getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
