@@ -39,9 +39,9 @@ public abstract class Ingredient {
     public static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
-        Ingredient apple = new VeganIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
-        Ingredient sugar  = new VeganIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
-        Ingredient flour  = new VeganIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
+        Ingredient apple = new FruitIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
+        Ingredient sugar  = new LipidIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
+        Ingredient flour  = new OtherIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
 
         testIngredients.add(apple);
         testIngredients.add(sugar);
