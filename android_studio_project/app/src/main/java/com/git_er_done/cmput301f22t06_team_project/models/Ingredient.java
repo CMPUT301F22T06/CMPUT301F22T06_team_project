@@ -41,7 +41,7 @@ public abstract class Ingredient {
 
         Ingredient apple = new FruitIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
         Ingredient sugar  = new LipidIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
-        Ingredient flour  = new OtherIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
+        Ingredient flour  = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
 
         testIngredients.add(apple);
         testIngredients.add(sugar);
