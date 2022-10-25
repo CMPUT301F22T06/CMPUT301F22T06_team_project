@@ -4,16 +4,16 @@
         android:checkableBehavior="single">
         <item android:id="@+id/nav_ingredients_menu_item"
             android:title="Ingredients"
-            android:icon="@drawable/ingredient_icon"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_recipes_menu_item"
             android:title="Recipes"
-            android:icon="@drawable/recipe_icon"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_shopping_list_menu_item"
             android:title="Shopping List"
-            android:icon="@drawable/shop_list_icon"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_meal_planner_menu_item"
             android:title="Meal Planner"
-            android:icon="@drawable/meal_plan_icon"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
     </group>
 
 <!--    <group android:checkableBehavior="single">-->

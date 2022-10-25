@@ -15,7 +15,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.VeganIngredient;
 import com.google.android.material.navigation.NavigationView;
+
+import java.time.LocalDate;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 

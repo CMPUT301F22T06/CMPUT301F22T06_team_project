@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "149539234719",
+    "project_id": "mealplannerdb",
+    "storage_bucket": "mealplannerdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149539234719:android:d1c169009b8e48d2ce53aa",
+        "android_client_info": {
+          "package_name": "com.git_er_done.cmput301f22t06_team_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149539234719-q5tqlsauvhods4gei57sdiuol0t6gq54.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbF6VaP5xSg20qFgN68bu2TbuP8yWf9F4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149539234719-q5tqlsauvhods4gei57sdiuol0t6gq54.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

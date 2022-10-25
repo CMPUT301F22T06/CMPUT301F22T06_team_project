@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class IngredientsFragment extends Fragment {
     ArrayList<Ingredient> testIngredients;
     RecyclerView rvIngredients;
 
-
+    ArrayList<Ingredient> retrievedIngredients;
     public IngredientsFragment() {
         // Required empty public constructor
     }
@@ -47,7 +48,12 @@ public class IngredientsFragment extends Fragment {
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         testIngredients = Ingredient.createIngredientList();
-
+        IngredientDBHelper dbHelper = new IngredientDBHelper();
+        for (Ingredient ingredient: testIngredients) {
+            dbHelper.addIngredient(ingredient);
+        }
+        dbHelper.deleteIngredient("apple");
+        retrievedIngredients = dbHelper.getData();
         IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter(testIngredients);
         rvIngredients.setAdapter(adapter);
 
