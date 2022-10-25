@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class GrainIngredient extends Ingredient {
     public GrainIngredient(String name, String desc, LocalDate best_before, String location,
-                           String units, String category, float amount) {
+                           String units, String category, Integer amount) {
         super(name, desc, best_before, location, units, category, amount);
     }
 }
