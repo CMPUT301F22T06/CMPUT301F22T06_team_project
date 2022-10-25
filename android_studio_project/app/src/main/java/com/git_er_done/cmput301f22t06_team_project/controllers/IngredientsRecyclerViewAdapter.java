@@ -61,6 +61,18 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
         TextView description = holder.descriptionTextView;
         description.setText(ingredient.getDesc());
+
+        TextView location = holder.locationTextView;
+        location.setText(ingredient.getLocation());
+
+        TextView bestBeforeDate = holder.bestBeforeDateTextView;
+        bestBeforeDate.setText(ingredient.getBestBefore().toString());
+
+        TextView amount = holder.amountTextView;
+        amount.setText(ingredient.getAmount().toString());
+
+        TextView unit = holder.unitTextView;
+        unit.setText(ingredient.getUnits());
     }
 
     /**
@@ -79,6 +91,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         // for any view that will be set as you render a row
         public TextView nameTextView;
         public TextView descriptionTextView;
+        public TextView bestBeforeDateTextView;
+        public TextView amountTextView;
+        public TextView unitTextView;
+        public TextView locationTextView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -87,8 +103,12 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            nameTextView = (TextView) itemView.findViewById(R.id.tv_ingredient_list_item_name);
+            nameTextView = itemView.findViewById(R.id.tv_ingredient_list_item_name);
             descriptionTextView = itemView.findViewById(R.id.tv_ingredient_list_item_description);
+            locationTextView = itemView.findViewById(R.id.tv_ingredient_list_item_location);
+            bestBeforeDateTextView = itemView.findViewById(R.id.tv_ingredient_list_item_best_before_date);
+            amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
+            unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
            }
     }
 }
