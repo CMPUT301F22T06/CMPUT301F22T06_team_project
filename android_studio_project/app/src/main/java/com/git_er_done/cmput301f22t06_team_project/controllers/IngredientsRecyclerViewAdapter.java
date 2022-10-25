@@ -14,6 +14,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.List;
 
+//Followed this tutorial https://guides.codepath.com/android/using-the-recyclerview
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
 public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<IngredientsRecyclerViewAdapter.ViewHolder> {
