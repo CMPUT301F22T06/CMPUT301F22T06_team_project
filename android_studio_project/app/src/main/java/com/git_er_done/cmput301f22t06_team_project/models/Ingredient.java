@@ -94,7 +94,7 @@ public abstract class Ingredient {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
