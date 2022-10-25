@@ -16,8 +16,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.VeganIngredient;
 import com.google.android.material.navigation.NavigationView;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,14 +44,12 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ///RANDOM TEST TO SEE IF DATABASE IS WORKING
-        HashMap<String,String> data = new HashMap<String, String >();
-        data.put("amount","1");
-        String ingredient = "apples";
+        //TEST
+        LocalDate date = LocalDate.now();
+        VeganIngredient apple = new VeganIngredient("apple","small round and red fruit", date, "fridge","grams","fruit",2);
         IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        ingredientDBHelper.addIngredient(ingredient,data);
-        ///
-        
+        ingredientDBHelper.addIngredient(apple);
+
         navigationView.setNavigationItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.nav_recipes_menu_item:
