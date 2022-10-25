@@ -5,5 +5,7 @@ public class NonVegIngredient extends Ingredient {
     public NonVegIngredient(String name, String desc, String best_before, String location,
                             String units, String category, Integer amount) {
         super(name, desc, best_before, location, units, category, amount);
+        setVegan(false);
+        setVegetarian(false);
     }
 }

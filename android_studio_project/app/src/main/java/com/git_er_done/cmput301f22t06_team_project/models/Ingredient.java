@@ -15,7 +15,7 @@ public abstract class Ingredient {
     // No empty constructor since it should never be called anyway
 
     public Ingredient(String name, String desc, String best_before, String location, String units,
-                      String category, Integer amount ) {
+                      String category, Integer amount) {
         this.name = name;
         this.desc = desc;
         this.best_before = best_before;
@@ -23,7 +23,6 @@ public abstract class Ingredient {
         this.units = units;
         this.category = category;
         this.amount = amount;
-
     }
 
     public String getDesc() {
