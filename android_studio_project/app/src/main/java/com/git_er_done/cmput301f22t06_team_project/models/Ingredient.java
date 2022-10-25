@@ -1,5 +1,4 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
-
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -8,18 +7,21 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Ingredient {
-
+public abstract class Ingredient {
     private String name;
     private String desc;
     private LocalDate best_before;
     private String location;
     private String units;
     private String category;
-    private Float amount;
+    private Integer amount;
+    private boolean isVegetarian;
+    private boolean isVegan;
 
-    public Ingredient(String name, String desc, LocalDate best_before, String location, String units,
-                      String category, Float amount ) {
+    // No empty constructor since it should never be called anyway
+
+    public Ingredient(String name, String desc, String best_before, String location, String units,
+                      String category, Integer amount) {
         this.name = name;
         this.desc = desc;
         this.best_before = best_before;
@@ -27,7 +29,6 @@ public class Ingredient {
         this.units = units;
         this.category = category;
         this.amount = amount;
-
     }
 
     /**
@@ -89,11 +90,12 @@ public class Ingredient {
         this.category = category;
     }
 
-    public Float getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Integer amount) {
+
         this.amount = amount;
     }
 
@@ -103,5 +105,21 @@ public class Ingredient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isVegetarian() {
+        return isVegetarian;
+    }
+
+    public void setVegetarian(boolean vegetarian) {
+        isVegetarian = vegetarian;
+    }
+
+    public boolean isVegan() {
+        return isVegan;
+    }
+
+    public void setVegan(boolean vegan) {
+        isVegan = vegan;
     }
 }
