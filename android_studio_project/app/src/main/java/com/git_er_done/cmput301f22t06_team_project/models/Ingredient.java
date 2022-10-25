@@ -20,7 +20,7 @@ public abstract class Ingredient {
 
     // No empty constructor since it should never be called anyway
 
-    public Ingredient(String name, String desc, String best_before, String location, String units,
+    public Ingredient(String name, String desc, LocalDate best_before, String location, String units,
                       String category, Integer amount) {
         this.name = name;
         this.desc = desc;
@@ -36,12 +36,11 @@ public abstract class Ingredient {
      * @return ArrayList of {@link Ingredient} instances
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static ArrayList<Ingredient> createIngredientList(){
+    public final static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<Ingredient>();
-
-        Ingredient apple = new Ingredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
-        Ingredient sugar  = new Ingredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
-        Ingredient flour  = new Ingredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "vegetarian",  4.25F );
+        VeganIngredient apple = new  VeganIngredient ("apple", "red apple small", LocalDate.now(), "Pantry", "g", "Vegan", 4);
+        VeganIngredient sugar  = new VeganIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "Vegan", 2 );
+        VeganIngredient flour  = new VeganIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "Vegan",  4 );
 
         testIngredients.add(apple);
         testIngredients.add(sugar);
@@ -58,11 +57,11 @@ public abstract class Ingredient {
         this.desc = desc;
     }
 
-    public LocalDate getBest_before() {
+    public LocalDate getBestBefore() {
         return best_before;
     }
 
-    public void setBest_before(LocalDate best_before) {
+    public void setBestBefore(LocalDate best_before) {
         this.best_before = best_before;
     }
 
