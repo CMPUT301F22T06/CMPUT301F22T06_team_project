@@ -12,6 +12,8 @@ public abstract class Ingredient {
     private boolean isVegetarian;
     private boolean isVegan;
 
+    // No empty constructor since it should never be called anyway
+
     public Ingredient(String name, String desc, String best_before, String location, String units,
                       String category, Integer amount ) {
         this.name = name;
