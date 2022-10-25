@@ -44,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //TEST
-        LocalDate date = LocalDate.now();
-        VeganIngredient apple = new VeganIngredient("apple","small round and red fruit", date, "fridge","grams","fruit",2);
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        ingredientDBHelper.addIngredient(apple);
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch(item.getItemId()){
