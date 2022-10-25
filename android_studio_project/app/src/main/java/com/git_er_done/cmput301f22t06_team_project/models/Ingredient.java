@@ -37,7 +37,7 @@ public abstract class Ingredient {
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<Ingredient> createIngredientList(){
-        ArrayList<Ingredient> testIngredients = new ArrayList<Ingredient>();
+        ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
         Ingredient apple = new VeganIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "vegetarian", 4F);
         Ingredient sugar  = new VeganIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "vegetarian", 2F );
