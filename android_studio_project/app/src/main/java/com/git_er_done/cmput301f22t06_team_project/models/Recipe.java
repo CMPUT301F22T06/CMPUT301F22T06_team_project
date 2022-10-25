@@ -14,16 +14,18 @@ public class Recipe {
     private boolean isVegetarian;
     private boolean isVegan;
 
-    public Recipe() {
-        title = "N/A";
-        comments = "N/A";
-        category = "N/A";
-        prep_time = -1;
-        servings = -1;
-        isVegan = false;
-        isVegetarian = false;
-    }
+    // No empty constructor since it should never be called anyway
 
+    public Recipe(String title, String comments, String category, int prep_time, int servings,
+                  boolean isVegan, boolean isVegetarian) {
+        this.title = title;
+        this.comments = comments;
+        this.category = category;
+        this.prep_time = prep_time;
+        this.servings = servings;
+        this.isVegan = isVegan;
+        this.isVegetarian = isVegetarian;
+    }
 
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
