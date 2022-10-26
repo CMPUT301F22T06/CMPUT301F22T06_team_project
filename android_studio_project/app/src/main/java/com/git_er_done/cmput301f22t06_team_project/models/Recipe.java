@@ -31,7 +31,7 @@ public class Recipe {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredientsList(ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
