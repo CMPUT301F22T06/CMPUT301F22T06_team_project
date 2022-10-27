@@ -35,7 +35,7 @@ public class RecipesDBHelper {
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
-        ArrayList<Ingredient> ingredients = recipe.getIngredients();
+        //ArrayList<Ingredient> ingredients = recipe.getIngredients();
         HashMap<String,String> data = new HashMap<>();
         data.put("comments",comments);
         data.put("category", category);
@@ -59,11 +59,11 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-        for (Ingredient i: ingredients){
+       // for (Ingredient i: ingredients){
             HashMap<String,String> ingredient = new HashMap<>();
 //            ingredient.put("amount",amount);
 //            recipesDB.document(title).collection("ingredients").document(i.getName()).set(amount);
-        }
+
     }
 
     public void deleteRecipe(String recipe){

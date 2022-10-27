@@ -48,9 +48,9 @@ public abstract class Ingredient {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public final static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<Ingredient>();
-        Ingredient apple = new FruitIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "Vegan", 4);
-        Ingredient sugar = new LipidIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "Vegan", 2 );
-        Ingredient flour = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "Vegan",  4 );
+        Ingredient apple = new FruitIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "fruit", 4);
+        Ingredient sugar = new LipidIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "lipid", 2 );
+        Ingredient flour = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "grain",  4 );
 
         testIngredients.add(apple);
         testIngredients.add(sugar);
