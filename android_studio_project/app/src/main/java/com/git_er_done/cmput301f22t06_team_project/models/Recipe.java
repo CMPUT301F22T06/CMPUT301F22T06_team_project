@@ -3,38 +3,33 @@ package com.git_er_done.cmput301f22t06_team_project.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Recipe {
-    private HashMap<Ingredient,ArrayList<String>> ingredients = new HashMap<>();
+public abstract class Recipe {
+    private HashMap<Ingredient,ArrayList<String>> ingredients = new HashMap<>(); // I changed this
     private String title;
     private String comments;
     private String category;
     private int prep_time;
     private int servings;
-    private boolean isVegetarian;
-    private boolean isVegan;
 
     // No empty constructor since it should never be called anyway
 
-    public Recipe(String title, String comments, String category, int prep_time, int servings,
-                  boolean isVegan, boolean isVegetarian) {
+    public Recipe(String title, String comments, String category, int prep_time, int servings) {  // I changed this
         this.title = title;
         this.comments = comments;
         this.category = category;
         this.prep_time = prep_time;
         this.servings = servings;
-        this.isVegan = isVegan;
-        this.isVegetarian = isVegetarian;
     }
 
     public HashMap<Ingredient, ArrayList<String>> getIngredients() {
         return ingredients;
     }
 
-//    public void setIngredientsList(ArrayList<Ingredient> ingredients,) {
+//    public void setIngredientsList(ArrayList<Ingredient> ingredients,) { //Got rid of this
 //        this.ingredients = ingredients;
 //    }
 
-    public void addIngredient(Ingredient ingredient, ArrayList<String> details) {
+    public void addIngredient(Ingredient ingredient, ArrayList<String> details) { // I changed this
         ingredients.put(ingredient,details);
     }
 
@@ -86,19 +81,4 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public boolean isVegetarian() {
-        return isVegetarian;
-    }
-
-    public void setVegetarian(boolean vegetarian) {
-        isVegetarian = vegetarian;
-    }
-
-    public boolean isVegan() {
-        return isVegan;
-    }
-
-    public void setVegan(boolean vegan) {
-        isVegan = vegan;
-    }
 }
