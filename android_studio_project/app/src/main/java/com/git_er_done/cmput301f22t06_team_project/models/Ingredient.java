@@ -3,9 +3,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public abstract class Ingredient {
     private String name;
