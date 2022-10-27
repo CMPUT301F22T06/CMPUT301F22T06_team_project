@@ -53,7 +53,7 @@ public class IngredientsFragment extends Fragment {
             dbHelper.addIngredient(ingredient);
         }
         dbHelper.deleteIngredient("apple");
-        retrievedIngredients = dbHelper.getData();
+        retrievedIngredients = dbHelper.getAllIngredients();
         IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter(testIngredients);
         rvIngredients.setAdapter(adapter);
 
