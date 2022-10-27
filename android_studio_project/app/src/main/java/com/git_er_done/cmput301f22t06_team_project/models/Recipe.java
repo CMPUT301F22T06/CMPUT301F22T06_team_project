@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Recipe {
-    private HashMap<Ingredient,ArrayList<String>> ingredients = new HashMap<>(); // I changed this
+    private HashMap<Ingredient,ArrayList<String>> ingredients = new HashMap<>();
     private String title;
     private String comments;
     private String category;
@@ -13,7 +13,7 @@ public abstract class Recipe {
 
     // No empty constructor since it should never be called anyway
 
-    public Recipe(String title, String comments, String category, int prep_time, int servings) {  // I changed this
+    public Recipe(String title, String comments, String category, int prep_time, int servings) {
         this.title = title;
         this.comments = comments;
         this.category = category;
