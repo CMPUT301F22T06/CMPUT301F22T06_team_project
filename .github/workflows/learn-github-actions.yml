@@ -1,9 +1,18 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
-on: [push]
+
+on:
+  push: 
+    branches: ["add_edit_ingredient"]
+
+  pull_request:
+    branches: ["add_edit_ingredient"]
+    
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
