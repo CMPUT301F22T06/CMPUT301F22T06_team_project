@@ -1,10 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public abstract class Recipe {
-    private HashMap<Ingredient,ArrayList<String>> ingredients = new HashMap<>();
+    private ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
     private String title;
     private String comments;
     private String category;
@@ -21,21 +21,21 @@ public abstract class Recipe {
         this.servings = servings;
     }
 
-    public HashMap<Ingredient, ArrayList<String>> getIngredients() {
-        return ingredients;
+    public ArrayList<RecipeIngredient> getIngredients() {
+        return recipeIngredients;
     }
 
 //    public void setIngredientsList(ArrayList<Ingredient> ingredients,) { //Got rid of this
 //        this.ingredients = ingredients;
 //    }
 
-    public void addIngredient(Ingredient ingredient, ArrayList<String> details) { // I changed this
-        ingredients.put(ingredient,details);
+    public void addIngredient(RecipeIngredient recipeIngredient) { // I changed this
+        recipeIngredients.add(recipeIngredient);
     }
 
-    public void removeIngredient(Ingredient ingredient) {
-        if (ingredients.containsKey(ingredient)) {
-            ingredients.remove(ingredient);
+    public void removeIngredient(RecipeIngredient recipeIngredient) {
+        if (recipeIngredients.contains(recipeIngredient)) {
+            recipeIngredients.remove(recipeIngredient);
         } else {
             throw new IllegalArgumentException("That ingredient does not exist in this recipe!");
         }
