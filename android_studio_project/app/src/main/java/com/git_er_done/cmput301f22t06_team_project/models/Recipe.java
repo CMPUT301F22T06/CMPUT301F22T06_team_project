@@ -1,47 +1,41 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-
 import java.util.ArrayList;
 
-public class Recipe {
-    private ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+public abstract class Recipe {
+    private ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
     private String title;
     private String comments;
     private String category;
     private int prep_time;
     private int servings;
-    private boolean isVegetarian;
-    private boolean isVegan;
 
     // No empty constructor since it should never be called anyway
 
-    public Recipe(String title, String comments, String category, int prep_time, int servings,
-                  boolean isVegan, boolean isVegetarian) {
+    public Recipe(String title, String comments, String category, int prep_time, int servings) {
         this.title = title;
         this.comments = comments;
         this.category = category;
         this.prep_time = prep_time;
         this.servings = servings;
-        this.isVegan = isVegan;
-        this.isVegetarian = isVegetarian;
     }
 
-    public ArrayList<Ingredient> getIngredients() {
-        return ingredients;
+    public ArrayList<RecipeIngredient> getIngredients() {
+        return recipeIngredients;
     }
 
-    public void setIngredientsList(ArrayList<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+//    public void setIngredientsList(ArrayList<Ingredient> ingredients,) { //Got rid of this
+//        this.ingredients = ingredients;
+//    }
+
+    public void addIngredient(RecipeIngredient recipeIngredient) { // I changed this
+        recipeIngredients.add(recipeIngredient);
     }
 
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.add(ingredient);
-    }
-
-    public void removeIngredient(Ingredient ingredient) {
-        if (ingredients.contains(ingredient)) {
-            ingredients.remove(ingredient);
+    public void removeIngredient(RecipeIngredient recipeIngredient) {
+        if (recipeIngredients.contains(recipeIngredient)) {
+            recipeIngredients.remove(recipeIngredient);
         } else {
             throw new IllegalArgumentException("That ingredient does not exist in this recipe!");
         }
@@ -87,19 +81,4 @@ public class Recipe {
         this.servings = servings;
     }
 
-    public boolean isVegetarian() {
-        return isVegetarian;
-    }
-
-    public void setVegetarian(boolean vegetarian) {
-        isVegetarian = vegetarian;
-    }
-
-    public boolean isVegan() {
-        return isVegan;
-    }
-
-    public void setVegan(boolean vegan) {
-        isVegan = vegan;
-    }
 }

@@ -34,8 +34,11 @@ public class RecipeIngredient {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+<<<<<<< HEAD
 
     public String getName(){
         return ingredient.getName();
     }
+=======
+>>>>>>> RecipeAbstraction
 }
