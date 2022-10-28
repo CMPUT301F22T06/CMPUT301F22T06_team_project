@@ -3,9 +3,14 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.SpiceIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.VegetableIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -68,7 +73,7 @@ public abstract class Ingredient {
 
         // Diary
         Ingredient milk = new DairyIngredient ("milk", "2% homogenized milk", LocalDate.now(), "Fridge", "ml", "Dairy", 2000);
-        Ingredient parmesan = new DairyIngredient ("parmesan", "block of cheese, can be shredded", LocalDate.now(), "Fridge", "g", "Dairy", 450);
+        Ingredient parmesan = new DairyIngredient("parmesan", "block of cheese, can be shredded", LocalDate.now(), "Fridge", "g", "Dairy", 450);
         Ingredient heavy_cream = new DairyIngredient ("heavy_cream", "heavy whipped fattening cream", LocalDate.now(), "Fridge", "ml", "Dairy", 350);
         Ingredient yogurt = new DairyIngredient ("yogurt", "plain yogurt", LocalDate.now(), "Fridge", "ml", "Dairy", 350);
         Ingredient sour_cream = new DairyIngredient ("sour cream", "sour and creamy", LocalDate.now(), "Fridge", "ml", "Dairy", 250);
