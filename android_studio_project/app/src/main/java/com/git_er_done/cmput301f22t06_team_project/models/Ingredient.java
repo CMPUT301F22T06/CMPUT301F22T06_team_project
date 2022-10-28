@@ -20,6 +20,16 @@ public abstract class Ingredient {
 
     // No empty constructor since it should never be called anyway
 
+    /**
+     * Creates a new Ingredient object
+     * @param name The name of the ingredient as a {@link String}.
+     * @param desc A description of the ingredient as a {@link String}.
+     * @param best_before The best before date of the ingredient as a {@link LocalDate}.
+     * @param location The storage location of the ingredient as a {@link String}.
+     * @param units The unit of measure (UOM) of the ingredient as a {@link String}.
+     * @param category The category of the ingredient as a {@link String}.
+     * @param amount The stored amount of the ingredient in its UOM as a {@link Integer}.
+     */
     public Ingredient(String name, String desc, LocalDate best_before, String location, String units,
                       String category, Integer amount) {
         this.name = name;
@@ -38,9 +48,9 @@ public abstract class Ingredient {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public final static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<Ingredient>();
-        VeganIngredient apple = new  VeganIngredient ("apple", "red apple small", LocalDate.now(), "Pantry", "g", "Vegan", 4);
-        VeganIngredient sugar  = new VeganIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "Vegan", 2 );
-        VeganIngredient flour  = new VeganIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "Vegan",  4 );
+        Ingredient apple = new FruitIngredient("apple", "red apple small", LocalDate.now(), "Pantry", "g", "Vegan", 4);
+        Ingredient sugar = new LipidIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "Vegan", 2 );
+        Ingredient flour = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "Vegan",  4 );
 
         testIngredients.add(apple);
         testIngredients.add(sugar);

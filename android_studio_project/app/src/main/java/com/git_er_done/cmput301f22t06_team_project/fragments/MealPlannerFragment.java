@@ -15,7 +15,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
  * Use the {@link MealPlannerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MealPlannerFragment extends Fragment {
+public class     MealPlannerFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

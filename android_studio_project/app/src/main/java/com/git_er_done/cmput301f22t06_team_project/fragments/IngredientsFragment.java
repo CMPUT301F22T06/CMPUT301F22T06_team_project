@@ -5,28 +5,23 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Toast;
 
-import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
 
-public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
+public class IngredientsFragment extends Fragment {
 
     ArrayList<Ingredient> testIngredients;
     RecyclerView rvIngredients;
-    IngredientsRecyclerViewAdapter rvAdapter;
 
 
     public IngredientsFragment() {
@@ -52,9 +47,14 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         testIngredients = Ingredient.createIngredientList();
-
-        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
-        rvIngredients.setAdapter(rvAdapter);
+        IngredientDBHelper dbHelper = new IngredientDBHelper();
+        for (Ingredient ingredient: testIngredients) {
+            dbHelper.addIngredient(ingredient);
+        }
+        dbHelper.deleteIngredient("apple");
+        retrievedIngredients = dbHelper.getData();
+        IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter(testIngredients);
+        rvIngredients.setAdapter(adapter);
 
         // Inflate the layout for this fragment
         return root;

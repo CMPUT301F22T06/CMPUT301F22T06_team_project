@@ -7,13 +7,13 @@
             android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_recipes_menu_item"
             android:title="Recipes"
-            android:icon="@drawable/ic_baseline_lunch_dining_24"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_shopping_list_menu_item"
             android:title="Shopping List"
-            android:icon="@drawable/ic_baseline_lunch_dining_24"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
         <item android:id="@+id/nav_meal_planner_menu_item"
             android:title="Meal Planner"
-            android:icon="@drawable/ic_baseline_lunch_dining_24"/>
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
     </group>
 
 <!--    <group android:checkableBehavior="single">-->
