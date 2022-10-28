@@ -10,10 +10,12 @@ import androidx.annotation.Nullable;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.AppetizerRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DesertRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.SnackRecipe;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -128,6 +130,10 @@ public class RecipesDBHelper {
                         recipe = new LunchRecipe(title, comments, category, prepTime, servings);
                     } else if (category == "desert") {
                         recipe = new DesertRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "appetizer") {
+                        recipe = new AppetizerRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "snack") {
+                        recipe = new SnackRecipe(title, comments, category, prepTime, servings);
                     }
                     recipe.setIngredientsList(recipeIngredients);
                     retrieved.add(recipe);

@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
@@ -141,6 +142,8 @@ public class IngredientDBHelper {
             ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
         }else if (category == "vegetable") {
             ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
+        }else if (category == "misc") {
+            ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
         }
         return ingredient;
     }
