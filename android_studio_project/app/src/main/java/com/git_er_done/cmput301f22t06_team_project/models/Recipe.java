@@ -25,9 +25,9 @@ public abstract class Recipe {
         return recipeIngredients;
     }
 
-//    public void setIngredientsList(ArrayList<Ingredient> ingredients,) { //Got rid of this
-//        this.ingredients = ingredients;
-//    }
+    public void setIngredientsList(ArrayList<RecipeIngredient> recipeIngredients) { //Got rid of this
+        this.recipeIngredients = recipeIngredients;
+    }
 
     public void addIngredient(RecipeIngredient recipeIngredient) { // I changed this
         recipeIngredients.add(recipeIngredient);
