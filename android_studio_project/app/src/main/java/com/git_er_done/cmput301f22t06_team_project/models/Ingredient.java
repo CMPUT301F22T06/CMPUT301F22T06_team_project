@@ -58,59 +58,59 @@ public abstract class Ingredient {
         ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
         // Fruits
-        Ingredient lime = new  FruitIngredient ("lime", "small green lime", LocalDate.now(), "Pantry", "Singles", "Fruit", 4);
-        Ingredient apple = new  FruitIngredient ("apple", "red apple small", LocalDate.now(), "Pantry", "Singles", "Fruit", 4);
-        Ingredient banana = new  FruitIngredient ("banana", "curved yellow banana", LocalDate.now(), "Pantry", "Singles", "Fruit", 4);
-        Ingredient frozen_strawberries = new  FruitIngredient ("frozen strawberries", "small red seeded frozen fruit", LocalDate.now(), "Pantry", "g", "Fruit", 1000);
+        Ingredient lime = new  FruitIngredient ("lime", "small green lime", LocalDate.now(), "pantry", "singles", "fruit", 4);
+        Ingredient apple = new  FruitIngredient ("apple", "red apple small", LocalDate.now(), "pantry", "singles", "fruit", 4);
+        Ingredient banana = new  FruitIngredient ("banana", "curved yellow banana", LocalDate.now(), "pantry", "singles", "fruit", 4);
+        Ingredient frozen_strawberries = new  FruitIngredient ("frozen strawberries", "small red seeded frozen fruit", LocalDate.now(), "freezer", "g", "fruit", 1000);
 
         // Veggies
-        Ingredient yellow_onion = new VegetableIngredient("yellow_onion", "yellow skinned onion", LocalDate.now(), "Pantry", "Singles", "Veggie", 4);
-        Ingredient tomato_paste = new VegetableIngredient("tomato paste", "Thick and creamy tomato paste", LocalDate.now(), "Pantry", "ml", "Veggie", 250);
-        Ingredient tomato = new VegetableIngredient("tomato", "Bright red tomato", LocalDate.now(), "Fridge", "g", "Veggie", 500);
-        Ingredient romaine_lettuce = new VegetableIngredient("romaine lettuce", "green crunchy lettuce", LocalDate.now(), "Fridge", "g", "Veggie", 100);
-        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), "Fridge", "g", "Veggie", 300);
-        Ingredient yellow_potato = new VegetableIngredient("yellow potato", "yellow yukon gold potato", LocalDate.now(), "Fridge", "g", "Veggie", 300);
+        Ingredient yellow_onion = new VegetableIngredient("yellow_onion", "yellow skinned onion", LocalDate.now(), "pantry", "singles", "veggie", 4);
+        Ingredient tomato_paste = new VegetableIngredient("tomato paste", "thick and creamy tomato paste", LocalDate.now(), "pantry", "ml", "veggie", 250);
+        Ingredient tomato = new VegetableIngredient("tomato", "Bright red tomato", LocalDate.now(), "fridge", "g", "veggie", 500);
+        Ingredient romaine_lettuce = new VegetableIngredient("romaine lettuce", "green crunchy lettuce", LocalDate.now(), "fridge", "g", "veggie", 100);
+        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), "fridge", "g", "veggie", 300);
+        Ingredient yellow_potato = new VegetableIngredient("yellow potato", "yellow yukon gold potato", LocalDate.now(), "fridge", "g", "veggie", 300);
 
         // Diary
-        Ingredient milk = new DairyIngredient ("milk", "2% homogenized milk", LocalDate.now(), "Fridge", "ml", "Dairy", 2000);
-        Ingredient parmesan = new DairyIngredient("parmesan", "block of cheese, can be shredded", LocalDate.now(), "Fridge", "g", "Dairy", 450);
-        Ingredient heavy_cream = new DairyIngredient ("heavy_cream", "heavy whipped fattening cream", LocalDate.now(), "Fridge", "ml", "Dairy", 350);
-        Ingredient yogurt = new DairyIngredient ("yogurt", "plain yogurt", LocalDate.now(), "Fridge", "ml", "Dairy", 350);
-        Ingredient sour_cream = new DairyIngredient ("sour cream", "sour and creamy", LocalDate.now(), "Fridge", "ml", "Dairy", 250);
+        Ingredient milk = new DairyIngredient ("milk", "2% homogenized milk", LocalDate.now(), "fridge", "ml", "dairy", 2000);
+        Ingredient parmesan = new DairyIngredient("parmesan", "block of cheese, can be shredded", LocalDate.now(), "fridge", "g", "dairy", 450);
+        Ingredient heavy_cream = new DairyIngredient ("heavy_cream", "heavy whipped fattening cream", LocalDate.now(), "fridge", "ml", "dairy", 350);
+        Ingredient yogurt = new DairyIngredient ("yogurt", "plain yogurt", LocalDate.now(), "fridge", "ml", "dairy", 350);
+        Ingredient sour_cream = new DairyIngredient ("sour cream", "sour and creamy", LocalDate.now(), "fridge", "ml", "dairy", 250);
 
         // Protein
-        Ingredient minced_beef  = new ProteinIngredient("minced beef", "extra lean ground beef", LocalDate.now(), "Fridge", "g", "Protein", 1000 );
-        Ingredient minced_pork  = new ProteinIngredient("minced pork", "lean ground pork", LocalDate.now(), "Fridge", "g", "Protein", 1000 );
-        Ingredient egg  = new ProteinIngredient("egg", "white egg", LocalDate.now(), "Fridge", "Singles", "Protein", 12 );
-        Ingredient chicken_drumstick  = new ProteinIngredient("chicken drumstick", "not the icecream", LocalDate.now(), "Fridge", "Singles", "Protein", 6 );
-        Ingredient tuna  = new ProteinIngredient("tuna", "sushi grade wild tuna", LocalDate.now(), "Fridge", "oz", "Protein", 20 );
-        Ingredient bacon  = new ProteinIngredient("bacon", "fat and greasy", LocalDate.now(), "Fridge", "Singles", "Protein", 20 );
+        Ingredient minced_beef  = new ProteinIngredient("minced beef", "extra lean ground beef", LocalDate.now(), "fridge", "g", "protein", 1000 );
+        Ingredient minced_pork  = new ProteinIngredient("minced pork", "lean ground pork", LocalDate.now(), "fridge", "g", "protein", 1000 );
+        Ingredient egg  = new ProteinIngredient("egg", "white egg", LocalDate.now(), "fridge", "singles", "protein", 12 );
+        Ingredient chicken_drumstick  = new ProteinIngredient("chicken drumstick", "not the icecream", LocalDate.now(), "fridge", "singles", "protein", 6 );
+        Ingredient tuna  = new ProteinIngredient("tuna", "sushi grade wild tuna", LocalDate.now(), "fridge", "oz", "protein", 20 );
+        Ingredient bacon  = new ProteinIngredient("bacon", "fat and greasy", LocalDate.now(), "fridge", "singles", "protein", 20 );
 
         // Grain
-        Ingredient flour  = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "Pantry", "oz", "Grain",  4 );
-        Ingredient rice  = new GrainIngredient("rice", "white rice", LocalDate.now(), "Pantry", "g", "Grain",  400 );
+        Ingredient flour  = new GrainIngredient("flour", "all purpose flour", LocalDate.now(), "pantry", "oz", "grain",  4 );
+        Ingredient rice  = new GrainIngredient("rice", "white rice", LocalDate.now(), "pantry", "g", "grain",  400 );
 
         // Lipids
-        Ingredient olive_oil  = new LipidIngredient("olive oil", "extra virgin", LocalDate.now(), "Pantry", "ml", "Lipid",  500 );
-        Ingredient butter  = new LipidIngredient("butter", "softened yellow butter", LocalDate.now(), "Fridge", "g", "Lipid",  300 );
-        Ingredient sesame_oil  = new LipidIngredient("sesame oil", "sesame fragrance", LocalDate.now(), "Pantry", "ml", "Lipid",  300 );
-        Ingredient vegetable_oil  = new LipidIngredient("vegetable oil", "yellow oil", LocalDate.now(), "Pantry", "ml", "Lipid",  500 );
+        Ingredient olive_oil  = new LipidIngredient("olive oil", "extra virgin", LocalDate.now(), "pantry", "ml", "lipid",  500 );
+        Ingredient butter  = new LipidIngredient("butter", "softened yellow butter", LocalDate.now(), "fridge", "g", "lipid",  300 );
+        Ingredient sesame_oil  = new LipidIngredient("sesame oil", "sesame fragrance", LocalDate.now(), "pantry", "ml", "lipid",  300 );
+        Ingredient vegetable_oil  = new LipidIngredient("vegetable oil", "yellow oil", LocalDate.now(), "pantry", "ml", "lipid",  500 );
 
         // Spices
-        Ingredient sugar  = new SpiceIngredient("sugar", "real cane sugar", LocalDate.now(), "Pantry", "g", "Spice", 200 );
-        Ingredient salt  = new SpiceIngredient("salt", "sea salt", LocalDate.now(), "Pantry", "g", "Spice", 200 );
-        Ingredient garlic  = new SpiceIngredient("garlic", "aromatic", LocalDate.now(), "Pantry", "Singles", "Spice", 6 );
-        Ingredient peppercorn  = new SpiceIngredient("peppercorn", "black peppercorn", LocalDate.now(), "Pantry", "Singles", "Spice", 30 );
-        Ingredient black_pepper  = new SpiceIngredient("black pepper", "ground black pepper", LocalDate.now(), "Pantry", "g", "Spice", 200 );
-        Ingredient ginger  = new SpiceIngredient("ginger", "grated ginger", LocalDate.now(), "Pantry", "g", "Spice", 50 );
+        Ingredient sugar  = new SpiceIngredient("sugar", "real cane sugar", LocalDate.now(), "pantry", "g", "spice", 200 );
+        Ingredient salt  = new SpiceIngredient("salt", "sea salt", LocalDate.now(), "pantry", "g", "spice", 200 );
+        Ingredient garlic  = new SpiceIngredient("garlic", "aromatic", LocalDate.now(), "pantry", "singles", "spice", 6 );
+        Ingredient peppercorn  = new SpiceIngredient("peppercorn", "black peppercorn", LocalDate.now(), "pantry", "singles", "spice", 30 );
+        Ingredient black_pepper  = new SpiceIngredient("black pepper", "ground black pepper", LocalDate.now(), "pantry", "g", "spice", 200 );
+        Ingredient ginger  = new SpiceIngredient("ginger", "grated ginger", LocalDate.now(), "pantry", "g", "spice", 50 );
 
         // Misc
-        Ingredient cooking_wine  = new MiscIngredient("cooking wine", "red cooking wine", LocalDate.now(), "Pantry", "ml", "Misc", 400 );
-        Ingredient oyster_sauce  = new MiscIngredient("oyster sauce", "doesn't taste like oysters", LocalDate.now(), "Pantry", "ml", "Misc", 400 );
-        Ingredient soy_sauce  = new MiscIngredient("soy sauce", "umami", LocalDate.now(), "Pantry", "ml", "Misc", 40000 );
-        Ingredient honey  = new MiscIngredient("honey", "Golden sticky honey", LocalDate.now(), "Pantry", "ml", "Misc", 200 );
-        Ingredient chicken_stock  = new MiscIngredient("chicken_stock", "salty soup base", LocalDate.now(), "Pantry", "ml", "Misc", 600 );
-        Ingredient vanilla_extract  = new MiscIngredient("vanilla_extract", "sweet smelling vanilla", LocalDate.now(), "Pantry", "ml", "Misc", 50 );
+        Ingredient cooking_wine  = new MiscIngredient("cooking wine", "red cooking wine", LocalDate.now(), "pantry", "ml", "misc", 400 );
+        Ingredient oyster_sauce  = new MiscIngredient("oyster sauce", "doesn't taste like oysters", LocalDate.now(), "pantry", "ml", "misc", 400 );
+        Ingredient soy_sauce  = new MiscIngredient("soy sauce", "umami", LocalDate.now(), "pantry", "ml", "misc", 40000 );
+        Ingredient honey  = new MiscIngredient("honey", "golden sticky honey", LocalDate.now(), "pantry", "ml", "misc", 200 );
+        Ingredient chicken_stock  = new MiscIngredient("chicken_stock", "salty soup base", LocalDate.now(), "pantry", "ml", "misc", 600 );
+        Ingredient vanilla_extract  = new MiscIngredient("vanilla_extract", "sweet smelling vanilla", LocalDate.now(), "pantry", "ml", "misc", 50 );
 
 
         // Adding all the ingredients
