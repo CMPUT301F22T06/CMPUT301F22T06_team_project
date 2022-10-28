@@ -11,12 +11,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.VeganIngredient;
+
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
@@ -19,10 +20,12 @@ import java.util.List;
 // Note that we specify the custom ViewHolder which gives us access to our views
 public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<IngredientsRecyclerViewAdapter.ViewHolder> {
 
+    private final IngredientsRecyclerViewInterface rvInterface;
     private List<Ingredient> mIngredients;
 
-    public IngredientsRecyclerViewAdapter(List<Ingredient> ingredients){
+    public IngredientsRecyclerViewAdapter(List<Ingredient> ingredients, IngredientsRecyclerViewInterface rvInterface){
         mIngredients = ingredients;
+        this.rvInterface = rvInterface;
     }
 
     /**
@@ -84,6 +87,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return mIngredients.size();
     }
 
+    public Ingredient getItem(int position) {
+        return mIngredients.get(position);
+    }
+
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,6 +116,27 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             bestBeforeDateTextView = itemView.findViewById(R.id.tv_ingredient_list_item_best_before_date);
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
-           }
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    //check rv interface is not null
+                    if(rvInterface != null){
+                        //get position from adapter for onclickmethod
+                        int pos = getAdapterPosition();
+
+                        //ensure pos is valoid
+                        if(pos != RecyclerView.NO_POSITION){
+                            rvInterface.onItemLongClick(pos);
+                            return true;
+                        }
+
+                    }
+                    return false;
+                }
+            });
+        }
+
     }
+
 }
