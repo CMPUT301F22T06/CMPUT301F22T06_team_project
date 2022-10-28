@@ -51,7 +51,6 @@ public class IngredientDBHelper {
         data.put("category",category);
         data.put("amount",amount_string);
 
-
         ingredientsDB
                 .document(name)
                 .set(data)
