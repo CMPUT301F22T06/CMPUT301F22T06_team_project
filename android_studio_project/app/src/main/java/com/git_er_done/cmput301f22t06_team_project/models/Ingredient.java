@@ -3,9 +3,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public abstract class Ingredient {
     private String name;
@@ -20,6 +23,16 @@ public abstract class Ingredient {
 
     // No empty constructor since it should never be called anyway
 
+    /**
+     * Creates a new Ingredient object
+     * @param name The name of the ingredient as a {@link String}.
+     * @param desc A description of the ingredient as a {@link String}.
+     * @param best_before The best before date of the ingredient as a {@link LocalDate}.
+     * @param location The storage location of the ingredient as a {@link String}.
+     * @param units The unit of measure (UOM) of the ingredient as a {@link String}.
+     * @param category The category of the ingredient as a {@link String}.
+     * @param amount The stored amount of the ingredient in its UOM as a {@link Integer}.
+     */
     public Ingredient(String name, String desc, LocalDate best_before, String location, String units,
                       String category, Integer amount) {
         this.name = name;
