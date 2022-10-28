@@ -101,42 +101,7 @@ public class RecipesDBHelper {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: value) {
-                    Recipe recipe = null;
-                    String title = doc.getId();
-                    String comments = (String) doc.getData().get("comments");
-                    String category = (String) doc.getData().get("category");
-                    Integer prepTime = Integer.parseInt((String) doc.getData().get("prep time"));
-                    Integer servings = Integer.parseInt((String) doc.getData().get("servings"));
-                    // Figure out way to retrieve ingredient data in subcollection
-                    CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
-                    ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-                    ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                            for (QueryDocumentSnapshot doc : value) {
-                                String ingredientName = doc.getId();
-                                String units = (String) doc.getData().get("units");
-                                Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-                                Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
-                                RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
-                                recipeIngredients.add(recipeIngredient);
-                            }
-                        }
-                    });
-                    if (category == "dinner") {
-                        recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
-                    } else if (category == "breakfast") {
-                        recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
-                    } else if (category == "lunch") {
-                        recipe = new LunchRecipe(title, comments, category, prepTime, servings);
-                    } else if (category == "desert") {
-                        recipe = new DesertRecipe(title, comments, category, prepTime, servings);
-                    } else if (category == "appetizer") {
-                        recipe = new AppetizerRecipe(title, comments, category, prepTime, servings);
-                    } else if (category == "snack") {
-                        recipe = new SnackRecipe(title, comments, category, prepTime, servings);
-                    }
-                    recipe.setIngredientsList(recipeIngredients);
+                    Recipe recipe = createRecipe(doc, ingredientDBHelper);
                     retrieved.add(recipe);
                 }
             }
@@ -144,18 +109,58 @@ public class RecipesDBHelper {
         return retrieved;
     }
 
-    public void searchForRecipe(String recipe) {
+    public Recipe searchForRecipe(String recipe) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                Log.d(TAG, "Search worked");
+                Recipe recipe = createRecipe(doc, ingredientDBHelper);
+                retrieved.add(recipe);
             }
         });
+        return retrieved.get(0);
     }
 
-    public void createRecipe(DocumentSnapshot value){
-
+    private Recipe createRecipe(DocumentSnapshot doc, IngredientDBHelper ingredientDBHelper){
+        Recipe recipe = null;
+        String title = doc.getId();
+        String comments = (String) doc.getData().get("comments");
+        String category = (String) doc.getData().get("category");
+        Integer prepTime = Integer.parseInt((String) doc.getData().get("prep time"));
+        Integer servings = Integer.parseInt((String) doc.getData().get("servings"));
+        // Figure out way to retrieve ingredient data in subcollection
+        CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for (QueryDocumentSnapshot doc : value) {
+                    String ingredientName = doc.getId();
+                    String units = (String) doc.getData().get("units");
+                    Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
+                    Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
+                    RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
+                    recipeIngredients.add(recipeIngredient);
+                }
+            }
+        });
+        if (category == "dinner") {
+            recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
+        } else if (category == "breakfast") {
+            recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
+        } else if (category == "lunch") {
+            recipe = new LunchRecipe(title, comments, category, prepTime, servings);
+        } else if (category == "desert") {
+            recipe = new DesertRecipe(title, comments, category, prepTime, servings);
+        } else if (category == "appetizer") {
+            recipe = new AppetizerRecipe(title, comments, category, prepTime, servings);
+        } else if (category == "snack") {
+            recipe = new SnackRecipe(title, comments, category, prepTime, servings);
+        }
+        recipe.setIngredientsList(recipeIngredients);
+        return recipe;
     }
 }
 

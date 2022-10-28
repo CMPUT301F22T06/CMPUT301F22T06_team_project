@@ -50,7 +50,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvIngredients.setHasFixedSize(true);
 
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
+        ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
         IngredientDBHelper dbHelper = new IngredientDBHelper();
         retrievedIngredients = dbHelper.getAllIngredients();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
