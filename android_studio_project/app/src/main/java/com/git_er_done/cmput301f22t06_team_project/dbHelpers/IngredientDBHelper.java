@@ -7,11 +7,18 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.VegetableIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.SpiceIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.VegetableIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -83,28 +90,60 @@ public class IngredientDBHelper {
                 });
     }
 
-    public ArrayList<Ingredient> getData(){
+    public ArrayList<Ingredient> getAllIngredients(){
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: value){
-                    Ingredient ingredient = null;
-                    String name = doc.getId();
-                    String desc = (String) doc.getData().get("description");
-                    LocalDate best_before = LocalDate.parse((String) doc.getData().get("best before"));
-                    String location = (String) doc.getData().get("location");
-                    String unit = (String) doc.getData().get("unit");
-                    String category = (String) doc.getData().get("category");
-                    Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-                    if (category == "Vegan"){
-                        ingredient = new VegetableIngredient(name,desc,best_before,location,unit,category,amount);
-                    }
+            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
+                for(QueryDocumentSnapshot doc: docs){
+                    Ingredient ingredient =  createIngredient(doc);
                     retrieved.add(ingredient);
                 }
             }
         });
         return retrieved;
+    }
+
+    public Ingredient searchForIngredient(String ingredient) {
+        ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
+        ingredientsDB.document(ingredient).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                Log.d(TAG, "Search worked");
+                Ingredient ingredient =  createIngredient(value);
+                retrieved.add(ingredient);
+            }
+        });
+        Ingredient ingredient1 = retrieved.get(0);
+        return ingredient1;
+    }
+
+    private Ingredient createIngredient(DocumentSnapshot doc) {
+        Log.d(TAG, "Search worked");
+        Ingredient ingredient = null;
+        String name = doc.getId();
+        String desc = (String) doc.getData().get("description");
+        LocalDate best_before = LocalDate.parse((String) doc.getData().get("best before"));
+        String location = (String) doc.getData().get("location");
+        String unit = (String) doc.getData().get("unit");
+        String category = (String) doc.getData().get("category");
+        Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
+        if (category == "dairy") {
+            ingredient = new DairyIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "fruit") {
+            ingredient = new FruitIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "grain") {
+            ingredient = new GrainIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "lipid") {
+            ingredient = new LipidIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "protein") {
+            ingredient = new ProteinIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "spice") {
+            ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "vegetable") {
+            ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
+        }
+        return ingredient;
     }
 
 }

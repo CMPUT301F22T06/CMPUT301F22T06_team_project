@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,6 +30,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private EditText etAmount;
     private Spinner spUnit;
     private Spinner spCategory;
+
+    private Button btnCancel;
+    private Button btnSave;
 
     public IngredientAddEditDialogFragment(){
         //Empty constructor required. New instance static constructor below is called upon instantiation
@@ -70,6 +74,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         etAmount = view.findViewById(R.id.et_ingredient_add_edit_amount);
         spUnit = view.findViewById(R.id.sp_ingredient_add_edit_unit);
         spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
+        btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
+        btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
 
 
         String dialogTitle = getArguments().getString("title", "Default title ");
@@ -89,9 +95,25 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //set unit
         //set category
 
-
         //IF WE ARE ADDING A NEW INGREDIENT - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
+
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
+        //TODO - Save the added/editted ingredient attributes to the selected instance
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+                dismiss();
+            }
+        });
 
     }
 }

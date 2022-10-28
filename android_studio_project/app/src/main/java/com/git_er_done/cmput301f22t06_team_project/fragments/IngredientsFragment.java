@@ -28,7 +28,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     RecyclerView rvIngredients;
     IngredientsRecyclerViewAdapter rvAdapter;
 
-
+    ArrayList<Ingredient> retrievedIngredients;
     public IngredientsFragment() {
         // Required empty public constructor
     }
@@ -57,7 +57,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             dbHelper.addIngredient(ingredient);
         }
         dbHelper.deleteIngredient("apple");
-//        retrievedIngredients = dbHelper.getData();
+        retrievedIngredients = dbHelper.getAllIngredients();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
 
@@ -77,13 +77,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
     @Override
     public void onItemLongClick(int position) {
-        Toast toast = Toast.makeText(getActivity(),
-                "Item at pos: "  + Integer.toString(position) + " selected",
-                Toast.LENGTH_SHORT);
-        toast.show();
-
         Ingredient selectedIngredient = rvAdapter.getItem(position);
-
         //Create a dialog displaying all of the selected ingredients attributes
         showEditDialog(selectedIngredient);
 
