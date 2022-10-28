@@ -50,10 +50,10 @@ public class IngredientsFragment extends Fragment {
         testIngredients = Ingredient.createIngredientList();
         IngredientDBHelper dbHelper = new IngredientDBHelper();
         for (Ingredient ingredient: testIngredients) {
-            dbHelper.addIngredient(ingredient);
+            //dbHelper.addIngredient(ingredient);
         }
-        dbHelper.deleteIngredient("apple");
-        retrievedIngredients = dbHelper.getData();
+        //dbHelper.deleteIngredient("apple");
+        //retrievedIngredients = dbHelper.getData();
         IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter(testIngredients);
         rvIngredients.setAdapter(adapter);
 
