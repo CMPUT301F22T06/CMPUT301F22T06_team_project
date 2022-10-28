@@ -20,7 +20,9 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x android_studio_project/gradlew
+    - name: CD into android project
+      run: cd ./android_studio_project 
     - name: Build with Gradle
-      run: cd ./android_studio_project ./gradlew build
+      run: ./gradlew build
     - name: Run Unit Tests
-      run: cd ./android_studio_project ./gradlew test
+      run: ./gradlew test
