@@ -41,7 +41,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         args.putString("title", title);
         args.putString("name",  selectedIngredient.getName());
         args.putString("description", selectedIngredient.getDesc());
-//        args.putString("")
+        //Get best before date
+        //Get location
+        args.putString("amount", selectedIngredient.getAmount().toString());
+        //get unit
+        //get category
 
         frag.setArguments(args);
         return frag;
@@ -75,9 +79,15 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //Set associate view items to attributes of selected ingredient
         String name = getArguments().getString("name", "def - no name found");
         String description = getArguments().getString("description", "def - desc");
+        String amount = getArguments().getString("amount", "1");
 
         etName.setText(name);
         etDescription.setText(description);
+        //set bb4 date
+        //set location
+        etAmount.setText(amount);
+        //set unit
+        //set category
 
 
         //IF WE ARE ADDING A NEW INGREDIENT - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
