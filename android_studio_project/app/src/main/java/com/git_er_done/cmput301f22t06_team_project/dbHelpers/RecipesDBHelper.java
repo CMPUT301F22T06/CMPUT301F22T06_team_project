@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -59,10 +60,12 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-        for (Ingredient i: ingredients){
-            HashMap<String,String> ingredient = new HashMap<>();
-//            ingredient.put("amount",amount);
-//            recipesDB.document(title).collection("ingredients").document(i.getName()).set(amount);
+        CollectionReference ingredientsCollection = recipesDB.document(title).collection("ingredients");
+        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+        for (RecipeIngredient ing: recipeIngredients){
+            HashMap<String,String> ingredientData = new HashMap<>();
+            ingredientData.put(ing.getUnits(),String.valueOf(ing.getAmount()));
+            ingredientsCollection.document(ing.getName()).set(ingredientData);
         }
     }
 
