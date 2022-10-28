@@ -2,7 +2,7 @@ name: learn-github-actions
 
 on:
   push: 
-    branches: [ "add_edit_ingredient" ]
+    branches: [ "add_and_edit_ingredient" ]
 
 jobs:
   build:
