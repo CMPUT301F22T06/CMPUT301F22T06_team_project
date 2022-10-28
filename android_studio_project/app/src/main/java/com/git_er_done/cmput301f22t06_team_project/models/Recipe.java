@@ -49,7 +49,7 @@ public abstract class Recipe {
     public final static ArrayList<Recipe> createRecipeList() {
         ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
-        Recipe fruit_salad = new BreakFastRecipe("Perfect Summer Fruit Salad", "mybaa82\n" +
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
                 "It was great. I may change it up next time but for now, perfect\n" +
                 "\n" +
                 "Barb Gregory\n" +
@@ -58,7 +58,7 @@ public abstract class Recipe {
                 "Morgon Barg\n" +
                 "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
 
-        Recipe spicy_tuna_poke = new BreakFastRecipe("Spicy Tuna Poke Bowl", "Cassy\n" +
+        Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Cassy\n" +
                 "I love all of these ideas !! However – as crazy as it may seem- I don’t like Avocado.  So many recipes call for it — and I would love some ideas for a substitute. Thank you for sharing all of these !!!\n" +
                 "\n" +
                 "Mario\n" +
@@ -68,7 +68,7 @@ public abstract class Recipe {
                 "So good!  Had to go to the Japanese grocery store for the tuna, but so worth it!", "breakfast", 15, 2);
 
         // Lunch
-        Recipe fried_rice = new LunchRecipe("Easy Fried Rice", "anniefitness\n" +
+        Recipe fried_rice = new LunchRecipe("easy fried rice", "anniefitness\n" +
                 "This pumpkin soup is healthy and so delicious! Perfect winter meal with warm rolls.\n" +
                 "\n" +
                 "Alisonjaym\n" +
@@ -77,7 +77,7 @@ public abstract class Recipe {
                 "Topysy1968\n" +
                 "My absolute go to Pumpkin Soup Big Batches Made Evert Winter Delicious", "lunch", 40, 4);
 
-        Recipe honey_soy_chicken = new LunchRecipe("Honey Soy Chicken", "Pirihonga\n" +
+        Recipe honey_soy_chicken = new LunchRecipe("honey soy chicken", "Pirihonga\n" +
                 "I used Chicken breasts rather than drumsticks. Didn’t have any ginger unfortunately, but the recipes still tastes great and a lovely low carb recipe.\n" +
                 "\n" +
                 "lorellemac\n" +
@@ -86,9 +86,8 @@ public abstract class Recipe {
                 "Fuschia\n" +
                 "I use drumettes (half of chicken wing). This makes a great fingerfood. So easy to make and always popular.", "lunch", 165, 4);
 
-
         // Dinner
-        Recipe pumpkin_soup = new DinnerRecipe("Pumpkin Soup", "crispy fox\n" +
+        Recipe pumpkin_soup = new DinnerRecipe("pumpkin soup", "crispy fox\n" +
                 "The young fella and I cook this every week. We love it!\n" +
                 "\n" +
                 "Dsei\n" +
@@ -97,7 +96,7 @@ public abstract class Recipe {
                 "EWiltshire\n" +
                 "I was given so many bags of rice and couldnt figure out what to make with it! Just made this in batches and Boom! Even my 2 year old loves this!", "dinner", 50, 6);
 
-        Recipe pad_thai = new DinnerRecipe("Pad Thai", "CamTer\n" +
+        Recipe pad_thai = new DinnerRecipe("pad thai", "CamTer\n" +
                 "Family enjoyed this one, its an easy recipe to tweak a little to meet your tastes.\n" +
                 "\n" +
                 "JodieTamblyn\n" +
@@ -105,8 +104,9 @@ public abstract class Recipe {
                 "\n" +
                 "Mrs Crispy\n" +
                 "Quick and easy to prepare. I found it quite nice and definitely filling. Not a win for my kids, only 1 out of 3 actually ate it. It was a good experience to try but I probably won't make again.", "dinner", 40, 4);
+
         // Dessert
-        Recipe vanilla_icecream = new DessertRecipe("Vanilla Icecream", "Lyn Wanday\n" +
+        Recipe vanilla_icecream = new DessertRecipe("vanilla icecream", "Lyn Wanday\n" +
                 "I didnt make any changes the recipe was very nice and this i the only recipe that works for me\n" +
                 "\n" +
                 "Terry Brean\n" +
@@ -115,7 +115,7 @@ public abstract class Recipe {
                 "Irene Teh\n" +
                 "Easy and delicious but more of an icy texture than creamy. Made no alterations to the recipe.\n", "dessert", 155, 4);
 
-        Recipe bloody_mary = new DessertRecipe("Bloody Mary", "judynobark\n" +
+        Recipe bloody_mary = new DessertRecipe("bloody mary", "judynobark\n" +
                 "These were great. After sampling these, I'd made a pitcher, we doubled the vodka. I also served it with a slice of crisp bacon. I got rave reviews and they looked so great.\n" +
                 "\n" +
                 "Coleen McClish\n" +
@@ -128,17 +128,19 @@ public abstract class Recipe {
         // Initialize the recipes
         // breakfast
         testRecipes.add(fruit_salad);
+        testRecipes.add(spicy_tuna_poke);
 
         // lunch
         testRecipes.add(fried_rice);
+        testRecipes.add(honey_soy_chicken);
 
         // dinner
         testRecipes.add(pumpkin_soup);
+        testRecipes.add(pad_thai);
 
         // dessert
         testRecipes.add(bloody_mary);
         testRecipes.add(vanilla_icecream);
-
 
         return testRecipes;
     }
