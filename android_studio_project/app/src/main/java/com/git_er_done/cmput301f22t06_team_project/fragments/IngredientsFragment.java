@@ -5,23 +5,28 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
 
-public class IngredientsFragment extends Fragment {
+public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
     ArrayList<Ingredient> testIngredients;
     RecyclerView rvIngredients;
+    IngredientsRecyclerViewAdapter rvAdapter;
 
 
     public IngredientsFragment() {
@@ -52,9 +57,9 @@ public class IngredientsFragment extends Fragment {
             dbHelper.addIngredient(ingredient);
         }
         dbHelper.deleteIngredient("apple");
-        retrievedIngredients = dbHelper.getData();
-        IngredientsRecyclerViewAdapter adapter = new IngredientsRecyclerViewAdapter(testIngredients);
-        rvIngredients.setAdapter(adapter);
+//        retrievedIngredients = dbHelper.getData();
+        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
+        rvIngredients.setAdapter(rvAdapter);
 
         // Inflate the layout for this fragment
         return root;

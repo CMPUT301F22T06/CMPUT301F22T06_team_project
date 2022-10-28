@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.VeganIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.VegetableIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -89,7 +89,7 @@ public class IngredientDBHelper {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: value){
-                    VeganIngredient ingredient = null;
+                    Ingredient ingredient = null;
                     String name = doc.getId();
                     String desc = (String) doc.getData().get("description");
                     LocalDate best_before = LocalDate.parse((String) doc.getData().get("best before"));
@@ -98,7 +98,7 @@ public class IngredientDBHelper {
                     String category = (String) doc.getData().get("category");
                     Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
                     if (category == "Vegan"){
-                        ingredient = new VeganIngredient(name,desc,best_before,location,unit,category,amount);
+                        ingredient = new VegetableIngredient(name,desc,best_before,location,unit,category,amount);
                     }
                     retrieved.add(ingredient);
                 }
