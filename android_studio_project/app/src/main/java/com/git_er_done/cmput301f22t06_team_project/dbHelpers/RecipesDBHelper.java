@@ -19,6 +19,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.SnackRecip
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -142,4 +143,19 @@ public class RecipesDBHelper {
         });
         return retrieved;
     }
+
+    public void searchForRecipe(String recipe) {
+        ArrayList<Recipe> retrieved = new ArrayList<>();
+        recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+            }
+        });
+    }
+
+    public void createRecipe(DocumentSnapshot value){
+
+    }
 }
+
