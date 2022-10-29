@@ -64,12 +64,12 @@ public abstract class Ingredient {
         Ingredient frozen_strawberries = new  FruitIngredient ("frozen strawberries", "small red seeded frozen fruit", LocalDate.now(), "freezer", "g", "fruit", 1000);
 
         // Veggies
-        Ingredient yellow_onion = new VegetableIngredient("yellow_onion", "yellow skinned onion", LocalDate.now(), "pantry", "singles", "veggie", 4);
-        Ingredient tomato_paste = new VegetableIngredient("tomato paste", "thick and creamy tomato paste", LocalDate.now(), "pantry", "ml", "veggie", 250);
-        Ingredient tomato = new VegetableIngredient("tomato", "Bright red tomato", LocalDate.now(), "fridge", "g", "veggie", 500);
-        Ingredient romaine_lettuce = new VegetableIngredient("romaine lettuce", "green crunchy lettuce", LocalDate.now(), "fridge", "g", "veggie", 100);
-        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), "fridge", "g", "veggie", 300);
-        Ingredient yellow_potato = new VegetableIngredient("yellow potato", "yellow yukon gold potato", LocalDate.now(), "fridge", "g", "veggie", 300);
+        Ingredient yellow_onion = new VegetableIngredient("yellow_onion", "yellow skinned onion", LocalDate.now(), "pantry", "singles", "vegetable", 4);
+        Ingredient tomato_paste = new VegetableIngredient("tomato paste", "thick and creamy tomato paste", LocalDate.now(), "pantry", "ml", "vegetable", 250);
+        Ingredient tomato = new VegetableIngredient("tomato", "Bright red tomato", LocalDate.now(), "fridge", "g", "vegetable", 500);
+        Ingredient romaine_lettuce = new VegetableIngredient("romaine lettuce", "green crunchy lettuce", LocalDate.now(), "fridge", "g", "vegetable", 100);
+        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), "fridge", "g", "vegetable", 300);
+        Ingredient yellow_potato = new VegetableIngredient("yellow potato", "yellow yukon gold potato", LocalDate.now(), "fridge", "g", "vegetable", 300);
 
         // Diary
         Ingredient milk = new DairyIngredient ("milk", "2% homogenized milk", LocalDate.now(), "fridge", "ml", "dairy", 2000);
