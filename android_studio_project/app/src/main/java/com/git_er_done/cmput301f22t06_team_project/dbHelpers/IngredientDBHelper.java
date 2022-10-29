@@ -128,21 +128,21 @@ public class IngredientDBHelper {
         String unit = (String) doc.getData().get("unit");
         String category = (String) doc.getData().get("category");
         Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-        if (category == "dairy") {
+        if (category.equals("dairy")) {
             ingredient = new DairyIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "fruit") {
+        }else if (category.equals("fruit")) {
             ingredient = new FruitIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "grain") {
+        }else if (category.equals("grain")) {
             ingredient = new GrainIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "lipid") {
+        }else if (category.equals("lipid")) {
             ingredient = new LipidIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "protein") {
+        }else if (category.equals("protein")) {
             ingredient = new ProteinIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "spice") {
+        }else if (category.equals("spice")) {
             ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "vegetable") {
+        }else if (category.equals("vegetable")) {
             ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
-        }else if (category == "misc") {
+        }else if (category.equals("misc")) {
             ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
         }
         return ingredient;
