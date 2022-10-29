@@ -1,0 +1,26 @@
+name: learn-github-actions
+
+on:
+  push: 
+    branches: [ "add_and_edit_ingredient" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with: 
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x ./android_studio_project/gradlew
+    - name: Build with Gradle
+      run: ./android_studio_project/gradlew build
+    - name: Run Unit Tests
+      run: ./android_studio_project/gradlew test

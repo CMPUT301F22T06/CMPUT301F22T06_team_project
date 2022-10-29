@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import android.icu.text.CaseMap;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,18 +9,22 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.AppetizerRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DesertRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.SnackRecipe;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -59,10 +62,15 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-       // for (Ingredient i: ingredients){
-            HashMap<String,String> ingredient = new HashMap<>();
-//            ingredient.put("amount",amount);
-//            recipesDB.document(title).collection("ingredients").document(i.getName()).set(amount);
+
+        CollectionReference ingredientsCollection = recipesDB.document(title).collection("ingredients");
+        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+        for (RecipeIngredient ing: recipeIngredients){
+            HashMap<String,String> ingredientData = new HashMap<>();
+            ingredientData.put("amount",String.valueOf(ing.getAmount()));
+            ingredientData.put("units",ing.getUnits());
+            ingredientsCollection.document(ing.getName()).set(ingredientData);
+        }
 
     }
 
@@ -85,23 +93,53 @@ public class RecipesDBHelper {
                 });
     }
 
-    public void get(){
+    public ArrayList<Recipe> getAllRecipes(){
         ArrayList<Recipe> retrieved = new ArrayList<>();
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: value){
-//                    VeganIngredient ingredient = null;
+                for(QueryDocumentSnapshot doc: value) {
+                    Recipe recipe = null;
                     String title = doc.getId();
                     String comments = (String) doc.getData().get("comments");
                     String category = (String) doc.getData().get("category");
-                    String prepTime = (String) doc.getData().get("prep time");
-                    String servings = (String) doc.getData().get("servings");
+                    Integer prepTime = Integer.parseInt((String) doc.getData().get("prep time"));
+                    Integer servings = Integer.parseInt((String) doc.getData().get("servings"));
                     // Figure out way to retrieve ingredient data in subcollection
+                    CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
+                    ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+                    ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                            for (QueryDocumentSnapshot doc : value) {
+                                String ingredientName = doc.getId();
+                                String units = (String) doc.getData().get("units");
+                                Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
+                                Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
+                                RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
+                                recipeIngredients.add(recipeIngredient);
+                            }
+                        }
+                    });
+                    if (category == "dinner") {
+                        recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "breakfast") {
+                        recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "lunch") {
+                        recipe = new LunchRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "desert") {
+                        recipe = new DesertRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "appetizer") {
+                        recipe = new AppetizerRecipe(title, comments, category, prepTime, servings);
+                    } else if (category == "snack") {
+                        recipe = new SnackRecipe(title, comments, category, prepTime, servings);
+                    }
+                    recipe.setIngredientsList(recipeIngredients);
+                    retrieved.add(recipe);
                 }
             }
         });
-
-
+        return retrieved;
     }
 }

@@ -7,12 +7,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MeatIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.SpiceIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.VegetableIngredient;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,7 +51,6 @@ public class IngredientDBHelper {
         data.put("unit", units);
         data.put("category",category);
         data.put("amount",amount_string);
-
 
         ingredientsDB
                 .document(name)
@@ -136,12 +136,14 @@ public class IngredientDBHelper {
             ingredient = new GrainIngredient(name,desc,best_before,location,unit,category,amount);
         }else if (category == "lipid") {
             ingredient = new LipidIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category == "meat") {
-            ingredient = new MeatIngredient(name,desc,best_before,location,unit,category,amount);
+        }else if (category == "protein") {
+            ingredient = new ProteinIngredient(name,desc,best_before,location,unit,category,amount);
         }else if (category == "spice") {
             ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
         }else if (category == "vegetable") {
             ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
+        }else if (category == "misc") {
+            ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
         }
         return ingredient;
     }
