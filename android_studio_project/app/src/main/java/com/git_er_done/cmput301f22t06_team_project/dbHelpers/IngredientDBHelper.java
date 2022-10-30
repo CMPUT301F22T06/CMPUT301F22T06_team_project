@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
@@ -90,8 +91,8 @@ public class IngredientDBHelper {
                 });
     }
 
-    public ArrayList<Ingredient> getAllIngredients(){
-        ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
+    public void getAllIngredients(FirebaseCallback firebaseCallback) {
+        ArrayList<Ingredient> retrieved = new ArrayList<>();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
@@ -99,9 +100,23 @@ public class IngredientDBHelper {
                     Ingredient ingredient =  createIngredient(doc);
                     retrieved.add(ingredient);
                 }
+                firebaseCallback.onCallback(retrieved);
             }
         });
-        return retrieved;
+    }
+
+    public void fillAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> retrieved){
+        retrieved.clear();
+        ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
+                for(QueryDocumentSnapshot doc: docs){
+                    Ingredient ingredient =  createIngredient(doc);
+                    retrieved.add(ingredient);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     public Ingredient searchForIngredient(String ingredient) {
@@ -149,3 +164,4 @@ public class IngredientDBHelper {
     }
 
 }
+
