@@ -91,6 +91,12 @@ public class IngredientDBHelper {
                 });
     }
 
+    /**
+     * So this function is just a way so we don't need to pass the adapter in
+     * the ingredientsDBhelper but instead return the ingredients and set the adapter
+     * in the controller or something
+     * @param firebaseCallback
+     */
     public void getAllIngredients(FirebaseCallback firebaseCallback) {
         ArrayList<Ingredient> retrieved = new ArrayList<>();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -105,6 +111,13 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     * Here we just pass the adapter and set it here. It's less work but it also has more coupling and we
+     * might possibly lose out on the ability to have to alter the ingredients in the controller for some
+     * reason.
+     * @param adapter
+     * @param retrieved
+     */
     public void fillAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> retrieved){
         retrieved.clear();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -119,18 +132,17 @@ public class IngredientDBHelper {
         });
     }
 
-    public Ingredient searchForIngredient(String ingredient) {
+    public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
+        Log.d(TAG, "searchForIngredient: " + ingredient);
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
         ingredientsDB.document(ingredient).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Log.d(TAG, "Search worked");
-                Ingredient ingredient =  createIngredient(value);
-                retrieved.add(ingredient);
+                ArrayList<Ingredient> ingredient = new ArrayList<>();
+                ingredient.add(createIngredient(value));
+                ingredientsFirebaseCallBack.onCallback(ingredient);
             }
         });
-        Ingredient ingredient1 = retrieved.get(0);
-        return ingredient1;
     }
 
     private Ingredient createIngredient(DocumentSnapshot doc) {

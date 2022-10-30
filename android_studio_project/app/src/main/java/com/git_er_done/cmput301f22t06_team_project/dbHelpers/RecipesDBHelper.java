@@ -138,19 +138,19 @@ public class RecipesDBHelper {
                     String ingredientName = doc.getId();
                     String units = (String) doc.getData().get("units");
                     Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-                    Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
-                    RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
-                    recipeIngredients.add(recipeIngredient);
+                    //Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
+                    //RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
+                   // recipeIngredients.add(recipeIngredient);
                 }
             }
         });
-        if (category == "dinner") {
+        if (category.equals("dinner")) {
             recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
-        } else if (category == "breakfast") {
+        } else if (category.equals("breakfast")) {
             recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
-        } else if (category == "lunch") {
+        } else if (category.equals("lunch")) {
             recipe = new LunchRecipe(title, comments, category, prepTime, servings);
-        } else if (category == "dessert") {
+        } else if (category.equals("dessert")) {
             recipe = new DessertRecipe(title, comments, category, prepTime, servings);
         }
         recipe.setIngredientsList(recipeIngredients);
