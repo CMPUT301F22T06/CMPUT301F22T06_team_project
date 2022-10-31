@@ -51,7 +51,14 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
+        testIngredients = Ingredient.createIngredientList();
         IngredientDBHelper dbHelper = new IngredientDBHelper();
+        for (Ingredient ingredient: testIngredients) {
+            dbHelper.addIngredient(ingredient);
+        }
+        dbHelper.deleteIngredient("apple");
+
+
         retrievedIngredients = dbHelper.getAllIngredients();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
