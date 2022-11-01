@@ -31,6 +31,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/** The Ingredient DB helper takes in an ingredient class and take the data and outputs it into the database
+ * @exception Ingredient cant add ingredient data
+ * The DB helper can also delete an ingredient by taking in a string, the name of the ingredient, and go into the database
+ * to delete it.
+ * @exception Ingredient cant delete ingredient
+ * The DB helper can also get all ingredient and output all the ingredients in the list to a list.
+ * The DB helper can also search through the data base for an ingredient that is inputted by the user.
+ * Ingredients are also created in the DB helper when the function get all ingredients are called. The output is a list.
+ */
+
+
 public class IngredientDBHelper {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -133,6 +144,13 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     * In this function, an ingredient is inputted by the user and the database will go and look for it.
+     * The database will take a snapshot of what is currently there and based on that snapshot, find the input
+     * Then, the found ingredient will be outputted into a list for ease of viewing.
+     * @param ingredient
+     * @param ingredientsFirebaseCallBack
+     */
     public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
         Log.d(TAG, "searchForIngredient: " + ingredient);
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
@@ -146,6 +164,13 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     *  When the doc is inputted into the function, the function will take all the values within the doc
+     *  and output them into a list, by re-initializing all the parameters of each ingredient
+     *  and create each instance.
+     * @param doc
+     * @return
+     */
     private Ingredient createIngredient(DocumentSnapshot doc) {
         Log.d(TAG, "Search worked!");
         Ingredient ingredient = null;
