@@ -21,7 +21,6 @@ import java.util.List;
 
 public class RecipesRecyclerViewAdapter {
 
-
     private final RecipesRecyclerViewInterface rvInterface;
     private List<Recipe> mRecipes;
 
@@ -85,7 +84,7 @@ public class RecipesRecyclerViewAdapter {
             unit.setText(Log.d(TAG, i.getName()));
 
 
-        // MISSING - PHOTOGRAPH
+            // MISSING - PHOTOGRAPH
         }
     }
 
