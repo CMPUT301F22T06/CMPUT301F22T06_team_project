@@ -9,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +31,7 @@ public class RecipesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    ArrayList<Recipe> testRecipes;
     public RecipesFragment() {
         // Required empty public constructor
     }
@@ -60,6 +66,11 @@ public class RecipesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+//        testRecipes = Ingredient.createRecipeList();
+//        RecipeDBHelper dbHelper = new IngredientDBHelper();
+//        for (Recipe recipe: testRecipes) {
+//            dbHelper.addRecipe(recipe);
+//        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recipes, container, false);
     }

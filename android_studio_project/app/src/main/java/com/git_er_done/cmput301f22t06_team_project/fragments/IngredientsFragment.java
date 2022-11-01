@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Build;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,13 @@ import android.widget.Toast;
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
+
+import io.grpc.ManagedChannelProvider;
 
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
@@ -48,13 +54,13 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
         rvIngredients.setHasFixedSize(true);
-
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        IngredientDBHelper dbHelper = new IngredientDBHelper();
-        retrievedIngredients = dbHelper.getAllIngredients();
+        testIngredients = new ArrayList<>();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
+
+        IngredientDBHelper dbHelper = new IngredientDBHelper();
+        dbHelper.fillAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
         return root;
