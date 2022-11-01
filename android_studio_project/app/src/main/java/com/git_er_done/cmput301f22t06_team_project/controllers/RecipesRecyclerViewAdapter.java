@@ -19,12 +19,12 @@ import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 
 import java.util.List;
 
-public class RecipesRecyclerViewAdapter {
+public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder>{
 
     private final RecipesRecyclerViewInterface rvInterface;
     private List<Recipe> mRecipes;
 
-    public RecipesRecyclerViewAdapter(List<Recipe> ingredients, RecipesRecyclerViewInterface rvInterface) {
+    public RecipesRecyclerViewAdapter(List<Recipe> recipes, RecipesRecyclerViewInterface rvInterface) {
         mRecipes = recipes;
         this.rvInterface = rvInterface;
     }
@@ -38,15 +38,16 @@ public class RecipesRecyclerViewAdapter {
      */
     @NonNull
     @Override
+
     public RecipesRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
+        View contactView = inflater.inflate(R.layout.recipe_list_item, parent, false);
 
         // Return a new holder instance
-        IngredientsRecyclerViewAdapter.ViewHolder viewHolder = new RecipesRecyclerViewAdapter.ViewHolder(contactView);
+        RecipesRecyclerViewAdapter.ViewHolder viewHolder = new RecipesRecyclerViewAdapter.ViewHolder(contactView);
         return viewHolder;
     }
 
@@ -72,10 +73,10 @@ public class RecipesRecyclerViewAdapter {
         location.setText(recipe.getCategory());
 
         TextView bestBeforeDate = holder.preptimeTextView;
-        bestBeforeDate.setText(recipe.getPrep_time().toString());
+        bestBeforeDate.setText(String.valueOf(recipe.getPrep_time()));
 
         TextView amount = holder.servingsTextView;
-        amount.setText(recipe.getServings().toString());
+        amount.setText(String.valueOf(recipe.getServings()));
 
         TextView unit = holder.recipeIngredientsTextView;
         //ArrayList<String> ingredientNames = new ArrayList<>();
@@ -89,7 +90,7 @@ public class RecipesRecyclerViewAdapter {
     }
 
     /**
-     * Determine the number of items (ingredient instances) in list
+     * Determine the number of items (recipe instances) in list
      *
      * @return
      */
