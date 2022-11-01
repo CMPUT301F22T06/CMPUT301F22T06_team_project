@@ -1,6 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -18,8 +19,14 @@ public class EspressoTests {
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
+    // Will change
     @Test
     public void firstTest() {
         onView(withText("RECIPES FRAGMENT")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testIngredientRecyclerView() {
+
     }
 }
