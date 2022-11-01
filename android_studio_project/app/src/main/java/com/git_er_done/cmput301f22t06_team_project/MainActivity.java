@@ -79,16 +79,6 @@ public class MainActivity extends AppCompatActivity {
         RecipesDBHelper recipesDBHelper = new RecipesDBHelper();
         recipesDBHelper.addRecipe(fruit_salad);
 
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        ArrayList<Ingredient> list = new ArrayList<>();
-        ingredientDBHelper.searchForIngredient("apple", new IngredientsFirebaseCallBack() {
-            @Override
-            public void onCallback(ArrayList<Ingredient> retrievedIngredients) {
-                list.add(retrievedIngredients.get(0));
-            }
-        });
-
-
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_recipes_menu_item:

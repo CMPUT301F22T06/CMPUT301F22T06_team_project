@@ -125,6 +125,7 @@ public class IngredientDBHelper {
             public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: docs){
                     Ingredient ingredient =  createIngredient(doc);
+                    Log.d(TAG, "onEvent: " + ingredient.getName());
                     retrieved.add(ingredient);
                 }
                 adapter.notifyDataSetChanged();
@@ -146,7 +147,7 @@ public class IngredientDBHelper {
     }
 
     private Ingredient createIngredient(DocumentSnapshot doc) {
-        Log.d(TAG, "Search worked");
+        Log.d(TAG, "Search worked!");
         Ingredient ingredient = null;
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");

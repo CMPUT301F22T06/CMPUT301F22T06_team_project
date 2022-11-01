@@ -53,11 +53,14 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
         rvIngredients.setHasFixedSize(true);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        testIngredients = new ArrayList<>();
+        testIngredients = Ingredient.createIngredientList();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
-
         IngredientDBHelper dbHelper = new IngredientDBHelper();
+        for (Ingredient i: testIngredients){
+            dbHelper.addIngredient(i);
+        }
+        
         dbHelper.fillAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
