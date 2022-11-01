@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.models.Location;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
@@ -39,7 +40,7 @@ public class IngredientDBHelper {
         String name = ingredient.getName();
         String desc = ingredient.getDesc();
         String best_before = ingredient.getBestBefore().toString();
-        String location = ingredient.getLocation();
+        String location = ingredient.getLocation().toString();
         String units = ingredient.getUnits();
         String category = ingredient.getCategory();
         Integer amount = ingredient.getAmount();
@@ -124,26 +125,26 @@ public class IngredientDBHelper {
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");
         LocalDate best_before = LocalDate.parse((String) doc.getData().get("best before"));
-        String location = (String) doc.getData().get("location");
+        String locationString = doc.getData().get("location").toString();
         String unit = (String) doc.getData().get("unit");
         String category = (String) doc.getData().get("category");
         Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
         if (category == "dairy") {
-            ingredient = new DairyIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new DairyIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "fruit") {
-            ingredient = new FruitIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new FruitIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "grain") {
-            ingredient = new GrainIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new GrainIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "lipid") {
-            ingredient = new LipidIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new LipidIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "protein") {
-            ingredient = new ProteinIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new ProteinIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "spice") {
-            ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
+            ingredient = new SpiceIngredient(name,desc,best_before,Location.getLocationFromString(locationString),unit,category,amount);
         }else if (category == "vegetable") {
-            ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
+            ingredient = new VegetableIngredient(name, desc, best_before, Location.getLocationFromString(locationString), unit, category, amount);
         }else if (category == "misc") {
-            ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
+            ingredient = new MiscIngredient(name, desc, best_before, Location.getLocationFromString(locationString), unit, category, amount);
         }
         return ingredient;
     }

@@ -18,20 +18,31 @@ import java.util.List;
 //Followed this tutorial https://guides.codepath.com/android/using-the-recyclerview
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
+
+/**
+ * Adapter used to render each item in the recycler view dynamically
+ * Constructor takes in a list of ingredients and an interface reference for handling onItemLongClick events
+ */
 public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<IngredientsRecyclerViewAdapter.ViewHolder> {
 
     private final IngredientsRecyclerViewInterface rvInterface;
     private List<Ingredient> mIngredients;
 
+    /**
+     * Generic constructor for this adapter
+     * @param ingredients - List of ingredient instances
+     * @param rvInterface - Reference to an interface for handling onItemLongClick events
+     */
     public IngredientsRecyclerViewAdapter(List<Ingredient> ingredients, IngredientsRecyclerViewInterface rvInterface){
         mIngredients = ingredients;
         this.rvInterface = rvInterface;
     }
 
     /**
-     * Inflates item layout and creates view holder
-     * @param parent
-     * @param viewType
+     * Inflates item layout, creates and returns ViewHolder.
+     * A viewHolder describes an item and metadata about its place within the RecylerView
+     * @param parent  ViewGroup
+     * @param viewType Integer
      * @return
      */
     @NonNull
@@ -49,9 +60,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
     }
 
     /**
-     * Set the view attributes based on associated instance data
-     * @param holder
-     * @param position
+     * Set each item view attributes based on associated instance data
+     * @param holder ViewHolder
+     * @param position Integer - position within the RecyclerView List
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -66,7 +77,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         description.setText(ingredient.getDesc());
 
         TextView location = holder.locationTextView;
-        location.setText(ingredient.getLocation());
+        location.setText(ingredient.getLocation().getLocationString());
 
         TextView bestBeforeDate = holder.bestBeforeDateTextView;
         bestBeforeDate.setText(ingredient.getBestBefore().toString());
@@ -79,14 +90,19 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
     }
 
     /**
-     * Determine the number of items (ingredient instances) in list
-     * @return
+     * Return the number of items (ingredient instances) in list
+     * @return Integer - The number of items in the list
      */
     @Override
     public int getItemCount() {
         return mIngredients.size();
     }
 
+    /**
+     * Return an Ingredient instance which exists in the provided list position
+     * @param position - The position of the item within the ingredient list
+     * @return
+     */
     public Ingredient getItem(int position) {
         return mIngredients.get(position);
     }

@@ -25,11 +25,24 @@ public class IngredientDBHelperTest {
 //    }
 
 
+//    @Test
+//    public void testCreateIngredient(){
+//
+//    }
+//
+//    @Test
+//    public void testDeleteIngredient(){
+//
+//    }
+//
+//    @Test
+//    public void testSearchForIngredient(){
+//
+//    }
+//
+//    @Test
+//    public void testGetAllIngredients(){
+//
+//    }
 
-    @Test
-    public void testAddIngredient(){
-        assertTrue(false);
-        // much BAMBOOZLE
-        //uuuggghhhh AGAIN _ i did a smooth brain
-    }
 }

@@ -20,9 +20,11 @@ import android.view.MenuItem;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
+import com.git_er_done.cmput301f22t06_team_project.models.Location;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    ArrayList<Location> locations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch(item.getItemId()){
