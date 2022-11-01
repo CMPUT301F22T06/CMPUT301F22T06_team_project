@@ -14,8 +14,10 @@ import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastR
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DessertRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -92,19 +94,21 @@ public class RecipesDBHelper {
                 });
     }
 
-    public ArrayList<Recipe> getAllRecipes(){
+    public void getAllRecipes(){
         ArrayList<Recipe> retrieved = new ArrayList<>();
         IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        recipesDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: value) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot docs = task.getResult();
+                for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc, ingredientDBHelper);
+
+                    Log.d(TAG, "YUH " + recipe.getTitle());
                     retrieved.add(recipe);
                 }
             }
         });
-        return retrieved;
     }
 
     public Recipe searchForRecipe(String recipe) {
@@ -113,7 +117,6 @@ public class RecipesDBHelper {
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
-                Log.d(TAG, "Search worked");
                 Recipe recipe = createRecipe(doc, ingredientDBHelper);
                 retrieved.add(recipe);
             }
@@ -131,16 +134,21 @@ public class RecipesDBHelper {
         // Figure out way to retrieve ingredient data in subcollection
         CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        ingredientCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for (QueryDocumentSnapshot doc : value) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot docs = task.getResult();
+                for (QueryDocumentSnapshot doc : docs) {
                     String ingredientName = doc.getId();
                     String units = (String) doc.getData().get("units");
                     Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-                    //Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
-                    //RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
-                   // recipeIngredients.add(recipeIngredient);
+                    ingredientDBHelper.searchForIngredient(ingredientName, new IngredientsFirebaseCallBack() {
+                        @Override
+                        public void onCallback(Ingredient retrievedIngredients) {
+                            RecipeIngredient recipeIngredient = new RecipeIngredient(retrievedIngredients, units, amount);
+                            recipeIngredients.add(recipeIngredient);
+                        }
+                    });
                 }
             }
         });

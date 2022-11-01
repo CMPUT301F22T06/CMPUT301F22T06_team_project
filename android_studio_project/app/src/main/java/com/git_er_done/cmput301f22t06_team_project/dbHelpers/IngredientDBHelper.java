@@ -17,8 +17,10 @@ import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.SpiceIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.VegetableIngredient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -33,8 +35,8 @@ import java.util.HashMap;
 
 public class IngredientDBHelper {
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference ingredientsDB = db.collection("Ingredients");
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference ingredientsDB = db.collection("Ingredients");
 
     public void addIngredient(Ingredient ingredient){
         String name = ingredient.getName();
@@ -134,20 +136,22 @@ public class IngredientDBHelper {
     }
 
     public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
-        Log.d(TAG, "searchForIngredient: " + ingredient);
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
-        ingredientsDB.document(ingredient).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        Log.d(TAG, "The name I'm looking for is " + ingredient);
+        ingredientsDB.document(ingredient).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                ArrayList<Ingredient> ingredient = new ArrayList<>();
-                ingredient.add(createIngredient(value));
-                ingredientsFirebaseCallBack.onCallback(ingredient);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    Log.d(TAG, "The document name is " + doc.getId());
+                    Ingredient ingredient = createIngredient(doc);
+                    ingredientsFirebaseCallBack.onCallback(ingredient);
+                }
             }
         });
     }
 
     private Ingredient createIngredient(DocumentSnapshot doc) {
-        Log.d(TAG, "Search worked!");
         Ingredient ingredient = null;
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");
@@ -173,6 +177,7 @@ public class IngredientDBHelper {
         }else if (category.equals("misc")) {
             ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
         }
+        Log.d(TAG, "YURRR " + ingredient.getName());
         return ingredient;
     }
 

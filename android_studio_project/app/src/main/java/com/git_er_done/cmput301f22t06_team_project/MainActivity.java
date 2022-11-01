@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         Ingredient apple = new FruitIngredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
         Ingredient orange = new FruitIngredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
+
         RecipeIngredient appleRecipe = new RecipeIngredient(apple,"g",2);
         RecipeIngredient orangeRecipe = new RecipeIngredient(orange,"g", 2);
         recipeIngredients.add(appleRecipe);
@@ -78,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
         fruit_salad.setIngredientsList(recipeIngredients);
         RecipesDBHelper recipesDBHelper = new RecipesDBHelper();
         recipesDBHelper.addRecipe(fruit_salad);
+
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+        ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
+        for(Ingredient i: testIngredients) {
+            ingredientDBHelper.addIngredient(i);
+        }
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

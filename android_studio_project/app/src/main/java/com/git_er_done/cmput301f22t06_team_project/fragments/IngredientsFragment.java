@@ -26,6 +26,8 @@ import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 
 import java.util.ArrayList;
 
+import io.grpc.ManagedChannelProvider;
+
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
     ArrayList<Ingredient> testIngredients;
@@ -53,14 +55,11 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
         rvIngredients.setHasFixedSize(true);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        testIngredients = Ingredient.createIngredientList();
+        testIngredients = new ArrayList<>();
         rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
+
         IngredientDBHelper dbHelper = new IngredientDBHelper();
-        for (Ingredient i: testIngredients){
-            dbHelper.addIngredient(i);
-        }
-        
         dbHelper.fillAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
