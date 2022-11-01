@@ -118,17 +118,16 @@ public class IngredientDBHelper {
      * might possibly lose out on the ability to have to alter the ingredients in the controller for some
      * reason.
      * @param adapter
-     * @param retrieved
+     * @param ingredients
      */
-    public void fillAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> retrieved){
-        retrieved.clear();
+    public void fillAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> ingredients){
+        ingredients.clear();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: docs){
                     Ingredient ingredient =  createIngredient(doc);
-                    Log.d(TAG, "onEvent: " + ingredient.getName());
-                    retrieved.add(ingredient);
+                    ingredients.add(ingredient);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -177,7 +176,6 @@ public class IngredientDBHelper {
         }else if (category.equals("misc")) {
             ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
         }
-        Log.d(TAG, "YURRR " + ingredient.getName());
         return ingredient;
     }
 
