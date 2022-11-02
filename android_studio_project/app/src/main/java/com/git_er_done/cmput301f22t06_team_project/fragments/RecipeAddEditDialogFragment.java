@@ -1,13 +1,16 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,9 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+
+import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
 
@@ -29,6 +35,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private EditText etServings;
     private EditText etPrep_time;
     private Spinner spCategory;
+    private Spinner spIngredients;
     // Add an ingredient add/edit dialog fragment
 
     private Button btnCancel;
@@ -47,9 +54,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         args.putString("name",  selectedRecipe.getTitle());
         // get image
         //args.putString("description", selectedRecipe.getDesc());
-        args.putString("Serves", selectedRecipe.getServings().toString());
-        args.putString("Prep Time", selectedRecipe.getPrep_time().toString());
-        args.putString("Category", selectedRecipe.getCategory());
+        args.putString("serves", String.valueOf(selectedRecipe.getServings()));
+        args.putString("prep time", String.valueOf(selectedRecipe.getPrep_time()));
+        args.putString("category", selectedRecipe.getCategory());
+
+        for (RecipeIngredient i : selectedRecipe.getIngredients()){
+            args.putString("ingredients", i.toString());
+        }
 
         frag.setArguments(args);
         return frag;
@@ -73,10 +84,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
         etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
+        spIngredients = view.findViewById(R.id.sp_recipe_add_edit_ingredients);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
-
 
         String dialogTitle = getArguments().getString("title", "Default title ");
 
@@ -88,6 +99,24 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         String prep_time = getArguments().getString("prep_time", "def - preptime");
         String servings = getArguments().getString("servings", "def - servings");
         String comments = getArguments().getString("comments", "def - comments");
+
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        ArrayList<String> test = new ArrayList<>();
+        RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
+        RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
+        recipeIngredients.add(appleRecipe);
+        recipeIngredients.add(orangeRecipe);
+        for (RecipeIngredient i : recipeIngredients){
+            test.add(i.getName());
+        }
+
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, test);
+        //recipeAdapter.setDropDownViewResource(spIngredients);
+        //ArrayAdapter.createFromResource(this, spIngredients, recipeIngredients);
+
+        for (RecipeIngredient ingredient: recipeIngredients){
+            getArguments().getString(ingredient.getName(), "def - ingredients");
+        }
         // get ingredients
         // get picture
 
@@ -96,6 +125,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings.setText(servings);
         etPrep_time.setText(prep_time);
         etComments.setText(comments);
+        spIngredients.setAdapter(recipeAdapter);
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS

@@ -23,6 +23,9 @@ import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecycl
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 
 import java.util.ArrayList;
 
@@ -66,21 +69,38 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         return root;
     }
 
-    private void showEditDialog(Ingredient selectedIngredient) {
+    private void showEditDialog(Recipe selectedRecipe) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        IngredientAddEditDialogFragment editNameDialogFragment =
-                IngredientAddEditDialogFragment.newInstance(
+        RecipeAddEditDialogFragment editNameDialogFragment =
+                RecipeAddEditDialogFragment.newInstance(
                         "Edit Ingredient Dialog",
-                        selectedIngredient);
-        editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+                        selectedRecipe);
+        editNameDialogFragment.show(fm, "fragment_recipe_add_edit_dialog");
 
     }
 
     @Override
     public void onItemLongClick(int position) {
+//        Ingredient selectedIngredient = rvAdapter.getItem(position);
+//        //Create a dialog displaying all of the selected ingredients attributes
+//        showEditDialog(selectedIngredient);
         Ingredient selectedIngredient = rvAdapter.getItem(position);
         //Create a dialog displaying all of the selected ingredients attributes
-        showEditDialog(selectedIngredient);
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
+                "It was great. I may change it up next time but for now, perfect\n" +
+                "\n" +
+                "Barb Gregory\n" +
+                "I did not make any changes. Made it exactly as the recipe called for. It was easy to make and everyone loved the taste. I will make it again\n" +
+                "\n" +
+                "Morgon Barg\n" +
+                "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
+
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
+        RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
+        recipeIngredients.add(appleRecipe);
+        recipeIngredients.add(orangeRecipe);
+        showEditDialog(fruit_salad);
 
     }
 }
