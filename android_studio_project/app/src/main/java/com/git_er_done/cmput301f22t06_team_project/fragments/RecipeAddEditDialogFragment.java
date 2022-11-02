@@ -34,8 +34,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private EditText etComments;
     private EditText etServings;
     private EditText etPrep_time;
+    private EditText etIngredients_view;
     private Spinner spCategory;
-    private Spinner spIngredients;
+    private Spinner spIngredients_dropdown;
     // Add an ingredient add/edit dialog fragment
 
     private Button btnCancel;
@@ -83,8 +84,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
         etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
         etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
+        etIngredients_view = view.findViewById(R.id.et_recipe_add_edit_ingredients_view);
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
-        spIngredients = view.findViewById(R.id.sp_recipe_add_edit_ingredients);
+        spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
@@ -100,32 +102,36 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         String servings = getArguments().getString("servings", "def - servings");
         String comments = getArguments().getString("comments", "def - comments");
 
+        // Test data
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        ArrayList<String> test = new ArrayList<>();
+        ArrayList<String> ingredientNames = new ArrayList<>();
         RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
         RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
         recipeIngredients.add(appleRecipe);
         recipeIngredients.add(orangeRecipe);
         for (RecipeIngredient i : recipeIngredients){
-            test.add(i.getName());
+            ingredientNames.add(i.getName());
         }
 
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, test);
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
+        //ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
+
         //recipeAdapter.setDropDownViewResource(spIngredients);
         //ArrayAdapter.createFromResource(this, spIngredients, recipeIngredients);
 
         for (RecipeIngredient ingredient: recipeIngredients){
             getArguments().getString(ingredient.getName(), "def - ingredients");
         }
-        // get ingredients
-        // get picture
 
+        // get picture
+        //TODO: make it that the dorpdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
         etName.setText(title);
         etDescription.setText(description);
         etServings.setText(servings);
         etPrep_time.setText(prep_time);
         etComments.setText(comments);
-        spIngredients.setAdapter(recipeAdapter);
+        spIngredients_dropdown.setAdapter(recipeAdapter);
+        //etIngredients_view.setText(ingredientView);
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS

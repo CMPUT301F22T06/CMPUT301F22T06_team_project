@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -40,54 +41,80 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Serves: "
-                    android:textSize="15dp" />
+                <ImageView
+                    android:id="@+id/view_recipe_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:onClick="selectImage" />
 
-                <!--        TODO Replace a carriage return with ' next '-->
-                <EditText
-                    android:id="@+id/et_recipe_add_edit_servings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Servings Here"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:textSize="15dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
+                <Button
+                    android:id="@+id/buttonLoadPicture"
                     android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:text="Preptime: "
-                    android:textSize="15dp" />
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:textColor="@color/black"
+                    android:text="Upload Picture"
+                    android:textSize="8dp"/>
 
-                <!--        TODO Replace a carriage return with ' next '-->
-                <EditText
-                    android:id="@+id/et_recipe_add_edit_preptime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="minutes"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="5"
-                    android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Serves: "
+                android:textSize="15dp" />
+
+            <!--        TODO Replace a carriage return with ' next '-->
+            <EditText
+                android:id="@+id/et_recipe_add_edit_servings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Servings Here"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Preptime: "
+                android:textSize="15dp" />
+
+            <!--        TODO Replace a carriage return with ' next '-->
+            <EditText
+                android:id="@+id/et_recipe_add_edit_preptime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="minutes"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="5"
+                android:textSize="15dp" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,9 +130,10 @@
             <Spinner
                 android:id="@+id/sp_recipe_add_edit_category"
                 android:layout_width="match_parent"
-                android:layout_height="50sp"
+                android:layout_height="40sp"
                 />
         </LinearLayout>
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,35 +158,77 @@
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
-<!--        Will need extra work for ingredients-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ingredients: "
-                android:textSize="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ingredients: "
+                    android:textSize="20dp" />
 
             <Spinner
-                android:id="@+id/sp_recipe_add_edit_ingredients"
+                android:id="@+id/sp_recipe_add_edit_ingredients_dropdown"
                 android:layout_width="match_parent"
-                android:layout_height="50sp"
+                android:layout_height="40sp"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Name"
+                    android:textSize="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Description"
+                    android:textSize="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Quantity"
+                    android:textSize="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Unit"
+                    android:textSize="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Category"
+                    android:textSize="10dp" />
+            </LinearLayout>
             <!--        TODO Replace a carriage return with ' next ' action-->
             <EditText
-                android:id="@+id/et_recipe_add_edit_ingredients"
+                android:id="@+id/et_recipe_add_edit_ingredients_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:width="1dp" android:color="#ff9900"
+                android:layout_height="150dp"
+                android:width="1dp"
+                android:color="#ff9900"
                 android:hint="All ingredients will be shown here"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:gravity="top"
-                android:inputType="textCapSentences|textPersonName|textMultiLine"
                 android:imeOptions="actionNext" />
+
         </LinearLayout>
 
         <LinearLayout
