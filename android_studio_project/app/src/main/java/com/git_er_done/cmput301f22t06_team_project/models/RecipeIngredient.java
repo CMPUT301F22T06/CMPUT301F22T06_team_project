@@ -1,22 +1,23 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
 public class RecipeIngredient {
-    Ingredient ingredient;
+    String name;
     String units;
-    int amount;
-
-    public RecipeIngredient(Ingredient ingredient, String units, int amount) {
-        this.ingredient = ingredient;
+    int amount; 
+    String comment;
+    public RecipeIngredient(String name, String units, int amount, String comment) {
+        this.name = name;
         this.units = units;
         this.amount = amount;
+        this.comment = comment;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public String getName() {
+        return name;
     }
 
     public String getUnits() {
@@ -35,8 +36,11 @@ public class RecipeIngredient {
         this.amount = amount;
     }
 
-    public String getName(){
-        return ingredient.getName();
+    public String getComment() {
+        return comment;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
