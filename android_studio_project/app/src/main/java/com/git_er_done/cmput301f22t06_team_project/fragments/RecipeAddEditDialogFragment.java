@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -34,7 +35,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private EditText etComments;
     private EditText etServings;
     private EditText etPrep_time;
-    private EditText etIngredients_view;
+    private ListView lvIngredients_view;
     private Spinner spCategory;
     private Spinner spIngredients_dropdown;
     // Add an ingredient add/edit dialog fragment
@@ -84,7 +85,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
         etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
         etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
-        etIngredients_view = view.findViewById(R.id.et_recipe_add_edit_ingredients_view);
+        lvIngredients_view = view.findViewById(R.id.lv_recipe_add_edit_ingredients_view);
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
         spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
@@ -107,14 +108,21 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         ArrayList<String> ingredientNames = new ArrayList<>();
         RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
         RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
+        RecipeIngredient grapeRecipe = new RecipeIngredient("grape","g", 2, "remove tips");
+        RecipeIngredient watermelonRecipe = new RecipeIngredient("watermelon","g", 2, "slice into cubes");
+        RecipeIngredient honeydewRecipe = new RecipeIngredient("honeydew","g", 2, "slice into cubes");
+
         recipeIngredients.add(appleRecipe);
         recipeIngredients.add(orangeRecipe);
+        recipeIngredients.add(grapeRecipe);
+        recipeIngredients.add(watermelonRecipe);
+        recipeIngredients.add(honeydewRecipe);
         for (RecipeIngredient i : recipeIngredients){
             ingredientNames.add(i.getName());
         }
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
-        //ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
+        ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
 
         //recipeAdapter.setDropDownViewResource(spIngredients);
         //ArrayAdapter.createFromResource(this, spIngredients, recipeIngredients);
@@ -124,14 +132,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
 
         // get picture
-        //TODO: make it that the dorpdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
+        //TODO: make it that the dropdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
         etName.setText(title);
         etDescription.setText(description);
         etServings.setText(servings);
         etPrep_time.setText(prep_time);
         etComments.setText(comments);
         spIngredients_dropdown.setAdapter(recipeAdapter);
-        //etIngredients_view.setText(ingredientView);
+        lvIngredients_view.setAdapter(ingredientView);
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS

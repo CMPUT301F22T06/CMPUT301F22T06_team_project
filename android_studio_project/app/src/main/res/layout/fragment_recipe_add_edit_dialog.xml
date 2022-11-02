@@ -218,8 +218,9 @@
                     android:textSize="10dp" />
             </LinearLayout>
             <!--        TODO Replace a carriage return with ' next ' action-->
-            <EditText
-                android:id="@+id/et_recipe_add_edit_ingredients_view"
+
+            <ListView
+                android:id="@+id/lv_recipe_add_edit_ingredients_view"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:width="1dp"
