@@ -120,7 +120,7 @@ public class IngredientDBHelper {
      * @param adapter
      * @param ingredients
      */
-    public void fillAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> ingredients){
+    public void setIngredientsAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> ingredients){
         ingredients.clear();
         ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

@@ -7,13 +7,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DessertRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class RecipesDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -47,16 +43,13 @@ public class RecipesDBHelper {
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
         String ingredientFields;
-        String name;
-        String units;
-        String amount;
-        String comment;
+
         for (RecipeIngredient i: recipeIngredients) {
-            name = i.getName();
-            units = i.getUnits();
-            amount = String.valueOf(i.getAmount());
-            comment = i.getComment();
-            ingredientFields = "|" + String.valueOf(amount) + "|" + comment + "|" + units;
+            String name = i.getName();
+            String units = i.getUnits();
+            String amount = String.valueOf(i.getAmount());
+            String comment = i.getComment();
+            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
             sendToDb.put(name, ingredientFields);
         }
 
@@ -78,9 +71,6 @@ public class RecipesDBHelper {
                 });
     }
 
-
-
-
     public void deleteRecipe(String recipe){
         recipesDB
                 .document(recipe)
@@ -100,19 +90,17 @@ public class RecipesDBHelper {
                 });
     }
 
-    public void getAllRecipes(){
-        ArrayList<Recipe> retrieved = new ArrayList<>();
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+    public void setRecipesAdapter(){
+        ArrayList<Recipe> retrieved = new ArrayList<>(); // This will be passed instead when adapter is done
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
-                    Recipe recipe = createRecipe(doc, ingredientDBHelper);
-
-                    Log.d(TAG, "YUH " + recipe.getTitle());
+                    Recipe recipe = createRecipe(doc);
                     retrieved.add(recipe);
                 }
+                // The adapter will be here
             }
         });
     }
@@ -123,52 +111,39 @@ public class RecipesDBHelper {
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
-                Recipe recipe = createRecipe(doc, ingredientDBHelper);
+                Recipe recipe = createRecipe(doc);
                 retrieved.add(recipe);
             }
         });
         return retrieved.get(0);
     }
 
-    private Recipe createRecipe(DocumentSnapshot doc, IngredientDBHelper ingredientDBHelper){
+    private Recipe createRecipe(DocumentSnapshot doc) {
         Recipe recipe = null;
         String title = doc.getId();
-        String comments = (String) doc.getData().get("comments");
-        String category = (String) doc.getData().get("category");
-        Integer prepTime = Integer.parseInt((String) doc.getData().get("prep time"));
-        Integer servings = Integer.parseInt((String) doc.getData().get("servings"));
-        // Figure out way to retrieve ingredient data in subcollection
-        CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
-        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        ingredientCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot docs = task.getResult();
-                for (QueryDocumentSnapshot doc : docs) {
-                    String ingredientName = doc.getId();
-                    String units = (String) doc.getData().get("units");
-                    Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-                    String comment = (String) doc.getData().get("comment");
-                    ingredientDBHelper.searchForIngredient(ingredientName, new IngredientsFirebaseCallBack() {
-                        @Override
-                        public void onCallback(Ingredient retrievedIngredients) {
-                            RecipeIngredient recipeIngredient = new RecipeIngredient(retrievedIngredients, units, amount, comment);
-                            recipeIngredients.add(recipeIngredient);
-                        }
-                    });
-                }
-            }
-        });
-        if (category.equals("dinner")) {
-            recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
-        } else if (category.equals("breakfast")) {
-            recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
-        } else if (category.equals("lunch")) {
-            recipe = new LunchRecipe(title, comments, category, prepTime, servings);
-        } else if (category.equals("dessert")) {
-            recipe = new DessertRecipe(title, comments, category, prepTime, servings);
+        Map<String, Object> fromDB = doc.getData();
+        HashMap<String,String> fromDBbutString = new HashMap<>();
+        for (String key: fromDB.keySet()) {
+            fromDBbutString.put(key,(String) fromDB.get(key));
         }
-        recipe.setIngredientsList(recipeIngredients);
+        
+        String[] recipeDetails = (fromDBbutString.remove("details")).split("\\|");
+        String comments = String.valueOf(recipeDetails[0]);
+        String category = recipeDetails[1];
+        Integer prepTime = Integer.parseInt(recipeDetails[2].toString());
+        Integer servings = Integer.parseInt(recipeDetails[3].toString());
+        recipe = new Recipe(title,comments,category,prepTime,servings);
+
+        for (String key: fromDBbutString.keySet()) {
+            String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");
+            String name = key;
+            String units = ingredientDetails[0];
+            Integer amount = Integer.parseInt(ingredientDetails[1]);
+            String comment = ingredientDetails[2];
+            RecipeIngredient recipeIngredient = new RecipeIngredient(name,units,amount,comment);
+            recipe.addIngredient(recipeIngredient);
+        }
+
         return recipe;
     }
 }

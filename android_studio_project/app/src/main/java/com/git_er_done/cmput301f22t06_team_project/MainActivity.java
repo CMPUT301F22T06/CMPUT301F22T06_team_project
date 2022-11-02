@@ -69,22 +69,15 @@ public class MainActivity extends AppCompatActivity {
                 "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
 
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        Ingredient apple = new FruitIngredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
-        Ingredient orange = new FruitIngredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
-
-        RecipeIngredient appleRecipe = new RecipeIngredient(apple,"g",2, "slice into eighths");
-        RecipeIngredient orangeRecipe = new RecipeIngredient(orange,"g", 2, "take apart at its seams");
+        RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
+        RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
         recipeIngredients.add(appleRecipe);
         recipeIngredients.add(orangeRecipe);
         fruit_salad.setIngredientsList(recipeIngredients);
         RecipesDBHelper recipesDBHelper = new RecipesDBHelper();
         recipesDBHelper.addRecipe(fruit_salad);
 
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
-        for(Ingredient i: testIngredients) {
-            ingredientDBHelper.addIngredient(i);
-        }
+        recipesDBHelper.setRecipesAdapter();
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

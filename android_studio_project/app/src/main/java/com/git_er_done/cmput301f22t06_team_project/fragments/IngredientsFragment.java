@@ -60,7 +60,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvIngredients.setAdapter(rvAdapter);
 
         IngredientDBHelper dbHelper = new IngredientDBHelper();
-        dbHelper.fillAdapter(rvAdapter, testIngredients);
+        dbHelper.setIngredientsAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
         return root;
