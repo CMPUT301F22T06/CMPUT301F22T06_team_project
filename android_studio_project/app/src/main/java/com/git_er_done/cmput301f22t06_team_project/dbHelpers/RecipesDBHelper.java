@@ -31,28 +31,41 @@ import java.util.HashMap;
 
 public class RecipesDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference recipesDB = db.collection("recipes");
+    final CollectionReference recipesDB = db.collection("Recipes");
 
     public void addRecipe(Recipe recipe){
+        HashMap<String, String> sendToDb = new HashMap<>();
+
         String title = recipe.getTitle();
+
         String comments = recipe.getComments();
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
-        //ArrayList<Ingredient> ingredients = recipe.getIngredients();
-        HashMap<String,String> data = new HashMap<>();
-        data.put("comments",comments);
-        data.put("category", category);
-        data.put("prep time",prepTime);
-        data.put("servings", servings);
+        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        sendToDb.put("details", firstField);
+
+        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+        String ingredientFields;
+        String name;
+        String units;
+        String amount;
+        String comment;
+        for (RecipeIngredient i: recipeIngredients) {
+            name = i.getName();
+            units = i.getUnits();
+            amount = String.valueOf(i.getAmount());
+            comment = i.getComment();
+            ingredientFields = "|" + String.valueOf(amount) + "|" + comment + "|" + units;
+            sendToDb.put(name, ingredientFields);
+        }
 
         recipesDB
                 .document(title)
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                .set(sendToDb)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-// These are a method which gets executed when the task is succeeded
+                    public void onComplete(@NonNull Task<Void> task) {
                         Log.d(TAG, "Data has been added successfully!");
                     }
                 })
@@ -63,17 +76,10 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-
-        CollectionReference ingredientsCollection = recipesDB.document(title).collection("ingredients");
-        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
-        for (RecipeIngredient ing: recipeIngredients){
-            HashMap<String,String> ingredientData = new HashMap<>();
-            ingredientData.put("amount",String.valueOf(ing.getAmount()));
-            ingredientData.put("units",ing.getUnits());
-            ingredientsCollection.document(ing.getName()).set(ingredientData);
-        }
-
     }
+
+
+
 
     public void deleteRecipe(String recipe){
         recipesDB
@@ -142,10 +148,11 @@ public class RecipesDBHelper {
                     String ingredientName = doc.getId();
                     String units = (String) doc.getData().get("units");
                     Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
+                    String comment = (String) doc.getData().get("comment");
                     ingredientDBHelper.searchForIngredient(ingredientName, new IngredientsFirebaseCallBack() {
                         @Override
                         public void onCallback(Ingredient retrievedIngredients) {
-                            RecipeIngredient recipeIngredient = new RecipeIngredient(retrievedIngredients, units, amount);
+                            RecipeIngredient recipeIngredient = new RecipeIngredient(retrievedIngredients, units, amount, comment);
                             recipeIngredients.add(recipeIngredient);
                         }
                     });
