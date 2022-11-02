@@ -3,7 +3,7 @@ package com.git_er_done.cmput301f22t06_team_project.models;
 public class RecipeIngredient {
     String name;
     String units;
-    int amount;
+    int amount; 
     String comment;
     public RecipeIngredient(String name, String units, int amount, String comment) {
         this.name = name;
