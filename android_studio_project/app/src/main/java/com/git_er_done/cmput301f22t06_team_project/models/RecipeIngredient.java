@@ -4,11 +4,12 @@ public class RecipeIngredient {
     Ingredient ingredient;
     String units;
     int amount;
-
-    public RecipeIngredient(Ingredient ingredient, String units, int amount) {
+    String comment;
+    public RecipeIngredient(Ingredient ingredient, String units, int amount, String comment) {
         this.ingredient = ingredient;
         this.units = units;
         this.amount = amount;
+        this.comment = comment;
     }
 
     public Ingredient getIngredient() {
@@ -39,4 +40,11 @@ public class RecipeIngredient {
         return ingredient.getName();
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
