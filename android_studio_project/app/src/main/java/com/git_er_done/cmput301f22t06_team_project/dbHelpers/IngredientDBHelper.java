@@ -33,11 +33,25 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Saheel Sarker
+ * @ingredientsFragment (for now)
+ * @Version 1 (Because I didn't write the version before writing this)
+ * @see MealPlannerDBHelper
+ * @see RecipesDBHelper
+ */
 public class IngredientDBHelper {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference ingredientsDB = db.collection("Ingredients");
 
+    /**
+     * This method adds an ingredient to our database in the incredient collection
+     * @param ingredient of type Ingredient
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     public void addIngredient(Ingredient ingredient){
         String name = ingredient.getName();
         String desc = ingredient.getDesc();
@@ -74,6 +88,14 @@ public class IngredientDBHelper {
                 });
     }
 
+    /**
+     * Take a string and searches the ingredients database for it and deletes the document
+     * with that name if it's found
+     * @param ingredient of type String
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     public void deleteIngredient(String ingredient){
         ingredientsDB
                 .document(ingredient)
@@ -94,31 +116,14 @@ public class IngredientDBHelper {
     }
 
     /**
-     * So this function is just a way so we don't need to pass the adapter in
-     * the ingredientsDBhelper but instead return the ingredients and set the adapter
-     * in the controller or something
-     * @param firebaseCallback
-     */
-    public void getAllIngredients(FirebaseCallback firebaseCallback) {
-        ArrayList<Ingredient> retrieved = new ArrayList<>();
-        ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: docs){
-                    Ingredient ingredient =  createIngredient(doc);
-                    retrieved.add(ingredient);
-                }
-                firebaseCallback.onCallback(retrieved);
-            }
-        });
-    }
-
-    /**
      * Here we just pass the adapter and set it here. It's less work but it also has more coupling and we
      * might possibly lose out on the ability to have to alter the ingredients in the controller for some
      * reason.
-     * @param adapter
-     * @param ingredients
+     * @param adapter of type IngredientsRecyclerViewAdapter
+     * @param ingredients of type ArrayList<Ingredient>
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
      */
     public void setIngredientsAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> ingredients){
         ingredients.clear();
@@ -133,6 +138,16 @@ public class IngredientDBHelper {
             }
         });
     }
+
+    /**
+     * Just a random function to search stuff in the db for possible future needs but
+     * it's not used right now and I don't know if it works
+     * @param ingredient of type String
+     * @param ingredientsFirebaseCallBack of type IngredientsFirebaseCallBack
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
 
     public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
@@ -150,6 +165,14 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     * This method take a document from firestore and takes the data then converts it into an Ingredient object
+     * to return
+     * @param doc
+     * @return ingredient of type Ingredient
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     private Ingredient createIngredient(DocumentSnapshot doc) {
         Ingredient ingredient = null;
         String name = doc.getId();
