@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models;
+package com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -11,7 +11,7 @@ public class Ingredient {
     private String desc;
     private LocalDate bestBefore;
     private String location;
-    private String units;
+    private String unit;
     private String category;
     private Integer amount;
     private boolean isVegetarian;
@@ -20,6 +20,8 @@ public class Ingredient {
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> locations = Location.getInstance().getAllLocations();
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
+    public static ArrayList<String> units = Unit.getInstance().getAllUnits();
+
     public static ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
 
     /**
@@ -28,17 +30,17 @@ public class Ingredient {
      * @param desc A description of the ingredient as a {@link String}.
      * @param bestBefore The best before date of the ingredient as a {@link LocalDate}.
      * @param location The storage location of the ingredient as a {@link String}.
-     * @param units The unit of measure (UOM) of the ingredient as a {@link String}.
+     * @param unit The unit of measure (UOM) of the ingredient as a {@link String}.
      * @param category The category of the ingredient as a {@link String}.
      * @param amount The stored amount of the ingredient in its UOM as a {@link Integer}.
      */
-    public Ingredient(String name, String desc, LocalDate bestBefore, String location, String units,
+    public Ingredient(String name, String desc, LocalDate bestBefore, String location, String unit,
                       String category, Integer amount) {
         this.name = name;
         this.desc = desc;
         this.bestBefore = bestBefore;
         this.location = location;
-        this.units = units;
+        this.unit = unit;
         this.category = category;
         this.amount = amount;
     }
@@ -51,9 +53,9 @@ public class Ingredient {
     public final static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
-        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(0), "Singles", ingredientCategories.get(1), 4);
+        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
 
-        Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), "Singles", ingredientCategories.get(6), 4);
+        Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(6), 4);
 //
 
         // Fruits
@@ -207,12 +209,12 @@ public class Ingredient {
         this.location = location;
     }
 
-    public String getUnits() {
-        return units;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUnits(String units) {
-        this.units = units;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public String getCategory() {

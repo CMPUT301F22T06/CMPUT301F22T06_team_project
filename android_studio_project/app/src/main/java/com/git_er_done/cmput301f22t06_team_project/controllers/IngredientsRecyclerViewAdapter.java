@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         bestBeforeDate.setText(ingredient.getBestBefore().toString());
         category.setText(ingredient.getCategory());
         amount.setText(ingredient.getAmount().toString());
-        unit.setText(ingredient.getUnits());
+        unit.setText(ingredient.getUnit());
     }
 
     /**

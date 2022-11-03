@@ -1,34 +1,5 @@
 package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.AppetizerRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DesertRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.SnackRecipe;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class RecipesDBHelper {
 //    FirebaseFirestore db = FirebaseFirestore.getInstance();
 //    final CollectionReference recipesDB = db.collection("recipes");

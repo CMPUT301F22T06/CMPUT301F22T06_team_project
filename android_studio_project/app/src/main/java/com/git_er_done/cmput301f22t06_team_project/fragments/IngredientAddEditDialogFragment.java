@@ -1,8 +1,9 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.ingredientCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.testIngredients;
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +20,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 public class IngredientAddEditDialogFragment extends DialogFragment {
 
     static Ingredient si = null;
+    static IngredientsRecyclerViewAdapter rvAdapter = null;
 
     private EditText etName;
     private EditText etDescription;
@@ -56,8 +60,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * @param selectedIngredient - Instance of the selected ingredient item retreived from the Recycler View  adapter
      * @return static instance of this dialog
      */
-    public static IngredientAddEditDialogFragment newInstance(String title, Ingredient selectedIngredient){
+    public static IngredientAddEditDialogFragment newInstance(String title, Ingredient selectedIngredient, IngredientsRecyclerViewAdapter adapter){
+        //Assign local references to arguments passed to this fragment
         si = selectedIngredient;
+        rvAdapter = adapter;
+
         IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
@@ -67,8 +74,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         args.putString("location", selectedIngredient.getLocation());
         args.putString("category", selectedIngredient.getCategory());
         args.putString("amount", selectedIngredient.getAmount().toString());
-        //get unit
-
+        args.putString("unit", selectedIngredient.getUnit());
         frag.setArguments(args);
         return frag;
     }
@@ -121,7 +127,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         String location = getArguments().getString("location", "---");
         String category = getArguments().getString("category", "---");
         ArrayList<String> bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
-
+        String unit = getArguments().getString("unit", "---");
 
         ArrayAdapter<String> locationSpinnerAdapter =
                 new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, locations);
@@ -133,16 +139,21 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         categorySpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
 
+        ArrayAdapter<String> unitSpinnerAdapter =
+                new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, units);
+        categorySpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        spUnit.setAdapter(unitSpinnerAdapter);
+
         etName.setText(name);
         etDescription.setText(description);
         dpBestBeforeDate.init(Integer.parseInt(bestBeforeStringArray.get(0)),
                 Integer.parseInt(bestBeforeStringArray.get(1))-1,  //NOTE: month is '0' indexed by date picker
                 Integer.parseInt(bestBeforeStringArray.get(2)),
                 null);
-        spLocation.setSelection(location.indexOf(location));
+        spLocation.setSelection(locations.indexOf(location));
         spCategory.setSelection(ingredientCategories.indexOf(category));
         etAmount.setText(amount);
-        //set unit
+        spUnit.setSelection(units.indexOf(unit));
 
         //IF WE ARE ADDING A NEW INGREDIENT - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
@@ -169,12 +180,34 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //TODO - Check that all the current entries are valid
-                Integer i = testIngredients.indexOf(si);
-                si.setLocation(spLocation.getSelectedItem().toString());
+                //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
+
+                int selectedIngredientIndex = testIngredients.indexOf(si);
+                Ingredient modifiedIngredient = testIngredients.get(selectedIngredientIndex);
+
+                modifiedIngredient.setName(etName.getText().toString());
+                modifiedIngredient.setDesc(etDescription.getText().toString());
+                modifiedIngredient.setBestBefore(getLocalDateFromStringArray(
+                        String.valueOf(dpBestBeforeDate.getYear()),
+                        String.valueOf(dpBestBeforeDate.getMonth()+1), //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
+                        String.valueOf(dpBestBeforeDate.getDayOfMonth())
+                ));
+                modifiedIngredient.setAmount(Integer.parseInt(String.valueOf(etAmount.getText())));
+                modifiedIngredient.setUnit(spUnit.getSelectedItem().toString());
+                modifiedIngredient.setCategory(spCategory.getSelectedItem().toString());
+                modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
+
+                rvAdapter.notifyDataSetChanged();
 
                 dismiss();
             }
         });
 
+    }
+
+    //TODO - Put this in a seperate class for helper fxns
+    public LocalDate getLocalDateFromStringArray(String year, String month, String date){
+        LocalDate localDate = LocalDate.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(date));
+        return localDate;
     }
 }

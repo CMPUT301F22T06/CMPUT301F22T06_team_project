@@ -1,31 +1,20 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-
-import com.git_er_done.cmput301f22t06_team_project.models.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.google.android.material.navigation.NavigationView;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
