@@ -8,7 +8,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecip
 import java.util.ArrayList;
 
 
-public abstract class Recipe {
+public class Recipe {
     private ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
     private String title;
     private String comments;
