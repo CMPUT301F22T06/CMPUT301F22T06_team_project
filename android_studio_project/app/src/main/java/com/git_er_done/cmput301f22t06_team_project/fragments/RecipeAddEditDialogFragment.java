@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,7 +47,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private ListView lvIngredients_view;
     private Spinner spCategory;
     private Spinner spIngredients_dropdown;
-    // Add an ingredient add/edit dialog fragment
     private ImageView view_recipe_image;
     private Button btnAddIngredient;
     private Button btnUpload;
@@ -72,7 +70,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("name",  selectedRecipe.getTitle());
-        // get image
         args.putString("serves", String.valueOf(selectedRecipe.getServings()));
         args.putString("prep time", String.valueOf(selectedRecipe.getPrep_time()));
         args.putString("category", selectedRecipe.getCategory());
@@ -119,10 +116,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
+        // stuff for photos
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        view_recipe_image = view.findViewById(R.id.view_recipe_image);
 
         String dialogTitle = getArguments().getString("title", "Default title ");
-
-        //IF WE ARE EDITTING AN EXISTING INGREDIENT - DISPLAY ITS CURRENT ATTRIBUTES
 
         //Set associate view items to attributes of selected ingredient
         String title = getArguments().getString("title", "");
@@ -134,26 +132,26 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
-        RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
-        RecipeIngredient grapeRecipe = new RecipeIngredient("grape","g", 2, "remove tips");
-        RecipeIngredient watermelonRecipe = new RecipeIngredient("watermelon","g", 2, "slice into cubes");
-        RecipeIngredient honeydewRecipe = new RecipeIngredient("honeydew","g", 2, "slice into cubes");
+        RecipeIngredient appleRI = new RecipeIngredient("apple","g",2, "slice into eighths");
+        RecipeIngredient orangeRI = new RecipeIngredient("orange","g", 2, "take apart at its seams");
+        RecipeIngredient grapeRI = new RecipeIngredient("grape","g", 2, "remove tips");
+        RecipeIngredient watermelonRI = new RecipeIngredient("watermelon","g", 2, "slice into cubes");
+        RecipeIngredient honeydewRI = new RecipeIngredient("honeydew","g", 2, "slice into cubes");
+        RecipeIngredient mangoRI = new RecipeIngredient("mango","g", 2, "slice into cubes");
 
-        recipeIngredients.add(appleRecipe);
-        recipeIngredients.add(orangeRecipe);
-        recipeIngredients.add(grapeRecipe);
-        recipeIngredients.add(watermelonRecipe);
-        recipeIngredients.add(honeydewRecipe);
-        // TODO: need to get the name of all ingredients
+        recipeIngredients.add(appleRI);
+        recipeIngredients.add(orangeRI);
+        recipeIngredients.add(grapeRI);
+        recipeIngredients.add(watermelonRI);
+        recipeIngredients.add(honeydewRI);
 
         // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
+        // TODO: get name of all ingredients from ingredient storage and put into "ingredienstorage"
         for (RecipeIngredient i : recipeIngredients){
             ingredientNames.add(i.getName());
             ingredientStorage.add(i.getName());
         }
-
-        ingredientStorage.add("mango");
+        ingredientStorage.add(mangoRI.getName());
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
@@ -162,7 +160,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             getArguments().getString(ingredient.getName(), "def - ingredients");
         }
 
-        // get picture
         //TODO: make it that the dropdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
         etName.setText(title);
         etServings.setText(servings);
@@ -173,13 +170,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
-
-        // register the UI widgets with their appropriate IDs
-        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
-        view_recipe_image = view.findViewById(R.id.view_recipe_image);
-
-        // handle the Choose Image button to trigger
-        // the image chooser function
 
         //Buttons to cancel, save recipe, upload image, add ingredient and delete recipe
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
@@ -248,6 +238,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
      * @param resultCode of type int
      * @param data of type intent
      */
+    // TODO: Remove deprecated code for something more up to date
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
