@@ -73,7 +73,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         FragmentManager fm = getActivity().getSupportFragmentManager();
         RecipeAddEditDialogFragment editNameDialogFragment =
                 RecipeAddEditDialogFragment.newInstance(
-                        "Edit Ingredient Dialog",
+                        "Edit Recipe Dialog",
                         selectedRecipe);
         editNameDialogFragment.show(fm, "fragment_recipe_add_edit_dialog");
 

@@ -27,11 +27,14 @@ import java.util.ArrayList;
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
 
 /**
+ * @Author Kevin Shao
+ * @See IngredientAddEditDialogFragment for similar implementation
+ * @Version 1.0
+ * @Function This class, like the name of the class says, gives functionality to the user to add, edit and delete recipes.
  * ALL fragment dialog items MUST be from the androidx.fragment.app namespace !
  */
 public class RecipeAddEditDialogFragment extends DialogFragment {
     private EditText etName;
-    private EditText etDescription;
     private EditText etComments;
     private EditText etServings;
     private EditText etPrep_time;
@@ -44,18 +47,22 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnDelete;
     private Button btnSave;
 
-
     public RecipeAddEditDialogFragment(){
         //Empty constructor required. New instance static constructor below is called upon instantiation
     }
 
+    /**
+     * This method takes in a selected recipe and outputs a fragment with all the necessary information from the input
+     * @param title of type string
+     * @param selectedRecipe of type recipe class
+     * @return the fragment that has all the recipe information
+     */
     public static RecipeAddEditDialogFragment newInstance(String title, Recipe selectedRecipe){
         RecipeAddEditDialogFragment frag = new RecipeAddEditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("name",  selectedRecipe.getTitle());
         // get image
-        //args.putString("description", selectedRecipe.getDesc());
         args.putString("serves", String.valueOf(selectedRecipe.getServings()));
         args.putString("prep time", String.valueOf(selectedRecipe.getPrep_time()));
         args.putString("category", selectedRecipe.getCategory());
@@ -63,11 +70,17 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         for (RecipeIngredient i : selectedRecipe.getIngredients()){
             args.putString("ingredients", i.toString());
         }
-
         frag.setArguments(args);
         return frag;
     }
 
+    /**
+     * This method inflates the fragment xml for visual representation by reading the file and makes it visible
+     * @param inflater of type layoutinflator
+     * @param container of type viewgroup
+     * @param savedInstanceState of type bundle
+     * @return the visible object that is read from the xml file
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,13 +88,17 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         return inflater.inflate(R.layout.fragment_recipe_add_edit_dialog, container);
     }
 
+    /**
+     *This method creates all the variables and puts each piece of information into its spot in the xml
+     * @param view of type view
+     * @param savedInstanceState of type bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         //Get associated field from view items
         etName = (EditText) view.findViewById(R.id.et_recipe_add_edit_name);
-        etDescription = (EditText) view.findViewById(R.id.et_recipe_add_edit_description);
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
         etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
         etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
@@ -97,11 +114,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         //IF WE ARE EDITTING AN EXISTING INGREDIENT - DISPLAY ITS CURRENT ATTRIBUTES
 
         //Set associate view items to attributes of selected ingredient
-        String title = getArguments().getString("title", "def - no title found");
-        String description = getArguments().getString("description", "def - desc");
-        String prep_time = getArguments().getString("prep_time", "def - preptime");
-        String servings = getArguments().getString("servings", "def - servings");
-        String comments = getArguments().getString("comments", "def - comments");
+        String title = getArguments().getString("title", "");
+        String prep_time = getArguments().getString("prep_time", "0");
+        String servings = getArguments().getString("servings", "0");
+        String comments = getArguments().getString("comments", "");
 
         // Test data
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
@@ -117,15 +133,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         recipeIngredients.add(grapeRecipe);
         recipeIngredients.add(watermelonRecipe);
         recipeIngredients.add(honeydewRecipe);
+        // TODO: need to get the name of all ingredients
+
+        // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
         for (RecipeIngredient i : recipeIngredients){
             ingredientNames.add(i.getName());
         }
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
         ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
-
-        //recipeAdapter.setDropDownViewResource(spIngredients);
-        //ArrayAdapter.createFromResource(this, spIngredients, recipeIngredients);
 
         for (RecipeIngredient ingredient: recipeIngredients){
             getArguments().getString(ingredient.getName(), "def - ingredients");
@@ -134,7 +150,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // get picture
         //TODO: make it that the dropdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
         etName.setText(title);
-        etDescription.setText(description);
         etServings.setText(servings);
         etPrep_time.setText(prep_time);
         etComments.setText(comments);
@@ -144,6 +159,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
+
+        //Buttons to cancel, save, and delete
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +178,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        //TODO - Save the added/editted ingredient attributes to the selected instance
+        //TODO - Save the added/edited ingredient attributes to the selected instance
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
