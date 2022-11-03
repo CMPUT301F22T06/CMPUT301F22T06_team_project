@@ -140,17 +140,36 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ingredients: "
-                    android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingredients: "
+                android:textSize="20dp" />
 
-            <Spinner
-                android:id="@+id/sp_recipe_add_edit_ingredients_dropdown"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40sp"
-                />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/sp_recipe_add_edit_ingredients_dropdown"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="40sp"
+                    />
+
+                <Button
+                    android:id="@+id/btn_recipe_add_edit_add_ingredient"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:textColor="@color/black"
+                    android:textSize="10dp"
+                    android:text="Add"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

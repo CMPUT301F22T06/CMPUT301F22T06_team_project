@@ -50,13 +50,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Spinner spIngredients_dropdown;
     // Add an ingredient add/edit dialog fragment
     private ImageView view_recipe_image;
+    private Button btnAddIngredient;
     private Button btnUpload;
     private Button btnCancel;
     private Button btnDelete;
     private Button btnSave;
 
     int SELECT_PICTURE = 200;
-
     public RecipeAddEditDialogFragment(){
         //Empty constructor required. New instance static constructor below is called upon instantiation
     }
@@ -118,6 +118,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
 
         String dialogTitle = getArguments().getString("title", "Default title ");
 
@@ -131,7 +132,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         // Test data
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        ArrayList<String> ingredientNames = new ArrayList<>();
+        ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
+        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
         RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
         RecipeIngredient grapeRecipe = new RecipeIngredient("grape","g", 2, "remove tips");
@@ -148,9 +150,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
         for (RecipeIngredient i : recipeIngredients){
             ingredientNames.add(i.getName());
+            ingredientStorage.add(i.getName());
         }
 
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
+        ingredientStorage.add("mango");
+
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
 
         for (RecipeIngredient ingredient: recipeIngredients){
@@ -176,7 +181,16 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // handle the Choose Image button to trigger
         // the image chooser function
 
-        //Buttons to cancel, save recipe, upload image and delete recipe
+        //Buttons to cancel, save recipe, upload image, add ingredient and delete recipe
+        btnAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String selected = spIngredients_dropdown.getSelectedItem().toString();
+                ingredientNames.add(selected);
+                ingredientView.notifyDataSetChanged();
+            }
+        });
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
