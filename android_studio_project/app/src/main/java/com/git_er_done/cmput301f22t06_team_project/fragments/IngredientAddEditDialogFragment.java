@@ -47,6 +47,14 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private Button btnCancel;
     private Button btnSave;
 
+    String name;
+    String description;
+    int amount;
+    String location;
+    String category;
+    ArrayList<String> bestBeforeStringArray = new ArrayList<>();
+    String unit;
+
     private static boolean isAddingNewIngredient = false;
     private static boolean isEdittingExistingIngredient = false;
 
@@ -73,7 +81,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         args.putStringArrayList("bestBeforeDate", selectedIngredient.getBestBeforeStringArrayList());
         args.putString("location", selectedIngredient.getLocation());
         args.putString("category", selectedIngredient.getCategory());
-        args.putString("amount", selectedIngredient.getAmount().toString());
+        args.putInt("amount", selectedIngredient.getAmount());
         args.putString("unit", selectedIngredient.getUnit());
         frag.setArguments(args);
 
@@ -83,8 +91,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     public static IngredientAddEditDialogFragment newInstance(IngredientsRecyclerViewAdapter adapter){
         rvAdapter = adapter;
-
         IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
+        isAddingNewIngredient = true;
         return frag;
     }
 
@@ -102,6 +110,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         return inflater.inflate(R.layout.fragment_ingredient_add_edit_dialog, container);
     }
 
+    //TODO - Modify dialog title to show if user is editting or adding new ingredient
     /**
      * Called upon creation of the dialogFragment view.
      * View item variables are assigned to their associated xml view items.
@@ -114,42 +123,19 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TODO - Modify dialog title to show if user is editting or adding new ingredient
-
         attachLayoutViewsToLocalInstances(view);
-
         setupAdapters();
 
-        //IF WE ARE EDITTING AN EXISTING INGREDIENT - DISPLAY ITS CURRENT ATTRIBUTES
-
         if(isEdittingExistingIngredient) {
-            //Set associate view items to attributes of selected ingredient
-            String name = getArguments().getString("name", "---");
-            String description = getArguments().getString("description", "---");
-            String amount = getArguments().getString("amount", "---");
-            String location = getArguments().getString("location", "---");
-            String category = getArguments().getString("category", "---");
-            ArrayList<String> bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
-            String unit = getArguments().getString("unit", "---");
-
-            //Update editable attribute views with values of selected ingredient instances
-            etName.setText(name);
-            etDescription.setText(description);
-            dpBestBeforeDate.init(Integer.parseInt(bestBeforeStringArray.get(0)),
-                    Integer.parseInt(bestBeforeStringArray.get(1)) - 1,  //NOTE: month is '0' indexed by date picker
-                    Integer.parseInt(bestBeforeStringArray.get(2)),
-                    null);
-            spLocation.setSelection(locations.indexOf(location));
-            spCategory.setSelection(ingredientCategories.indexOf(category));
-            etAmount.setText(amount);
-            spUnit.setSelection(units.indexOf(unit));
+            assignSelectedIngredientAttributesFromFragmentArgs();
+            fillViewsWithSelectedIngredientAttributes();
         }
-
-        //IF WE ARE ADDING A NEW INGREDIENT - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEdittingExistingIngredient = false;
+                isAddingNewIngredient = false;
                 dismiss();
             }
         });
@@ -161,20 +147,19 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
 
-                int selectedIngredientIndex = testIngredients.indexOf(si);
-                Ingredient modifiedIngredient = testIngredients.get(selectedIngredientIndex);
+                assignIngredientAttributesFromViews();
 
-                modifiedIngredient.setName(etName.getText().toString());
-                modifiedIngredient.setDesc(etDescription.getText().toString());
-                modifiedIngredient.setBestBefore(getLocalDateFromStringArray(
-                        String.valueOf(dpBestBeforeDate.getYear()),
-                        String.valueOf(dpBestBeforeDate.getMonth()+1), //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
-                        String.valueOf(dpBestBeforeDate.getDayOfMonth())
-                ));
-                modifiedIngredient.setAmount(Integer.parseInt(String.valueOf(etAmount.getText())));
-                modifiedIngredient.setUnit(spUnit.getSelectedItem().toString());
-                modifiedIngredient.setCategory(spCategory.getSelectedItem().toString());
-                modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
+                if(isEdittingExistingIngredient) {
+                    int selectedIngredientIndex = testIngredients.indexOf(si);
+                    Ingredient ingredientToModify = testIngredients.get(selectedIngredientIndex);
+                    modifyIngredient(ingredientToModify);
+                    isEdittingExistingIngredient = false;
+                }
+
+                if(isAddingNewIngredient){
+                    addIngredient();
+                    isAddingNewIngredient = false;
+                }
 
                 rvAdapter.notifyDataSetChanged();
 
@@ -182,6 +167,67 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         });
 
+    }
+
+
+    void addIngredient(){
+        Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+        testIngredients.add(newIngredient);
+    }
+
+
+    void modifyIngredient(Ingredient ingredient){
+        Ingredient modifiedIngredient = ingredient;
+
+        modifiedIngredient.setName(etName.getText().toString());
+        modifiedIngredient.setDesc(etDescription.getText().toString());
+        modifiedIngredient.setBestBefore(getLocalDateFromStringArray(
+                String.valueOf(dpBestBeforeDate.getYear()),
+                String.valueOf(dpBestBeforeDate.getMonth() + 1), //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
+                String.valueOf(dpBestBeforeDate.getDayOfMonth())
+        ));
+        modifiedIngredient.setAmount(Integer.parseInt(String.valueOf(etAmount.getText())));
+        modifiedIngredient.setUnit(spUnit.getSelectedItem().toString());
+        modifiedIngredient.setCategory(spCategory.getSelectedItem().toString());
+        modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
+    }
+
+    void assignIngredientAttributesFromViews(){
+        name = String.valueOf(etName.getText());
+        description = String.valueOf(etDescription.getText());
+        bestBeforeStringArray.clear();
+        bestBeforeStringArray.add(String.valueOf(dpBestBeforeDate.getYear()));
+        bestBeforeStringArray.add(String.valueOf(dpBestBeforeDate.getMonth() + 1)); //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
+        bestBeforeStringArray.add(String.valueOf(dpBestBeforeDate.getDayOfMonth()));
+        amount = Integer.parseInt(String.valueOf(etAmount.getText()));
+        unit = spUnit.getSelectedItem().toString();
+        category = spCategory.getSelectedItem().toString();
+        location = spLocation.getSelectedItem().toString();
+    }
+
+    void assignSelectedIngredientAttributesFromFragmentArgs(){
+        //Set associated view items to attributes of selected ingredient from argument bundle passed to this fragment on creation
+        name = getArguments().getString("name", "---");
+        description = getArguments().getString("description", "---");
+        amount = getArguments().getInt("amount", -1);
+        location = getArguments().getString("location", "---");
+        category = getArguments().getString("category", "---");
+        bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
+        unit = getArguments().getString("unit", "---");
+    }
+
+    void fillViewsWithSelectedIngredientAttributes(){
+        //Update editable attribute views with values of selected ingredient instances
+        etName.setText(name);
+        etDescription.setText(description);
+        dpBestBeforeDate.init(Integer.parseInt(bestBeforeStringArray.get(0)),
+                Integer.parseInt(bestBeforeStringArray.get(1)) - 1,  //NOTE: month is '0' indexed by date picker
+                Integer.parseInt(bestBeforeStringArray.get(2)),
+                null);
+        spLocation.setSelection(locations.indexOf(location));
+        spCategory.setSelection(ingredientCategories.indexOf(category));
+        etAmount.setText(String.valueOf(amount));
+        spUnit.setSelection(units.indexOf(unit));
     }
 
     void attachLayoutViewsToLocalInstances(View view){
@@ -192,8 +238,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         etAmount = view.findViewById(R.id.et_ingredient_add_edit_amount);
         spUnit = view.findViewById(R.id.sp_ingredient_add_edit_unit);
         spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
-        Button btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
-        Button btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
+        btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
+        btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
     }
 
     void setupAdapters(){
@@ -216,7 +262,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spUnit.setAdapter(unitSpinnerAdapter);
     }
 
-    //TODO - Put this in a seperate class for helper fxns
     public LocalDate getLocalDateFromStringArray(String year, String month, String date){
         LocalDate localDate = LocalDate.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(date));
         return localDate;

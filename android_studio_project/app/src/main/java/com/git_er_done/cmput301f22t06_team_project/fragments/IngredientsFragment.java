@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
@@ -25,12 +27,15 @@ import java.util.Objects;
 
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
-
     RecyclerView rvIngredients;
+    FloatingActionButton fabAddIngredient;
     IngredientsRecyclerViewAdapter rvAdapter;
 
 //    ArrayList<Ingredient> retrievedIngredients;
 
+    /**
+     * Required empty constructor
+     */
     public IngredientsFragment() {}
 
     @Override
@@ -43,31 +48,28 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
+
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
-        rvIngredients.setHasFixedSize(true);
-        rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
 
-//        IngredientDBHelper dbHelper = new IngredientDBHelper();
-//        for (Ingredient ingredient: testIngredients) {
-//            dbHelper.addIngredient(ingredient);
-//        }
-//        dbHelper.deleteIngredient("apple");
-//        retrievedIngredients = dbHelper.getAllIngredients();
+        setupRecyclerView();
 
-        rvAdapter = new IngredientsRecyclerViewAdapter(Ingredient.testIngredients, this);
-        rvIngredients.setAdapter(rvAdapter);
-
-        FloatingActionButton fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
         fabAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showAddDialog();
             }
         });
-
         return root;
+    }
+
+    private void setupRecyclerView(){
+        rvAdapter = new IngredientsRecyclerViewAdapter(Ingredient.testIngredients, this);
+        rvIngredients.setAdapter(rvAdapter);
+        rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
+        itemTouchHelper.attachToRecyclerView(rvIngredients);
     }
 
     private void showEditDialog(Ingredient selectedIngredient) {
@@ -91,7 +93,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     @Override
     public void onItemLongClick(int position) {
         Ingredient selectedIngredient = rvAdapter.getItem(position);
-        //Create a dialog displaying all of the selected ingredients attributes
         showEditDialog(selectedIngredient);
     }
 }

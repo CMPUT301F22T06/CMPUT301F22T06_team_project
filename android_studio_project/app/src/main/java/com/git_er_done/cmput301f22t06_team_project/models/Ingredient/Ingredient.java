@@ -54,7 +54,6 @@ public class Ingredient {
         ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
         Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
-
         Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(6), 4);
 //
 

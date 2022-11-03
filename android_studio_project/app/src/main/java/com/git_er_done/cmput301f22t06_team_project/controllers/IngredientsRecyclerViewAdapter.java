@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -27,6 +29,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     private final IngredientsRecyclerViewInterface rvInterface;
     private List<Ingredient> mIngredients;
+    private Ingredient recentlyDeletedIngredient;
+    private int recentlyDeletedIngredientPosition;
+
+    View ingredientView;
 
     /**
      * Generic constructor for this adapter
@@ -52,10 +58,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
+        ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(ingredientView);
         return viewHolder;
     }
 
@@ -129,6 +135,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
 
+
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -148,6 +155,27 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             });
         }
 
+    }
+
+    public void removeItem(int position){
+        recentlyDeletedIngredient = mIngredients.get(position);
+        recentlyDeletedIngredientPosition = position;
+        mIngredients.remove(position);
+        notifyItemRemoved(position);
+        showUndoSnackbar();
+    }
+
+    void showUndoSnackbar(){
+        View view = ingredientView.findViewById(R.id.tv_ingredient_list_item_name);
+        Snackbar snackbar = Snackbar.make(view, "Would you like to undo this?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("UNDO", v -> undoRecentDelete());
+        snackbar.show();
+    }
+
+    public void undoRecentDelete(){
+        mIngredients.add(recentlyDeletedIngredientPosition, recentlyDeletedIngredient);
+        notifyItemInserted(recentlyDeletedIngredientPosition);
     }
 
 }
