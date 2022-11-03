@@ -18,8 +18,10 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
@@ -27,18 +29,13 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     RecyclerView rvIngredients;
     IngredientsRecyclerViewAdapter rvAdapter;
 
-    ArrayList<Ingredient> retrievedIngredients;
-    public IngredientsFragment() {
-        // Required empty public constructor
-    }
+//    ArrayList<Ingredient> retrievedIngredients;
+
+    public IngredientsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Location locations = Location.getInstance();
-
-        locations.getAllLocations();
 
         }
 
@@ -62,20 +59,34 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvAdapter = new IngredientsRecyclerViewAdapter(Ingredient.testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
 
-        // Inflate the layout for this fragment
+        FloatingActionButton fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
+        fabAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddDialog();
+            }
+        });
+
         return root;
     }
 
     private void showEditDialog(Ingredient selectedIngredient) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         IngredientAddEditDialogFragment editNameDialogFragment =
                 IngredientAddEditDialogFragment.newInstance(
-                        "Edit Ingredient Dialog",
                         selectedIngredient,
                         rvAdapter);
         editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
-
     }
+
+    private void showAddDialog() {
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        IngredientAddEditDialogFragment editNameDialogFragment =
+                IngredientAddEditDialogFragment.newInstance(
+                        rvAdapter);
+        editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+    }
+
 
     @Override
     public void onItemLongClick(int position) {

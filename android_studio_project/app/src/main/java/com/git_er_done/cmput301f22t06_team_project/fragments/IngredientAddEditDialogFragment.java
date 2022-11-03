@@ -44,9 +44,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private EditText etAmount;
     private Spinner spUnit;
     private Spinner spCategory;
-
     private Button btnCancel;
     private Button btnSave;
+
+    private static boolean isAddingNewIngredient = false;
+    private static boolean isEdittingExistingIngredient = false;
 
     /**
      * Empty constructor required
@@ -56,18 +58,16 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     /**
      * Static constructor for a new instance of Ingredient add/edit dialog
      * Used in place of a traditional constructor
-     * @param title - Title of the dialog fragment
      * @param selectedIngredient - Instance of the selected ingredient item retreived from the Recycler View  adapter
      * @return static instance of this dialog
      */
-    public static IngredientAddEditDialogFragment newInstance(String title, Ingredient selectedIngredient, IngredientsRecyclerViewAdapter adapter){
+    public static IngredientAddEditDialogFragment newInstance(Ingredient selectedIngredient, IngredientsRecyclerViewAdapter adapter){
         //Assign local references to arguments passed to this fragment
         si = selectedIngredient;
         rvAdapter = adapter;
 
         IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
         args.putString("name",  selectedIngredient.getName());
         args.putString("description", selectedIngredient.getDesc());
         args.putStringArrayList("bestBeforeDate", selectedIngredient.getBestBeforeStringArrayList());
@@ -76,6 +76,15 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         args.putString("amount", selectedIngredient.getAmount().toString());
         args.putString("unit", selectedIngredient.getUnit());
         frag.setArguments(args);
+
+        isEdittingExistingIngredient = true;
+        return frag;
+    }
+
+    public static IngredientAddEditDialogFragment newInstance(IngredientsRecyclerViewAdapter adapter){
+        rvAdapter = adapter;
+
+        IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
         return frag;
     }
 
@@ -105,63 +114,39 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String dialogTitle = getArguments().getString("title", "Default title ");
+        //TODO - Modify dialog title to show if user is editting or adding new ingredient
 
-        //Get associated fied from view items
-        etName = (EditText) view.findViewById(R.id.et_ingredient_add_edit_name);
-        etDescription = (EditText) view.findViewById(R.id.et_ingredient_add_edit_description);
-        dpBestBeforeDate = view.findViewById(R.id.dp_ingredient_add_edit_best_before_date);
-        spLocation = view.findViewById(R.id.sp_ingredient_add_edit_location);
-        etAmount = view.findViewById(R.id.et_ingredient_add_edit_amount);
-        spUnit = view.findViewById(R.id.sp_ingredient_add_edit_unit);
-        spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
-        btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
-        btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
+        attachLayoutViewsToLocalInstances(view);
+
+        setupAdapters();
 
         //IF WE ARE EDITTING AN EXISTING INGREDIENT - DISPLAY ITS CURRENT ATTRIBUTES
 
-        //Set associate view items to attributes of selected ingredient
-        String name = getArguments().getString("name", "---");
-        String description = getArguments().getString("description", "---");
-        String amount = getArguments().getString("amount", "---");
-        String location = getArguments().getString("location", "---");
-        String category = getArguments().getString("category", "---");
-        ArrayList<String> bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
-        String unit = getArguments().getString("unit", "---");
+        if(isEdittingExistingIngredient) {
+            //Set associate view items to attributes of selected ingredient
+            String name = getArguments().getString("name", "---");
+            String description = getArguments().getString("description", "---");
+            String amount = getArguments().getString("amount", "---");
+            String location = getArguments().getString("location", "---");
+            String category = getArguments().getString("category", "---");
+            ArrayList<String> bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
+            String unit = getArguments().getString("unit", "---");
 
-        ArrayAdapter<String> locationSpinnerAdapter =
-                new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, locations);
-        locationSpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spLocation.setAdapter(locationSpinnerAdapter);
-
-        ArrayAdapter<String> categorySpinnerAdapter =
-                new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, ingredientCategories);
-        categorySpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spCategory.setAdapter(categorySpinnerAdapter);
-
-        ArrayAdapter<String> unitSpinnerAdapter =
-                new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, units);
-        categorySpinnerAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spUnit.setAdapter(unitSpinnerAdapter);
-
-        etName.setText(name);
-        etDescription.setText(description);
-        dpBestBeforeDate.init(Integer.parseInt(bestBeforeStringArray.get(0)),
-                Integer.parseInt(bestBeforeStringArray.get(1))-1,  //NOTE: month is '0' indexed by date picker
-                Integer.parseInt(bestBeforeStringArray.get(2)),
-                null);
-        spLocation.setSelection(locations.indexOf(location));
-        spCategory.setSelection(ingredientCategories.indexOf(category));
-        etAmount.setText(amount);
-        spUnit.setSelection(units.indexOf(unit));
+            //Update editable attribute views with values of selected ingredient instances
+            etName.setText(name);
+            etDescription.setText(description);
+            dpBestBeforeDate.init(Integer.parseInt(bestBeforeStringArray.get(0)),
+                    Integer.parseInt(bestBeforeStringArray.get(1)) - 1,  //NOTE: month is '0' indexed by date picker
+                    Integer.parseInt(bestBeforeStringArray.get(2)),
+                    null);
+            spLocation.setSelection(locations.indexOf(location));
+            spCategory.setSelection(ingredientCategories.indexOf(category));
+            etAmount.setText(amount);
+            spUnit.setSelection(units.indexOf(unit));
+        }
 
         //IF WE ARE ADDING A NEW INGREDIENT - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
-        /**
-         * Handles 'cancel' button user interaction.
-         * During ingredient add, nothing is saved and no new ingredient is added.\
-         * During an edit, no edited parameters are saved. Original parameters are left
-         */
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,12 +155,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
 
         //TODO - Save the added/editted ingredient attributes to the selected instance
-        /**
-         * Handled 'save' button user interaction.
-         * During ingredient add - a new ingredient is created with the provided paramters assuming they
-         * are all a valid value. User is prompted and dialog stays if any values are invalid
-         *
-         */
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -203,6 +182,38 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         });
 
+    }
+
+    void attachLayoutViewsToLocalInstances(View view){
+        etName = (EditText) view.findViewById(R.id.et_ingredient_add_edit_name);
+        etDescription = (EditText) view.findViewById(R.id.et_ingredient_add_edit_description);
+        dpBestBeforeDate = view.findViewById(R.id.dp_ingredient_add_edit_best_before_date);
+        spLocation = view.findViewById(R.id.sp_ingredient_add_edit_location);
+        etAmount = view.findViewById(R.id.et_ingredient_add_edit_amount);
+        spUnit = view.findViewById(R.id.sp_ingredient_add_edit_unit);
+        spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
+        Button btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
+        Button btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
+    }
+
+    void setupAdapters(){
+        //Declare and instantiate adapters for spinners
+        ArrayAdapter<String> locationSpinnerAdapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, locations);
+        locationSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> categorySpinnerAdapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ingredientCategories);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> unitSpinnerAdapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, units);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //Set adapters to corresponding spinners
+        spLocation.setAdapter(locationSpinnerAdapter);
+        spCategory.setAdapter(categorySpinnerAdapter);
+        spUnit.setAdapter(unitSpinnerAdapter);
     }
 
     //TODO - Put this in a seperate class for helper fxns
