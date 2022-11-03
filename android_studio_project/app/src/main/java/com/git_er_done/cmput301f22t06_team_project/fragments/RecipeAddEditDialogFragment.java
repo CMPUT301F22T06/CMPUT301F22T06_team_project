@@ -1,7 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.app.Activity.RESULT_OK;
+import static com.git_er_done.cmput301f22t06_team_project.ImageGalleryActivity.RESULT_LOAD_IMAGE;
+
+import android.content.Intent;
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
@@ -42,10 +50,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Spinner spCategory;
     private Spinner spIngredients_dropdown;
     // Add an ingredient add/edit dialog fragment
-
+    private ImageView view_recipe_image;
+    private Button btnUpload;
     private Button btnCancel;
     private Button btnDelete;
     private Button btnSave;
+
+    int SELECT_PICTURE = 200;
 
     public RecipeAddEditDialogFragment(){
         //Empty constructor required. New instance static constructor below is called upon instantiation
@@ -96,7 +107,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         //Get associated field from view items
         etName = (EditText) view.findViewById(R.id.et_recipe_add_edit_name);
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
@@ -108,6 +118,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
 
         String dialogTitle = getArguments().getString("title", "Default title ");
 
@@ -159,8 +170,20 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
+        // register the UI widgets with their appropriate IDs
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        view_recipe_image = view.findViewById(R.id.view_recipe_image);
 
-        //Buttons to cancel, save, and delete
+        // handle the Choose Image button to trigger
+        // the image chooser function
+
+        //Buttons to cancel, save recipe, upload image and delete recipe
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser();
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +209,47 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
+    }
 
+    /**
+     * This function is triggered when the select image button is clicked.
+     * It then opens up the gallery and prompts the user to choose an image.
+     */
+    void imageChooser() {
+
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+
+    /**
+     * This method is triggered when the user selects an image from the image chooser
+     * It then sets the image view image.
+     * @param requestCode of type int
+     * @param resultCode of type int
+     * @param data of type intent
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    view_recipe_image.setImageURI(selectedImageUri);
+                }
+            }
+        }
     }
 }
