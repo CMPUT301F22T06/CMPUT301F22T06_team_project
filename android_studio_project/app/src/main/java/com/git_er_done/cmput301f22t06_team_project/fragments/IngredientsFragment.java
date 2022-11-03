@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface {
 
-    ArrayList<Ingredient> testIngredients;
+
     RecyclerView rvIngredients;
     IngredientsRecyclerViewAdapter rvAdapter;
 
@@ -33,10 +33,13 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Location locations = Location.getInstance();
+
+        locations.getAllLocations();
 
         }
 
@@ -48,19 +51,16 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
         rvIngredients.setHasFixedSize(true);
-
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        testIngredients = Ingredient.createIngredientList();
-        IngredientDBHelper dbHelper = new IngredientDBHelper();
-        for (Ingredient ingredient: testIngredients) {
-            dbHelper.addIngredient(ingredient);
-        }
-        dbHelper.deleteIngredient("apple");
+//        IngredientDBHelper dbHelper = new IngredientDBHelper();
+//        for (Ingredient ingredient: testIngredients) {
+//            dbHelper.addIngredient(ingredient);
+//        }
+//        dbHelper.deleteIngredient("apple");
+//        retrievedIngredients = dbHelper.getAllIngredients();
 
-
-        retrievedIngredients = dbHelper.getAllIngredients();
-        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
+        rvAdapter = new IngredientsRecyclerViewAdapter(Ingredient.testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
 
         // Inflate the layout for this fragment
@@ -82,6 +82,5 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         Ingredient selectedIngredient = rvAdapter.getItem(position);
         //Create a dialog displaying all of the selected ingredients attributes
         showEditDialog(selectedIngredient);
-
     }
 }

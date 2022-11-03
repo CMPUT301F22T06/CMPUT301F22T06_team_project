@@ -66,26 +66,23 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
      */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Get the data model based on position
+        // Get the object instance based on position in recyclerView
         Ingredient ingredient = mIngredients.get(position);
 
-        // Set item views based on your views and data model
         TextView name = holder.nameTextView;
-        name.setText(ingredient.getName());
-
         TextView description = holder.descriptionTextView;
-        description.setText(ingredient.getDesc());
-
         TextView location = holder.locationTextView;
-        location.setText(ingredient.getLocation().getLocationString());
-
         TextView bestBeforeDate = holder.bestBeforeDateTextView;
-        bestBeforeDate.setText(ingredient.getBestBefore().toString());
-
+        TextView category = holder.categoryTextView;
         TextView amount = holder.amountTextView;
-        amount.setText(ingredient.getAmount().toString());
-
         TextView unit = holder.unitTextView;
+
+        name.setText(ingredient.getName());
+        description.setText(ingredient.getDesc());
+        location.setText(ingredient.getLocation());
+        bestBeforeDate.setText(ingredient.getBestBefore().toString());
+        category.setText(ingredient.getCategory());
+        amount.setText(ingredient.getAmount().toString());
         unit.setText(ingredient.getUnits());
     }
 
@@ -107,8 +104,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return mIngredients.get(position);
     }
 
-    // Provide a direct reference to each of the views within a data item
-    // Used to cache the views within the item layout for fast access
+    // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
@@ -118,18 +114,18 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         public TextView amountTextView;
         public TextView unitTextView;
         public TextView locationTextView;
+        public TextView categoryTextView;
 
-        // We also create a constructor that accepts the entire item row
-        // and does the view lookups to find each subview
+        //Constructor accepts entire item row and does view lookups to find each subview
         public ViewHolder(View itemView) {
-            // Stores the itemView in a public final member variable that can be used
-            // to access the context from any ViewHolder instance.
+            // Stores itemView in a public final member variable that can be used to access context from any ViewHolder instance
             super(itemView);
 
             nameTextView = itemView.findViewById(R.id.tv_ingredient_list_item_name);
             descriptionTextView = itemView.findViewById(R.id.tv_ingredient_list_item_description);
             locationTextView = itemView.findViewById(R.id.tv_ingredient_list_item_location);
             bestBeforeDateTextView = itemView.findViewById(R.id.tv_ingredient_list_item_best_before_date);
+            categoryTextView = itemView.findViewById(R.id.tv_ingredient_list_item_category);
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
 
@@ -138,10 +134,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
                 public boolean onLongClick(View view) {
                     //check rv interface is not null
                     if(rvInterface != null){
-                        //get position from adapter for onclickmethod
                         int pos = getAdapterPosition();
 
-                        //ensure pos is valoid
+                        //ensure pos long clicked is valid
                         if(pos != RecyclerView.NO_POSITION){
                             rvInterface.onItemLongClick(pos);
                             return true;
