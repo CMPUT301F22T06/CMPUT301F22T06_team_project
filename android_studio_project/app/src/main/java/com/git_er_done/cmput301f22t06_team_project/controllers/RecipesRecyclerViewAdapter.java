@@ -127,7 +127,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             categoryTextView = itemView.findViewById(R.id.tv_recipe_list_item_category);
             preptimeTextView = itemView.findViewById(R.id.tv_recipe_list_item_preptime);
             servingsTextView = itemView.findViewById(R.id.tv_recipe_list_item_servings);
-            recipeIngredientsTextView = itemView.findViewById(R.id.tv_recipe_list_item_recipe_ingredients);
+            //recipeIngredientsTextView = itemView.findViewById(R.id.tv_recipe_list_item_recipe_ingredients);
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -137,7 +137,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
                         //get position from adapter for onclickmethod
                         int pos = getAdapterPosition();
 
-                        //ensure pos is valoid
+                        //ensure position is valid
                         if (pos != RecyclerView.NO_POSITION) {
                             rvInterface.onItemLongClick(pos);
                             return true;

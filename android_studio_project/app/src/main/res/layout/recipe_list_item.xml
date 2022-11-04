@@ -16,13 +16,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24dp"
-        android:text="NAME"/>
+        android:text="Title"/>
 
         <TextView
             android:id="@+id/tv_recipe_list_item_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description" />
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,13 +33,13 @@
                 android:id="@+id/tv_recipe_list_item_preptime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location" />
+                android:text="PrepTime" />
 
             <TextView
                 android:id="@+id/tv_recipe_list_item_servings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Best before date"
+                android:text="Serving size"
                 android:paddingHorizontal="15dp"/>
         </LinearLayout>
 
@@ -53,13 +53,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category" />
-
-            <TextView
-                android:id="@+id/tv_recipe_list_item_recipe_ingredients"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Amount"
-                android:layout_marginLeft="10dp"/>
 
 
 <!--        Missing photo.-->
