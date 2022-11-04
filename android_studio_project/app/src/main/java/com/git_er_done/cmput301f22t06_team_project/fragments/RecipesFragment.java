@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,14 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     ArrayList<Recipe> retrievedRecipes;
     public RecipesFragment() {
         // Required empty public constructor
+    }
+
+    private void setupRecyclerView(){
+        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
+        rvRecipes.setAdapter(rvAdapter);
+        rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
+//        itemTouchHelper.attachToRecyclerView(rvRecipes);
     }
 
     private void showEditDialog(Recipe selectedRecipe) {
@@ -91,6 +100,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         rvRecipes.setAdapter(rvAdapter);
         fabAddRecipe = root.findViewById(R.id.fab_recipe_add);
 
+        setupRecyclerView();
         RecipesDBHelper dbHelper = new RecipesDBHelper();
         dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
 

@@ -234,8 +234,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 assignRecipeAttributesFromViews();
 
                 if(isEdittingExistingRecipe) {
-                    int selectedRecipeIndex = testRecipe.indexOf(si);
-                    Recipe recipeToModify = testRecipe.get(selectedRecipeIndex);
+                    int selectedRecipeIndex = testRecipes.indexOf(si);
+                    Recipe recipeToModify = testRecipes.get(selectedRecipeIndex);
                     modifyRecipe(recipeToModify);
                     isEdittingExistingRecipe = false;
                 }
@@ -343,7 +343,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
         etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
         etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
-        spCategory = view.findViewById(R.id.et_recipe_add_edit_category);
+        //spCategory = view.findViewById(R.id.et_recipe_add_edit_category);
         lvIngredients_view = view.findViewById(R.id.lv_recipe_add_edit_ingredients_view);
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
         spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);

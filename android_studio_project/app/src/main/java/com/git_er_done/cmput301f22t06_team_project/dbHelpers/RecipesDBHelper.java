@@ -33,8 +33,8 @@ import java.util.Map;
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipesDBHelper {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference recipesDB = db.collection("Recipes");
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final CollectionReference recipesDB = db.collection("Recipes");
 
     /**
      * This method add a recipe to our recipe data base
@@ -43,7 +43,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public void addRecipe(Recipe recipe){
+    public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
         String title = recipe.getTitle();
