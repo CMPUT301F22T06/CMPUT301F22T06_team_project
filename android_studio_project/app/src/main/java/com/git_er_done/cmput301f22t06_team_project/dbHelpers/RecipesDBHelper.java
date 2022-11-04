@@ -1,132 +1,150 @@
 package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class RecipesDBHelper {
-//    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//    final CollectionReference recipesDB = db.collection("recipes");
-//
-//    public void addRecipe(Recipe recipe){
-//        String title = recipe.getTitle();
-//        String comments = recipe.getComments();
-//        String category = recipe.getCategory();
-//        String prepTime = String.valueOf(recipe.getPrep_time());
-//        String servings = String.valueOf(recipe.getServings());
-//        //ArrayList<Ingredient> ingredients = recipe.getIngredients();
-//        HashMap<String,String> data = new HashMap<>();
-//        data.put("comments",comments);
-//        data.put("category", category);
-//        data.put("prep time",prepTime);
-//        data.put("servings", servings);
-//
-//        recipesDB
-//                .document(title)
-//                .set(data)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//// These are a method which gets executed when the task is succeeded
-//                        Log.d(TAG, "Data has been added successfully!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//// These are a method which gets executed if there’s any problem
-//                        Log.d(TAG, "Data could not be added!" + e.toString());
-//                    }
-//                });
-//
-//        CollectionReference ingredientsCollection = recipesDB.document(title).collection("ingredients");
-//        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
-//        for (RecipeIngredient ing: recipeIngredients){
-//            HashMap<String,String> ingredientData = new HashMap<>();
-//            ingredientData.put("amount",String.valueOf(ing.getAmount()));
-//            ingredientData.put("units",ing.getUnits());
-//            ingredientsCollection.document(ing.getName()).set(ingredientData);
-//        }
-//
-//    }
-//
-//    public void deleteRecipe(String recipe){
-//        recipesDB
-//                .document(recipe)
-//                .delete()
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Log.d(TAG, "Deleted has been added successfully!");
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//// These are a method which gets executed if there’s any problem
-//                        Log.d(TAG, "Data could not be deleted!" + e.toString());
-//                    }
-//                });
-//    }
-//
-//    public ArrayList<Recipe> getAllRecipes(){
-//        ArrayList<Recipe> retrieved = new ArrayList<>();
-//        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-//        recipesDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                for(QueryDocumentSnapshot doc: value) {
-//                    Recipe recipe = null;
-//                    String title = doc.getId();
-//                    String comments = (String) doc.getData().get("comments");
-//                    String category = (String) doc.getData().get("category");
-//                    Integer prepTime = Integer.parseInt((String) doc.getData().get("prep time"));
-//                    Integer servings = Integer.parseInt((String) doc.getData().get("servings"));
-//                    // Figure out way to retrieve ingredient data in subcollection
-//                    CollectionReference ingredientCollection = recipesDB.document(title).collection("ingredients");
-//                    ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-//                    ingredientCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-//                            for (QueryDocumentSnapshot doc : value) {
-//                                String ingredientName = doc.getId();
-//                                String units = (String) doc.getData().get("units");
-//                                Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-//                                Ingredient ingredient = ingredientDBHelper.searchForIngredient(ingredientName);
-//                                RecipeIngredient recipeIngredient = new RecipeIngredient(ingredient, units, amount);
-//                                recipeIngredients.add(recipeIngredient);
-//                            }
-//                        }
-//                    });
-//                    if (category == "dinner") {
-//                        recipe = new DinnerRecipe(title, comments, category, prepTime, servings);
-//                    } else if (category == "breakfast") {
-//                        recipe = new BreakFastRecipe(title, comments, category, prepTime, servings);
-//                    } else if (category == "lunch") {
-//                        recipe = new LunchRecipe(title, comments, category, prepTime, servings);
-//                    } else if (category == "desert") {
-//                        recipe = new DesertRecipe(title, comments, category, prepTime, servings);
-//                    } else if (category == "appetizer") {
-//                        recipe = new AppetizerRecipe(title, comments, category, prepTime, servings);
-//                    } else if (category == "snack") {
-//                        recipe = new SnackRecipe(title, comments, category, prepTime, servings);
-//                    }
-//                    recipe.setIngredientsList(recipeIngredients);
-//                    retrieved.add(recipe);
-//                }
-//            }
-//        });
-//        return retrieved;
-//    }
-//
-//    public void searchForRecipe(String recipe) {
-//        ArrayList<Recipe> retrieved = new ArrayList<>();
-//        recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-//
-//            }
-//        });
-//    }
-//
-//    public void createRecipe(DocumentSnapshot value){
-//
-//    }
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    final CollectionReference recipesDB = db.collection("Recipes");
+
+    public void addRecipe(Recipe recipe){
+        HashMap<String, String> sendToDb = new HashMap<>();
+
+        String title = recipe.getTitle();
+
+        String comments = recipe.getComments();
+        String category = recipe.getCategory();
+        String prepTime = String.valueOf(recipe.getPrep_time());
+        String servings = String.valueOf(recipe.getServings());
+        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        sendToDb.put("details", firstField);
+
+        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+        String ingredientFields;
+
+        for (RecipeIngredient i: recipeIngredients) {
+            String name = i.getName();
+            String units = i.getUnits();
+            String amount = String.valueOf(i.getAmount());
+            String comment = i.getComment();
+            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
+            sendToDb.put(name, ingredientFields);
+        }
+
+        recipesDB
+                .document(title)
+                .set(sendToDb)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Log.d(TAG, "Data has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+// These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be added!" + e.toString());
+                    }
+                });
+    }
+
+    public void deleteRecipe(String recipe){
+        recipesDB
+                .document(recipe)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Deleted has been added successfully!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+// These are a method which gets executed if there’s any problem
+                        Log.d(TAG, "Data could not be deleted!" + e.toString());
+                    }
+                });
+    }
+
+    public void setRecipesAdapter(){
+        ArrayList<Recipe> retrieved = new ArrayList<>(); // This will be passed instead when adapter is done
+        recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot docs = task.getResult();
+                for(QueryDocumentSnapshot doc: docs) {
+                    Recipe recipe = createRecipe(doc);
+                    retrieved.add(recipe);
+                }
+                // The adapter will be here
+            }
+        });
+    }
+
+    public Recipe searchForRecipe(String recipe) {
+        ArrayList<Recipe> retrieved = new ArrayList<>();
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+        recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
+                Recipe recipe = createRecipe(doc);
+                retrieved.add(recipe);
+            }
+        });
+        return retrieved.get(0);
+    }
+
+    private Recipe createRecipe(DocumentSnapshot doc) {
+        Recipe recipe = null;
+        String title = doc.getId();
+        Map<String, Object> fromDB = doc.getData();
+        HashMap<String,String> fromDBbutString = new HashMap<>();
+        for (String key: fromDB.keySet()) {
+            fromDBbutString.put(key,(String) fromDB.get(key));
+        }
+        
+        String[] recipeDetails = (fromDBbutString.remove("details")).split("\\|");
+        String comments = String.valueOf(recipeDetails[0]);
+        String category = recipeDetails[1];
+        Integer prepTime = Integer.parseInt(recipeDetails[2].toString());
+        Integer servings = Integer.parseInt(recipeDetails[3].toString());
+        recipe = new Recipe(title,comments,category,prepTime,servings);
+
+        for (String key: fromDBbutString.keySet()) {
+            String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");
+            String name = key;
+            String units = ingredientDetails[0];
+            Integer amount = Integer.parseInt(ingredientDetails[1]);
+            String comment = ingredientDetails[2];
+            RecipeIngredient recipeIngredient = new RecipeIngredient(name,units,amount,comment);
+            recipe.addIngredient(recipeIngredient);
+        }
+
+        return recipe;
+    }
 }
 
