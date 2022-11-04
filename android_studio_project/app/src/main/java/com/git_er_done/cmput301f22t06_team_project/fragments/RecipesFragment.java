@@ -49,8 +49,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         FragmentManager fm = getActivity().getSupportFragmentManager();
         RecipeAddEditDialogFragment editNameDialogFragment =
                 RecipeAddEditDialogFragment.newInstance(
-                        "Edit Recipe Dialog",
-                        selectedRecipe);
+                        selectedRecipe, rvAdapter);
         editNameDialogFragment.show(fm, "fragment_recipe_add_edit_dialog");
 
     }

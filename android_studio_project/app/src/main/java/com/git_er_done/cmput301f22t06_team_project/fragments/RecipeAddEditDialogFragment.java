@@ -43,7 +43,10 @@ import java.util.ArrayList;
  * ALL fragment dialog items MUST be from the androidx.fragment.app namespace !
  */
 public class RecipeAddEditDialogFragment extends DialogFragment {
-    private EditText etName;
+    static Recipe si = null;
+    static RecipesRecyclerViewAdapter rvAdapter = null;
+
+    private EditText etTitle;
     private EditText etComments;
     private EditText etServings;
     private EditText etPrep_time;
@@ -57,18 +60,34 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnDelete;
     private Button btnSave;
 
+    String title;
+    String comments;
+    int prep_time;
+    int servings;
+    String ingredients;
+    String category;
+
+    private static boolean isAddingNewRecipe = false;
+    private static boolean isEdittingExistingRecipe = false;
     int SELECT_PICTURE = 200;
+
+    /**
+     * Empty constructor required
+     */
     public RecipeAddEditDialogFragment(){
-        //Empty constructor required. New instance static constructor below is called upon instantiation
+        //New instance static constructor below is called upon instantiation
     }
 
     /**
      * This method takes in a selected recipe and outputs a fragment with all the necessary information from the input
-     * @param title of type string
      * @param selectedRecipe of type recipe class
-     * @return the fragment that has all the recipe information
+     * @return static instance of this dialog
      */
-    public static RecipeAddEditDialogFragment newInstance(String title, Recipe selectedRecipe){
+    public static RecipeAddEditDialogFragment newInstance(Recipe selectedRecipe, RecipesRecyclerViewAdapter adapter){
+        //Assign local references to arguments passed to this fragment
+        si = selectedRecipe;
+        rvAdapter = adapter;
+
         RecipeAddEditDialogFragment frag = new RecipeAddEditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", selectedRecipe.getTitle());
@@ -80,9 +99,17 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             args.putString("ingredients", i.toString());
         }
         frag.setArguments(args);
+
+        isEdittingExistingRecipe = true;
         return frag;
     }
 
+    public static RecipeAddEditDialogFragment newInstance(RecipesRecyclerViewAdapter adapter){
+        rvAdapter = adapter;
+        RecipeAddEditDialogFragment frag = new RecipeAddEditDialogFragment();
+        isAddingNewRecipe = true;
+        return frag;
+    }
     /**
      * This method inflates the fragment xml for visual representation by reading the file and makes it visible
      * @param inflater of type layoutinflator
@@ -105,31 +132,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Get associated field from view items
-        etName = (EditText) view.findViewById(R.id.et_recipe_add_edit_name);
-        etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
-        etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
-        etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
-        lvIngredients_view = view.findViewById(R.id.lv_recipe_add_edit_ingredients_view);
-        spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
-        spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
-        btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
-        btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
-        btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
-        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
-        btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
-        // stuff for photos
-        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
-        view_recipe_image = view.findViewById(R.id.view_recipe_image);
 
-        String dialogTitle = getArguments().getString("title", "Default title ");
+        attachLayoutViewsToLocalInstances(view);
 
-        //Set associate view items to attributes of selected ingredient
-        String title = getArguments().getString("title", "");
-        String prep_time = getArguments().getString("prep_time", "0");
-        String servings = getArguments().getString("servings", "0");
-        String comments = getArguments().getString("comments", "");
-        String ingredients = getArguments().getString("ingredients", "");
+        if(isEdittingExistingRecipe) {
+            assignSelectedRecipeAttributesFromFragmentArgs();
+            fillViewsWithSelectedRecipeAttributes();
+        }
 
         // Test data
         ArrayList<Recipe> dummyArray = new ArrayList<>();
@@ -174,10 +183,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
 
         //TODO: make it that the dropdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
-        etName.setText(title);
-        etServings.setText(servings);
-        etPrep_time.setText(prep_time);
-        etComments.setText(comments);
+
         spIngredients_dropdown.setAdapter(recipeAdapter);
         lvIngredients_view.setAdapter(ingredientView);
         //lvIngredients_view.setAdapter(recipeIngredientUnit);
@@ -205,6 +211,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isEdittingExistingRecipe = false;
+                isAddingNewRecipe = false;
                 dismiss();
             }
         });
@@ -222,7 +230,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                assignRecipeAttributesFromViews();
                 dismiss();
             }
         });
@@ -270,4 +278,64 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         }
     }
+
+    void modifyRecipe(Recipe recipe){
+        Recipe modifiedRecipe = recipe;
+
+        modifiedRecipe.setTitle(etTitle.getText().toString());
+        modifiedRecipe.setComments(etComments.getText().toString());
+        modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
+        modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
+        modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
+        //modifiedRecipe.setRecipeIngredients(lvIngredients_view);
+    }
+
+    void assignRecipeAttributesFromViews(){
+        title = String.valueOf(etTitle.getText());
+        comments = String.valueOf(etComments.getText());
+        prep_time = Integer.parseInt(String.valueOf(etPrep_time.getText()));
+        servings = Integer.parseInt(String.valueOf(etServings.getText()));
+        category = spCategory.getSelectedItem().toString();
+        ingredients = lvIngredients_view.getSelectedItem().toString();
+    }
+
+    void assignSelectedRecipeAttributesFromFragmentArgs(){
+        //Set associate view items to attributes of selected recipe from view bundle
+        title = getArguments().getString("title", "");
+        prep_time = getArguments().getInt("prep_time", 0);
+        servings = getArguments().getInt("servings", 0);
+        comments = getArguments().getString("comments", "");
+        ingredients = getArguments().getString("ingredients", "");
+        category = getArguments().getString("category", "");
+
+    }
+
+    void fillViewsWithSelectedRecipeAttributes(){
+        //Update editable attribute views with values of selected recipe instances
+        etTitle.setText(title);
+        etServings.setText(servings);
+        etPrep_time.setText(prep_time);
+        etComments.setText(comments);
+    }
+
+    void attachLayoutViewsToLocalInstances(View view){
+        etTitle = (EditText) view.findViewById(R.id.et_recipe_add_edit_name);
+        etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
+        etPrep_time = (EditText) view.findViewById(R.id.et_recipe_add_edit_preptime);
+        etComments = (EditText) view.findViewById(R.id.et_recipe_add_edit_comments);
+        spCategory = view.findViewById(R.id.et_recipe_add_edit_category);
+        lvIngredients_view = view.findViewById(R.id.lv_recipe_add_edit_ingredients_view);
+        spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
+        spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
+        btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
+        btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
+        btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
+        // stuff for photos
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        view_recipe_image = view.findViewById(R.id.view_recipe_image);
+    }
+
 }
+
