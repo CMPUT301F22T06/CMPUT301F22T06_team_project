@@ -21,19 +21,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 public class EspressoTests {
-
-//    public IdlingResource getIdlingResourceInTest() {
-//        return mIdlingRes;
-//    }
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void testIngredientRecyclerView() {
+    public void testIngredientRecyclerView() throws InterruptedException {
+        // TODO: Idler for FireStore so it doesn't generate an internal error
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open())
@@ -42,6 +41,8 @@ public class EspressoTests {
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
 
+        //TimeUnit.SECONDS.sleep(1);
+
         onView(withText("apple")).check(matches(isDisplayed()));
     }
 
@@ -49,11 +50,50 @@ public class EspressoTests {
     public void testMealPlannerRecyclerView() {
 
         onView(withId(R.id.drawer_layout))
-                .perform(DrawerActions.open());
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open())
+                .check(matches(isOpen(Gravity.LEFT)));
 
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_meal_planner_menu_item));
 
         onView(withText("MEAL PLANNER FRAGMENT")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testShoppingListRecyclerView() {
+
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open())
+                .check(matches(isOpen(Gravity.LEFT)));
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_shopping_list_menu_item));
+
+        onView(withText("SHOPPING LIST FRAGMENT")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testRecipeRecyclerView() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open())
+                .check(matches(isOpen(Gravity.LEFT)));
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_recipes_menu_item));
+
+        onView(withText("RECIPES FRAGMENT")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testNavDrawer() {
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(Gravity.LEFT)))
+                .perform(DrawerActions.open())
+                .check(matches(isOpen(Gravity.LEFT)));
+
+        onView(withText("I like to eat food")).check(matches(isDisplayed()));
     }
 }
