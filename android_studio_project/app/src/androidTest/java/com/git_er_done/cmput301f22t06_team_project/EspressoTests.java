@@ -108,6 +108,7 @@ public class EspressoTests {
         onView(withId(R.id.rv_ingredients_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
+        // Set amount to something other than original
         onView(withId(R.id.et_ingredient_add_edit_amount))
                 .perform(replaceText("1"));
 
@@ -117,6 +118,16 @@ public class EspressoTests {
         onView(withId(R.id.rv_ingredients_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
-        onView(withText("1")).check(matches(isDisplayed()));
+        // Set amount to something other than the first set to ensure value actually changed.
+        onView(withId(R.id.et_ingredient_add_edit_amount))
+                .perform(replaceText("4"));
+
+        onView(withId(R.id.btn_ingredient_add_edit_save))
+                .perform(click());
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+
+        onView(withText("4")).check(matches(isDisplayed()));
     }
 }
