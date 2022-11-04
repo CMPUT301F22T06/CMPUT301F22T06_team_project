@@ -1,13 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.DrawerMatchers.*;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.matcher.ViewMatchers.*;
 
 import android.view.Gravity;
 
@@ -33,8 +30,6 @@ public class EspressoTests {
 
     @Test
     public void testIngredientRecyclerView() {
-        // TODO: Idler for FireStore so it doesn't generate an internal error
-        // Not sure why it fails in test, doesn't fail when running normally
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open())
@@ -112,5 +107,16 @@ public class EspressoTests {
 
         onView(withId(R.id.rv_ingredients_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+
+        onView(withId(R.id.et_ingredient_add_edit_amount))
+                .perform(replaceText("1"));
+
+        onView(withId(R.id.btn_ingredient_add_edit_save))
+                .perform(click());
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+
+        onView(withText("1")).check(matches(isDisplayed()));
     }
 }
