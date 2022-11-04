@@ -107,7 +107,7 @@ public class RecipesDBHelper {
 
     public Recipe searchForRecipe(String recipe) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+//        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
