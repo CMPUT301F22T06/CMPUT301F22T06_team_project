@@ -147,7 +147,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         //RecipesRecyclerViewAdapter dummyAdapter = new RecipesRecyclerViewAdapter(dummyArray, (RecipesRecyclerViewInterface) this);
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
 
         //ingredientDBHelper.addIngredient(dummyAdapter, recipeIngredients);
         //ArrayList<String> ingredientStorage = dummyAdapter.mRecipes; // Ingredients that arent in the recipe (in the storage)

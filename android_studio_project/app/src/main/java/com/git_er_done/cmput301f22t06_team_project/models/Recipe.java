@@ -18,6 +18,14 @@ public class Recipe {
 
     // No empty constructor since it should never be called anyway
 
+    /**
+     * Creates a new Recipe object.
+     * @param title The name of the Recipe
+     * @param comments A brief description of the Recipe
+     * @param category The user-defined category of the Recipe
+     * @param prep_time The time it takes to prepare the Recipe
+     * @param servings The number of people this Recipe serves
+     */
     public Recipe(String title, String comments, String category, int prep_time, int servings) {
         this.title = title;
         this.comments = comments;
@@ -26,18 +34,34 @@ public class Recipe {
         this.servings = servings;
     }
 
+    /**
+     * Returns an {@link ArrayList} of {@link RecipeIngredient}s contained in the Recipe
+     * @return The ingredients contained in the recipe
+     */
     public ArrayList<RecipeIngredient> getIngredients() {
         return recipeIngredients;
     }
 
+    /**
+     * Sets a new list of Ingredients for the recipe, replacing the old list.
+     * @param recipeIngredients An {@link ArrayList} of {@link RecipeIngredient}s to be set.
+     */
     public void setIngredientsList(ArrayList<RecipeIngredient> recipeIngredients) { //Got rid of this
         this.recipeIngredients = recipeIngredients;
     }
 
+    /**
+     * Adds a new Ingredient to the recipe alongside the old ones
+     * @param recipeIngredient The new {@link RecipeIngredient} to be added
+     */
     public void addIngredient(RecipeIngredient recipeIngredient) { // I changed this
         recipeIngredients.add(recipeIngredient);
     }
 
+    /**
+     * Removes the specified {@link RecipeIngredient} if it exists in the Recipe
+     * @param recipeIngredient The Ingredient to be removed.
+     */
     public void removeIngredient(RecipeIngredient recipeIngredient) {
         if (recipeIngredients.contains(recipeIngredient)) {
             recipeIngredients.remove(recipeIngredient);
@@ -46,6 +70,10 @@ public class Recipe {
         }
     }
 
+    /**
+     * Creates an {@link ArrayList} of recipes for UI testing
+     * @return An {@link ArrayList} of recipes.
+     */
     public final static ArrayList<Recipe> createRecipeList() {
         ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
@@ -153,44 +181,83 @@ public class Recipe {
         this.recipeIngredients = recipeIngredients;
     }
 
+    /**
+     * Returns the Name of the recipe as a {@link String}
+     * @return The title of the Recipe
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets a new name for the recipe, overwriting the old one.
+     * @param title The new name as a {@link String}
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Returns the description of the recipe as a {@link String}
+     * @return The description of the recipe.
+     */
     public String getComments() {
         return comments;
     }
 
+    /**
+     * Sets a new description for the recipe, overwriting the old one.
+     * @param comments The description to be set as a {@link String}
+     */
     public void setComments(String comments) {
         this.comments = comments;
     }
 
+    /**
+     * Returns the category of the recipe as a {@link String}
+     * @return The category of the recipe.
+     */
     public String getCategory() {
         return category;
     }
 
+    /**
+     * Sets a new category for the recipe, overwriting the old one.
+     * @param category The new category of the Recipe as a {@link String}
+     */
     public void setCategory(String category) {
         this.category = category;
     }
 
+    /**
+     *  Returns the amount of time it takes to make the recipe as an int
+     * @return The time the recipe takes to cook
+     */
     public int getPrep_time() {
         return prep_time;
     }
 
+    /**
+     * Sets a new cooking time for the recipe, overwriting the old one.
+     * @param prep_time The new cooking time as an int.
+     */
     public void setPrep_time(int prep_time) {
         this.prep_time = prep_time;
     }
 
+    /**
+     * Returns the number of people the recipe can serve
+     * @return The number of people that can be fed with the recipe
+     */
     public int getServings() {
         return servings;
     }
 
+    /**
+     * Sets a new number of servings, overwriting the old one
+     * @param servings The new number of servings
+     */
     public void setServings(int servings) {
         this.servings = servings;
     }
-
 }

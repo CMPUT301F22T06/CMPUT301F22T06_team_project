@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+
 public class RecipeIngredient {
     String name;
     String units;

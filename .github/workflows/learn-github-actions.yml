@@ -19,8 +19,18 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x ./android_studio_project/gradlew
-    - name: Build with Gradle
-      run: ./android_studio_project/gradlew build
+      run: chmod +x android_studio_project/gradlew
+
+    - name: Print working dir
+      run: pwd 
+
+    - name: CD build gradle
+      working-directory: ./android_studio_project
+      run: |
+        ./gradlew build
+      
     - name: Run Unit Tests
-      run: ./android_studio_project/gradlew test
+      run: ./test
+
+    
+
