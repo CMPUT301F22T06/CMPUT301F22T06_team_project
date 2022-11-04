@@ -21,6 +21,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 
 import java.time.LocalDate;
@@ -166,13 +167,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
     }
 
 
     void addIngredient(){
         Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-        testIngredients.add(newIngredient);
+        IngredientDBHelper.addIngredientToDB(newIngredient);
     }
 
 
@@ -192,6 +192,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
     }
 
+
     void assignIngredientAttributesFromViews(){
         name = String.valueOf(etName.getText());
         description = String.valueOf(etDescription.getText());
@@ -205,6 +206,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         location = spLocation.getSelectedItem().toString();
     }
 
+
     void assignSelectedIngredientAttributesFromFragmentArgs(){
         //Set associated view items to attributes of selected ingredient from argument bundle passed to this fragment on creation
         name = getArguments().getString("name", "---");
@@ -215,6 +217,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");
         unit = getArguments().getString("unit", "---");
     }
+
 
     void fillViewsWithSelectedIngredientAttributes(){
         //Update editable attribute views with values of selected ingredient instances
@@ -230,6 +233,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spUnit.setSelection(units.indexOf(unit));
     }
 
+
     void attachLayoutViewsToLocalInstances(View view){
         etName = (EditText) view.findViewById(R.id.et_ingredient_add_edit_name);
         etDescription = (EditText) view.findViewById(R.id.et_ingredient_add_edit_description);
@@ -241,6 +245,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
     }
+
 
     void setupAdapters(){
         //Declare and instantiate adapters for spinners
@@ -261,6 +266,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory.setAdapter(categorySpinnerAdapter);
         spUnit.setAdapter(unitSpinnerAdapter);
     }
+
 
     public LocalDate getLocalDateFromStringArray(String year, String month, String date){
         LocalDate localDate = LocalDate.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(date));

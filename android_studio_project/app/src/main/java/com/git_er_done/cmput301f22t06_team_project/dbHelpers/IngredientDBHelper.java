@@ -2,26 +2,22 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.MiscIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.ProteinIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.DairyIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.GrainIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.LipidIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.SpiceIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.VegetableIngredient;
+import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientAddEditDialogFragment;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,59 +31,71 @@ import java.util.HashMap;
 
 public class IngredientDBHelper {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference ingredientsDB = db.collection("Ingredients");
+    private static IngredientsRecyclerViewAdapter rvAdapter;
 
-    public void addIngredient(Ingredient ingredient){
+    public IngredientDBHelper(IngredientsRecyclerViewAdapter adapter){
+        rvAdapter = adapter;
+        eventChangeListener(); //Initialize eventListener for RecyclerView
+    }
+
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final CollectionReference ingredientsDB = db.collection("Ingredients");
+
+    public static void addIngredientToDB(Ingredient ingredient){
         String name = ingredient.getName();
         String desc = ingredient.getDesc();
-        String best_before = ingredient.getBestBefore().toString();
+        String bestBefore = ingredient.getBestBefore().toString();
         String location = ingredient.getLocation();
-        String units = ingredient.getUnits();
+        String units = ingredient.getUnit();
         String category = ingredient.getCategory();
         Integer amount = ingredient.getAmount();
-        String amount_string = amount.toString();
-        HashMap<String, String> data = new HashMap<>();
-        data.put("description",desc);
-        data.put("best before", best_before);
-        data.put("location",location);
-        data.put("unit", units);
-        data.put("category",category);
-        data.put("amount",amount_string);
+        String amountString = amount.toString();
+
+        HashMap<String, Object> ingredientAttributes = new HashMap<>();
+
+        ingredientAttributes.put("name", name);
+        ingredientAttributes.put("description", desc);
+        ingredientAttributes.put("best before", bestBefore);
+        ingredientAttributes.put("location",location);
+        ingredientAttributes.put("unit", units);
+        ingredientAttributes.put("category",category);
+        ingredientAttributes.put("amount",amountString);
 
         ingredientsDB
                 .document(name)
-                .set(data)
+                .set(ingredientAttributes)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-// These are a method which gets executed when the task is succeeded
                         Log.d(TAG, "Data has been added successfully!");
+//                        testIngredients.add(ingredient);
+//                        rvAdapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
     }
 
-    public void deleteIngredient(String ingredient){
+    public static void deleteIngredientFromDB(Ingredient ingredient, int position){
+        String nameOfIngredient = ingredient.getName();
         ingredientsDB
-                .document(ingredient)
+                .document(nameOfIngredient)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Deleted has been deleted successfully!");
+                        testIngredients.remove(ingredient);
+                        rvAdapter.notifyItemRemoved(position);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
@@ -151,32 +159,50 @@ public class IngredientDBHelper {
     }
 
     private Ingredient createIngredient(DocumentSnapshot doc) {
-        Ingredient ingredient = null;
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");
-        LocalDate best_before = LocalDate.parse((String) doc.getData().get("best before"));
+        LocalDate bestBefore = LocalDate.parse((String) doc.getData().get("best before"));
+//        LocalDate bestBefore = LocalDate.now();
         String location = (String) doc.getData().get("location");
         String unit = (String) doc.getData().get("unit");
         String category = (String) doc.getData().get("category");
         Integer amount = Integer.parseInt((String) doc.getData().get("amount"));
-        if (category.equals("dairy")) {
-            ingredient = new DairyIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("fruit")) {
-            ingredient = new FruitIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("grain")) {
-            ingredient = new GrainIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("lipid")) {
-            ingredient = new LipidIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("protein")) {
-            ingredient = new ProteinIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("spice")) {
-            ingredient = new SpiceIngredient(name,desc,best_before,location,unit,category,amount);
-        }else if (category.equals("vegetable")) {
-            ingredient = new VegetableIngredient(name, desc, best_before, location, unit, category, amount);
-        }else if (category.equals("misc")) {
-            ingredient = new MiscIngredient(name, desc, best_before, location, unit, category, amount);
-        }
-        return ingredient;
+
+        Ingredient newIngredient = new Ingredient(name, desc, bestBefore, location, unit, category, amount);
+        return newIngredient;
+    }
+
+    public void eventChangeListener(){
+        db.collection("Ingredients")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            if(dc.getType() == DocumentChange.Type.ADDED){
+                                Ingredient ingredient = createIngredient(dc.getDocument());
+                                testIngredients.add(ingredient);
+                                rvAdapter.notifyDataSetChanged();
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                rvAdapter.notifyDataSetChanged();
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.REMOVED){
+                                Ingredient ingredient = createIngredient(dc.getDocument());
+                                int position = testIngredients.indexOf(ingredient);
+                                testIngredients.remove(ingredient);
+                                rvAdapter.notifyItemRemoved(position);
+                            }
+
+                        }
+                    }
+                });
     }
 
 }

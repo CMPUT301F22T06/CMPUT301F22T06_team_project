@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.controllers;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -154,15 +157,14 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
                 }
             });
         }
-
     }
 
     public void removeItem(int position){
-        recentlyDeletedIngredient = mIngredients.get(position);
+        recentlyDeletedIngredient = testIngredients.get(position);
         recentlyDeletedIngredientPosition = position;
-        mIngredients.remove(position);
-        notifyItemRemoved(position);
+        IngredientDBHelper.deleteIngredientFromDB(testIngredients.get(recentlyDeletedIngredientPosition), recentlyDeletedIngredientPosition);
         showUndoSnackbar();
+        notifyDataSetChanged();
     }
 
     void showUndoSnackbar(){
@@ -175,7 +177,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     public void undoRecentDelete(){
         mIngredients.add(recentlyDeletedIngredientPosition, recentlyDeletedIngredient);
-        notifyItemInserted(recentlyDeletedIngredientPosition);
+        IngredientDBHelper.addIngredientToDB(recentlyDeletedIngredient);
     }
 
 }

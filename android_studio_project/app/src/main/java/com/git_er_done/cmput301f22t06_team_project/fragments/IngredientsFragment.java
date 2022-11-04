@@ -2,6 +2,8 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.content.ContentValues.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
+
 import android.os.Build;
 import android.os.Bundle;
 
@@ -27,7 +29,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -40,10 +42,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     FloatingActionButton fabAddIngredient;
     IngredientsRecyclerViewAdapter rvAdapter;
 
-    ArrayList<Ingredient> retrievedIngredients;
-    public IngredientsFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * Required empty constructor
@@ -73,21 +71,16 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 showAddDialog();
             }
         });
-        rvIngredients.setHasFixedSize(true);
-        rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        testIngredients = new ArrayList<>();
-        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
-        rvIngredients.setAdapter(rvAdapter);
 
-        IngredientDBHelper dbHelper = new IngredientDBHelper();
-        dbHelper.setIngredientsAdapter(rvAdapter, testIngredients);
+        IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
+//        dbHelper.setIngredientsAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
         return root;
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new IngredientsRecyclerViewAdapter(Ingredient.testIngredients, this);
+        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
         rvIngredients.setAdapter(rvAdapter);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
@@ -110,7 +103,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                         rvAdapter);
         editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
     }
-
 
     @Override
     public void onItemLongClick(int position) {
