@@ -1,8 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.DrawerMatchers.*;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -11,6 +13,7 @@ import android.view.Gravity;
 
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.NavigationViewActions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -31,6 +34,7 @@ public class EspressoTests {
     @Test
     public void testIngredientRecyclerView() {
         // TODO: Idler for FireStore so it doesn't generate an internal error
+        // Not sure why it fails in test, doesn't fail when running normally
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open())
@@ -38,7 +42,6 @@ public class EspressoTests {
 
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
-
 
         onView(withText("apple")).check(matches(isDisplayed()));
     }
@@ -97,5 +100,17 @@ public class EspressoTests {
                 .perform(DrawerActions.close());
 
         onView(withText("RECIPES FRAGMENT")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testIngredientEdit() {
+        onView(withId(R.id.drawer_layout))
+                .perform(DrawerActions.open());
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
     }
 }
