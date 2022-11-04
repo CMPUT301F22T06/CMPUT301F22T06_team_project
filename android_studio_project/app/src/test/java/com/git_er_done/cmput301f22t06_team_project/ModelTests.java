@@ -56,11 +56,13 @@ public class ModelTests {
         Recipe mockRecipe = makeRecipe();
         mockPlan.addRecipe(mockRecipe);
 
+        // Test getters
         assertEquals("06-06-2023", mockPlan.getPlanned_date());
         assertEquals(2, mockPlan.getPlanned_servings());
         ArrayList<Recipe> retrievedRecipes = mockPlan.getRecipes();
         assertEquals(retrievedRecipes, mockPlan.getRecipes());
 
+        // Test setters
         ArrayList<Recipe> newRecipes = new ArrayList<>();
         newRecipes.add(mockRecipe);
         mockPlan.setRecipes(newRecipes);
@@ -76,6 +78,7 @@ public class ModelTests {
 
     @Test
     public void testIngredientGetSet() {
+        // TODO: Implement once Ingredient is updated
         fail("Not yet implemented!");
     }
 }
