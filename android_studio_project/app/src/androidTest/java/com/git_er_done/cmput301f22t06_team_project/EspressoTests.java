@@ -130,4 +130,18 @@ public class EspressoTests {
 
         onView(withText("3")).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testIngredientEditFragmentDisplayed() {
+        onView(withId(R.id.drawer_layout))
+                .perform(DrawerActions.open());
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+
+        onView(withId(R.id.et_ingredient_add_edit_name)).check(matches(isDisplayed()));
+    }
 }
