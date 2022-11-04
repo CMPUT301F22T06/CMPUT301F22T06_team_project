@@ -1,16 +1,15 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import com.git_er_done.cmput301f22t06_team_project.models.*;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.*;
 
 import org.junit.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-
-// TODO: Test new ingredient when merged into main
 
 public class ModelTests {
 
@@ -22,6 +21,11 @@ public class ModelTests {
 
     public static MealPlan makeMealPlan() {
         return new MealPlan("06-06-2023", 2);
+    }
+
+    public static Ingredient makeIngredient() {
+        // TODO: Update to new ingredient once merged
+        return new ProteinIngredient("Steak", "Tomahawk", LocalDate.of(2023, 1, 23), "Fridge", "singles", "Meat", 2);
     }
 
     @Test
@@ -79,6 +83,36 @@ public class ModelTests {
     @Test
     public void testIngredientGetSet() {
         // TODO: Implement once Ingredient is updated
-        fail("Not yet implemented!");
+        Ingredient mockIngredient = makeIngredient();
+
+        // Test getters
+        assertEquals("Steak", mockIngredient.getName());
+        assertEquals("Tomahawk", mockIngredient.getDesc());
+
+        LocalDate testDate = LocalDate.of(2023, 1, 23);
+        assertTrue(testDate.isEqual(mockIngredient.getBestBefore()));
+
+        assertEquals("Fridge", mockIngredient.getLocation());
+        assertEquals("singles", mockIngredient.getUnits());
+        assertEquals("Meat", mockIngredient.getCategory());
+        assertEquals((int) 2, (int) mockIngredient.getAmount());
+
+        mockIngredient.setName("T-Bone");
+        assertEquals("T-Bone", mockIngredient.getName());
+        mockIngredient.setDesc("Steak");
+        assertEquals("Steak", mockIngredient.getDesc());
+
+        mockIngredient.setBestBefore(LocalDate.of(2022, 12, 12));
+        testDate = LocalDate.of(2022, 12, 12);
+        assertTrue(testDate.isEqual(mockIngredient.getBestBefore()));
+
+        mockIngredient.setLocation("Freezer");
+        assertEquals("Freezer", mockIngredient.getLocation());
+        mockIngredient.setUnits("oz");
+        assertEquals("oz", mockIngredient.getUnits());
+        mockIngredient.setCategory("Protein");
+        assertEquals("Protein", mockIngredient.getCategory());
+        mockIngredient.setAmount(12);
+        assertEquals((int) 12, (int) mockIngredient.getAmount());
     }
 }
