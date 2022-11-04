@@ -21,16 +21,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientsFirebaseCallBack;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -78,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         for(Ingredient i: testIngredients) {
             ingredientDBHelper.addIngredient(i);
         }
+
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
