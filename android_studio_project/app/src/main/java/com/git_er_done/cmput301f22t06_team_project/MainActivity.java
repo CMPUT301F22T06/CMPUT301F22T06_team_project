@@ -72,13 +72,6 @@ public class MainActivity extends AppCompatActivity {
         Ingredient apple = new FruitIngredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
         Ingredient orange = new FruitIngredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
 
-        RecipeIngredient appleRecipe = new RecipeIngredient(apple,"g",2);
-        RecipeIngredient orangeRecipe = new RecipeIngredient(orange,"g", 2);
-        recipeIngredients.add(appleRecipe);
-        recipeIngredients.add(orangeRecipe);
-        fruit_salad.setIngredientsList(recipeIngredients);
-        RecipesDBHelper recipesDBHelper = new RecipesDBHelper();
-        recipesDBHelper.addRecipe(fruit_salad);
 
         IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();

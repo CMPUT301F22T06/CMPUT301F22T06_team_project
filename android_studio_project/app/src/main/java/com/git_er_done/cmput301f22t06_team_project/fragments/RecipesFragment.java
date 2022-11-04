@@ -85,7 +85,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         rvRecipes.setAdapter(rvAdapter);
 
         RecipesDBHelper dbHelper = new RecipesDBHelper();
-        dbHelper.fillAdapter(rvAdapter, testRecipes);
+        dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
 
         // Inflate the layout for this fragment
         return root;
