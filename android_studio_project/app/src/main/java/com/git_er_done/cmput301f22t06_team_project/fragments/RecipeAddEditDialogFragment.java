@@ -134,7 +134,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // Test data
         ArrayList<Recipe> dummyArray = new ArrayList<>();
 
-        RecipesRecyclerViewAdapter dummyAdapter = new RecipesRecyclerViewAdapter(dummyArray, (RecipesRecyclerViewInterface) this);
+        //RecipesRecyclerViewAdapter dummyAdapter = new RecipesRecyclerViewAdapter(dummyArray, (RecipesRecyclerViewInterface) this);
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
         IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
