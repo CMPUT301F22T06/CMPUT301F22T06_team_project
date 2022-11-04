@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 
 
 // TODO: Change checks once placeholder text is gone
+// TODO: Need a better way to detect which fragment is being shown
 
 @RunWith(AndroidJUnit4.class)
 public class EspressoTests {
@@ -38,7 +39,7 @@ public class EspressoTests {
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
 
-        onView(withText("apple")).check(matches(isDisplayed()));
+        onView(withText("cooking wine")).check(matches(isDisplayed()));
     }
 
     @Test
