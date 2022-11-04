@@ -27,6 +27,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -231,6 +232,20 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 assignRecipeAttributesFromViews();
+
+                if(isEdittingExistingRecipe) {
+                    int selectedRecipeIndex = testRecipe.indexOf(si);
+                    Recipe recipeToModify = testRecipe.get(selectedRecipeIndex);
+                    modifyRecipe(recipeToModify);
+                    isEdittingExistingRecipe = false;
+                }
+
+                if(isAddingNewRecipe){
+                    addRecipe();
+                    isAddingNewRecipe = false;
+                }
+
+                rvAdapter.notifyDataSetChanged();
                 dismiss();
             }
         });
@@ -277,6 +292,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
+    }
+
+    void addRecipe(){
+        Recipe newRecipe = new Recipe(title, comments, category, prep_time, servings);
+        RecipesDBHelper.addRecipe(newRecipe);
     }
 
     void modifyRecipe(Recipe recipe){
