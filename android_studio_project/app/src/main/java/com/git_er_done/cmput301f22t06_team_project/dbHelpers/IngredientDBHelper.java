@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,10 +29,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class IngredientDBHelper {
 
     private static IngredientsRecyclerViewAdapter rvAdapter;
+    public static int selectedIngPos;
 
     public IngredientDBHelper(IngredientsRecyclerViewAdapter adapter){
         rvAdapter = adapter;
@@ -42,10 +45,10 @@ public class IngredientDBHelper {
     private static final CollectionReference ingredientsDB = db.collection("Ingredients");
 
     public static void addIngredientToDB(Ingredient ingredient){
-        String name = ingredient.getName();
-        String desc = ingredient.getDesc();
+        String name = ingredient.getName().toLowerCase();
+        String desc = ingredient.getDesc().toLowerCase();
         String bestBefore = ingredient.getBestBefore().toString();
-        String location = ingredient.getLocation();
+        String location = ingredient.getLocation().toLowerCase();
         String units = ingredient.getUnit();
         String category = ingredient.getCategory();
         Integer amount = ingredient.getAmount();
@@ -89,8 +92,8 @@ public class IngredientDBHelper {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Deleted has been deleted successfully!");
-                        testIngredients.remove(ingredient);
-                        rvAdapter.notifyItemRemoved(position);
+//                        testIngredients.remove(ingredient);
+//                        rvAdapter.notifyItemRemoved(position);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -99,6 +102,27 @@ public class IngredientDBHelper {
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
+    }
+
+//    TODO - only modify attributes that have changed -  for now it modifies all of them
+    public static void modifyIngredientInDB(Ingredient newIngredient, Ingredient oldIngredient, int pos){
+        String nameOfIngredient = oldIngredient.getName();
+        selectedIngPos = pos;
+
+        DocumentReference dr = ingredientsDB.document(nameOfIngredient);
+        if(!Objects.equals(newIngredient.getName(), oldIngredient.getName())){
+            dr.update("name", newIngredient.getName());
+        }
+
+        if(!Objects.equals(newIngredient.getDesc(), oldIngredient.getDesc())){
+            dr.update("description", newIngredient.getDesc());
+        }
+
+        if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
+            dr.update("amount", newIngredient.getAmount().toString());
+        }
+
+
     }
 
     /**
@@ -117,27 +141,6 @@ public class IngredientDBHelper {
                     retrieved.add(ingredient);
                 }
                 firebaseCallback.onCallback(retrieved);
-            }
-        });
-    }
-
-    /**
-     * Here we just pass the adapter and set it here. It's less work but it also has more coupling and we
-     * might possibly lose out on the ability to have to alter the ingredients in the controller for some
-     * reason.
-     * @param adapter
-     * @param ingredients
-     */
-    public void setIngredientsAdapter(IngredientsRecyclerViewAdapter adapter, ArrayList<Ingredient> ingredients){
-        ingredients.clear();
-        ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: docs){
-                    Ingredient ingredient =  createIngredient(doc);
-                    ingredients.add(ingredient);
-                }
-                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -190,6 +193,8 @@ public class IngredientDBHelper {
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                Ingredient ingredient = createIngredient(dc.getDocument());
+                                testIngredients.set(selectedIngPos ,ingredient );
                                 rvAdapter.notifyDataSetChanged();
                             }
 
@@ -199,7 +204,6 @@ public class IngredientDBHelper {
                                 testIngredients.remove(ingredient);
                                 rvAdapter.notifyItemRemoved(position);
                             }
-
                         }
                     }
                 });

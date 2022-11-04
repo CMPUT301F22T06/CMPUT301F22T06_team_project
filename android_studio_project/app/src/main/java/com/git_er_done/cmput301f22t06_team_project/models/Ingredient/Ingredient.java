@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Ingredient {
+public class Ingredient implements Cloneable{
     private String name;
     private String desc;
     private LocalDate bestBefore;
@@ -22,7 +22,7 @@ public class Ingredient {
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
     public static ArrayList<String> units = Unit.getInstance().getAllUnits();
 
-    public static ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
+    public static ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
     /**
      * Creates a new Ingredient object
@@ -55,7 +55,6 @@ public class Ingredient {
 
         Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
         Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(6), 4);
-//
 
         // Fruits
 //        Ingredient lime = new  FruitIngredient ("lime", "small green lime", LocalDate.now(), locations.get(0), "Singles", "Fruit", 4);
@@ -255,5 +254,28 @@ public class Ingredient {
 
     public void setVegan(boolean vegan) {
         isVegan = vegan;
+    }
+
+    /**
+     * Required for indexOf call
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Ingredient)) {
+            return false;
+        }
+        Ingredient other = (Ingredient) o;
+        return name.equalsIgnoreCase(other.getName());
+    }
+
+    @Override
+    public Ingredient clone() {
+        try {
+            Ingredient clone = (Ingredient) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
