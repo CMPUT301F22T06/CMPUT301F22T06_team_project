@@ -1,6 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import com.git_er_done.cmput301f22t06_team_project.models.*;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
@@ -8,6 +9,8 @@ import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
 import org.junit.*;
 
 import java.util.ArrayList;
+
+// TODO: Test new ingredient when merged into main
 
 public class ModelTests {
 
@@ -22,8 +25,9 @@ public class ModelTests {
     }
 
     @Test
+    // Should be representative for all recipes since they all extend Recipe
     public void testRecipeGetSet() {
-        // TODO: Test Ingredient list
+        // TODO: Test Ingredient list once new ingredient is merged into main
         Recipe mockRecipe = makeRecipe();
 
         // Test getters
@@ -70,4 +74,8 @@ public class ModelTests {
         assertEquals(4, mockPlan.getPlanned_servings());
     }
 
+    @Test
+    public void testIngredientGetSet() {
+        fail("Not yet implemented!");
+    }
 }
