@@ -23,6 +23,10 @@ import android.widget.ArrayAdapter;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -61,14 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
 
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        Ingredient apple = new FruitIngredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
-        Ingredient orange = new FruitIngredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
+        Ingredient apple = new Ingredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
+        Ingredient orange = new Ingredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
 
 
-        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
         for(Ingredient i: testIngredients) {
-            ingredientDBHelper.addIngredient(i);
+            IngredientDBHelper.addIngredientToDB(i);
         }
 
 

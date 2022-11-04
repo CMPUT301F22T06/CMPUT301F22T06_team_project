@@ -149,29 +149,6 @@ public class IngredientDBHelper {
 
     }
 
-    /**
-     * So this function is just a way so we don't need to pass the adapter in
-     * the ingredientsDBhelper but instead return the ingredients and set the adapter
-     * in the controller or something
-     * @param firebaseCallback
-     */
-    public void getAllIngredients(FirebaseCallback firebaseCallback) {
-        ArrayList<Ingredient> retrieved = new ArrayList<>();
-        ingredientsDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: docs){
-                    Ingredient ingredient =  createIngredient(doc);
-
-                    ingredients.add(ingredient);
-                }
-                adapter.notifyDataSetChanged();
-                    retrieved.add(ingredient);
-                }
-                firebaseCallback.onCallback(retrieved);
-            }
-        });
-    }
 
     /**
      * Just a random function to search stuff in the db for possible future needs but
