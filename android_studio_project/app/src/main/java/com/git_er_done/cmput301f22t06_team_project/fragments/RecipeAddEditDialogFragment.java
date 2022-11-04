@@ -24,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -68,10 +71,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     public static RecipeAddEditDialogFragment newInstance(String title, Recipe selectedRecipe){
         RecipeAddEditDialogFragment frag = new RecipeAddEditDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putString("name",  selectedRecipe.getTitle());
-        args.putString("serves", String.valueOf(selectedRecipe.getServings()));
-        args.putString("prep time", String.valueOf(selectedRecipe.getPrep_time()));
+        args.putString("title", selectedRecipe.getTitle());
+        args.putString("servings", String.valueOf(selectedRecipe.getServings()));
+        args.putString("prep_time", String.valueOf(selectedRecipe.getPrep_time()));
         args.putString("category", selectedRecipe.getCategory());
 
         for (RecipeIngredient i : selectedRecipe.getIngredients()){
@@ -127,10 +129,18 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         String prep_time = getArguments().getString("prep_time", "0");
         String servings = getArguments().getString("servings", "0");
         String comments = getArguments().getString("comments", "");
+        String ingredients = getArguments().getString("ingredients", "");
 
         // Test data
+        ArrayList<Recipe> dummyArray = new ArrayList<>();
+
+        RecipesRecyclerViewAdapter dummyAdapter = new RecipesRecyclerViewAdapter(dummyArray, (RecipesRecyclerViewInterface) this);
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+
+        //ingredientDBHelper.addIngredient(dummyAdapter, recipeIngredients);
+        //ArrayList<String> ingredientStorage = dummyAdapter.mRecipes; // Ingredients that arent in the recipe (in the storage)
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         ArrayList<String> ingredientUnit = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         RecipeIngredient appleRI = new RecipeIngredient("apple","g",2, "slice into eighths");
@@ -170,7 +180,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etComments.setText(comments);
         spIngredients_dropdown.setAdapter(recipeAdapter);
         lvIngredients_view.setAdapter(ingredientView);
-        lvIngredients_view.setAdapter(recipeIngredientUnit);
+        //lvIngredients_view.setAdapter(recipeIngredientUnit);
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS

@@ -22,7 +22,7 @@ import java.util.List;
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder>{
 
     private final RecipesRecyclerViewInterface rvInterface;
-    private List<Recipe> mRecipes;
+    protected List<Recipe> mRecipes;
 
     public RecipesRecyclerViewAdapter(List<Recipe> recipes, RecipesRecyclerViewInterface rvInterface) {
         mRecipes = recipes;
