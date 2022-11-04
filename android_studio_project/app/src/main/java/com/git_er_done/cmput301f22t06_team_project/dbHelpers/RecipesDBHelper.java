@@ -37,7 +37,7 @@ public class RecipesDBHelper {
 
     /**
      * This method add a recipe to our recipe data base
-     * @param recipe of type Recipe
+     * @param recipe of type {@link Recipe}
      * returns void
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
@@ -87,7 +87,7 @@ public class RecipesDBHelper {
     /**
      * This delete a recipe from the Recipe data base by
      * taking a string argument to look for the document with that na,e
-     * @param recipe of type String
+     * @param recipe of type {@link String}
      * returns void
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
@@ -136,7 +136,7 @@ public class RecipesDBHelper {
      * This method is just a random method I made just in case we need to be able to look
      * for a specific recipe in the recipe Database but I haven't tested it nor is it being
      * used any at the moment
-     * @param recipe of type String
+     * @param recipe of type {@link String}
      * returns void
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
@@ -157,7 +157,7 @@ public class RecipesDBHelper {
     /**
      * This method takes data from a document in the recipe Database
      * and turns it to a recipe object to return
-     * @param doc of type DocumentSnapshot
+     * @param doc of type {@link DocumentSnapshot}
      * returns void
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper

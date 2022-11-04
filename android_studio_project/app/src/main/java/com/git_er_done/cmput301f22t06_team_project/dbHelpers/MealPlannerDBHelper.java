@@ -46,7 +46,7 @@ public class MealPlannerDBHelper {
 
     /**
      * Take a string argument and searches the database with a document with the same name as the argument and deletes it
-     * @param mealPlan of type String
+     * @param mealPlan of type {@link String}
      * returns void
      * @see IngredientDBHelper
      * @see RecipesDBHelper

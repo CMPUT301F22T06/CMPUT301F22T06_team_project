@@ -47,7 +47,7 @@ public class IngredientDBHelper {
 
     /**
      * This method adds an ingredient to our database in the incredient collection
-     * @param ingredient of type Ingredient
+     * @param ingredient of type {@link Ingredient}
      * @returns void
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
@@ -91,7 +91,7 @@ public class IngredientDBHelper {
     /**
      * Take a string and searches the ingredients database for it and deletes the document
      * with that name if it's found
-     * @param ingredient of type String
+     * @param ingredient of type {@link String}
      * @returns void
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
@@ -119,8 +119,8 @@ public class IngredientDBHelper {
      * Here we just pass the adapter and set it here. It's less work but it also has more coupling and we
      * might possibly lose out on the ability to have to alter the ingredients in the controller for some
      * reason.
-     * @param adapter of type IngredientsRecyclerViewAdapter
-     * @param ingredients of type ArrayList<Ingredient>
+     * @param adapter of type {@link IngredientsRecyclerViewAdapter}
+     * @param ingredients of type {@link ArrayList<Ingredient>}
      * @returns void
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
@@ -142,7 +142,7 @@ public class IngredientDBHelper {
     /**
      * Just a random function to search stuff in the db for possible future needs but
      * it's not used right now and I don't know if it works
-     * @param ingredient of type String
+     * @param ingredient of type {@link String}
      * @param ingredientsFirebaseCallBack of type IngredientsFirebaseCallBack
      * @returns void
      * @see MealPlannerDBHelper
@@ -169,7 +169,7 @@ public class IngredientDBHelper {
      * This method take a document from firestore and takes the data then converts it into an Ingredient object
      * to return
      * @param doc
-     * @return ingredient of type Ingredient
+     * @return ingredient of type {@link Ingredient}
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
      */
