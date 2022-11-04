@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +19,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientsFirebaseCallBack;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.FruitIngredient;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,9 +59,28 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
+                "It was great. I may change it up next time but for now, perfect\n" +
+                "\n" +
+                "Barb Gregory\n" +
+                "I did not make any changes. Made it exactly as the recipe called for. It was easy to make and everyone loved the taste. I will make it again\n" +
+                "\n" +
+                "Morgon Barg\n" +
+                "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
+
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        RecipeIngredient appleRecipe = new RecipeIngredient("apple","g",2, "slice into eighths");
+        RecipeIngredient orangeRecipe = new RecipeIngredient("orange","g", 2, "take apart at its seams");
+        recipeIngredients.add(appleRecipe);
+        recipeIngredients.add(orangeRecipe);
+        fruit_salad.setIngredientsList(recipeIngredients);
+        RecipesDBHelper recipesDBHelper = new RecipesDBHelper();
+        recipesDBHelper.addRecipe(fruit_salad);
+
+        recipesDBHelper.setRecipesAdapter();
 
         navigationView.setNavigationItemSelectedListener(item -> {
-            switch(item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.nav_recipes_menu_item:
                     Log.i("MENU_DRAWER_TAG", "Recipes menu selected");
                     navController.navigate(R.id.recipesFragment);
