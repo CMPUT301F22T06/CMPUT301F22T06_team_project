@@ -9,9 +9,9 @@ public class Location {
     private static final Location instance = new Location();
 
     private Location(){
-        locations.add("Pantry");
-        locations.add("Fridge");
-        locations.add("Freezer");
+        locations.add("pantry");
+        locations.add("fridge");
+        locations.add("freezer");
     }
 
     public static Location getInstance(){

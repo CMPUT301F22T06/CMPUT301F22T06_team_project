@@ -9,14 +9,14 @@ public class IngredientCategory {
     private static final IngredientCategory instance = new IngredientCategory();
 
     private IngredientCategory(){
-        ingredientCategories.add("Dairy");
-        ingredientCategories.add("Fruit");
-        ingredientCategories.add("Grain");
-        ingredientCategories.add("Lipid");
-        ingredientCategories.add("Protein");
-        ingredientCategories.add("Spice");
-        ingredientCategories.add("Vegetable");
-        ingredientCategories.add("Miscellaneous");
+        ingredientCategories.add("dairy");
+        ingredientCategories.add("fruit");
+        ingredientCategories.add("grain");
+        ingredientCategories.add("lipid");
+        ingredientCategories.add("protein");
+        ingredientCategories.add("spice");
+        ingredientCategories.add("vegetable");
+        ingredientCategories.add("miscellaneous");
     }
 
     public static IngredientCategory getInstance(){
@@ -34,4 +34,5 @@ public class IngredientCategory {
     public void addIngredientCategory(String locationToAdd){
         ingredientCategories.add(locationToAdd);
     }
+
 }

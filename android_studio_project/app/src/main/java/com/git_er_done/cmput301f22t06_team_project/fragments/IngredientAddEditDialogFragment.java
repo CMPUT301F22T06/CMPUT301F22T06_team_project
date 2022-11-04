@@ -152,10 +152,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
                 if(isEdittingExistingIngredient) {
                     int selectedIngredientIndex = testIngredients.indexOf(si);
-                    Ingredient ingredientToModify = testIngredients.get(selectedIngredientIndex);
-                    Ingredient oldIngredient = ingredientToModify.clone();
-                    modifyIngredient(ingredientToModify);
-                    IngredientDBHelper.modifyIngredientInDB(ingredientToModify,oldIngredient,selectedIngredientIndex);
+                    Ingredient newIngredient = testIngredients.get(selectedIngredientIndex);
+                    Ingredient oldIngredient = new Ingredient(
+                            newIngredient.getName(),
+                            newIngredient.getDesc(),
+                            newIngredient.getBestBefore(),
+                            newIngredient.getLocation(),
+                            newIngredient.getUnit(),
+                            newIngredient.getCategory(),
+                            newIngredient.getAmount()
+                    );
+                    modifyIngredient(newIngredient);
+                    IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
                     isEdittingExistingIngredient = false;
                 }
 
