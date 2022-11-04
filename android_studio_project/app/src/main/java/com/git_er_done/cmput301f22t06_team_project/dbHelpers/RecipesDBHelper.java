@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -117,8 +118,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public void setRecipesAdapter(){
-        ArrayList<Recipe> retrieved = new ArrayList<>(); // This will be passed instead when adapter is done
+    public void setRecipesAdapter(RecipesRecyclerViewAdapter recipesRecyclerViewAdapter, ArrayList<Recipe> retrieved){
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -127,6 +127,7 @@ public class RecipesDBHelper {
                     Recipe recipe = createRecipe(doc);
                     retrieved.add(recipe);
                 }
+                recipesRecyclerViewAdapter.notifyDataSetChanged();
                 // The adapter will be here
             }
         });
