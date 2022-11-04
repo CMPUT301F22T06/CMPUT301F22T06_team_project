@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -123,7 +125,20 @@ public class RecipesDBHelper {
         });
         return retrieved.get(0);
     }
-
+    public void fillAdapter(RecipesRecyclerViewAdapter adapter, ArrayList<Recipe> retrieved){
+        retrieved.clear();
+        recipesDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
+//                for(QueryDocumentSnapshot doc: docs){
+//                    Recipe recipe =  createRecipe(doc);
+//                    Log.d(TAG, "onEvent: " + recipe.getName());
+//                    retrieved.add(recipe);
+//                }
+//                adapter.notifyDataSetChanged();
+            }
+        });
+    }
     private Recipe createRecipe(DocumentSnapshot doc, IngredientDBHelper ingredientDBHelper){
         Recipe recipe = null;
         String title = doc.getId();
