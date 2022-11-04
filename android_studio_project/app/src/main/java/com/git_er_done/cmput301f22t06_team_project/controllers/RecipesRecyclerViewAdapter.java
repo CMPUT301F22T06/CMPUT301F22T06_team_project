@@ -72,8 +72,8 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         TextView location = holder.categoryTextView;
         location.setText(recipe.getCategory());
 
-        TextView bestBeforeDate = holder.preptimeTextView;
-        bestBeforeDate.setText(String.valueOf(recipe.getPrep_time()));
+        TextView preptime = holder.preptimeTextView;
+        preptime.setText(String.valueOf(recipe.getPrep_time()));
 
         TextView amount = holder.servingsTextView;
         amount.setText(String.valueOf(recipe.getServings()));
@@ -82,7 +82,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         //ArrayList<String> ingredientNames = new ArrayList<>();
         for(RecipeIngredient i: recipe.getIngredients()){
 //            ingredientNames.add(i.getName());
-            unit.setText(Log.d(TAG, i.getName()));
+            //unit.setText(Log.d(TAG, i.getName()));
 
 
             // MISSING - PHOTOGRAPH
