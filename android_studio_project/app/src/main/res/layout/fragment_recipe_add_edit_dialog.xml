@@ -52,13 +52,13 @@
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_upload"
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_weight="0"
                     android:textColor="@color/black"
                     android:text="Upload Picture"
-                    android:textSize="8dp"/>
+                    android:textSize="6dp"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -79,7 +79,6 @@
                 android:text="Serves: "
                 android:textSize="14dp" />
 
-            <!--        TODO Replace a carriage return with ' next '-->
             <EditText
                 android:id="@+id/et_recipe_add_edit_servings"
                 android:layout_width="match_parent"
@@ -171,59 +170,20 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Name"
-                    android:textSize="10dp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Description"
-                    android:textSize="10dp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Quantity"
-                    android:textSize="10dp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Unit"
-                    android:textSize="10dp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Category"
-                    android:textSize="10dp" />
-            </LinearLayout>
             <!--        TODO Replace a carriage return with ' next ' action-->
 
             <ListView
                 android:id="@+id/lv_recipe_add_edit_ingredients_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:width="1dp"
                 android:color="#ff9900"
                 android:gravity="top"
                 android:hint="All ingredients will be shown here"
                 android:imeOptions="actionNext"
-                android:textSize="12dp" />
+                android:textSize="12dp" >
+            </ListView>
 
         </LinearLayout>
 

@@ -132,6 +132,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
+        ArrayList<String> ingredientUnit = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         RecipeIngredient appleRI = new RecipeIngredient("apple","g",2, "slice into eighths");
         RecipeIngredient orangeRI = new RecipeIngredient("orange","g", 2, "take apart at its seams");
         RecipeIngredient grapeRI = new RecipeIngredient("grape","g", 2, "remove tips");
@@ -150,11 +151,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         for (RecipeIngredient i : recipeIngredients){
             ingredientNames.add(i.getName());
             ingredientStorage.add(i.getName());
+            ingredientUnit.add(i.getUnits());
         }
         ingredientStorage.add(mangoRI.getName());
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
-        ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ingredientNames);
+        ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientNames);
+        ArrayAdapter<String> recipeIngredientUnit = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientUnit);
 
         for (RecipeIngredient ingredient: recipeIngredients){
             getArguments().getString(ingredient.getName(), "def - ingredients");
@@ -167,6 +170,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etComments.setText(comments);
         spIngredients_dropdown.setAdapter(recipeAdapter);
         lvIngredients_view.setAdapter(ingredientView);
+        lvIngredients_view.setAdapter(recipeIngredientUnit);
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
