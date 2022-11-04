@@ -173,6 +173,14 @@ public class Recipe {
         return testRecipes;
     }
 
+    public ArrayList<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(ArrayList<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
     /**
      * Returns the Name of the recipe as a {@link String}
      * @return The title of the Recipe

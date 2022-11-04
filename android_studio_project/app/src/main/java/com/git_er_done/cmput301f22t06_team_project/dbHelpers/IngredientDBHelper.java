@@ -31,6 +31,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * @author Saheel Sarker
+ * @ingredientsFragment (for now)
+ * @Version 1 (Because I didn't write the version before writing this)
+ * @see MealPlannerDBHelper
+ * @see RecipesDBHelper
+ */
 public class IngredientDBHelper {
 
     private static IngredientsRecyclerViewAdapter rvAdapter;
@@ -41,6 +48,14 @@ public class IngredientDBHelper {
         eventChangeListener(); //Initialize eventListener for RecyclerView
     }
 
+
+    /**
+     * This method adds an ingredient to our database in the incredient collection
+     * @param ingredient of type {@link Ingredient}
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final CollectionReference ingredientsDB = db.collection("Ingredients");
 
@@ -82,6 +97,15 @@ public class IngredientDBHelper {
                     }
                 });
     }
+
+    /**
+     * Take a string and searches the ingredients database for it and deletes the document
+     * with that name if it's found
+     * @param ingredient of type {@link String}
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
 
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
         String nameOfIngredient = ingredient.getName();
@@ -138,6 +162,10 @@ public class IngredientDBHelper {
             public void onEvent(@Nullable QuerySnapshot docs, @Nullable FirebaseFirestoreException error) {
                 for(QueryDocumentSnapshot doc: docs){
                     Ingredient ingredient =  createIngredient(doc);
+
+                    ingredients.add(ingredient);
+                }
+                adapter.notifyDataSetChanged();
                     retrieved.add(ingredient);
                 }
                 firebaseCallback.onCallback(retrieved);
@@ -145,6 +173,15 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     * Just a random function to search stuff in the db for possible future needs but
+     * it's not used right now and I don't know if it works
+     * @param ingredient of type {@link String}
+     * @param ingredientsFirebaseCallBack of type IngredientsFirebaseCallBack
+     * @returns void
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
         ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
         Log.d(TAG, "The name I'm looking for is " + ingredient);
@@ -161,6 +198,14 @@ public class IngredientDBHelper {
         });
     }
 
+    /**
+     * This method take a document from firestore and takes the data then converts it into an Ingredient object
+     * to return
+     * @param doc
+     * @return ingredient of type {@link Ingredient}
+     * @see MealPlannerDBHelper
+     * @see RecipesDBHelper
+     */
     private Ingredient createIngredient(DocumentSnapshot doc) {
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");

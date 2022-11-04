@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,10 +26,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Saheel Sarker
+ * @see IngredientDBHelper
+ * @see MealPlannerDBHelper
+ * @version 1 Since this is the first time I'm commenting
+ */
 public class RecipesDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference recipesDB = db.collection("Recipes");
 
+    /**
+     * This method add a recipe to our recipe data base
+     * @param recipe of type {@link Recipe}
+     * returns void
+     * @see IngredientDBHelper
+     * @see MealPlannerDBHelper
+     */
     public void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
@@ -71,6 +85,14 @@ public class RecipesDBHelper {
                 });
     }
 
+    /**
+     * This delete a recipe from the Recipe data base by
+     * taking a string argument to look for the document with that na,e
+     * @param recipe of type {@link String}
+     * returns void
+     * @see IngredientDBHelper
+     * @see MealPlannerDBHelper
+     */
     public void deleteRecipe(String recipe){
         recipesDB
                 .document(recipe)
@@ -90,8 +112,13 @@ public class RecipesDBHelper {
                 });
     }
 
-    public void setRecipesAdapter(){
-        ArrayList<Recipe> retrieved = new ArrayList<>(); // This will be passed instead when adapter is done
+    /**
+     * This method sets the adapter for the list of recipes but getting the data from our recipe Database
+     * returns void
+     * @see IngredientDBHelper
+     * @see MealPlannerDBHelper
+     */
+    public void setRecipesAdapter(RecipesRecyclerViewAdapter recipesRecyclerViewAdapter, ArrayList<Recipe> retrieved){
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -100,11 +127,21 @@ public class RecipesDBHelper {
                     Recipe recipe = createRecipe(doc);
                     retrieved.add(recipe);
                 }
+                recipesRecyclerViewAdapter.notifyDataSetChanged();
                 // The adapter will be here
             }
         });
     }
 
+    /**
+     * This method is just a random method I made just in case we need to be able to look
+     * for a specific recipe in the recipe Database but I haven't tested it nor is it being
+     * used any at the moment
+     * @param recipe of type {@link String}
+     * returns void
+     * @see IngredientDBHelper
+     * @see MealPlannerDBHelper
+     */
     public Recipe searchForRecipe(String recipe) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
 //        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
@@ -118,6 +155,14 @@ public class RecipesDBHelper {
         return retrieved.get(0);
     }
 
+    /**
+     * This method takes data from a document in the recipe Database
+     * and turns it to a recipe object to return
+     * @param doc of type {@link DocumentSnapshot}
+     * returns void
+     * @see IngredientDBHelper
+     * @see MealPlannerDBHelper
+     */
     private Recipe createRecipe(DocumentSnapshot doc) {
         Recipe recipe = null;
         String title = doc.getId();

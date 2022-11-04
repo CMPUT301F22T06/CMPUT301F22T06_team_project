@@ -14,6 +14,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
+/**
+ * @author Saheel Sarker
+ * @see IngredientDBHelper
+ * @see RecipesDBHelper
+ * @version 1 because this is the first time I'm commenting
+ */
 public class MealPlannerDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     final CollectionReference mealPlansDB = db.collection("mealPlans");
@@ -38,6 +44,13 @@ public class MealPlannerDBHelper {
                 });
     }
 
+    /**
+     * Take a string argument and searches the database with a document with the same name as the argument and deletes it
+     * @param mealPlan of type {@link String}
+     * returns void
+     * @see IngredientDBHelper
+     * @see RecipesDBHelper
+     */
     public void deleteMealPlan(String mealPlan){
         mealPlansDB
                 .document(mealPlan)

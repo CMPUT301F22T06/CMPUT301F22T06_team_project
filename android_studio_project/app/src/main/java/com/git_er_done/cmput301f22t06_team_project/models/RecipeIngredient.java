@@ -7,6 +7,7 @@ public class RecipeIngredient {
     String units;
     int amount;
     String comment;
+
     public RecipeIngredient(String name, String units, int amount, String comment) {
         this.name = name;
         this.units = units;
@@ -14,12 +15,12 @@ public class RecipeIngredient {
         this.comment = comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUnits() {

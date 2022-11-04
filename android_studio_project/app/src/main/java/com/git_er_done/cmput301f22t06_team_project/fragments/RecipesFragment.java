@@ -1,76 +1,101 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 
 import java.util.ArrayList;
 
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link RecipesFragment#newInstance} factory method to
+ * Use the {@link RecipesFragment#//newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RecipesFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class RecipesFragment extends Fragment implements RecipesRecyclerViewInterface
+{
 
     ArrayList<Recipe> testRecipes;
+    RecyclerView rvRecipes;
+    RecipesRecyclerViewAdapter rvAdapter;
+
+    ArrayList<Recipe> retrievedRecipes;
     public RecipesFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RecipesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RecipesFragment newInstance(String param1, String param2) {
-        RecipesFragment fragment = new RecipesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+
+
+    private void showEditDialog(Recipe selectedRecipe) {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        RecipeAddEditDialogFragment editNameDialogFragment =
+                RecipeAddEditDialogFragment.newInstance(
+                        "Edit Recipe Dialog",
+                        selectedRecipe);
+        editNameDialogFragment.show(fm, "fragment_recipe_add_edit_dialog");
+
     }
 
+    @Override
+    public void onItemLongClick(int position) {
+        Recipe selectedRecipe = rvAdapter.getItem(position);
+        //Create a dialog displaying all of the selected Recipes attributes
+        showEditDialog(selectedRecipe);
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        testRecipes = Ingredient.createRecipeList();
-//        RecipeDBHelper dbHelper = new IngredientDBHelper();
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_recipes, container, false);
+        rvRecipes = (RecyclerView) root.findViewById(R.id.rv_recipes_list);
+        rvRecipes.setHasFixedSize(true);
+        rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        testRecipes = new ArrayList<>();
+        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
+        rvRecipes.setAdapter(rvAdapter);
+
+        RecipesDBHelper dbHelper = new RecipesDBHelper();
+        dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
+
+        // Inflate the layout for this fragment
+        return root;
+//        testRecipes = Recipe.createRecipeList();
+//        RecipeDBHelper dbHelper = new RecipeDBHelper();
 //        for (Recipe recipe: testRecipes) {
 //            dbHelper.addRecipe(recipe);
 //        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipes, container, false);
+        //return inflater.inflate(R.layout.fragment_recipes, container, false);
     }
 }
