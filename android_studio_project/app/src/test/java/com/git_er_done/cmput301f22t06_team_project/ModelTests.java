@@ -28,11 +28,16 @@ public class ModelTests {
         return new ProteinIngredient("Steak", "Tomahawk", LocalDate.of(2023, 1, 23), "Fridge", "singles", "Meat", 2);
     }
 
+    public static RecipeIngredient makeRecipeIngredient() {
+        return new RecipeIngredient("Potato", "singles", 2, "Russet");
+    }
+
     @Test
     // Should be representative for all recipes since they all extend Recipe
     public void testRecipeGetSet() {
         // TODO: Test Ingredient list once new ingredient is merged into main
         Recipe mockRecipe = makeRecipe();
+        RecipeIngredient mockIngredient = makeRecipeIngredient();
 
         // Test getters
         assertEquals("Ham Sandwich", mockRecipe.getTitle());
@@ -52,6 +57,10 @@ public class ModelTests {
         assertEquals(3, mockRecipe.getPrep_time());
         mockRecipe.setServings(1);
         assertEquals(1, mockRecipe.getServings());
+        mockRecipe.addIngredient(mockIngredient);
+
+        ArrayList<RecipeIngredient> retrievedIngredients = mockRecipe.getIngredients();
+        assertEquals(mockIngredient, retrievedIngredients.get(0));
     }
 
     @Test
@@ -113,6 +122,23 @@ public class ModelTests {
         mockIngredient.setCategory("Protein");
         assertEquals("Protein", mockIngredient.getCategory());
         mockIngredient.setAmount(12);
-        assertEquals((int) 12, (int) mockIngredient.getAmount());
+        assertEquals((Integer) 12, mockIngredient.getAmount());
+    }
+
+    @Test
+    public void testRecipeIngredientGetSet() {
+        RecipeIngredient mockIngredient = makeRecipeIngredient();
+
+        mockIngredient.setName("Russet");
+        assertEquals("Russet", mockIngredient.getName());
+
+        mockIngredient.setComment("Potato");
+        assertEquals("Potato", mockIngredient.getComment());
+
+        mockIngredient.setUnits("g");
+        assertEquals("g", mockIngredient.getUnits());
+
+        mockIngredient.setAmount(500);
+        assertEquals(500, mockIngredient.getAmount());
     }
 }
