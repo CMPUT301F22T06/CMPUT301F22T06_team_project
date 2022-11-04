@@ -3,6 +3,7 @@ package com.git_er_done.cmput301f22t06_team_project.models;
 import java.util.ArrayList;
 
 public class MealPlan {
+    // TODO: Make planned_date a localDate
     private ArrayList<Recipe> recipes = new ArrayList<>();
     private String planned_date;
     private int planned_servings;
