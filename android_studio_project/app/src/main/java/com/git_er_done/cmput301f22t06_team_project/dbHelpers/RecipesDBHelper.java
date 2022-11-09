@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Saheel Sarker
@@ -35,6 +38,7 @@ import java.util.Map;
 public class RecipesDBHelper {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static final CollectionReference recipesDB = db.collection("Recipes");
+    public static int selectedRecipePos;
 
     /**
      * This method add a recipe to our recipe data base
@@ -110,6 +114,31 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
+    }
+
+    //    TODO - only modify attributes that have changed -  for now it modifies all of them
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
+        String nameOfIngredient = oldRecipe.getTitle();
+        selectedRecipePos = pos;
+
+        DocumentReference dr = recipesDB.document(nameOfIngredient);
+        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
+            dr.update("title", newRecipe.getTitle());
+        }
+
+        if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
+            dr.update("comment", newRecipe.getComments());
+        }
+
+        if(!Objects.equals(newRecipe.getPrep_time(), oldRecipe.getPrep_time())){
+            dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
+        }
+
+        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){
+            dr.update("servings", String.valueOf(newRecipe.getServings()));
+        }
+
+
     }
 
     /**

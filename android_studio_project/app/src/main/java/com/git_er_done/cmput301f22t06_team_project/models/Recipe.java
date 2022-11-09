@@ -1,9 +1,14 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DessertRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
 import java.util.ArrayList;
 
@@ -18,6 +23,11 @@ public class Recipe {
 
     // No empty constructor since it should never be called anyway
 
+
+    //Grab singleton arrays for user defined attributes like location and category
+    public static ArrayList<String> recipeCategories = RecipeCategory.getInstance().getAllRecipeCategories();
+
+    public static ArrayList<Recipe> testRecipes = new ArrayList<>();
     /**
      * Creates a new Recipe object.
      * @param title The name of the Recipe
@@ -77,14 +87,7 @@ public class Recipe {
     public final static ArrayList<Recipe> createRecipeList() {
         ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
-                "It was great. I may change it up next time but for now, perfect\n" +
-                "\n" +
-                "Barb Gregory\n" +
-                "I did not make any changes. Made it exactly as the recipe called for. It was easy to make and everyone loved the taste. I will make it again\n" +
-                "\n" +
-                "Morgon Barg\n" +
-                "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 
         Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Cassy\n" +
                 "I love all of these ideas !! However – as crazy as it may seem- I don’t like Avocado.  So many recipes call for it — and I would love some ideas for a substitute. Thank you for sharing all of these !!!\n" +
@@ -259,5 +262,28 @@ public class Recipe {
      */
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    /**
+     * Required for indexOf call
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe other = (Recipe) o;
+        return title.equalsIgnoreCase(other.getTitle());
+    }
+
+    @Override
+    public Recipe clone() {
+        try {
+            Recipe clone = (Recipe) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

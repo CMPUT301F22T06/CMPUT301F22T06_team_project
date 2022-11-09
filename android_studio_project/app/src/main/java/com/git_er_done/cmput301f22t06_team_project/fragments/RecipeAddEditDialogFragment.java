@@ -2,11 +2,11 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
+
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,19 +16,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 
@@ -230,12 +226,24 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO - Check that all the current entries are valid
+                //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
 
                 if(isEdittingExistingRecipe) {
                     int selectedRecipeIndex = testRecipes.indexOf(si);
-                    Recipe recipeToModify = testRecipes.get(selectedRecipeIndex);
-                    modifyRecipe(recipeToModify);
+                    Recipe newRecipe = testRecipes.get(selectedRecipeIndex);
+                    Recipe oldRecipe = new Recipe(
+                            newRecipe.getTitle(),
+                            newRecipe.getComments(),
+                            newRecipe.getCategory(),
+                            newRecipe.getPrep_time(),
+                            newRecipe.getServings()
+
+                            //newRecipe.getIngredients()
+                    );
+                    modifyRecipe(newRecipe);
+                    RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
                     isEdittingExistingRecipe = false;
                 }
 
