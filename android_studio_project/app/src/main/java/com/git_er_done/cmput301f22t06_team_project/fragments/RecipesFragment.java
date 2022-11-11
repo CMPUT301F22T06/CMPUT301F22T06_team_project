@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Build;
 import android.os.Bundle;
 
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
