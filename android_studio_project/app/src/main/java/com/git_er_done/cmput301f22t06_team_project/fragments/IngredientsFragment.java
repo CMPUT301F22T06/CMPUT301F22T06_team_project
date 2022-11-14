@@ -40,6 +40,8 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Objects;
 
 import io.grpc.ManagedChannelProvider;
@@ -80,8 +82,25 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 int id = menuItem.getItemId();
                 switch(id){
-                    case R.id.action_sort_by_description:
 
+                    case R.id.action_sort_by_name:
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getName().compareTo(rhs.getName());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
+                        break;
+
+                    case R.id.action_sort_by_description:
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getDesc().compareTo(rhs.getDesc());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
 
                     case R.id.action_sort_by_best_before_date:
