@@ -232,16 +232,6 @@
                 android:text="CANCEL"/>
 
             <Button
-                android:id="@+id/btn_recipe_add_edit_delete"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:textColor="@color/black"
-                android:textSize="10dp"
-                android:text="DELETE"/>
-
-            <Button
                 android:id="@+id/btn_recipe_add_edit_save"
                 android:layout_width="0dp"
                 android:layout_weight="1"

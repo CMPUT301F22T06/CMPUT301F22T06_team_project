@@ -56,7 +56,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnAddIngredient;
     private Button btnUpload;
     private Button btnCancel;
-    private Button btnDelete;
     private Button btnSave;
 
     String title;
@@ -184,7 +183,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
-        //Buttons to cancel, save recipe, upload image, add ingredient and delete recipe
+        //Buttons to cancel, save recipe, upload image, add ingredient
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,15 +205,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 isEdittingExistingRecipe = false;
                 isAddingNewRecipe = false;
-                dismiss();
-            }
-        });
-
-        //TODO - Implement the delete button to remove the recipe
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
                 dismiss();
             }
         });
@@ -355,7 +345,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
         spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
-        btnDelete = view.findViewById(R.id.btn_recipe_add_edit_delete);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);

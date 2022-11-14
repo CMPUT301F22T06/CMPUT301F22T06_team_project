@@ -20,6 +20,8 @@ import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerVi
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
+
 
 import java.util.ArrayList;
 
@@ -32,7 +34,6 @@ import java.util.ArrayList;
 public class RecipesFragment extends Fragment implements RecipesRecyclerViewInterface
 {
 
-    ArrayList<Recipe> testRecipes;
     RecyclerView rvRecipes;
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
