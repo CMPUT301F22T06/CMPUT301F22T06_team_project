@@ -1,9 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static android.content.ContentValues.TAG;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -12,20 +13,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteRecipeCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -93,7 +85,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
         rvRecipes.setAdapter(rvAdapter);
         rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteRecipeCallback(rvAdapter));
         itemTouchHelper.attachToRecyclerView(rvRecipes);
     }
 

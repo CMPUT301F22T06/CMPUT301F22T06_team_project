@@ -60,9 +60,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnSave;
 
     String title;
+    String prep_time;
+    String servings;
     String comments;
-    int prep_time;
-    int servings;
     String ingredients;
     String category;
 
@@ -93,6 +93,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         RecipeAddEditDialogFragment frag = new RecipeAddEditDialogFragment();
         Bundle args = new Bundle();
         args.putString("title", selectedRecipe.getTitle());
+        args.putString("comments", selectedRecipe.getComments());
         args.putString("servings", String.valueOf(selectedRecipe.getServings()));
         args.putString("prep_time", String.valueOf(selectedRecipe.getPrep_time()));
         args.putString("category", selectedRecipe.getCategory());
@@ -213,7 +214,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                
                 dismiss();
             }
         });
@@ -238,8 +239,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
                             //newRecipe.getIngredients()
                     );
+                    //RecipesDBHelper.searchForRecipe(oldRecipe.getTitle());
                     modifyRecipe(newRecipe);
                     RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
+                    //RecipesDBHelper.addRecipe(newRecipe);
                     isEdittingExistingRecipe = false;
                 }
 
@@ -298,7 +301,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     }
 
     void addRecipe(){
-        Recipe newRecipe = new Recipe(title, comments, category, prep_time, servings);
+        Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
         RecipesDBHelper.addRecipe(newRecipe);
     }
 
@@ -316,8 +319,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void assignRecipeAttributesFromViews(){
         title = String.valueOf(etTitle.getText());
         comments = String.valueOf(etComments.getText());
-        prep_time = Integer.parseInt(String.valueOf(etPrep_time.getText()));
-        servings = Integer.parseInt(String.valueOf(etServings.getText()));
+        prep_time = String.valueOf(etPrep_time.getText());
+        servings = String.valueOf(etServings.getText());
         //category = spCategory.getSelectedItem().toString();
         //ingredients = lvIngredients_view.getSelectedItem().toString();
     }
@@ -325,8 +328,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void assignSelectedRecipeAttributesFromFragmentArgs(){
         //Set associate view items to attributes of selected recipe from view bundle
         title = getArguments().getString("title", "");
-        prep_time = getArguments().getInt("prep_time", 0);
-        servings = getArguments().getInt("servings", 0);
+        prep_time = getArguments().getString("prep_time", "0");
+        servings = getArguments().getString("servings", "0");
         comments = getArguments().getString("comments", "");
         ingredients = getArguments().getString("ingredients", "");
         category = getArguments().getString("category", "");
@@ -335,6 +338,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     void fillViewsWithSelectedRecipeAttributes(){
         //Update editable attribute views with values of selected recipe instances
+        Log.d(TAG, "HIIIII" + String.valueOf(servings));
         etTitle.setText(title);
         etServings.setText(String.valueOf(servings));
         etPrep_time.setText(String.valueOf(prep_time));

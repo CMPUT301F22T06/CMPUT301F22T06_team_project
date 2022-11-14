@@ -97,9 +97,10 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public void deleteRecipe(String recipe){
+    public static void deleteRecipe(Recipe recipe, int position){
+        String nameofRecipe = recipe.getTitle();
         recipesDB
-                .document(recipe)
+                .document(nameofRecipe)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -171,7 +172,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public Recipe searchForRecipe(String recipe) {
+    public static Recipe searchForRecipe(String recipe) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
 //        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -192,7 +193,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    private Recipe createRecipe(DocumentSnapshot doc) {
+    private static Recipe createRecipe(DocumentSnapshot doc) {
         Recipe recipe = null;
         String title = doc.getId();
         Map<String, Object> fromDB = doc.getData();
