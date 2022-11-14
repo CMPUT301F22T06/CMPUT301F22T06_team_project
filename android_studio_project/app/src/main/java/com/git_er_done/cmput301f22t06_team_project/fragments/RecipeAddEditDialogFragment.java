@@ -336,8 +336,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void fillViewsWithSelectedRecipeAttributes(){
         //Update editable attribute views with values of selected recipe instances
         etTitle.setText(title);
-        etServings.setText(servings);
-        etPrep_time.setText(prep_time);
+        etServings.setText(String.valueOf(servings));
+        etPrep_time.setText(String.valueOf(prep_time));
         etComments.setText(comments);
     }
 
