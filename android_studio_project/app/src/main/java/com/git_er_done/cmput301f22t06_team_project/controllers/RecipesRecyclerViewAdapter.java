@@ -52,7 +52,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        Log.d(TAG, "aoaoaoaoao" + testRecipes);
 
         // Inflate the custom layout
         recipeView = inflater.inflate(R.layout.recipe_list_item, parent, false);

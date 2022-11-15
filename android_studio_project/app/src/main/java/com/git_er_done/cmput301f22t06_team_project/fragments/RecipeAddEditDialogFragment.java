@@ -293,6 +293,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void addRecipe(){
         Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
         RecipesDBHelper.addRecipe(newRecipe);
+        rvAdapter.notifyDataSetChanged();
     }
 
     void modifyRecipe(Recipe recipe){
@@ -302,7 +303,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         modifiedRecipe.setComments(etComments.getText().toString());
         modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
         modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
-        modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
+        //modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
         //modifiedRecipe.setRecipeIngredients(lvIngredients_view);
     }
 
@@ -328,7 +329,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     void fillViewsWithSelectedRecipeAttributes(){
         //Update editable attribute views with values of selected recipe instances
-        Log.d(TAG, "HIIIII" + String.valueOf(servings));
         etTitle.setText(title);
         etServings.setText(String.valueOf(servings));
         etPrep_time.setText(String.valueOf(prep_time));

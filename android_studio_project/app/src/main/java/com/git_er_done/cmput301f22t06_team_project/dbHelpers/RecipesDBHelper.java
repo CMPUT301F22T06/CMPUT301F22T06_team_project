@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -56,7 +58,7 @@ public class RecipesDBHelper {
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
-        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        String firstField = title + "|" + comments + "|" + category+ "|" + prepTime + "|" + servings;
         sendToDb.put("details", firstField);
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
@@ -74,9 +76,9 @@ public class RecipesDBHelper {
         recipesDB
                 .document(title)
                 .set(sendToDb)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Data has been added successfully!");
                     }
                 })
@@ -119,26 +121,50 @@ public class RecipesDBHelper {
 
     //    TODO - only modify attributes that have changed -  for now it modifies all of them
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
-        String nameOfIngredient = oldRecipe.getTitle();
-        selectedRecipePos = pos;
+        String nameOfRecipe = oldRecipe.getTitle();
 
-        DocumentReference dr = recipesDB.document(nameOfIngredient);
+        ArrayList update = new ArrayList<>();
+        DocumentReference dr = recipesDB.document(nameOfRecipe);
         if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
-            dr.update("title", newRecipe.getTitle());
+            update.add(newRecipe.getTitle());
+        }
+        else{
+            update.add(oldRecipe.getTitle());
         }
 
         if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
-            dr.update("comment", newRecipe.getComments());
+            update.add(newRecipe.getComments());
+            //dr.update("comment", newRecipe.getComments());
+        }
+        else{
+            update.add(oldRecipe.getComments());
+        }
+
+        if(!Objects.equals(newRecipe.getCategory(), oldRecipe.getCategory())){
+            update.add(newRecipe.getCategory());
+        }
+        else{
+            update.add(oldRecipe.getCategory());
         }
 
         if(!Objects.equals(newRecipe.getPrep_time(), oldRecipe.getPrep_time())){
-            dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
+            update.add(String.valueOf(newRecipe.getPrep_time()));
+           // dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
+        }
+        else{
+            update.add(oldRecipe.getPrep_time());
         }
 
-        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){
-            dr.update("servings", String.valueOf(newRecipe.getServings()));
+        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){            String pre_time = String.valueOf(newRecipe.getPrep_time());
+            update.add(String.valueOf(newRecipe.getServings()));
+           // dr.update("servings", String.valueOf(newRecipe.getServings()));
+        }
+        else{
+            update.add(oldRecipe.getServings());
         }
 
+        String result = TextUtils.join("|", update);
+        dr.update("details", result);
 
     }
 
@@ -195,7 +221,7 @@ public class RecipesDBHelper {
      */
     private static Recipe createRecipe(DocumentSnapshot doc) {
         Recipe recipe = null;
-        String title = doc.getId();
+        //String title = doc.getId();
         Map<String, Object> fromDB = doc.getData();
         HashMap<String,String> fromDBbutString = new HashMap<>();
         for (String key: fromDB.keySet()) {
@@ -203,10 +229,11 @@ public class RecipesDBHelper {
         }
         
         String[] recipeDetails = (fromDBbutString.remove("details")).split("\\|");
-        String comments = String.valueOf(recipeDetails[0]);
-        String category = recipeDetails[1];
-        Integer prepTime = Integer.parseInt(recipeDetails[2].toString());
-        Integer servings = Integer.parseInt(recipeDetails[3].toString());
+        String title = String.valueOf(recipeDetails[0]);
+        String comments = String.valueOf(recipeDetails[1]);
+        String category = recipeDetails[2];
+        Integer prepTime = Integer.parseInt(recipeDetails[3]);
+        Integer servings = Integer.parseInt(recipeDetails[4]);
         recipe = new Recipe(title,comments,category,prepTime,servings);
 
         for (String key: fromDBbutString.keySet()) {
