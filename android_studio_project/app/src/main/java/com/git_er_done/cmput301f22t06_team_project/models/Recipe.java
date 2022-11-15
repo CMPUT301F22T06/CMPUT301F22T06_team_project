@@ -1,9 +1,19 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DessertRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
 import java.util.ArrayList;
 
@@ -18,6 +28,11 @@ public class Recipe {
 
     // No empty constructor since it should never be called anyway
 
+
+    //Grab singleton arrays for user defined attributes like location and category
+    public static ArrayList<String> recipeCategories = RecipeCategory.getInstance().getAllRecipeCategories();
+
+    public static ArrayList<Recipe> testRecipes = new ArrayList<>();
     /**
      * Creates a new Recipe object.
      * @param title The name of the Recipe
@@ -77,80 +92,24 @@ public class Recipe {
     public final static ArrayList<Recipe> createRecipeList() {
         ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
-                "It was great. I may change it up next time but for now, perfect\n" +
-                "\n" +
-                "Barb Gregory\n" +
-                "I did not make any changes. Made it exactly as the recipe called for. It was easy to make and everyone loved the taste. I will make it again\n" +
-                "\n" +
-                "Morgon Barg\n" +
-                "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 
-        Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Cassy\n" +
-                "I love all of these ideas !! However – as crazy as it may seem- I don’t like Avocado.  So many recipes call for it — and I would love some ideas for a substitute. Thank you for sharing all of these !!!\n" +
-                "\n" +
-                "Mario\n" +
-                "This was a huge hit. Obviously the recipe can be used as a starting point for your own variations based on personal taste and what’s available in your refrigerator / garden at the time, but it’s just great as is.\n" +
-                "\n" +
-                "Nicole\n" +
-                "So good!  Had to go to the Japanese grocery store for the tuna, but so worth it!", "breakfast", 15, 2);
+        Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "breakfast", 15, 2);
 
         // Lunch
-        Recipe fried_rice = new LunchRecipe("easy fried rice", "anniefitness\n" +
-                "This pumpkin soup is healthy and so delicious! Perfect winter meal with warm rolls.\n" +
-                "\n" +
-                "Alisonjaym\n" +
-                "Simple, easy to make with a smaller number of ingredients. Very tasty,\n" +
-                "\n" +
-                "Topysy1968\n" +
-                "My absolute go to Pumpkin Soup Big Batches Made Evert Winter Delicious", "lunch", 40, 4);
+        Recipe fried_rice = new LunchRecipe("easy fried rice", "Super simple and super delicious", "lunch", 40, 4);
 
-        Recipe honey_soy_chicken = new LunchRecipe("honey soy chicken", "Pirihonga\n" +
-                "I used Chicken breasts rather than drumsticks. Didn’t have any ginger unfortunately, but the recipes still tastes great and a lovely low carb recipe.\n" +
-                "\n" +
-                "lorellemac\n" +
-                "Result wasnt really a knockout. Didnt find drumsticks sticky or sweet enough. No one raved.\n" +
-                "\n" +
-                "Fuschia\n" +
-                "I use drumettes (half of chicken wing). This makes a great fingerfood. So easy to make and always popular.", "lunch", 165, 4);
+        Recipe honey_soy_chicken = new LunchRecipe("honey soy chicken", "Sweet and tangy", "lunch", 165, 4);
 
         // Dinner
-        Recipe pumpkin_soup = new DinnerRecipe("pumpkin soup", "crispy fox\n" +
-                "The young fella and I cook this every week. We love it!\n" +
-                "\n" +
-                "Dsei\n" +
-                "Added some thin sliced chicken breast as well. Great quick, easy meal. The measurements in the recipe easily made enough for 2 good sized bowls as a main. Save time and use a cup of microwave rice.\n" +
-                "\n" +
-                "EWiltshire\n" +
-                "I was given so many bags of rice and couldnt figure out what to make with it! Just made this in batches and Boom! Even my 2 year old loves this!", "dinner", 50, 6);
+        Recipe pumpkin_soup = new DinnerRecipe("pumpkin soup", "Creamy and perfect for the fall season", "dinner", 50, 6);
 
-        Recipe pad_thai = new DinnerRecipe("pad thai", "CamTer\n" +
-                "Family enjoyed this one, its an easy recipe to tweak a little to meet your tastes.\n" +
-                "\n" +
-                "JodieTamblyn\n" +
-                "Not the most authentic recipe but it worked for our family as a simple weeknight meal. Was a hit with my two fussy kids who wouldn’t normally eat pad Thai.\n" +
-                "\n" +
-                "Mrs Crispy\n" +
-                "Quick and easy to prepare. I found it quite nice and definitely filling. Not a win for my kids, only 1 out of 3 actually ate it. It was a good experience to try but I probably won't make again.", "dinner", 40, 4);
+        Recipe pad_thai = new DinnerRecipe("pad thai", "Best noodle dish around.", "dinner", 40, 4);
 
         // Dessert
-        Recipe vanilla_icecream = new DessertRecipe("vanilla icecream", "Lyn Wanday\n" +
-                "I didnt make any changes the recipe was very nice and this i the only recipe that works for me\n" +
-                "\n" +
-                "Terry Brean\n" +
-                "My husband like this vanilla because it made a hard ice cream so he can put hot fudge sauce on without melting so fast.\n" +
-                "\n" +
-                "Irene Teh\n" +
-                "Easy and delicious but more of an icy texture than creamy. Made no alterations to the recipe.\n", "dessert", 155, 4);
+        Recipe vanilla_icecream = new DessertRecipe("vanilla icecream", "Perfect with fresh baked pie.", "dessert", 155, 4);
 
-        Recipe bloody_mary = new DessertRecipe("bloody mary", "judynobark\n" +
-                "These were great. After sampling these, I'd made a pitcher, we doubled the vodka. I also served it with a slice of crisp bacon. I got rave reviews and they looked so great.\n" +
-                "\n" +
-                "Coleen McClish\n" +
-                "I made the bloody mary mix but since I don't like vodka I used beer instead and made bloody bulls. They turned out excellent.\n" +
-                "\n" +
-                "Janet\n" +
-                "Too salty", "dessert", 2, 1);
+        Recipe bloody_mary = new DessertRecipe("bloody mary", "When you wanna forget everything.", "dessert", 2, 1);
 
 
         // Initialize the recipes
@@ -259,5 +218,28 @@ public class Recipe {
      */
     public void setServings(int servings) {
         this.servings = servings;
+    }
+
+    /**
+     * Required for indexOf call
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe other = (Recipe) o;
+        return title.equalsIgnoreCase(other.getTitle());
+    }
+
+    @Override
+    public Recipe clone() {
+        try {
+            Recipe clone = (Recipe) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

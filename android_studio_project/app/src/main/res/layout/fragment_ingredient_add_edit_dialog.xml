@@ -199,14 +199,14 @@
                         android:visibility="invisible" />
 
                     <Button
-                        android:visibility="invisible"
                         android:id="@+id/addUnitButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="65dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1"
                         android:width="10dp"
+                        android:text="Button"
                         android:textSize="8dp"
-                        android:text="Button" />
+                        android:visibility="invisible" />
                 </LinearLayout>
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_unit"

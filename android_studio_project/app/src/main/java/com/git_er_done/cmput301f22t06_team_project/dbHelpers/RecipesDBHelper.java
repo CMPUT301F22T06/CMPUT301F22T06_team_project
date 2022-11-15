@@ -2,12 +2,14 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,8 +17,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -25,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Saheel Sarker
@@ -33,8 +38,9 @@ import java.util.Map;
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipesDBHelper {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference recipesDB = db.collection("Recipes");
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final CollectionReference recipesDB = db.collection("Recipes");
+    public static int selectedRecipePos;
 
     /**
      * This method add a recipe to our recipe data base
@@ -43,7 +49,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public void addRecipe(Recipe recipe){
+    public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
         String title = recipe.getTitle();
@@ -70,9 +76,9 @@ public class RecipesDBHelper {
         recipesDB
                 .document(title)
                 .set(sendToDb)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Data has been added successfully!");
                     }
                 })
@@ -93,9 +99,10 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public void deleteRecipe(String recipe){
+    public static void deleteRecipe(Recipe recipe){
+        String nameofRecipe = recipe.getTitle();
         recipesDB
-                .document(recipe)
+                .document(nameofRecipe)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -110,6 +117,56 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
+    }
+
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
+        // Just add the new recipe and delete the old recipe.
+        RecipesDBHelper.addRecipe(newRecipe);
+        RecipesDBHelper.deleteRecipe(oldRecipe);
+
+//        ArrayList update = new ArrayList<>();
+//        DocumentReference dr = recipesDB.document(nameOfRecipe);
+//        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
+//            update.add(newRecipe.getTitle());
+//        }
+//        else{
+//            update.add(oldRecipe.getTitle());
+//        }
+//
+//        if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
+//            update.add(newRecipe.getComments());
+//            //dr.update("comment", newRecipe.getComments());
+//        }
+//        else{
+//            update.add(oldRecipe.getComments());
+//        }
+//
+//        if(!Objects.equals(newRecipe.getCategory(), oldRecipe.getCategory())){
+//            update.add(newRecipe.getCategory());
+//        }
+//        else{
+//            update.add(oldRecipe.getCategory());
+//        }
+//
+//        if(!Objects.equals(newRecipe.getPrep_time(), oldRecipe.getPrep_time())){
+//            update.add(String.valueOf(newRecipe.getPrep_time()));
+//           // dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
+//        }
+//        else{
+//            update.add(oldRecipe.getPrep_time());
+//        }
+//
+//        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){            String pre_time = String.valueOf(newRecipe.getPrep_time());
+//            update.add(String.valueOf(newRecipe.getServings()));
+//           // dr.update("servings", String.valueOf(newRecipe.getServings()));
+//        }
+//        else{
+//            update.add(oldRecipe.getServings());
+//        }
+//
+//        String result = TextUtils.join("|", update);
+//        dr.update("details", result);
+
     }
 
     /**
@@ -142,7 +199,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public Recipe searchForRecipe(String recipe) {
+    public static Recipe searchForRecipe(String recipe) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
 //        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -163,7 +220,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    private Recipe createRecipe(DocumentSnapshot doc) {
+    private static Recipe createRecipe(DocumentSnapshot doc) {
         Recipe recipe = null;
         String title = doc.getId();
         Map<String, Object> fromDB = doc.getData();
@@ -175,9 +232,9 @@ public class RecipesDBHelper {
         String[] recipeDetails = (fromDBbutString.remove("details")).split("\\|");
         String comments = String.valueOf(recipeDetails[0]);
         String category = recipeDetails[1];
-        Integer prepTime = Integer.parseInt(recipeDetails[2].toString());
-        Integer servings = Integer.parseInt(recipeDetails[3].toString());
-        recipe = new Recipe(title,comments,category,prepTime,servings);
+        Integer prepTime = Integer.parseInt(recipeDetails[2]);
+        Integer servings = Integer.parseInt(recipeDetails[3]);
+        recipe = new Recipe(title, comments,category,prepTime,servings);
 
         for (String key: fromDBbutString.keySet()) {
             String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");

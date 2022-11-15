@@ -4,15 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 
-public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
+public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
 
-    private IngredientsRecyclerViewAdapter mAdapter;
+    private RecipesRecyclerViewAdapter mAdapter;
 
-    public SwipeToDeleteCallback(IngredientsRecyclerViewAdapter adapter){mAdapter = adapter;}
-
+    public SwipeToDeleteRecipeCallback(RecipesRecyclerViewAdapter adapter){
+        mAdapter = adapter;
+    }
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -27,7 +27,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        mAdapter.removeItem(position);
+        mAdapter.removeRecipe(position);
     }
 
 }
