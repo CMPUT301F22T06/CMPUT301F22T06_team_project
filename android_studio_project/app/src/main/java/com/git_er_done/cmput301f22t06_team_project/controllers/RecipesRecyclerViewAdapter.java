@@ -2,6 +2,9 @@ package com.git_er_done.cmput301f22t06_team_project.controllers;
 
 import static android.content.ContentValues.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
+
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +17,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder>{
 
     private final RecipesRecyclerViewInterface rvInterface;
-    protected List<Recipe> mRecipes;
+    private List<Recipe> mRecipes;
+    private Recipe recentlyDeletedRecipe;
+    private int recentlyDeletedRecipePosition;
+
+    View recipeView;
 
     public RecipesRecyclerViewAdapter(List<Recipe> recipes, RecipesRecyclerViewInterface rvInterface) {
         mRecipes = recipes;
@@ -39,15 +49,16 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     @NonNull
     @Override
 
-    public RecipesRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
+        Log.d(TAG, "aoaoaoaoao" + testRecipes);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.recipe_list_item, parent, false);
+        recipeView = inflater.inflate(R.layout.recipe_list_item, parent, false);
 
         // Return a new holder instance
-        RecipesRecyclerViewAdapter.ViewHolder viewHolder = new RecipesRecyclerViewAdapter.ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(recipeView);
         return viewHolder;
     }
 
@@ -92,13 +103,18 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     /**
      * Determine the number of items (recipe instances) in list
      *
-     * @return
+     * @return Integer - The number of items in the list
      */
     @Override
     public int getItemCount() {
         return mRecipes.size();
     }
 
+    /**
+     * Return an Ingredient instance which exists in the provided list position
+     * @param position - The position of the item within the recipe list
+     * @return
+     */
     public Recipe getItem(int position) {
         return mRecipes.get(position);
     }
@@ -149,6 +165,27 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             });
         }
 
+    }
+
+    public void removeRecipe(int position){
+        recentlyDeletedRecipe = testRecipes.get(position);
+        recentlyDeletedRecipePosition = position;
+        RecipesDBHelper.deleteRecipe(recentlyDeletedRecipe, recentlyDeletedRecipePosition);
+        showUndoSnackbar();
+        notifyDataSetChanged();
+    }
+
+    void showUndoSnackbar(){
+        View view = recipeView.findViewById(R.id.tv_recipe_list_item_name);
+        Snackbar snackbar = Snackbar.make(view, "Would you like to undo this?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("UNDO", v -> undoRecentDelete());
+        snackbar.show();
+    }
+
+    public void undoRecentDelete(){
+        mRecipes.add(recentlyDeletedRecipePosition, recentlyDeletedRecipe);
+        RecipesDBHelper.addRecipe(recentlyDeletedRecipe);
     }
 }
 
