@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import com.git_er_done.cmput301f22t06_team_project.models.*;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredientTypes.*;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.*;
 
 import org.junit.*;
 
@@ -25,7 +25,7 @@ public class ModelTests {
 
     public static Ingredient makeIngredient() {
         // TODO: Update to new ingredient once merged
-        return new ProteinIngredient("Steak", "Tomahawk", LocalDate.of(2023, 1, 23), "Fridge", "singles", "Meat", 2);
+        return new Ingredient("Steak", "Tomahawk", LocalDate.of(2023, 1, 23), "Fridge", "singles", "Meat", 2);
     }
 
     public static RecipeIngredient makeRecipeIngredient() {
@@ -102,7 +102,7 @@ public class ModelTests {
         assertTrue(testDate.isEqual(mockIngredient.getBestBefore()));
 
         assertEquals("Fridge", mockIngredient.getLocation());
-        assertEquals("singles", mockIngredient.getUnits());
+        assertEquals("singles", mockIngredient.getUnit());
         assertEquals("Meat", mockIngredient.getCategory());
         assertEquals((int) 2, (int) mockIngredient.getAmount());
 
@@ -117,8 +117,8 @@ public class ModelTests {
 
         mockIngredient.setLocation("Freezer");
         assertEquals("Freezer", mockIngredient.getLocation());
-        mockIngredient.setUnits("oz");
-        assertEquals("oz", mockIngredient.getUnits());
+        mockIngredient.setUnit("oz");
+        assertEquals("oz", mockIngredient.getUnit());
         mockIngredient.setCategory("Protein");
         assertEquals("Protein", mockIngredient.getCategory());
         mockIngredient.setAmount(12);
