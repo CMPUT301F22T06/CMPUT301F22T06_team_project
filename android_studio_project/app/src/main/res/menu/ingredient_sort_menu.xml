@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_sort_by_name"
+        android:title="Sort By Name"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_description"
+        android:title="Sort By Description"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_best_before_date"
+        android:title="Sort By Best Before Date"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_location"
+        android:title="Sort By Location"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_amount"
+        android:title="Sort By Amount"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_unit"
+        android:title="Sort By Unit"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_category"
+        android:title="Sort By Category"
+        app:showAsAction="never"/>
+
+</menu>
