@@ -55,14 +55,7 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "mybaa82\n" +
-                "It was great. I may change it up next time but for now, perfect\n" +
-                "\n" +
-                "Barb Gregory\n" +
-                "I did not make any changes. Made it exactly as the recipe called for. It was easy to make and everyone loved the taste. I will make it again\n" +
-                "\n" +
-                "Morgon Barg\n" +
-                "I love this recipe! The sauce is amazing. I have been making it for the 4th of July and it has become a repeat request dish for me to bring! Thank you!!", "breakfast", 30, 10);
+        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         Ingredient apple = new Ingredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);

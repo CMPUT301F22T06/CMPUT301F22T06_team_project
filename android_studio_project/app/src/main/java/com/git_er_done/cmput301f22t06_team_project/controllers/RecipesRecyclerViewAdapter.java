@@ -169,7 +169,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     public void removeRecipe(int position){
         recentlyDeletedRecipe = testRecipes.get(position);
         recentlyDeletedRecipePosition = position;
-        RecipesDBHelper.deleteRecipe(recentlyDeletedRecipe, recentlyDeletedRecipePosition);
+        RecipesDBHelper.deleteRecipe(recentlyDeletedRecipe);
         showUndoSnackbar();
         notifyDataSetChanged();
     }

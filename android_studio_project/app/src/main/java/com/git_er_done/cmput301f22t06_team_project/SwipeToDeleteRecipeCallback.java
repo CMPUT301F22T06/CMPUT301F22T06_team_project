@@ -14,7 +14,6 @@ public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
         mAdapter = adapter;
     }
 
-
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         return makeMovementFlags(0, ItemTouchHelper.END);

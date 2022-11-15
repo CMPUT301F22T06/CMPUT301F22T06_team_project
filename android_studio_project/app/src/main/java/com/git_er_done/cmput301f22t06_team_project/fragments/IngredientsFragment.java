@@ -91,8 +91,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         IngredientAddEditDialogFragment editNameDialogFragment =
                 IngredientAddEditDialogFragment.newInstance(
-                        selectedIngredient,
-                        rvAdapter);
+                        selectedIngredient, rvAdapter);
         editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
     }
 
