@@ -104,30 +104,56 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                         break;
 
                     case R.id.action_sort_by_best_before_date:
-
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getBestBefore().compareTo(rhs.getBestBefore());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
 
                     case R.id.action_sort_by_location:
-
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getLocation().compareTo(rhs.getLocation());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
 
                     case R.id.action_sort_by_amount:
-
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getAmount().compareTo(rhs.getAmount());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
 
                     case R.id.action_sort_by_unit:
-
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getUnit().compareTo(rhs.getUnit());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
 
                     case R.id.action_sort_by_category:
-
+                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
+                            @Override
+                            public int compare(Ingredient lhs, Ingredient rhs) {
+                                return lhs.getCategory().compareTo(rhs.getCategory());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
                         break;
                 }
-
-
                 return false;
-                // Handle option Menu Here
-
             }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
