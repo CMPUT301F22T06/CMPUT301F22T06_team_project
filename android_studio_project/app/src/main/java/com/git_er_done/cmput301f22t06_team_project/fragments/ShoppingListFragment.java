@@ -5,13 +5,19 @@ import static com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIng
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,7 +26,12 @@ import com.git_er_done.cmput301f22t06_team_project.ShoppingListRecyclerViewInter
 import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.ShoppingListRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ShoppingListFragment extends Fragment implements ShoppingListRecyclerViewInterface {
 
@@ -51,9 +62,64 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 
         setupRecyclerView();
 
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.shopping_list_ingredient_sort_menu, menu);
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                switch(id){
+                    case R.id.shopping_list_action_sort_by_name:
+                        Collections.sort(testShoppingList, new Comparator<ShoppingListIngredient>() {
+                                    @Override
+                                    public int compare(ShoppingListIngredient lhs, ShoppingListIngredient rhs) {
+                                        return lhs.getIngredient().getName().compareTo(rhs.getIngredient().getName());
+                                    }
+                                });
+                        rvAdapter.notifyDataSetChanged();
+                        break;
+
+                    case R.id.shopping_list_action_sort_by_description:
+                        Collections.sort(testShoppingList, new Comparator<ShoppingListIngredient>() {
+                            @Override
+                            public int compare(ShoppingListIngredient lhs, ShoppingListIngredient rhs) {
+                                return lhs.getIngredient().getDesc().compareTo(rhs.getIngredient().getDesc());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
+                        break;
+
+                    case R.id.shopping_list_action_sort_by_category:
+                        Collections.sort(testShoppingList, new Comparator<ShoppingListIngredient>() {
+                            @Override
+                            public int compare(ShoppingListIngredient lhs, ShoppingListIngredient rhs) {
+                                return lhs.getIngredient().getCategory().compareTo(rhs.getIngredient().getCategory());
+                            }
+                        });
+                        rvAdapter.notifyDataSetChanged();
+                        break;
+
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+
         return root;
     }
 
+    //TODO - On start check if there is a larger amount of an ingredient needed by a recipe in meal planner
+    // than is available in the ingredient storage
+    //  - if so, add the required extra ingredients to the shopping list ( check if already in shopping list,
+    //  - if not add, if yes then increase requiredAmount
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     private void setupRecyclerView(){
         rvAdapter = new ShoppingListRecyclerViewAdapter(testShoppingList, this);

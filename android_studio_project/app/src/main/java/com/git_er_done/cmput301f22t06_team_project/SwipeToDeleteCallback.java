@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
@@ -13,6 +14,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
     public SwipeToDeleteCallback(IngredientsRecyclerViewAdapter adapter){
         mAdapter = adapter;
     }
+
 
 
     @Override

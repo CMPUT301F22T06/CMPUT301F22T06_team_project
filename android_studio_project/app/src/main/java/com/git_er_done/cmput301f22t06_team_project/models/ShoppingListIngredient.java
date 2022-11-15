@@ -32,7 +32,7 @@ public class ShoppingListIngredient {
         ArrayList<ShoppingListIngredient> tempShoppingList = new ArrayList<>();
 
         Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
-        Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(6), 4);
+        Ingredient yellow_onion = new Ingredient("yellow_onion", "aa yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(0), 4);
 
         ShoppingListIngredient buyLimes = new ShoppingListIngredient(lime, 5);
         ShoppingListIngredient buyYellowOnions = new ShoppingListIngredient(yellow_onion, 3);

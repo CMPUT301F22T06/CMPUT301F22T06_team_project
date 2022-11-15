@@ -140,11 +140,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu( Menu menu )
-//    {
-//        getMenuInflater().inflate( R.menu.ingredient_sort_menu, menu );
-//        return true;
-//    }
-
 }
