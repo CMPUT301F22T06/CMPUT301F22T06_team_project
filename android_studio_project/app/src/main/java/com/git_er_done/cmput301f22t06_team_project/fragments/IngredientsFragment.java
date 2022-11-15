@@ -46,6 +46,9 @@ import java.util.Objects;
 
 import io.grpc.ManagedChannelProvider;
 
+//TODO - ON START, CHECK IF ANY INGREDIENTS ARE PAST DUE DATE. IF THEY ARE , SET COUNT TO ZERO AND HIGHLIGH
+//  ITEM IN INGREDIENT LIST RED WITH TOAST MESSAGE.
+
 public class IngredientsFragment extends Fragment implements IngredientsRecyclerViewInterface, MenuProvider{
 
     RecyclerView rvIngredients;
