@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/red">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,13 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name: "
+            android:textColor="@color/yellow"
             android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/et_ingredient_add_edit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColorHint="@color/yellow"
+
             android:hint="Name Here"
+            android:textColor="@color/yellow"
             android:textSize="14dp"
             android:inputType="textPersonName|textCapWords"
             android:imeOptions="actionNext"
@@ -38,12 +43,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description: "
+            android:textColor="@color/yellow"
             android:textSize="20dp"/>
 
         <EditText
@@ -51,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description Here"
+            android:textColorHint="@color/light_yellow"
             android:textSize="14dp"
             android:inputType="textCapSentences|textPersonName|textMultiLine"
             android:maxLength="120"
@@ -66,11 +74,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/yellow"
                 android:text="Best Before Date: "
                 android:textSize="20dp"/>
 
             <DatePicker
                 android:id="@+id/dp_ingredient_add_edit_best_before_date"
+                android:theme="@style/MyDatePicker"
                 android:layout_width="match_parent"
                 android:layout_height="100sp"
                 android:spinnersShown="true"
@@ -89,13 +99,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Location: "
-                android:textSize="20dp"/>
+                android:textColor="@color/yellow"
+                android:textSize="20dp"
+                />
 
             <Spinner
                 android:id="@+id/sp_ingredient_add_edit_location"
                 android:layout_width="match_parent"
                 android:layout_height="50sp"
-                />
+                android:textColor="@color/yellow"
+                android:backgroundTint="@color/yellow"/>
         </LinearLayout>
 
         <LinearLayout
@@ -112,6 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Amount: "
+                    android:textColor="@color/yellow"
                     android:textSize="20dp"/>
 
                 <EditText
@@ -119,6 +133,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
+                    android:textColor="@color/yellow"
+                    android:textColorHint="@color/light_yellow"
+                    android:textSize="14dp"
                     android:hint="Enter amount of items "/>
             </LinearLayout>
             <LinearLayout
@@ -131,12 +148,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Unit: "
+                    android:textColor="@color/yellow"
                     android:textSize="20dp"/>
 
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_unit"
                     android:layout_width="match_parent"
-                    android:layout_height="40sp" />
+                    android:layout_height="40sp"
+                    android:backgroundTint="@color/yellow"
+                    android:textColor="@color/yellow"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -144,19 +164,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:textColor="@color/yellow">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category: "
-                android:textSize="20dp"/>
+                android:textColor="@color/yellow"
+                android:textSize="20dp"
+                />
 
             <Spinner
                 android:id="@+id/sp_ingredient_add_edit_category"
                 android:layout_width="match_parent"
                 android:layout_height="50sp"
-                />
+                android:backgroundTint="@color/yellow"
+                android:textColor="@color/yellow"/>
         </LinearLayout>
 
         <LinearLayout
@@ -171,7 +195,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="CANCEL"/>
+                android:text="CANCEL"
+                android:textColor="@color/black"/>
 
             <Button
                 android:id="@+id/btn_ingredient_add_edit_save"
@@ -179,7 +204,8 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="SAVE"/>
+                android:text="SAVE"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 
