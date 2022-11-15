@@ -60,6 +60,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     EditText addUnitText;
     Button addUnitButton;
 
+    EditText addCategoryText;
+    Button addCategoryButton;
+
     String name;
     String description;
     int amount;
@@ -200,20 +203,33 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        if (spLocation.getSelectedItem() == "Add new location"){
-            addLocationButton.setVisibility(View.VISIBLE);
-            addLocationText.setVisibility(View.VISIBLE);
+        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == "Add new category"){
+                    addCategoryButton.setVisibility(View.VISIBLE);
+                    addCategoryText.setVisibility(View.VISIBLE);
 
-            addLocationButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String locationText = String.valueOf(addLocationText.getText());
-                    if (locationText != "Add Location") {
-                        Location.getInstance().addLocation(locationText);
-                    }
+                    addCategoryText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String locationText = String.valueOf(addUnitText.getText());
+                            if (locationText != "Add Unit") {
+                                Location.getInstance().addLocation(locationText);
+                            }
+                            addCategoryButton.setVisibility(View.INVISIBLE);
+                            addCategoryText.setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
-            });
-        }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,6 +360,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);
+
+        addCategoryText = view.findViewById(R.id.addCategory);
+        addCategoryButton = view.findViewById(R.id.addCategoryButton);
 
     }
 

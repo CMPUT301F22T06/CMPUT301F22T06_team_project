@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
 
                         android:text="Unit: "
-                        android:textSize="20dp" />
+                        android:textSize="15dp" />
 
                     <EditText
                         android:id="@+id/addUnit"
@@ -199,11 +199,39 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category: "
-                android:textSize="20dp"/>
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="123dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Category: "
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/addCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Add Category"
+                    android:textSize="10dp"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/addCategoryButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="10dp"
+                    android:text="Button"
+                    android:textSize="8dp"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/sp_ingredient_add_edit_category"
