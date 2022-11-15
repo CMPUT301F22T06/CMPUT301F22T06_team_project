@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@color/red">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name: "
+                    android:textColor="@color/yellow"
                     android:textSize="20dp" />
 
                 <!--        TODO Replace a carriage return with ' next '-->
@@ -37,7 +39,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="55"
-                    android:textSize="14dp" />
+                    android:textColorHint="@color/light_yellow"
+                    android:textSize="11dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,17 +80,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Serves: "
+                android:textColor="@color/yellow"
                 android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/et_recipe_add_edit_servings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Servings Here"
+                android:hint="#Servings"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLength="3"
-                android:textSize="15dp" />
+                android:textColorHint="@color/light_yellow"
+                android:textSize="11dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,6 +105,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="Preptime: "
+                android:textColor="@color/yellow"
                 android:textSize="15dp" />
 
             <!--        TODO Replace a carriage return with ' next '-->
@@ -107,11 +113,12 @@
                 android:id="@+id/et_recipe_add_edit_preptime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="minutes"
+                android:hint="Minutes"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLength="5"
-                android:textSize="15dp" />
+                android:textColorHint="@color/light_yellow"
+                android:textSize="11dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,12 +130,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category: "
-                android:textSize="15dp"/>
+                android:textColor="@color/yellow"
+                android:textSize="15dp" />
 
             <Spinner
                 android:id="@+id/sp_recipe_add_edit_category"
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
+                android:backgroundTint="@color/yellow"
                 />
         </LinearLayout>
     </LinearLayout>
@@ -143,7 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ingredients: "
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:textColor="@color/yellow"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,6 +166,7 @@
                     android:layout_weight="1"
                     android:layout_marginTop="10dp"
                     android:layout_height="40sp"
+                    android:backgroundTint="@color/yellow"
                     />
 
                 <Button
@@ -201,13 +212,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Comments: "
-                    android:textSize="20dp"/>
+                    android:textSize="20dp"
+                    android:textColor="@color/yellow"/>
 
                 <EditText
                     android:id="@+id/et_recipe_add_edit_comments"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:hint="Enter recipe comments "
+                    android:textColorHint="@color/light_yellow"
                     android:inputType="textCapSentences|textPersonName|textMultiLine"
                     android:gravity="top"/>
 

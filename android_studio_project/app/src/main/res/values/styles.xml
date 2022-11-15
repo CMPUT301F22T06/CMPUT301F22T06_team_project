@@ -20,5 +20,9 @@
         <item name="android:textColor">@color/yellow</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
+    <style name="MyDatePicker" >
+        <item name="android:textColorPrimary">@color/yellow</item>
+        <item name ="colorControlNormal">@color/yellow</item>
+    </style>
 
 </resources>
