@@ -2,12 +2,16 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
+
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
@@ -17,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -38,10 +43,13 @@ import java.util.Objects;
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipesDBHelper {
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    static final CollectionReference recipesDB = db.collection("Recipes");
-    public static int selectedRecipePos;
 
+    private static RecipesRecyclerViewAdapter rvAdapter;
+    public static int selectedRecipePos;
+    public RecipesDBHelper(RecipesRecyclerViewAdapter adapter){
+        rvAdapter = adapter;
+        eventChangeListener(); //Initialize eventListener for RecyclerView
+    }
     /**
      * This method add a recipe to our recipe data base
      * @param recipe of type {@link Recipe}
@@ -49,6 +57,9 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
+
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final CollectionReference recipesDB = db.collection("Recipes");
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
@@ -121,8 +132,8 @@ public class RecipesDBHelper {
 
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Just add the new recipe and delete the old recipe.
-        RecipesDBHelper.addRecipe(newRecipe);
         RecipesDBHelper.deleteRecipe(oldRecipe);
+        RecipesDBHelper.addRecipe(newRecipe);
 
 //        ArrayList update = new ArrayList<>();
 //        DocumentReference dr = recipesDB.document(nameOfRecipe);
@@ -247,6 +258,35 @@ public class RecipesDBHelper {
         }
 
         return recipe;
+    }
+
+    public void eventChangeListener(){
+        db.collection("Recipes")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            if(dc.getType() == DocumentChange.Type.ADDED){
+                                Recipe recipe = createRecipe(dc.getDocument());
+                                testRecipes.add(recipe);
+                                Log.e("DB ERROR", recipe.getTitle());
+                                rvAdapter.notifyDataSetChanged();
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.REMOVED){
+                                Recipe recipe = createRecipe(dc.getDocument());
+                                int position = testRecipes.indexOf(recipe);
+                                testRecipes.remove(recipe);
+                                rvAdapter.notifyItemRemoved(position);
+                            }
+                        }
+                    }
+                });
     }
 }
 

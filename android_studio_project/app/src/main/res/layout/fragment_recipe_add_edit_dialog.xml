@@ -50,18 +50,20 @@
                 <ImageView
                     android:id="@+id/view_recipe_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_upload"
-                    android:layout_width="60dp"
+                    android:layout_width="40dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:layout_weight="0"
                     android:textColor="@color/black"
-                    android:text="Upload Picture"
-                    android:textSize="6dp"/>
+                    android:drawableTop="@drawable/upload_image"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="7dp"
+                    android:layout_margin="10dp"/>
 
             </LinearLayout>
         </LinearLayout>

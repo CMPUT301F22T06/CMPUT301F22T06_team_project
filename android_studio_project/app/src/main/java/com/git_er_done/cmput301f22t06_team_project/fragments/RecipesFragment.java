@@ -38,7 +38,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
 
-
+    ArrayList<Recipe> retrievedRecipes;
     public RecipesFragment() {
         // Required empty public constructor
     }
@@ -46,7 +46,10 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -72,7 +75,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
             }
         });
 
-        RecipesDBHelper dbHelper = new RecipesDBHelper();
+        RecipesDBHelper dbHelper = new RecipesDBHelper(rvAdapter);
         dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
 
         // Inflate the layout for this fragment
@@ -109,5 +112,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         Recipe selectedRecipe = rvAdapter.getItem(position);
         //Create a dialog displaying all of the selected Recipes attributes
         showEditDialog(selectedRecipe);
+
     }
+
 }
