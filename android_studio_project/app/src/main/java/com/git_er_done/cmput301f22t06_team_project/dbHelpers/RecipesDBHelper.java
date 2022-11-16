@@ -110,7 +110,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static void deleteRecipe(Recipe recipe){
+    public static void deleteRecipe(Recipe recipe, int pos){
         String nameofRecipe = recipe.getTitle();
         recipesDB
                 .document(nameofRecipe)
@@ -138,7 +138,7 @@ public class RecipesDBHelper {
         DocumentReference dr = recipesDB.document(nameOfRecipe);
         if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
             // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            RecipesDBHelper.deleteRecipe(oldRecipe);
+            RecipesDBHelper.deleteRecipe(oldRecipe, selectedRecipePos);
             RecipesDBHelper.addRecipe(newRecipe);
         }
 

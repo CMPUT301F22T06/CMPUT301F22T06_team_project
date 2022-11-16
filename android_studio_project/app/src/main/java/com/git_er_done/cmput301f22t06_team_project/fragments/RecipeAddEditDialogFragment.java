@@ -293,7 +293,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void addRecipe(){
         Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
         RecipesDBHelper.addRecipe(newRecipe);
-        rvAdapter.notifyDataSetChanged();
     }
 
     void modifyRecipe(Recipe recipe){

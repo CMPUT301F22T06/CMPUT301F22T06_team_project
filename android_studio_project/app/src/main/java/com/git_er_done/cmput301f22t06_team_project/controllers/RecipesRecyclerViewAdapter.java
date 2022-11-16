@@ -34,6 +34,11 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     View recipeView;
 
+    /**
+     * Generic constructor for this adapter
+     * @param recipes - List of ingredient instances
+     * @param rvInterface - Reference to an interface for handling onItemLongClick events
+     */
     public RecipesRecyclerViewAdapter(List<Recipe> recipes, RecipesRecyclerViewInterface rvInterface) {
         mRecipes = recipes;
         this.rvInterface = rvInterface;
@@ -41,14 +46,13 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     /**
      * Inflates item layout and creates view holder
-     *
+     * A viewHolder describes an item and metadata about its place within the RecylerView
      * @param parent
      * @param viewType
      * @return
      */
     @NonNull
     @Override
-
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -79,8 +83,8 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         TextView description = holder.commentTextView;
         description.setText(recipe.getComments());
 
-        TextView location = holder.categoryTextView;
-        location.setText(recipe.getCategory());
+        TextView category = holder.categoryTextView;
+        category.setText(recipe.getCategory());
 
         TextView preptime = holder.preptimeTextView;
         preptime.setText(String.valueOf(recipe.getPrep_time()));
@@ -88,7 +92,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         TextView amount = holder.servingsTextView;
         amount.setText(String.valueOf(recipe.getServings()));
 
-        TextView unit = holder.recipeIngredientsTextView;
         //ArrayList<String> ingredientNames = new ArrayList<>();
         for(RecipeIngredient i: recipe.getIngredients()){
 //            ingredientNames.add(i.getName());
@@ -169,7 +172,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     public void removeRecipe(int position){
         recentlyDeletedRecipe = testRecipes.get(position);
         recentlyDeletedRecipePosition = position;
-        RecipesDBHelper.deleteRecipe(recentlyDeletedRecipe);
+        RecipesDBHelper.deleteRecipe(recentlyDeletedRecipe, recentlyDeletedRecipePosition);
         showUndoSnackbar();
         notifyDataSetChanged();
     }
