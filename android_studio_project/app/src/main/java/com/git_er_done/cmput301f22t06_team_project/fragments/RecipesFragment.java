@@ -34,7 +34,11 @@ import java.util.ArrayList;
  */
 public class RecipesFragment extends Fragment implements RecipesRecyclerViewInterface
 {
+
     ArrayList<Recipe> testRecipes;
+
+
+
     RecyclerView rvRecipes;
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
@@ -49,6 +53,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         super.onCreate(savedInstanceState);
 
     }
+
 
     @Override
     public void onStart() {

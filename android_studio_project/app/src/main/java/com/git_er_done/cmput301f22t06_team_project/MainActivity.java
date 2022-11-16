@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
 
 
+
+
         Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();

@@ -52,8 +52,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private Button btnCancel;
     private Button btnSave;
 
-
-    //This is Saheel's bull
     EditText addLocationText;
     Button addLocationButton;
 
@@ -146,7 +144,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             fillViewsWithSelectedIngredientAttributes();
         }
 
-        /// Saheel's Bull
         spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -210,7 +207,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     addCategoryButton.setVisibility(View.VISIBLE);
                     addCategoryText.setVisibility(View.VISIBLE);
 
-                    addCategoryText.setOnClickListener(new View.OnClickListener() {
+                    addCategoryButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             String locationText = String.valueOf(addUnitText.getText());
@@ -354,7 +351,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
 
-        /// Saheel's Bullshit
         addLocationText = view.findViewById(R.id.addLocation);
         addLocationButton = view.findViewById(R.id.addLocationButton);
 
