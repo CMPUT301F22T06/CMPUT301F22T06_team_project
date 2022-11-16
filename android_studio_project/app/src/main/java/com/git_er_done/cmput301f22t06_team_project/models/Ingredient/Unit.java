@@ -8,6 +8,7 @@ public class Unit {
     private static final Unit instance = new Unit();
 
     private Unit(){
+        units.add("Add new Unit");
         units.add("g");
         units.add("ml");
         units.add("L");

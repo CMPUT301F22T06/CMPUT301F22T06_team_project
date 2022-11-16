@@ -72,8 +72,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <LinearLayout
-            android:layout_width="80dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
@@ -98,13 +99,13 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
-                android:layout_width="80dp"
+                android:layout_width="47dp"
                 android:layout_height="wrap_content"
                 android:text="Preptime: "
                 android:textColor="@color/yellow"
@@ -113,7 +114,7 @@
             <!--        TODO Replace a carriage return with ' next '-->
             <EditText
                 android:id="@+id/et_recipe_add_edit_preptime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Minutes"
                 android:imeOptions="actionNext"
@@ -122,25 +123,62 @@
                 android:textColorHint="@color/light_yellow"
                 android:textSize="11dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category: "
-                android:textColor="@color/yellow"
-                android:textSize="15dp" />
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/categoryTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category: "
+                        android:textColor="@color/yellow"
+                        android:textSize="15dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <EditText
+                            android:id="@+id/addCategory"
+                            android:layout_width="61dp"
+                            android:layout_height="23dp"
+                            android:layout_weight="0"
+                            android:text="Add Recipe Category"
+                            android:textSize="10dp"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:id="@+id/addCategoryButton"
+                            android:layout_width="39dp"
+                            android:layout_height="25dp"
+                            android:text="Add Recipe"
+                            android:textSize="10dp"
+                            android:visibility="invisible" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/sp_recipe_add_edit_category"
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
-                android:backgroundTint="@color/yellow"
-                />
+                android:backgroundTint="@color/yellow" />
         </LinearLayout>
     </LinearLayout>
 

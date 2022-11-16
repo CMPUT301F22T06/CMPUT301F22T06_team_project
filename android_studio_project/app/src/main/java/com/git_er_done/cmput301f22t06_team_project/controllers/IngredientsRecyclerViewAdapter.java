@@ -18,6 +18,8 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 //Followed this tutorial https://guides.codepath.com/android/using-the-recyclerview
@@ -179,5 +181,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         mIngredients.add(recentlyDeletedIngredientPosition, recentlyDeletedIngredient);
         IngredientDBHelper.addIngredientToDB(recentlyDeletedIngredient);
     }
+
+
 
 }
