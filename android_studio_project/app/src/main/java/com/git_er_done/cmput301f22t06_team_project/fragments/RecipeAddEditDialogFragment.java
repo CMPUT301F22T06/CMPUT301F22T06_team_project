@@ -198,7 +198,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 if (adapterView.getItemAtPosition(i) == "Add Category"){
                     addCategoryButton.setVisibility(View.VISIBLE);
                     addCategoryText.setVisibility(View.VISIBLE);
-                    addCategoryTitle.setVisibility(View.INVISIBLE);
+                    spCategory.setVisibility(View.INVISIBLE);
                     Log.d(TAG,"Hello");
                     addCategoryButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -209,7 +209,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             }
                             addCategoryButton.setVisibility(View.INVISIBLE);
                             addCategoryText.setVisibility(View.INVISIBLE);
-                            addCategoryTitle.setVisibility(View.VISIBLE);
+                            spCategory.setVisibility(View.VISIBLE);
+
                         }
                     });
                 }

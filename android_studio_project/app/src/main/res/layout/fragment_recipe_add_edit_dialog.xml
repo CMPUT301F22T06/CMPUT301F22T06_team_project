@@ -105,7 +105,7 @@
             android:padding="10dp">
 
             <TextView
-                android:layout_width="47dp"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:text="Preptime: "
                 android:textColor="@color/yellow"
@@ -114,7 +114,7 @@
             <!--        TODO Replace a carriage return with ' next '-->
             <EditText
                 android:id="@+id/et_recipe_add_edit_preptime"
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:hint="Minutes"
                 android:imeOptions="actionNext"
@@ -124,29 +124,30 @@
                 android:textSize="11dp" />
         </LinearLayout>
 
+
+    </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:orientation="horizontal"
                 android:padding="10dp">
+                <TextView
+                    android:id="@+id/categoryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category: "
+                    android:textColor="@color/yellow"
+                    android:textSize="15dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/categoryTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Category: "
-                        android:textColor="@color/yellow"
-                        android:textSize="15dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -156,31 +157,31 @@
 
                         <EditText
                             android:id="@+id/addCategory"
-                            android:layout_width="61dp"
-                            android:layout_height="23dp"
+                            android:layout_width="100dp"
+                            android:layout_height="55dp"
                             android:layout_weight="0"
-                            android:text="Add Recipe Category"
+                            android:hint="Add Recipe Category"
                             android:textSize="10dp"
                             android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/addCategoryButton"
-                            android:layout_width="39dp"
-                            android:layout_height="25dp"
-                            android:text="Add Recipe"
-                            android:textSize="10dp"
+                            android:layout_width="80dp"
+                            android:layout_height="50dp"
+                            android:text="Add Category"
+                            android:textSize="8dp"
                             android:visibility="invisible" />
                     </LinearLayout>
+                    <Spinner
+                        android:id="@+id/sp_recipe_add_edit_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:backgroundTint="@color/yellow" />
                 </RelativeLayout>
             </LinearLayout>
 
-            <Spinner
-                android:id="@+id/sp_recipe_add_edit_category"
-                android:layout_width="match_parent"
-                android:layout_height="40sp"
-                android:backgroundTint="@color/yellow" />
+
         </LinearLayout>
-    </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,7 +228,7 @@
             <ListView
                 android:id="@+id/lv_recipe_add_edit_ingredients_view"
                 android:layout_width="wrap_content"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:width="1dp"
                 android:color="#ff9900"
                 android:gravity="top"
@@ -258,7 +259,7 @@
                 <EditText
                     android:id="@+id/et_recipe_add_edit_comments"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:hint="Enter recipe comments "
                     android:textColorHint="@color/light_yellow"
                     android:inputType="textCapSentences|textPersonName|textMultiLine"
