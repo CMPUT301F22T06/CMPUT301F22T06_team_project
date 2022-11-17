@@ -100,6 +100,7 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
+        rvAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -230,7 +231,6 @@ public class RecipesDBHelper {
      * @see MealPlannerDBHelper
      */
     private static Recipe createRecipe(DocumentSnapshot doc) {
-        Recipe recipe = null;
         String title = doc.getId();
         Map<String, Object> fromDB = doc.getData();
         HashMap<String,String> fromDBbutString = new HashMap<>();
@@ -243,7 +243,7 @@ public class RecipesDBHelper {
         String category = recipeDetails[1];
         Integer prepTime = Integer.parseInt(recipeDetails[2]);
         Integer servings = Integer.parseInt(recipeDetails[3]);
-        recipe = new Recipe(title, comments,category,prepTime,servings);
+        Recipe recipe = new Recipe(title, comments,category,prepTime,servings);
 
         for (String key: fromDBbutString.keySet()) {
             String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");

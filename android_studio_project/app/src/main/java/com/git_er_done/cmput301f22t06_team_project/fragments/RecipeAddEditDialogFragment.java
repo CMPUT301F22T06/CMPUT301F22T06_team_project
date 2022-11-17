@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
@@ -31,9 +32,11 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
 import java.util.ArrayList;
 
@@ -169,14 +172,19 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         for (RecipeIngredient i : recipeIngredients) {
             ingredientNames.add(i.getName());
             ingredientStorage.add(i.getName());
+
             ingredientUnit.add(i.getUnits());
         }
-        ingredientStorage.add(mangoRI.getName());
+
+//        for (Ingredient ingredient : testIngredients){
+//            ingredientStorage.add(ingredient.getName());
+//        }
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         spIngredients_dropdown.setAdapter(recipeAdapter);
 
         if(isEdittingExistingRecipe) {
+            Log.d(TAG, "AAAAA" + testIngredients);
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
             ArrayAdapter<String> recipeIngredientUnit = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientUnit);
@@ -199,13 +207,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     addCategoryButton.setVisibility(View.VISIBLE);
                     addCategoryText.setVisibility(View.VISIBLE);
                     spCategory.setVisibility(View.INVISIBLE);
-                    Log.d(TAG,"Hello");
+
                     addCategoryButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            String locationText = String.valueOf(addCategoryText.getText());
-                            if (locationText != "Add Category") {
-                                Location.getInstance().addLocation(locationText);
+                            String CategoryText = String.valueOf(addCategoryText.getText());
+                            if (CategoryText != "Add Category") {
+                                RecipeCategory.getInstance().addRecipeCategory(CategoryText);
                             }
                             addCategoryButton.setVisibility(View.INVISIBLE);
                             addCategoryText.setVisibility(View.INVISIBLE);
@@ -222,9 +230,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
             }
         });
-
-
-        //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
@@ -347,7 +352,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         modifiedRecipe.setComments(etComments.getText().toString());
         modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
         modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
-        //modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
+        modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
         //modifiedRecipe.setRecipeIngredients(lvIngredients_view);
     }
 
@@ -356,7 +361,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         comments = String.valueOf(etComments.getText());
         prep_time = String.valueOf(etPrep_time.getText());
         servings = String.valueOf(etServings.getText());
-        //category = spCategory.getSelectedItem().toString();
+        category = spCategory.getSelectedItem().toString();
         //ingredients = lvIngredients_view.getSelectedItem().toString();
     }
 
