@@ -22,7 +22,6 @@ public class Ingredient implements Cloneable{
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
     public static ArrayList<String> units = Unit.getInstance().getAllUnits();
 
-    public static ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
     /**
      * Creates a new Ingredient object

@@ -1,7 +1,5 @@
 package com.git_er_done.cmput301f22t06_team_project.controllers;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +16,7 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,11 +40,11 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     /**
      * Generic constructor for this adapter
-     * @param ingredients - List of ingredient instances
      * @param rvInterface - Reference to an interface for handling onItemLongClick events
      */
-    public IngredientsRecyclerViewAdapter(List<Ingredient> ingredients, IngredientsRecyclerViewInterface rvInterface){
-        mIngredients = ingredients;
+    public IngredientsRecyclerViewAdapter(IngredientsRecyclerViewInterface rvInterface){
+        mIngredients = new ArrayList<Ingredient>();
+
         this.rvInterface = rvInterface;
     }
 
@@ -69,6 +68,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         ViewHolder viewHolder = new ViewHolder(ingredientView);
         return viewHolder;
     }
+
 
     /**
      * Set each item view attributes based on associated instance data
@@ -161,11 +161,20 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
     }
 
+    public ArrayList<Ingredient> getIngredientsList(){
+        return (ArrayList<Ingredient>) mIngredients;
+    }
+
     public void removeItem(int position){
-        recentlyDeletedIngredient = testIngredients.get(position);
+        recentlyDeletedIngredient = mIngredients.get(position);
         recentlyDeletedIngredientPosition = position;
-        IngredientDBHelper.deleteIngredientFromDB(testIngredients.get(recentlyDeletedIngredientPosition), recentlyDeletedIngredientPosition);
+        mIngredients.remove(position);
+        notifyDataSetChanged();
         showUndoSnackbar();
+    }
+
+    public void addItem(Ingredient newIngredient){
+        mIngredients.add(newIngredient);
         notifyDataSetChanged();
     }
 
@@ -179,9 +188,84 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     public void undoRecentDelete(){
         mIngredients.add(recentlyDeletedIngredientPosition, recentlyDeletedIngredient);
+        notifyDataSetChanged();
         IngredientDBHelper.addIngredientToDB(recentlyDeletedIngredient);
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void sortByName(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByDescription(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getDesc().compareTo(rhs.getDesc());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByBestBeforeDate(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getBestBefore().compareTo(rhs.getBestBefore());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByLocation(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getLocation().compareTo(rhs.getLocation());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByCategory(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getCategory().compareTo(rhs.getCategory());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByAmount(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getAmount().compareTo(rhs.getAmount());
+            }
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByUnit(){
+        Collections.sort(mIngredients, new Comparator<Ingredient>(){
+            @Override
+            public int compare(Ingredient lhs, Ingredient rhs) {
+                return lhs.getUnit().compareTo(rhs.getUnit());
+            }
+        });
+        notifyDataSetChanged();
+    }
 
 
 }

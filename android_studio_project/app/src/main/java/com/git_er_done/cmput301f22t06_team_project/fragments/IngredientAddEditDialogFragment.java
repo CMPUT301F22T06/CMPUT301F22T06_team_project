@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
 
 import android.os.Bundle;
@@ -151,8 +150,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 assignIngredientAttributesFromViews();
 
                 if(isEdittingExistingIngredient) {
-                    int selectedIngredientIndex = testIngredients.indexOf(si);
-                    Ingredient newIngredient = testIngredients.get(selectedIngredientIndex);
+                    int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
+                    Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
                     Ingredient oldIngredient = new Ingredient(
                             newIngredient.getName(),
                             newIngredient.getDesc(),
@@ -168,7 +167,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
 
                 if(isAddingNewIngredient){
-                    addIngredient();
+                    Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+                    IngredientDBHelper.addIngredientToDB(newIngredient);
                     isAddingNewIngredient = false;
                 }
 
@@ -179,11 +179,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
-
-    void addIngredient(){
-        Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-        IngredientDBHelper.addIngredientToDB(newIngredient);
-    }
 
 
     void modifyIngredient(Ingredient ingredient){
