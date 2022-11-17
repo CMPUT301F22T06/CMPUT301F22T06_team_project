@@ -2,7 +2,10 @@ package com.git_er_done.cmput301f22t06_team_project.models;
 
 import static android.content.ContentValues.TAG;
 
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
@@ -89,8 +92,8 @@ public class Recipe implements Cloneable{
      * Creates an {@link ArrayList} of recipes for UI testing
      * @return An {@link ArrayList} of recipes.
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public final static ArrayList<Recipe> createRecipeList() {
-        ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
         Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 

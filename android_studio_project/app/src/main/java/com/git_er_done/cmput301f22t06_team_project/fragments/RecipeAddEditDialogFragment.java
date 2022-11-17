@@ -182,6 +182,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         spIngredients_dropdown.setAdapter(recipeAdapter);
+        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
+
 
         if(isEdittingExistingRecipe) {
             Log.d(TAG, "AAAAA" + testIngredients);

@@ -2,8 +2,8 @@ package com.git_er_done.cmput301f22t06_team_project.controllers;
 
 import static android.content.ContentValues.TAG;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
 import android.content.Context;
 import android.util.Log;

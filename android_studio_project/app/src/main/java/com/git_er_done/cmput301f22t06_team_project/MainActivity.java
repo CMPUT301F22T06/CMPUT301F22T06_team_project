@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -92,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
             IngredientDBHelper.addIngredientToDB(i);
         }
 
+        ArrayList<Recipe> testRecipes = Recipe.createRecipeList();
+        for(Recipe i: testRecipes) {
+            RecipesDBHelper.addRecipe(i);
+        }
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

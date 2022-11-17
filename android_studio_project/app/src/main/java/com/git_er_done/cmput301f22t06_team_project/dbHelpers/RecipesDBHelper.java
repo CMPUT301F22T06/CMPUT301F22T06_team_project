@@ -7,6 +7,7 @@ import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testReci
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
