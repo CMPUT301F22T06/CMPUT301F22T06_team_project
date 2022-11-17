@@ -93,11 +93,6 @@ public class MainActivity extends AppCompatActivity {
             IngredientDBHelper.addIngredientToDB(i);
         }
 
-        ArrayList<Recipe> testRecipes = Recipe.createRecipeList();
-        for(Recipe i: testRecipes) {
-            RecipesDBHelper.addRecipe(i);
-        }
-
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_recipes_menu_item:

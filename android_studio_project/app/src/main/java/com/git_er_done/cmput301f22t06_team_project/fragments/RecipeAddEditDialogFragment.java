@@ -171,14 +171,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
         for (RecipeIngredient i : recipeIngredients) {
             ingredientNames.add(i.getName());
-            ingredientStorage.add(i.getName());
 
             ingredientUnit.add(i.getUnits());
         }
-
-//        for (Ingredient ingredient : testIngredients){
-//            ingredientStorage.add(ingredient.getName());
-//        }
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         spIngredients_dropdown.setAdapter(recipeAdapter);
