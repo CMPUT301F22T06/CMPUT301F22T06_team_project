@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -34,6 +35,10 @@ import java.util.ArrayList;
 public class RecipesFragment extends Fragment implements RecipesRecyclerViewInterface
 {
 
+    ArrayList<Recipe> testRecipes;
+
+
+
     RecyclerView rvRecipes;
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
@@ -50,6 +55,14 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

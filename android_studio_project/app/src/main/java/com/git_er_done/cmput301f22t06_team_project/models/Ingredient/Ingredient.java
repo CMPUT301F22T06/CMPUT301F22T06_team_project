@@ -278,4 +278,9 @@ public class Ingredient implements Cloneable{
             throw new AssertionError();
         }
     }
+
+//    @Override
+//    public int compareTo(Object o) {
+//        return 0;
+//    }
 }

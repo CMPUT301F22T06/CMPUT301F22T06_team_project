@@ -3,6 +3,8 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
 import android.content.Intent;
@@ -12,12 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +31,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 
@@ -57,6 +62,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnUpload;
     private Button btnCancel;
     private Button btnSave;
+
+    private EditText addCategoryText;
+    private Button addCategoryButton;
+    private TextView addCategoryTitle;
 
     String title;
     String prep_time;
@@ -123,6 +132,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        return super.onCreateView(inflater, container, savedInstanceState);
+
         return inflater.inflate(R.layout.fragment_recipe_add_edit_dialog, container);
     }
 
@@ -136,6 +146,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         attachLayoutViewsToLocalInstances(view);
+        setupAdapters();
+
         ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientNames);
         // Test data
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
@@ -179,6 +191,39 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             lvIngredients_view.setAdapter(ingredientView);
             //lvIngredients_view.setAdapter(recipeIngredientUnit);
         }
+
+        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == "Add Category"){
+                    addCategoryButton.setVisibility(View.VISIBLE);
+                    addCategoryText.setVisibility(View.VISIBLE);
+                    spCategory.setVisibility(View.INVISIBLE);
+                    Log.d(TAG,"Hello");
+                    addCategoryButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String locationText = String.valueOf(addCategoryText.getText());
+                            if (locationText != "Add Category") {
+                                Location.getInstance().addLocation(locationText);
+                            }
+                            addCategoryButton.setVisibility(View.INVISIBLE);
+                            addCategoryText.setVisibility(View.INVISIBLE);
+                            spCategory.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         //set category
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
@@ -332,6 +377,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings.setText(String.valueOf(servings));
         etPrep_time.setText(String.valueOf(prep_time));
         etComments.setText(comments);
+
+        spCategory.setSelection(recipeCategories.indexOf(category));
     }
 
     void attachLayoutViewsToLocalInstances(View view){
@@ -350,6 +397,18 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // stuff for photos
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
         view_recipe_image = view.findViewById(R.id.view_recipe_image);
+
+        addCategoryText = view.findViewById((R.id.addCategory));
+        addCategoryButton = view.findViewById(R.id.addCategoryButton);
+        addCategoryTitle = view.findViewById(R.id.categoryTitle);
+    }
+
+    void setupAdapters(){
+        ArrayAdapter<String> categorySpinnerAdapter =
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spCategory.setAdapter(categorySpinnerAdapter);
     }
 
 }
