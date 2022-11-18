@@ -2,8 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
@@ -32,8 +30,6 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
@@ -170,7 +166,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
         // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
         for (RecipeIngredient i : recipeIngredients) {
-            ingredientNames.add(i.getName());
+            //ingredientNames.add(i.getName());
 
             ingredientUnit.add(i.getUnits());
         }
@@ -194,6 +190,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
 
             lvIngredients_view.setAdapter(ingredientView);
+
+            RecipesDBHelper.setRecipeIngredientAdapter(title,ingredientView,ingredientNames); // Saheel's code
+
             //lvIngredients_view.setAdapter(recipeIngredientUnit);
         }
 
@@ -273,9 +272,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             newRecipe.getCategory(),
                             newRecipe.getPrep_time(),
                             newRecipe.getServings()
-
-                            //newRecipe.getIngredients()
                     );
+                    oldRecipe.setIngredientsList(newRecipe.getIngredients()); // This is Saheel
                     //RecipesDBHelper.searchForRecipe(oldRecipe.getTitle());
                     modifyRecipe(newRecipe);
                     RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
@@ -350,7 +348,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
         modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
         modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
-        //modifiedRecipe.setRecipeIngredients(lvIngredients_view);
+       // modifiedRecipe.setRecipeIngredients(); This is where Saheel will set the changed recipe ingredients but we're missing more information for each ingredient right now
     }
 
     void assignRecipeAttributesFromViews(){

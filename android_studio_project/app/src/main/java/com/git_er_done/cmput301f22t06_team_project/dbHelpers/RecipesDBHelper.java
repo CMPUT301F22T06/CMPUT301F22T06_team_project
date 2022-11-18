@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
 import android.text.TextUtils;
@@ -12,21 +11,19 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.LogDescriptor;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -205,22 +202,25 @@ public class RecipesDBHelper {
      * This method is just a random method I made just in case we need to be able to look
      * for a specific recipe in the recipe Database but I haven't tested it nor is it being
      * used any at the moment
-     * @param recipe of type {@link String}
      * returns void
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static Recipe searchForRecipe(String recipe) {
+    public static void setRecipeIngredientAdapter(String title, ArrayAdapter<String> ingredientView, ArrayList<String> ingredientList) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
 //        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
-        recipesDB.document(recipe).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 Recipe recipe = createRecipe(doc);
-                retrieved.add(recipe);
+                ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+                for (RecipeIngredient i: recipeIngredients){
+                    ingredientList.add(i.getName());
+                    Log.d(TAG,"ahhhh"+ i.getName());
+                }
+                ingredientView.notifyDataSetChanged();
             }
         });
-        return retrieved.get(0);
     }
 
     /**
