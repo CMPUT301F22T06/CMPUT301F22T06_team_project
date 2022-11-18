@@ -1,14 +1,11 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static android.content.ContentValues.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -262,8 +259,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 assignRecipeAttributesFromViews();
 
                 if(isEdittingExistingRecipe) {
-                    int selectedRecipeIndex = testRecipes.indexOf(si);
-                    Recipe newRecipe = testRecipes.get(selectedRecipeIndex);
+                    int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
+                    Recipe newRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                     Recipe oldRecipe = new Recipe(
                             newRecipe.getTitle(),
                             newRecipe.getComments(),
@@ -271,16 +268,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             newRecipe.getPrep_time(),
                             newRecipe.getServings()
                     );
-                    oldRecipe.setIngredientsList(newRecipe.getIngredients()); // This is Saheel
-                    //RecipesDBHelper.searchForRecipe(oldRecipe.getTitle());
                     modifyRecipe(newRecipe);
                     RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
-                    //RecipesDBHelper.addRecipe(newRecipe);
                     isEdittingExistingRecipe = false;
                 }
 
                 if(isAddingNewRecipe){
-                    addRecipe();
+                    Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                    RecipesDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
 
@@ -331,11 +326,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
-    }
-
-    void addRecipe(){
-        Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
-        RecipesDBHelper.addRecipe(newRecipe);
     }
 
     void modifyRecipe(Recipe recipe){
