@@ -91,13 +91,6 @@ public class MainActivity extends AppCompatActivity {
         Ingredient apple = new Ingredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
         Ingredient orange = new Ingredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
 
-
-        ArrayList<Ingredient> testIngredients = Ingredient.createIngredientList();
-        for(Ingredient i: testIngredients) {
-            IngredientDBHelper.addIngredientToDB(i);
-        }
-
-
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_recipes_menu_item:
