@@ -3,7 +3,6 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 import static android.service.controls.ControlsProviderService.TAG;
 
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.createIngredientList;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 
 import android.util.Log;
 import android.widget.ArrayAdapter;

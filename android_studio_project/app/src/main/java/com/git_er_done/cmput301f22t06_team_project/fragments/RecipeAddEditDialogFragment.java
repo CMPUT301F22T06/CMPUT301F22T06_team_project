@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
 
@@ -177,7 +176,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
 
         if(isEdittingExistingRecipe) {
-            Log.d(TAG, "AAAAA" + testIngredients);
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
             ArrayAdapter<String> recipeIngredientUnit = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientUnit);
