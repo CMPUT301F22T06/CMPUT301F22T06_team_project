@@ -71,10 +71,13 @@ public class RecipesDBHelper {
         sendToDb.put("details", firstField);
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+
         String ingredientFields;
 
         for (RecipeIngredient i: recipeIngredients) {
             String name = i.getName();
+            Log.d(TAG, "AAAAAAAAAAAAAA" + name);
+
             String units = i.getUnits();
             String amount = String.valueOf(i.getAmount());
             String comment = i.getComment();
@@ -98,7 +101,7 @@ public class RecipesDBHelper {
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-        rvAdapter.notifyDataSetChanged();
+        //rvAdapter.notifyDataSetChanged();
     }
 
     /**

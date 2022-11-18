@@ -96,13 +96,44 @@ public class Recipe implements Cloneable{
     public final static ArrayList<Recipe> createRecipeList() {
         // Breakfast
         Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
+        RecipeIngredient fruit_salad_sugar = new RecipeIngredient("sugar", "ml", 83, "Boil in saucepan");
+        RecipeIngredient fruit_salad_strawberry = new RecipeIngredient("strawberry", "ml", 500, "Hulled and sliced");
+        RecipeIngredient fruit_salad_apple = new RecipeIngredient("apple", "singles", 2, "Sliced");
+        RecipeIngredient fruit_salad_vanilla_extract = new RecipeIngredient("vanilla extract", "ml", 5, "Stir in with sugar");
+        RecipeIngredient fruit_salad_pineapple = new RecipeIngredient("pineapple", "singles", 1, "Cut into slices");
+        fruit_salad.addIngredient(fruit_salad_apple);
+        fruit_salad.addIngredient(fruit_salad_sugar);
+        fruit_salad.addIngredient(fruit_salad_strawberry);
+        fruit_salad.addIngredient(fruit_salad_vanilla_extract);
+        fruit_salad.addIngredient(fruit_salad_pineapple);
 
         Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "breakfast", 15, 2);
+        RecipeIngredient poke_tuna = new RecipeIngredient("tuna", "oz", 2, "Cut into 1/2 inch cubes");
+        RecipeIngredient poke_soy_sauce = new RecipeIngredient("soy sauce", "ml", 30, "Combine with tuna");
+        RecipeIngredient poke_sesame_oil = new RecipeIngredient("sesame oil", "ml", 5, "Combine with tuna");
+        RecipeIngredient poke_rice = new RecipeIngredient("rice", "g", 250, "Cook until soft and fluffy");
+        RecipeIngredient poke_cucumber = new RecipeIngredient("cucumber", "g", 250, "Diced into 1/2 inch cubes");
+        spicy_tuna_poke.addIngredient(poke_tuna);
+        spicy_tuna_poke.addIngredient(poke_soy_sauce);
+        spicy_tuna_poke.addIngredient(poke_sesame_oil);
+        spicy_tuna_poke.addIngredient(poke_rice);
+        spicy_tuna_poke.addIngredient(poke_cucumber);
 
         // Lunch
         Recipe fried_rice = new LunchRecipe("easy fried rice", "Super simple and super delicious", "lunch", 40, 4);
+        RecipeIngredient fr_rice = new RecipeIngredient("rice", "g", 250, "Must be day old for best results");
+        RecipeIngredient fr_vegetable_oil = new RecipeIngredient("vegetable oil", "ml", 10, "Heat in pan");
+        RecipeIngredient fr_egg = new RecipeIngredient("egg", "singles", 2, "Lightly whisked");
+        RecipeIngredient fr_carrot = new RecipeIngredient("carrot", "singles", 1, "Peeled and grated");
+        RecipeIngredient fr_bacon = new RecipeIngredient("bacon", "singles", 2, "Chopped and sliced");
+        fried_rice.addIngredient(fr_rice);
+        fried_rice.addIngredient(fr_vegetable_oil);
+        fried_rice.addIngredient(fr_egg);
+        fried_rice.addIngredient(fr_carrot);
+        fried_rice.addIngredient(fr_bacon);
 
         Recipe honey_soy_chicken = new LunchRecipe("honey soy chicken", "Sweet and tangy", "lunch", 165, 4);
+        RecipeIngredient hschicken_chicken = new RecipeIngredient("chicken_drumstick", "singles", 8, "Chopped and sliced");
 
         // Dinner
         Recipe pumpkin_soup = new DinnerRecipe("pumpkin soup", "Creamy and perfect for the fall season", "dinner", 50, 6);

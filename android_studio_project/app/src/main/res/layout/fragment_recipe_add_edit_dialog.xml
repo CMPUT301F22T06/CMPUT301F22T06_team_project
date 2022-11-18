@@ -40,7 +40,7 @@
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="55"
                     android:textColorHint="@color/light_yellow"
-                    android:textSize="11dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -203,7 +203,7 @@
 
                 <Spinner
                     android:id="@+id/sp_recipe_add_edit_ingredients_dropdown"
-                    android:layout_width="wrap_content"
+                    android:layout_width="130dp"
                     android:layout_weight="1"
                     android:layout_marginTop="10dp"
                     android:layout_height="40sp"
@@ -212,7 +212,7 @@
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_add_ingredient"
-                    android:layout_width="0dp"
+                    android:layout_width="10dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -228,7 +228,7 @@
             <ListView
                 android:id="@+id/lv_recipe_add_edit_ingredients_view"
                 android:layout_width="wrap_content"
-                android:layout_height="170dp"
+                android:layout_height="150dp"
                 android:width="1dp"
                 android:color="#ff9900"
                 android:gravity="top"
