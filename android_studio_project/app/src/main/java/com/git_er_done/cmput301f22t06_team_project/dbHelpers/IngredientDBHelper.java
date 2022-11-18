@@ -2,7 +2,10 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.createIngredientList;
+
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +13,8 @@ import androidx.annotation.Nullable;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientAddEditDialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -124,6 +129,21 @@ public class IngredientDBHelper {
                 });
     }
 
+    public static void setSpIngredientsDropDownAdapter(ArrayAdapter<String> recipeAdapter, ArrayList<String> ingredientStorage){
+        ingredientsDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot docs = task.getResult();
+                for(QueryDocumentSnapshot doc: docs) {
+                    Ingredient ingredient = createIngredient(doc);
+                    ingredientStorage.add(ingredient.getName());
+                }
+                recipeAdapter.notifyDataSetChanged();
+                // The adapter will be here
+            }
+        });
+    }
+
 //    TODO - only modify attributes that have changed -  for now it modifies all of them
     public static void modifyIngredientInDB(Ingredient newIngredient, Ingredient oldIngredient, int pos){
         String nameOfIngredient = oldIngredient.getName();
@@ -193,7 +213,7 @@ public class IngredientDBHelper {
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
      */
-    private Ingredient createIngredient(DocumentSnapshot doc) {
+    private static Ingredient createIngredient(DocumentSnapshot doc) {
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");
         LocalDate bestBefore = LocalDate.parse((String) doc.getData().get("best before"));
