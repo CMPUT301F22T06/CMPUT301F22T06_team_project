@@ -31,4 +31,7 @@ public class Location {
         locations.add(locationToAdd);
     }
 
+    public void deleteLocation(String locationToDelete) {locations.remove(locationToDelete);
+    }
+
 }

@@ -17,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.BinderThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -25,7 +26,9 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,6 +56,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     EditText addLocationText;
     Button addLocationButton;
+    Button deleteLocationButton;
 
     EditText addUnitText;
     Button addUnitButton;
@@ -143,89 +147,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             fillViewsWithSelectedIngredientAttributes();
         }
 
-        spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == "Add new location"){
-                    addLocationButton.setVisibility(View.VISIBLE);
-                    addLocationText.setVisibility(View.VISIBLE);
-
-                    addLocationButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String locationText = String.valueOf(addLocationText.getText());
-                            if (locationText != "Add Location") {
-                                Location.getInstance().addLocation(locationText);
-                            }
-                            addLocationButton.setVisibility(View.INVISIBLE);
-                            addLocationText.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        spUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == "Add new Unit"){
-                    addUnitButton.setVisibility(View.VISIBLE);
-                    addUnitText.setVisibility(View.VISIBLE);
-
-                    addUnitButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String locationText = String.valueOf(addUnitText.getText());
-                            if (locationText != "Add Unit") {
-                                Location.getInstance().addLocation(locationText);
-                            }
-                            addUnitButton.setVisibility(View.INVISIBLE);
-                            addUnitText.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == "Add new category"){
-                    addCategoryButton.setVisibility(View.VISIBLE);
-                    addCategoryText.setVisibility(View.VISIBLE);
-
-                    addCategoryButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String locationText = String.valueOf(addUnitText.getText());
-                            if (locationText != "Add Unit") {
-                                Location.getInstance().addLocation(locationText);
-                            }
-                            addCategoryButton.setVisibility(View.INVISIBLE);
-                            addCategoryText.setVisibility(View.INVISIBLE);
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        //Saheel's code
+        addUserDefineStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add new location", "Add Location", "location");
+        deleteUserDefineStuff(spLocation, deleteLocationButton);
+        //addUserDefineStuff(spUnit,addUnitButton,addUnitText);
+        //addUserDefineStuff(spCategory,addCategoryButton, addCategoryText);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,6 +197,66 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 rvAdapter.notifyDataSetChanged();
 
                 dismiss();
+            }
+        });
+    }
+
+    void deleteUserDefineStuff(Spinner sp, Button deleteButton){
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String locationToDelete = (String) adapterView.getItemAtPosition(i);
+                        Location.getInstance().deleteLocation(locationToDelete);
+                        sp.setPrompt("ooga booga");
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
+    }
+
+    void addUserDefineStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == message){
+                    addButton.setVisibility(View.VISIBLE);
+                    addText.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
+                    addButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String text = String.valueOf(addText.getText());
+                            if (text != notEqual) {
+                                if (type == "location") {
+                                    Location.getInstance().addLocation(text);
+                                }
+                                if (type == "unit") {
+                                    Unit.getInstance().addUnit(text);
+                                }
+                                if (type == "category") {
+                                    IngredientCategory.getInstance().addIngredientCategory(text);
+                                }
+                            }
+                            addButton.setVisibility(View.INVISIBLE);
+                            addText.setVisibility(View.INVISIBLE);
+                            deleteButton.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -348,6 +334,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
         addLocationText = view.findViewById(R.id.addLocation);
         addLocationButton = view.findViewById(R.id.addLocationButton);
+        deleteLocationButton = view.findViewById(R.id.deleteLocationButton);
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);

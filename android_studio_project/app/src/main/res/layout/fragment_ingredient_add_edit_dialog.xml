@@ -99,10 +99,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp">
-                android:text="Location: "
-                android:textColor="@color/yellow"
-                android:textSize="20dp"
-                />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,6 +116,10 @@
                     android:textSize="10dp"
                     android:text="Add Location" />
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
                 <Button
                     android:visibility="invisible"
                     android:id="@+id/addLocationButton"
@@ -128,8 +128,19 @@
                     android:layout_weight="1"
                     android:width="10dp"
                     android:textSize="8dp"
-                    android:text="Button" />
+                    android:text="Add" />
 
+                <Button
+                    android:visibility="visible"
+                    android:id="@+id/deleteLocationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:width="10dp"
+                    android:textSize="8dp"
+                    android:text="Delete" />
+
+                </RelativeLayout>
 
             </LinearLayout>
             <Spinner
@@ -178,9 +189,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="10dp">
-                    android:text="Unit: "
-                    android:textColor="@color/yellow"
-                    android:textSize="20dp"/>
 
                     <TextView
                         android:layout_width="34dp"
@@ -229,10 +237,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp">
-                android:text="Category: "
-                android:textColor="@color/yellow"
-                android:textSize="20dp"
-                />
 
                 <TextView
                     android:layout_width="123dp"
