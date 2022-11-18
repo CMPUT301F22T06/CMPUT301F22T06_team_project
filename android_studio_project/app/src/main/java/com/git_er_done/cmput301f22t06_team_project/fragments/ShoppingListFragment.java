@@ -1,6 +1,5 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIngredient.testShoppingList;
 
 import android.os.Bundle;

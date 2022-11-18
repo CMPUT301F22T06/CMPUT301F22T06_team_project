@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.content.ContentValues.TAG;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -37,6 +36,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -87,73 +87,31 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 switch(id){
 
                     case R.id.action_sort_by_name:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getName().compareTo(rhs.getName());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByName();
                         break;
 
                     case R.id.action_sort_by_description:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getDesc().compareTo(rhs.getDesc());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByDescription();
                         break;
 
                     case R.id.action_sort_by_best_before_date:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getBestBefore().compareTo(rhs.getBestBefore());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByBestBeforeDate();
                         break;
 
                     case R.id.action_sort_by_location:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getLocation().compareTo(rhs.getLocation());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByLocation();
                         break;
 
                     case R.id.action_sort_by_amount:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getAmount().compareTo(rhs.getAmount());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByAmount();
                         break;
 
                     case R.id.action_sort_by_unit:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getUnit().compareTo(rhs.getUnit());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByUnit();
                         break;
 
                     case R.id.action_sort_by_category:
-                        Collections.sort(testIngredients, new Comparator<Ingredient>(){
-                            @Override
-                            public int compare(Ingredient lhs, Ingredient rhs) {
-                                return lhs.getCategory().compareTo(rhs.getCategory());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByCategory();
                         break;
                 }
                 return false;
@@ -175,16 +133,16 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             }
         });
 
+        //TODO - Fix this . No point in creating an instance of the DBhelper when its methods are all static
         //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
         IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
-//        dbHelper.setIngredientsAdapter(rvAdapter, testIngredients);
 
         // Inflate the layout for this fragment
         return root;
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new IngredientsRecyclerViewAdapter(testIngredients, this);
+        rvAdapter = new IngredientsRecyclerViewAdapter(this);
         rvIngredients.setAdapter(rvAdapter);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
@@ -223,4 +181,5 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         return false;
     }
+
 }

@@ -90,8 +90,6 @@ public class IngredientDBHelper {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Data has been added successfully!");
-//                        testIngredients.add(ingredient);
-//                        rvAdapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -113,6 +111,7 @@ public class IngredientDBHelper {
 
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
         String nameOfIngredient = ingredient.getName();
+        selectedIngPos = position;
         ingredientsDB
                 .document(nameOfIngredient)
                 .delete()
@@ -120,8 +119,7 @@ public class IngredientDBHelper {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Deleted has been deleted successfully!");
-//                        testIngredients.remove(ingredient);
-//                        rvAdapter.notifyItemRemoved(position);
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -161,11 +159,25 @@ public class IngredientDBHelper {
             dr.update("description", newIngredient.getDesc());
         }
 
+        if(!Objects.equals(newIngredient.getBestBefore().toString(), oldIngredient.getBestBefore().toString())){
+            dr.update("best before", newIngredient.getBestBefore().toString());
+        }
+
+        if(!Objects.equals(newIngredient.getLocation(), oldIngredient.getLocation())){
+            dr.update("location", newIngredient.getLocation());
+        }
+
+        if(!Objects.equals(newIngredient.getCategory(), oldIngredient.getCategory())){
+            dr.update("category", newIngredient.getCategory());
+        }
+
         if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
             dr.update("amount", newIngredient.getAmount().toString());
         }
 
-
+        if(!Objects.equals(newIngredient.getUnit(), oldIngredient.getUnit())){
+            dr.update("unit", newIngredient.getUnit());
+        }
     }
 
 
@@ -229,21 +241,21 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                testIngredients.add(ingredient);
-                                rvAdapter.notifyDataSetChanged();
+//                                testIngredients.add(ingredient);
+//                                rvAdapter.notifyDataSetChanged();
+                                rvAdapter.addItem(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                testIngredients.set(selectedIngPos ,ingredient );
+                                rvAdapter.getIngredientsList().set(selectedIngPos ,ingredient );
                                 rvAdapter.notifyDataSetChanged();
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                Ingredient ingredient = createIngredient(dc.getDocument());
-                                int position = testIngredients.indexOf(ingredient);
-                                testIngredients.remove(ingredient);
-                                rvAdapter.notifyItemRemoved(position);
+//                                Ingredient ingredient = createIngredient(dc.getDocument());
+//                                int position = rvAdapter.getIngredientsList().indexOf(ingredient);
+                                rvAdapter.removeItem(selectedIngPos);
                             }
                         }
                     }
