@@ -275,15 +275,13 @@ public class RecipesDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 Recipe recipe = createRecipe(dc.getDocument());
-                                testRecipes.add(recipe);
-                                rvAdapter.notifyDataSetChanged();
+                                rvAdapter.addRecipe(recipe);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                Recipe recipe = createRecipe(dc.getDocument());
-                                int position = testRecipes.indexOf(recipe);
-                                testRecipes.remove(recipe);
-                                rvAdapter.notifyItemRemoved(position);
+                               // Recipe recipe = createRecipe(dc.getDocument());
+                                //int position = testRecipes.indexOf(recipe);
+                                rvAdapter.removeRecipe(selectedRecipePos);
                             }
                         }
                     }
