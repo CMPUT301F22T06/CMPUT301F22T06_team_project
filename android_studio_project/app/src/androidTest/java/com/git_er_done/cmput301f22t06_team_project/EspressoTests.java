@@ -144,7 +144,7 @@ public class EspressoTests {
         //        .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         onView(withId(R.id.rv_ingredients_list))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("9v")), longClick()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         // Set amount to something other than original
         onView(withId(R.id.et_ingredient_add_edit_amount))
@@ -154,7 +154,7 @@ public class EspressoTests {
                 .perform(click());
 
         onView(withId(R.id.rv_ingredients_list))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("9v")), longClick()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         // Set amount to something other than the first set to ensure value actually changed.
         onView(withId(R.id.et_ingredient_add_edit_amount))
@@ -164,9 +164,14 @@ public class EspressoTests {
                 .perform(click());
 
         onView(withId(R.id.rv_ingredients_list))
-                .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText("9v")), longClick()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         onView(withText("3")).check(matches(isDisplayed()));
+
+        // Cleanup
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
     }
 
     @Test
@@ -187,8 +192,8 @@ public class EspressoTests {
     public void testAddIngredient() {
         create9V();
 
-//        onView(withId(R.id.rv_ingredients_list))
-//                .check(hasDescendant(withText("potato")));
+        onView(withText("9v"))
+                .check(matches(isDisplayed()));
 
     }
 
