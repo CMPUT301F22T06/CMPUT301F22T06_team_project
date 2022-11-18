@@ -35,7 +35,6 @@ public class Recipe implements Cloneable{
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> recipeCategories = RecipeCategory.getInstance().getAllRecipeCategories();
 
-    public static ArrayList<Recipe> testRecipes = new ArrayList<>();
     /**
      * Creates a new Recipe object.
      * @param title The name of the Recipe
@@ -94,6 +93,7 @@ public class Recipe implements Cloneable{
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public final static ArrayList<Recipe> createRecipeList() {
+        ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
         Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
         RecipeIngredient fruit_salad_sugar = new RecipeIngredient("sugar", "ml", 83, "Boil in saucepan");
