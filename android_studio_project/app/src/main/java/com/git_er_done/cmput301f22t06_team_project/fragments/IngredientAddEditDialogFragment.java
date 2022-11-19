@@ -1,13 +1,16 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.content.ContentValues.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,6 +25,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -46,6 +50,15 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private Spinner spCategory;
     private Button btnCancel;
     private Button btnSave;
+
+    EditText addLocationText;
+    Button addLocationButton;
+
+    EditText addUnitText;
+    Button addUnitButton;
+
+    EditText addCategoryText;
+    Button addCategoryButton;
 
     String name;
     String description;
@@ -122,7 +135,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
 
@@ -130,6 +142,90 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
         }
+
+        spLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == "Add new location"){
+                    addLocationButton.setVisibility(View.VISIBLE);
+                    addLocationText.setVisibility(View.VISIBLE);
+
+                    addLocationButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String locationText = String.valueOf(addLocationText.getText());
+                            if (locationText != "Add Location") {
+                                Location.getInstance().addLocation(locationText);
+                            }
+                            addLocationButton.setVisibility(View.INVISIBLE);
+                            addLocationText.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == "Add new Unit"){
+                    addUnitButton.setVisibility(View.VISIBLE);
+                    addUnitText.setVisibility(View.VISIBLE);
+
+                    addUnitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String locationText = String.valueOf(addUnitText.getText());
+                            if (locationText != "Add Unit") {
+                                Location.getInstance().addLocation(locationText);
+                            }
+                            addUnitButton.setVisibility(View.INVISIBLE);
+                            addUnitText.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == "Add new category"){
+                    addCategoryButton.setVisibility(View.VISIBLE);
+                    addCategoryText.setVisibility(View.VISIBLE);
+
+                    addCategoryButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String locationText = String.valueOf(addUnitText.getText());
+                            if (locationText != "Add Unit") {
+                                Location.getInstance().addLocation(locationText);
+                            }
+                            addCategoryButton.setVisibility(View.INVISIBLE);
+                            addCategoryText.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,6 +345,16 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
         btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
+
+        addLocationText = view.findViewById(R.id.addLocation);
+        addLocationButton = view.findViewById(R.id.addLocationButton);
+
+        addUnitText = view.findViewById(R.id.addUnit);
+        addUnitButton = view.findViewById(R.id.addUnitButton);
+
+        addCategoryText = view.findViewById(R.id.addCategory);
+        addCategoryButton = view.findViewById(R.id.addCategoryButton);
+
     }
 
 

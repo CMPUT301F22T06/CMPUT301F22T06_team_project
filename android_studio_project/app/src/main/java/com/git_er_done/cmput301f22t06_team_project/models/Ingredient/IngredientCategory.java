@@ -9,6 +9,7 @@ public class IngredientCategory {
     private static final IngredientCategory instance = new IngredientCategory();
 
     private IngredientCategory(){
+        ingredientCategories.add("Add new category");
         ingredientCategories.add("dairy");
         ingredientCategories.add("fruit");
         ingredientCategories.add("grain");
