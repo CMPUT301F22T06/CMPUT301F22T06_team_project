@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 
 public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
 
@@ -27,7 +29,10 @@ public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        mAdapter.removeRecipe(position);
+        //mAdapter.removeRecipe(position);
+
+        Recipe recipe = mAdapter.getRecipesList().get(position);
+        RecipesDBHelper.deleteRecipe(recipe, position);
     }
 
 }

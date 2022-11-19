@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientAddEditDialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -26,7 +25,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
@@ -217,7 +215,6 @@ public class IngredientDBHelper {
         String name = doc.getId();
         String desc = (String) doc.getData().get("description");
         LocalDate bestBefore = LocalDate.parse((String) doc.getData().get("best before"));
-//        LocalDate bestBefore = LocalDate.now();
         String location = (String) doc.getData().get("location");
         String unit = (String) doc.getData().get("unit");
         String category = (String) doc.getData().get("category");
@@ -240,21 +237,20 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-//                                testIngredients.add(ingredient);
-//                                rvAdapter.notifyDataSetChanged();
                                 rvAdapter.addItem(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                rvAdapter.getIngredientsList().set(selectedIngPos ,ingredient );
-                                rvAdapter.notifyDataSetChanged();
+                                rvAdapter.modifyIngredient(ingredient, selectedIngPos);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-//                                Ingredient ingredient = createIngredient(dc.getDocument());
-//                                int position = rvAdapter.getIngredientsList().indexOf(ingredient);
-                                rvAdapter.removeItem(selectedIngPos);
+                                Ingredient ingredient = createIngredient(dc.getDocument());
+                                int position = rvAdapter.getIngredientsList().indexOf(ingredient);
+                                if(position != -1){
+                                    rvAdapter.deleteItem(selectedIngPos);
+                                }
                             }
                         }
                     }

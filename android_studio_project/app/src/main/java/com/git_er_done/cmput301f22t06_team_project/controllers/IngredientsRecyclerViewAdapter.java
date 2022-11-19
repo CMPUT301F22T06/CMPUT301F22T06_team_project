@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,8 +31,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     private final IngredientsRecyclerViewInterface rvInterface;
     private List<Ingredient> mIngredients;
-    private Ingredient recentlyDeletedIngredient;
-    private int recentlyDeletedIngredientPosition;
 
     View ingredientView;
 
@@ -44,7 +40,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
      */
     public IngredientsRecyclerViewAdapter(IngredientsRecyclerViewInterface rvInterface){
         mIngredients = new ArrayList<Ingredient>();
-
         this.rvInterface = rvInterface;
     }
 
@@ -153,7 +148,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
                             rvInterface.onItemLongClick(pos);
                             return true;
                         }
-
                     }
                     return false;
                 }
@@ -165,12 +159,13 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return (ArrayList<Ingredient>) mIngredients;
     }
 
-    public void removeItem(int position){
-        recentlyDeletedIngredient = mIngredients.get(position);
-        recentlyDeletedIngredientPosition = position;
+    public void deleteItem(int position){
         mIngredients.remove(position);
         notifyDataSetChanged();
-        showUndoSnackbar();
+    }
+
+    public void fakeDeleteForUndo(int position){
+        rvInterface.onItemDeleted(mIngredients.get(position), position);
     }
 
     public void addItem(Ingredient newIngredient){
@@ -178,18 +173,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    void showUndoSnackbar(){
-        View view = ingredientView.findViewById(R.id.tv_ingredient_list_item_name);
-        Snackbar snackbar = Snackbar.make(view, "Would you like to undo this?",
-                Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", v -> undoRecentDelete());
-        snackbar.show();
-    }
-
-    public void undoRecentDelete(){
-        mIngredients.add(recentlyDeletedIngredientPosition, recentlyDeletedIngredient);
+    public void modifyIngredient(Ingredient ing, int position){
+        mIngredients.set(position ,ing);
         notifyDataSetChanged();
-        IngredientDBHelper.addIngredientToDB(recentlyDeletedIngredient);
     }
 
     @Override
@@ -266,6 +252,5 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         });
         notifyDataSetChanged();
     }
-
 
 }

@@ -21,10 +21,6 @@ import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerVi
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.testRecipes;
-
-
-import java.util.ArrayList;
 
 
 /**
@@ -38,7 +34,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
 
-    ArrayList<Recipe> retrievedRecipes;
     public RecipesFragment() {
         // Required empty public constructor
     }
@@ -46,10 +41,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
 
@@ -64,14 +55,15 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_recipes, container, false);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
 
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_recipes, container, false);
         rvRecipes = (RecyclerView) root.findViewById(R.id.rv_recipes_list);
-        rvRecipes.setHasFixedSize(true);
-        rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        testRecipes = new ArrayList<>();
-        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
-        rvRecipes.setAdapter(rvAdapter);
+//        rvRecipes.setHasFixedSize(true);
+//        rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        testRecipes = new ArrayList<>();
+//        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
+//        rvRecipes.setAdapter(rvAdapter);
         fabAddRecipe = root.findViewById(R.id.fab_recipe_add);
 
         setupRecyclerView();
@@ -84,14 +76,14 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         });
 
         RecipesDBHelper dbHelper = new RecipesDBHelper(rvAdapter);
-        dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
+        //dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
 
         // Inflate the layout for this fragment
         return root;
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
+        rvAdapter = new RecipesRecyclerViewAdapter(this);
         rvRecipes.setAdapter(rvAdapter);
         rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteRecipeCallback(rvAdapter));
