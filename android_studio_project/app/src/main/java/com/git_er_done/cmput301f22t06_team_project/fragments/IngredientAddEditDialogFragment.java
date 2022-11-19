@@ -60,9 +60,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     EditText addUnitText;
     Button addUnitButton;
+    Button deleteUnitButton;
 
     EditText addCategoryText;
     Button addCategoryButton;
+    Button deleteCategoryButton;
 
     String name;
     String description;
@@ -148,10 +150,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         }
 
         //Saheel's code
-        addUserDefineStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add new location", "Add Location", "location");
-        deleteUserDefineStuff(spLocation, deleteLocationButton);
-        //addUserDefineStuff(spUnit,addUnitButton,addUnitText);
-        //addUserDefineStuff(spCategory,addCategoryButton, addCategoryText);
+        addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
+        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
+        addUserDefinedStuff(spUnit,addUnitButton,addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
+        deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
+        addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
+        deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,16 +205,23 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
-    void deleteUserDefineStuff(Spinner sp, Button deleteButton){
+    void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String locationToDelete = (String) adapterView.getItemAtPosition(i);
-                        Location.getInstance().deleteLocation(locationToDelete);
-                        sp.setPrompt("ooga booga");
+                        String toDelete = (String) adapterView.getItemAtPosition(i);
+                        if (type == "location"){
+                            Location.getInstance().deleteLocation(toDelete);
+                        }
+                        if (type == "unit"){
+                            Unit.getInstance().deleteUnit(toDelete);
+                        }
+                        if (type == "category"){
+                            IngredientCategory.getInstance().deleteCategory(toDelete);
+                        }
                     }
 
                     @Override
@@ -222,7 +233,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
-    void addUserDefineStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -338,10 +349,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);
+        deleteUnitButton = view.findViewById(R.id.deleteUnitButton);
 
         addCategoryText = view.findViewById(R.id.addCategory);
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
-
+        deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
     }
 
 

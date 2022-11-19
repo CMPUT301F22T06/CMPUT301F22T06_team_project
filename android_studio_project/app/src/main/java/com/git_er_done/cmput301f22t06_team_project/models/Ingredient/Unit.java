@@ -8,7 +8,7 @@ public class Unit {
     private static final Unit instance = new Unit();
 
     private Unit(){
-        units.add("Add new Unit");
+        units.add("Add New Unit");
         units.add("g");
         units.add("ml");
         units.add("L");
@@ -30,5 +30,9 @@ public class Unit {
 
     public void addUnit(String locationToAdd){
         units.add(locationToAdd);
+    }
+
+    public void deleteUnit(String unitToDelete) {
+        units.remove(unitToDelete);
     }
 }

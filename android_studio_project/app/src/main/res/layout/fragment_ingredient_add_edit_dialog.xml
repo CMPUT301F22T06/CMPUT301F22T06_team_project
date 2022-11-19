@@ -67,7 +67,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             >
 
@@ -114,31 +114,31 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:textSize="10dp"
-                    android:text="Add Location" />
+                    android:hint="Add Location" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                <Button
-                    android:visibility="invisible"
-                    android:id="@+id/addLocationButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:width="10dp"
-                    android:textSize="8dp"
-                    android:text="Add" />
+                    <Button
+                        android:visibility="invisible"
+                        android:id="@+id/addLocationButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="10dp"
+                        android:textSize="8dp"
+                        android:text="Add" />
 
-                <Button
-                    android:visibility="visible"
-                    android:id="@+id/deleteLocationButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:width="10dp"
-                    android:textSize="8dp"
-                    android:text="Delete" />
+                    <Button
+                        android:visibility="visible"
+                        android:id="@+id/deleteLocationButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="10dp"
+                        android:textSize="8dp"
+                        android:text="Delete" />
 
                 </RelativeLayout>
 
@@ -202,19 +202,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text="Add Unit"
+                        android:hint="Add Unit"
                         android:textSize="10dp"
                         android:visibility="invisible" />
 
-                    <Button
-                        android:id="@+id/addUnitButton"
-                        android:layout_width="65dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:width="10dp"
-                        android:text="Button"
-                        android:textSize="8dp"
-                        android:visibility="invisible" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/addUnitButton"
+                            android:layout_width="65dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:text="Add"
+                            android:textSize="8dp"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:visibility="visible"
+                            android:id="@+id/deleteUnitButton"
+                            android:layout_width="65dp"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:textSize="8dp"
+                            android:text="Delete" />
+                    </RelativeLayout>
                 </LinearLayout>
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_unit"
@@ -250,19 +264,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Add Category"
+                    android:hint ="Add Category"
                     android:textSize="10dp"
                     android:visibility="invisible" />
 
-                <Button
-                    android:id="@+id/addCategoryButton"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:width="10dp"
-                    android:text="Button"
-                    android:textSize="8dp"
-                    android:visibility="invisible" />
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/addCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="10dp"
+                        android:text="Add"
+                        android:textSize="8dp"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:visibility="visible"
+                        android:id="@+id/deleteCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:width="10dp"
+                        android:textSize="8dp"
+                        android:text="Delete" />
+                </RelativeLayout>
 
             </LinearLayout>
 
