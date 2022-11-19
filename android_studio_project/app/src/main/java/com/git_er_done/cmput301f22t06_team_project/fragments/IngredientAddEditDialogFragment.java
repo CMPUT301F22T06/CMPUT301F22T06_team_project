@@ -150,10 +150,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         }
 
         //Saheel's code
+
         addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
         deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
-        addUserDefinedStuff(spUnit,addUnitButton,addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
-        deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
+        addUserDefinedStuff(spUnit, addUnitButton, addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
         addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
 
