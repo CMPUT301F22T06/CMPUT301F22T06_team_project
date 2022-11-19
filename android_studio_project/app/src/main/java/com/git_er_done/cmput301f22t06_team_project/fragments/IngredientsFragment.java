@@ -1,7 +1,5 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static android.content.ContentValues.TAG;
-
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +7,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,33 +15,21 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.FirebaseCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Objects;
-
-import io.grpc.ManagedChannelProvider;
 
 //TODO - ON START, CHECK IF ANY INGREDIENTS ARE PAST DUE DATE. IF THEY ARE , SET COUNT TO ZERO AND HIGHLIGH
 //  ITEM IN INGREDIENT LIST RED WITH TOAST MESSAGE.
@@ -77,8 +62,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menuInflater.inflate(R.menu.ingredient_sort_menu, menu);
-                // Add option Menu Here
-
             }
 
             @Override
@@ -117,7 +100,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 return false;
             }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
-
 
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
 
@@ -174,7 +156,6 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.ingredient_sort_menu, menu);
-        ///DO STUFF...
     }
 
     @Override
@@ -182,4 +163,21 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         return false;
     }
 
+    @Override
+    public void onItemDeleted(Ingredient ing, int position) {
+            Snackbar snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
+                    Snackbar.LENGTH_LONG);
+            snackbar.setAction("DELETE", v -> IngredientDBHelper.deleteIngredientFromDB(ing, position));
+            snackbar.addCallback(new Snackbar.Callback() {
+
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                        // IF Snackbar closed on its own, item was NOT deleted
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+            snackbar.show();
+    }
 }
