@@ -28,7 +28,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
     private TextView name;
     private EditText comment;
     private Button minus_button;
-    private TextView amount;
+    //private TextView amount;
     private Button plus_button;
     private EditText unit;
 
@@ -49,6 +49,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         RecipeIngredient recipeIngredient = recipeIngredients.get(position);
 
         setViews(listItem);
+        final TextView amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);;
 
         name.setText(recipeIngredient.getName());
 
@@ -83,7 +84,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         name = (TextView) listItem.findViewById(R.id.name_of_ingredient);
         comment = (EditText) listItem.findViewById(R.id.comment_of_ingredient);
         minus_button = (Button) listItem.findViewById(R.id.minus_button);
-        amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);
+        //amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);
         plus_button = (Button) listItem.findViewById(R.id.plus_button);
         unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
     }
