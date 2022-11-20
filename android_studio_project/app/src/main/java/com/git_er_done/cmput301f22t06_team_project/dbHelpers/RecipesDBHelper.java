@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
@@ -206,7 +207,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static void setRecipeIngredientAdapter(String title, ArrayAdapter<String> ingredientView, ArrayList<String> ingredientList) {
+    public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<RecipeIngredient> ingredientList) {
         ArrayList<Recipe> retrieved = new ArrayList<>();
 //        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -215,10 +216,9 @@ public class RecipesDBHelper {
                 Recipe recipe = createRecipe(doc);
                 ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
                 for (RecipeIngredient i: recipeIngredients){
-                    ingredientList.add(i.getName());
-                    Log.d(TAG,"ahhhh"+ i.getName());
+                    ingredientList.add(i);
                 }
-                ingredientView.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         });
     }

@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
@@ -161,34 +162,22 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         recipeIngredients.add(honeydewRI);
         // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
         // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
-        for (RecipeIngredient i : recipeIngredients) {
-            //ingredientNames.add(i.getName());
-
-            ingredientUnit.add(i.getUnits());
-        }
 
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         spIngredients_dropdown.setAdapter(recipeAdapter);
         IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+        RecipeIngredientsViewAdapter recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
+        lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
+
+
 
 
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            ArrayAdapter<String> recipeIngredientUnit = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientUnit);
+            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
 
-            for (RecipeIngredient ingredient : recipeIngredients) {
-                getArguments().getString(ingredient.getName(), "def - ingredients");
-            }
-
-            //TODO: make it that the dropdown shows all ingredients in the storage and have the list view show all current ingredients in the recipe
-
-
-            lvIngredients_view.setAdapter(ingredientView);
-
-            RecipesDBHelper.setRecipeIngredientAdapter(title,ingredientView,ingredientNames); // Saheel's code
-
-            //lvIngredients_view.setAdapter(recipeIngredientUnit);
         }
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -395,8 +384,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         ArrayAdapter<String> categorySpinnerAdapter =
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spCategory.setAdapter(categorySpinnerAdapter);
+
     }
 
 }

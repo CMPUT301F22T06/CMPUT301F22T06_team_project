@@ -28,7 +28,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/textView4"
+            android:id="@+id/comment_of_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,7 +45,8 @@
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/minus_button"/>
+            android:id="@+id/minus_button"
+            android:text="-"/>
 
         <TextView
             android:id="@+id/amount_of_ingredient"
@@ -58,7 +59,8 @@
         <Button
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/plus_button"/>
+            android:id="@+id/plus_button"
+            android:text="+"/>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +69,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <TextView
+        <EditText
             android:id="@+id/unit_of_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
