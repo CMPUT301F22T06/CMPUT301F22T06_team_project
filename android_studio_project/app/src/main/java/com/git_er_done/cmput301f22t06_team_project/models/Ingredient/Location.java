@@ -9,7 +9,7 @@ public class Location {
     private static final Location instance = new Location();
 
     private Location(){
-        locations.add("Add new location");
+        locations.add("Add New Location");
         locations.add("pantry");
         locations.add("fridge");
         locations.add("freezer");
@@ -29,6 +29,9 @@ public class Location {
 
     public void addLocation(String locationToAdd){
         locations.add(locationToAdd);
+    }
+
+    public void deleteLocation(String locationToDelete) {locations.remove(locationToDelete);
     }
 
 }
