@@ -31,6 +31,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
@@ -170,13 +171,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         RecipeIngredientsViewAdapter recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
         lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
 
-
-
-
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients); // Saheel's code is here
 
         }
 
@@ -257,6 +255,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             newRecipe.getPrep_time(),
                             newRecipe.getServings()
                     );
+                    oldRecipe.setIngredientsList(newRecipe.getRecipeIngredients());
                     modifyRecipe(newRecipe);
                     RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
                     isEdittingExistingRecipe = false;
@@ -264,13 +263,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
                 if(isAddingNewRecipe){
                     Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                    // Still need to add recipeIngredients here somehow
                     RecipesDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
 
                 rvAdapter.notifyDataSetChanged();
                 dismiss();
-            }
+            } // broke here
         });
     }
 
@@ -325,6 +325,27 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
         modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
         modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
+        ArrayList<RecipeIngredient> modifiedRecipeIngredients = new ArrayList<>();
+        for (int i = 0; i < lvIngredients_view.getChildCount(); i++) {
+            View child = lvIngredients_view.getChildAt(i);
+            TextView name = child.findViewById(R.id.name_of_ingredient);
+            String nameString = name.getText().toString();
+
+            EditText comment = child.findViewById(R.id.comment_of_ingredient);
+            String commentString = comment.getText().toString();
+
+            TextView amount = child.findViewById(R.id.amount_of_ingredient);
+            String amountString = amount.getText().toString();
+            Integer amountInt = Integer.parseInt(amountString);
+
+            EditText unit = child.findViewById(R.id.unit_of_ingredient);
+            String unitString = unit.getText().toString();
+
+            RecipeIngredient modifiedRecipeIngredient = new RecipeIngredient(nameString, unitString, amountInt, commentString);
+            modifiedRecipeIngredients.add(modifiedRecipeIngredient);
+        }
+        modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
+
        // modifiedRecipe.setRecipeIngredients(); This is where Saheel will set the changed recipe ingredients but we're missing more information for each ingredient right now
     }
 

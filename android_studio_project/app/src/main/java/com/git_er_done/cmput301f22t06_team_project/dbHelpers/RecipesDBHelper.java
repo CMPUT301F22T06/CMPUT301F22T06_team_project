@@ -74,7 +74,6 @@ public class RecipesDBHelper {
 
         for (RecipeIngredient i: recipeIngredients) {
             String name = i.getName();
-            Log.d(TAG, "AAAAAAAAAAAAAA" + name);
 
             String units = i.getUnits();
             String amount = String.valueOf(i.getAmount());
@@ -172,6 +171,10 @@ public class RecipesDBHelper {
         else{
             update.add(oldRecipe.getServings());
         }
+        if(!Objects.equals(newRecipe.getRecipeIngredients(), oldRecipe.getRecipeIngredients())){
+            deleteRecipe(oldRecipe, pos);
+            addRecipe(newRecipe);
+        }
 
         String result = TextUtils.join("|", update);
         dr.update("details", result);
@@ -208,8 +211,6 @@ public class RecipesDBHelper {
      * @see MealPlannerDBHelper
      */
     public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<RecipeIngredient> ingredientList) {
-        ArrayList<Recipe> retrieved = new ArrayList<>();
-//        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {

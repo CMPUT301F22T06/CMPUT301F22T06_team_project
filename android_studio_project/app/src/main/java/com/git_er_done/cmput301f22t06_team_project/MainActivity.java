@@ -78,15 +78,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-
-
-
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
-
-        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        Ingredient apple = new Ingredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);
-        Ingredient orange = new Ingredient("orange", "round orange small", LocalDate.now(), "fridge", "g","fruit", 4);
-
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.nav_recipes_menu_item:
