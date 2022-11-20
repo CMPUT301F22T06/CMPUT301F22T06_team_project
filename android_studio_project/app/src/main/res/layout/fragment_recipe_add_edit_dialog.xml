@@ -45,18 +45,34 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_recipe_add_edit_upload"
-                    android:layout_width="40dp"
-                    android:layout_height="43dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="0"
-                    android:drawableTop="@drawable/upload_image"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="12dp"
-                    android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/btn_recipe_add_edit_camera"
+                        android:layout_width="40dp"
+                        android:layout_height="43dp"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/camera"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="9dp"
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/btn_recipe_add_edit_upload"
+                        android:layout_width="40dp"
+                        android:layout_height="43dp"
+                        android:layout_gravity="center"
+                        android:drawableTop="@drawable/upload_image"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="12dp"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/view_recipe_image"
@@ -229,7 +245,7 @@
             <ListView
                 android:id="@+id/lv_recipe_add_edit_ingredients_view"
                 android:layout_width="wrap_content"
-                android:layout_height="220dp"
+                android:layout_height="200dp"
                 android:width="1dp"
                 android:color="#ff9900"
                 android:gravity="top"

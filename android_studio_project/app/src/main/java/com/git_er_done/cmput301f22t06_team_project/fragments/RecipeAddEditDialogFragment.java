@@ -18,8 +18,12 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
@@ -31,6 +35,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
+import java.io.File;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
@@ -56,6 +61,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private ImageView view_recipe_image;
     private Button btnAddIngredient;
     private Button btnUpload;
+    private Button btnCamera;
     private Button btnCancel;
     private Button btnSave;
 
@@ -76,6 +82,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
+    File file = new File(getFilesDir(), "picFromCamera");
+    Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+
 
     /**
      * Empty constructor required
@@ -143,41 +152,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
-
         ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientNames);
-        // Test data
-        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        ArrayList<String> ingredientUnit = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        RecipeIngredient appleRI = new RecipeIngredient("apple", "g", 2, "slice into eighths");
-        RecipeIngredient orangeRI = new RecipeIngredient("orange", "g", 2, "take apart at its seams");
-        RecipeIngredient grapeRI = new RecipeIngredient("grape", "g", 2, "remove tips");
-        RecipeIngredient watermelonRI = new RecipeIngredient("watermelon", "g", 2, "slice into cubes");
-        RecipeIngredient honeydewRI = new RecipeIngredient("honeydew", "g", 2, "slice into cubes");
-        RecipeIngredient mangoRI = new RecipeIngredient("mango", "g", 2, "slice into cubes");
-
-        recipeIngredients.add(appleRI);
-        recipeIngredients.add(orangeRI);
-        recipeIngredients.add(grapeRI);
-        recipeIngredients.add(watermelonRI);
-        recipeIngredients.add(honeydewRI);
-        // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
-        // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
-
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
-        spIngredients_dropdown.setAdapter(recipeAdapter);
-        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         RecipeIngredientsViewAdapter recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
         lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
-
-
-
 
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
             RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
-
         }
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -198,7 +181,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             addCategoryButton.setVisibility(View.INVISIBLE);
                             addCategoryText.setVisibility(View.INVISIBLE);
                             spCategory.setVisibility(View.VISIBLE);
-
                         }
                     });
                 }
@@ -210,8 +192,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
             }
         });
-
-        //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
 
         //Buttons to cancel, save recipe, upload image, add ingredient
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +207,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 imageChooser();
+            }
+        });
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                camera();
             }
         });
 
@@ -282,13 +269,30 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         // create an instance of the
         // intent of the type image
-        Intent i = new Intent();
+        Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
 
         // pass the constant to compare it
         // with the returned requestCode
+
         startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+
+    /**
+     * This function is triggered when the select image button is clicked.
+     * It then opens up the gallery and prompts the user to choose an image.
+     */
+    void camera() {
+
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        mGetContent.launch(uri);
+        //startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
     }
 
     /**
@@ -316,6 +320,20 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         }
     }
+
+    // GetContent creates an ActivityResultLauncher<String> to allow you to pass
+    // in the mime type you'd like to allow the user to select
+    ActivityResultLauncher<Uri> mGetContent = registerForActivityResult(new ActivityResultContracts.TakePicture(),
+            new ActivityResultCallback<Boolean>() {
+                @Override
+                public void onActivityResult(Boolean result) {
+                    // Handle the returned Uri
+                    if (null != uri) {
+                        // update the preview image in the layout
+                        view_recipe_image.setImageURI(uri);
+                    }
+                }
+            });
 
     void modifyRecipe(Recipe recipe){
         Recipe modifiedRecipe = recipe;
@@ -370,6 +388,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        btnCamera = view.findViewById(R.id.btn_recipe_add_edit_camera);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
         // stuff for photos
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
@@ -385,6 +404,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
+
+        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
+        spIngredients_dropdown.setAdapter(recipeAdapter);
+        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
 
     }
 
