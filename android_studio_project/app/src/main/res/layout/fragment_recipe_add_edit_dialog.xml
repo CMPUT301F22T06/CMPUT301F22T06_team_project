@@ -134,7 +134,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
+                android:layout_height="80dp"
                 android:orientation="horizontal"
                 android:padding="10dp">
                 <TextView
@@ -153,7 +153,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:paddingBottom="10dp"
+                        >
 
                         <EditText
                             android:id="@+id/addCategory"
@@ -187,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:paddingLeft="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,7 +229,7 @@
             <ListView
                 android:id="@+id/lv_recipe_add_edit_ingredients_view"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                android:layout_height="220dp"
                 android:width="1dp"
                 android:color="#ff9900"
                 android:gravity="top"
@@ -248,7 +249,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="3dp">
+                android:padding="10dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -259,7 +260,7 @@
                 <EditText
                     android:id="@+id/et_recipe_add_edit_comments"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:hint="Enter recipe comments "
                     android:textColorHint="@color/light_yellow"
                     android:inputType="textCapSentences|textPersonName|textMultiLine"

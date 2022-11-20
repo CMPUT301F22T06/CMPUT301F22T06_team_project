@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="0dp">
+        android:padding="10dp">
 
 
             <TextView
@@ -36,14 +36,14 @@
             android:maxLength="35"
             android:textColor="@color/yellow"
             android:textColorHint="@color/yellow"
-            android:textSize="14dp" />
+            android:textSize="15dp" />
     </LinearLayout>
 
         <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        android:padding="10dp"
         >
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="Description: "
             android:textColor="@color/yellow"
-            android:textSize="20dp"/>
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/et_ingredient_add_edit_description"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="Description Here"
             android:textColorHint="@color/light_yellow"
-            android:textSize="14dp"
+            android:textSize="15dp"
             android:inputType="textCapSentences|textPersonName|textMultiLine"
             android:maxLength="120"
             android:imeOptions="actionNext" />
@@ -69,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="10dp"
             >
 
             <TextView
@@ -76,12 +77,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/yellow"
                 android:text="Best Before Date: "
-                android:textSize="20dp"/>
+                android:textSize="18dp"/>
 
             <DatePicker
                 android:id="@+id/dp_ingredient_add_edit_best_before_date"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="100dp"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
                 android:spinnersShown="true"
@@ -92,25 +93,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="0dp">
+            android:paddingLeft="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                >
 
                 <TextView
-                    android:layout_width="157dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="Location: "
-                    android:textSize="15dp" />
+                    android:textSize="18dp"
+                    android:textColor="@color/light_yellow"/>
 
                 <EditText
                     android:id="@+id/addLocation"
                     android:layout_width="wrap_content"
-                    android:layout_height="23dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:hint="Add Location"
                     android:textSize="10dp"
@@ -149,7 +151,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40sp"
                 android:backgroundTint="@color/yellow"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/yellow"
+                android:scrollbarSize="200dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -158,18 +161,19 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="325dp"
+                android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:orientation="vertical"
-                android:padding="3dp">
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Amount: "
                     android:textColor="@color/yellow"
-                    android:textSize="20dp" />
+                    android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/et_ingredient_add_edit_amount"
@@ -179,28 +183,27 @@
                     android:inputType="number"
                     android:textColor="@color/yellow"
                     android:textColorHint="@color/light_yellow"
-                    android:textSize="14dp" />
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="34dp"
                         android:layout_height="wrap_content"
 
                         android:text="Unit: "
-                        android:textSize="15dp" />
+                        android:textSize="15dp"
+                        android:textColor="@color/light_yellow"/>
 
                     <EditText
                         android:id="@+id/addUnit"
@@ -251,7 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="0dp"
+            android:padding="10dp"
             android:textColor="@color/yellow">
 
             <LinearLayout
@@ -261,16 +264,17 @@
                 android:padding="0dp">
 
                 <TextView
-                    android:layout_width="123dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0"
                     android:text="Category: "
-                    android:textSize="20dp" />
+                    android:textColor="@color/light_yellow"
+                    android:textSize="18dp" />
 
                 <EditText
                     android:id="@+id/addCategory"
-                    android:layout_width="86dp"
-                    android:layout_height="24dp"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:hint="Add Category"
                     android:textSize="10dp"
