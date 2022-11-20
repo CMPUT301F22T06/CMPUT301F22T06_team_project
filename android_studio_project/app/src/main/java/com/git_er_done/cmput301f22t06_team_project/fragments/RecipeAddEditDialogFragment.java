@@ -3,7 +3,11 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 import static android.app.Activity.RESULT_OK;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -82,9 +86,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
-    File file = new File(getFilesDir(), "picFromCamera");
-    Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
-
+    private static final int CAMERA_REQUEST = 1888;
 
     /**
      * Empty constructor required
@@ -275,24 +277,16 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         // pass the constant to compare it
         // with the returned requestCode
-
         startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
     }
 
     /**
-     * This function is triggered when the select image button is clicked.
-     * It then opens up the gallery and prompts the user to choose an image.
+     * This function is triggered when the camera button is clicked.
+     * It then opens up the camera and prompts the user to take a picture.
      */
     void camera() {
-
-        // create an instance of the
-        // intent of the type image
-        Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
-
-        // pass the constant to compare it
-        // with the returned requestCode
-        mGetContent.launch(uri);
-        //startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
     /**
@@ -319,21 +313,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK)
+        {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            view_recipe_image.setImageBitmap(photo);
+        }
     }
-
-    // GetContent creates an ActivityResultLauncher<String> to allow you to pass
-    // in the mime type you'd like to allow the user to select
-    ActivityResultLauncher<Uri> mGetContent = registerForActivityResult(new ActivityResultContracts.TakePicture(),
-            new ActivityResultCallback<Boolean>() {
-                @Override
-                public void onActivityResult(Boolean result) {
-                    // Handle the returned Uri
-                    if (null != uri) {
-                        // update the preview image in the layout
-                        view_recipe_image.setImageURI(uri);
-                    }
-                }
-            });
 
     void modifyRecipe(Recipe recipe){
         Recipe modifiedRecipe = recipe;
