@@ -82,44 +82,19 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
                 int id = menuItem.getItemId();
                 switch(id){
                     case R.id.action_sort_by_title:
-                        Collections.sort(testRecipes, new Comparator<Recipe>(){
-                            @Override
-                            public int compare(Recipe lhs, Recipe rhs) {
-                                return lhs.getTitle().compareTo(rhs.getTitle());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByTitle();
                         break;
 
                     case R.id.action_sort_by_preptime:
-                        Collections.sort(testRecipes, new Comparator<Recipe>(){
-                            @Override
-                            public int compare(Recipe lhs, Recipe rhs) {
-                                return lhs.getPrep_time().compareTo(rhs.getPrep_time());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByPrepTime();
                         break;
 
                     case R.id.action_sort_by_servings:
-                        Collections.sort(testRecipes, new Comparator<Recipe>(){
-                            @Override
-                            public int compare(Recipe lhs, Recipe rhs) {
-                                return lhs.getServings().compareTo(rhs.getServings());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
+                        rvAdapter.sortByServings();
                         break;
 
                     case R.id.action_sort_by_recipe_category:
-                        Collections.sort(testRecipes, new Comparator<Recipe>(){
-                            @Override
-                            public int compare(Recipe lhs, Recipe rhs) {
-                                return lhs.getCategory().compareTo(rhs.getCategory());
-                            }
-                        });
-                        rvAdapter.notifyDataSetChanged();
-
+                        rvAdapter.sortByCategory();
                         break;
                 }
 
@@ -188,5 +163,13 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         showEditDialog(selectedRecipe);
 
     }
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.recipe_sort_menu, menu);
+    }
 
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        return false;
+    }
 }
