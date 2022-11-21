@@ -30,9 +30,7 @@ public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
         //mAdapter.removeRecipe(position);
-
-        Recipe recipe = mAdapter.getRecipesList().get(position);
-        RecipesDBHelper.deleteRecipe(recipe, position);
+        mAdapter.fakeDeleteForUndo(position);
     }
 
 }

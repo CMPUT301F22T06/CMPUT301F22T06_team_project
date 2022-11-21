@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +21,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     private final RecipesRecyclerViewInterface rvInterface;
     private List<Recipe> mRecipes;
-    private Recipe recentlyDeletedRecipe;
-    private int recentlyDeletedRecipePosition;
 
     View recipeView;
 
@@ -153,7 +149,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
                             rvInterface.onItemLongClick(pos);
                             return true;
                         }
-
                     }
                     return false;
                 }
@@ -166,12 +161,13 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         return (ArrayList<Recipe>) mRecipes;
     }
 
-    public void removeRecipe(int position){
-        recentlyDeletedRecipe = mRecipes.get(position);
-        recentlyDeletedRecipePosition = position;
-        mRecipes.remove(recentlyDeletedRecipePosition);
-        showUndoSnackbar();
+    public void deleteRecipe(int position){
+        mRecipes.remove(position);
         notifyDataSetChanged();
+    }
+
+    public void fakeDeleteForUndo(int position){
+        rvInterface.onItemDeleted(mRecipes.get(position), position);
     }
 
     public void addRecipe(Recipe newRecipe){
@@ -179,19 +175,17 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         notifyDataSetChanged();
     }
 
-    void showUndoSnackbar(){
-        View view = recipeView.findViewById(R.id.tv_recipe_list_item_name);
-        Snackbar snackbar = Snackbar.make(view, "Would you like to undo this?",
-                Snackbar.LENGTH_LONG);
-        snackbar.setAction("UNDO", v -> undoRecentDelete());
-        snackbar.show();
+    public void modifyRecipe(Recipe recipe, int position){
+        mRecipes.set(position, recipe);
+        notifyDataSetChanged();
     }
 
-    public void undoRecentDelete(){
-        mRecipes.add(recentlyDeletedRecipePosition, recentlyDeletedRecipe);
-        notifyDataSetChanged();
-        RecipesDBHelper.addRecipe(recentlyDeletedRecipe);
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
+
+
 }
 
 
