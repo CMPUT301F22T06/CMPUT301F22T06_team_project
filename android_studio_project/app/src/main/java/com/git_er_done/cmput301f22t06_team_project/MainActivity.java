@@ -66,7 +66,28 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        //recipe toolbar action
+        Toolbar RecipeToolbar = (Toolbar) findViewById(R.id.toolbar_recipe);
+        setSupportActionBar(RecipeToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+//                menuInflater.inflate(R.menu.ingredient_sort_menu, menu);
+                // Add menu options here
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+
+                // Handle Menu Options Selection Here
+
+                return false;
+            }
+        });
+        //recipe toolbar action
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
