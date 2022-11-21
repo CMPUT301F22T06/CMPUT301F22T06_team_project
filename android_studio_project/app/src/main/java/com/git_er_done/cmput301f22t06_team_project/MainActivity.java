@@ -1,7 +1,5 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,32 +7,22 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,10 +66,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
-
-
-
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
+        //Recipe fruit_salad = new Recipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
 
         ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
         Ingredient apple = new Ingredient("apple", "round red small", LocalDate.now(), "fridge", "g","fruit", 5);

@@ -1,22 +1,8 @@
-package com.git_er_done.cmput301f22t06_team_project.models;
-
-import static android.content.ContentValues.TAG;
+package com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
-
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DessertRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.DinnerRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.LunchRecipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
 
 import java.util.ArrayList;
 
@@ -95,7 +81,7 @@ public class Recipe implements Cloneable{
     public final static ArrayList<Recipe> createRecipeList() {
         ArrayList<Recipe> testRecipes = new ArrayList<>();
         // Breakfast
-        Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
+        Recipe fruit_salad = new Recipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "vegan", 30, 10);
         RecipeIngredient fruit_salad_sugar = new RecipeIngredient("sugar", "ml", 83, "Boil in saucepan");
         RecipeIngredient fruit_salad_strawberry = new RecipeIngredient("strawberry", "ml", 500, "Hulled and sliced");
         RecipeIngredient fruit_salad_apple = new RecipeIngredient("apple", "singles", 2, "Sliced");
@@ -107,7 +93,7 @@ public class Recipe implements Cloneable{
         fruit_salad.addIngredient(fruit_salad_vanilla_extract);
         fruit_salad.addIngredient(fruit_salad_pineapple);
 
-        Recipe spicy_tuna_poke = new BreakFastRecipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "breakfast", 15, 2);
+        Recipe spicy_tuna_poke = new Recipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "seafood", 15, 2);
         RecipeIngredient poke_tuna = new RecipeIngredient("tuna", "oz", 2, "Cut into 1/2 inch cubes");
         RecipeIngredient poke_soy_sauce = new RecipeIngredient("soy sauce", "ml", 30, "Combine with tuna");
         RecipeIngredient poke_sesame_oil = new RecipeIngredient("sesame oil", "ml", 5, "Combine with tuna");
@@ -120,7 +106,7 @@ public class Recipe implements Cloneable{
         spicy_tuna_poke.addIngredient(poke_cucumber);
 
         // Lunch
-        Recipe fried_rice = new LunchRecipe("easy fried rice", "Super simple and super delicious", "lunch", 40, 4);
+        Recipe fried_rice = new Recipe("easy fried rice", "Super simple and super delicious", "meat", 40, 4);
         RecipeIngredient fr_rice = new RecipeIngredient("rice", "g", 250, "Must be day old for best results");
         RecipeIngredient fr_vegetable_oil = new RecipeIngredient("vegetable oil", "ml", 10, "Heat in pan");
         RecipeIngredient fr_egg = new RecipeIngredient("egg", "singles", 2, "Lightly whisked");
@@ -132,18 +118,18 @@ public class Recipe implements Cloneable{
         fried_rice.addIngredient(fr_carrot);
         fried_rice.addIngredient(fr_bacon);
 
-        Recipe honey_soy_chicken = new LunchRecipe("honey soy chicken", "Sweet and tangy", "lunch", 165, 4);
+        Recipe honey_soy_chicken = new Recipe("honey soy chicken", "Sweet and tangy", "poultry", 165, 4);
         RecipeIngredient hschicken_chicken = new RecipeIngredient("chicken_drumstick", "singles", 8, "Chopped and sliced");
 
         // Dinner
-        Recipe pumpkin_soup = new DinnerRecipe("pumpkin soup", "Creamy and perfect for the fall season", "dinner", 50, 6);
+        Recipe pumpkin_soup = new Recipe("pumpkin soup", "Creamy and perfect for the fall season", "vegetarian", 50, 6);
 
-        Recipe pad_thai = new DinnerRecipe("pad thai", "Best noodle dish around.", "dinner", 40, 4);
+        Recipe pad_thai = new Recipe("pad thai", "Best noodle dish around.", "meat", 40, 4);
 
         // Dessert
-        Recipe vanilla_icecream = new DessertRecipe("vanilla icecream", "Perfect with fresh baked pie.", "dessert", 155, 4);
+        Recipe vanilla_icecream = new Recipe("vanilla icecream", "Perfect with fresh baked pie.", "dessert", 155, 4);
 
-        Recipe bloody_mary = new DessertRecipe("bloody mary", "When you wanna forget everything.", "dessert", 2, 1);
+        Recipe bloody_mary = new Recipe("bloody mary", "When you wanna forget everything.", "drink", 2, 1);
 
 
         // Initialize the recipes

@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
