@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -138,8 +139,11 @@ public class RecipesDBHelper {
         DocumentReference dr = recipesDB.document(nameOfRecipe);
         if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
             // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            RecipesDBHelper.deleteRecipe(oldRecipe, selectedRecipePos);
-            RecipesDBHelper.addRecipe(newRecipe);
+            if(pos != -1) {
+                RecipesDBHelper.deleteRecipe(oldRecipe, selectedRecipePos);
+                RecipesDBHelper.addRecipe(newRecipe);
+
+            }
         }
 
         if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
@@ -275,10 +279,17 @@ public class RecipesDBHelper {
                                 rvAdapter.addRecipe(recipe);
                             }
 
+                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                Recipe recipe = createRecipe(dc.getDocument());
+                                rvAdapter.modifyRecipe(recipe, selectedRecipePos);
+                            }
+
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                               // Recipe recipe = createRecipe(dc.getDocument());
-                                //int position = testRecipes.indexOf(recipe);
-                                rvAdapter.removeRecipe(selectedRecipePos);
+                                Recipe recipe = createRecipe(dc.getDocument());
+                                int position = rvAdapter.getRecipesList().indexOf(recipe);
+                                if(position != -1){
+                                    rvAdapter.deleteRecipe(selectedRecipePos);
+                                }
                             }
                         }
                     }
