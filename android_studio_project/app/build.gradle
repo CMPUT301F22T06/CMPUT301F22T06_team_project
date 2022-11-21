@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.git_er_done.cmput301f22t06_team_project"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -51,6 +51,9 @@ dependencies {
 //    androidTestImplementation "androidx.test.espresso:espresso-web:3.4.0"
 //    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.4.0"
 //    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.4.0"
+
+    // The view calendar library
+    implementation 'com.kizitonwose.calendar:view:2.0.4'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
