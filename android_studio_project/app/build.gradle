@@ -38,19 +38,14 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
 
-//    // Espresso Core library
-//    androidTestImplementation "androidx.test:core:1.4.0"
-//    // Espresso JUnit
-//    androidTestImplementation "androidx.test.ext:truth:1.4.0"
-//    // Espresso Dependencies
-    androidTestImplementation ('androidx.test.espresso:espresso-contrib:3.4.0'){
-            exclude module: "protobuf-lite"
+
+    // Espresso Dependencies
+    androidTestImplementation ('androidx.test.espresso:espresso-contrib:3.4.0') {
+        exclude module: "protobuf-lite"
     }
-//    androidTestImplementation "androidx.test.espresso:espresso-intents:3.4.0"
-//    androidTestImplementation "androidx.test.espresso:espresso-accessibility:3.4.0"
-//    androidTestImplementation "androidx.test.espresso:espresso-web:3.4.0"
-//    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:3.4.0"
-//    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:3.4.0"
+
+    // Firebase Instrumentation Tests
+    androidTestImplementation 'com.google.firebase:testlab-instr-lib:0.2'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'

@@ -1,20 +1,23 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.content.ContentValues.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.testIngredients;
 import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.BinderThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -23,6 +26,9 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,6 +53,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     private Spinner spCategory;
     private Button btnCancel;
     private Button btnSave;
+
+    EditText addLocationText;
+    Button addLocationButton;
+    Button deleteLocationButton;
+
+    EditText addUnitText;
+    Button addUnitButton;
+    Button deleteUnitButton;
+
+    EditText addCategoryText;
+    Button addCategoryButton;
+    Button deleteCategoryButton;
 
     String name;
     String description;
@@ -123,7 +141,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
 
@@ -131,6 +148,14 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
         }
+
+        //Saheel's code
+
+        addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
+        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
+        addUserDefinedStuff(spUnit, addUnitButton, addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
+        addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
+        deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,8 +176,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 assignIngredientAttributesFromViews();
 
                 if(isEdittingExistingIngredient) {
-                    int selectedIngredientIndex = testIngredients.indexOf(si);
-                    Ingredient newIngredient = testIngredients.get(selectedIngredientIndex);
+                    int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
+                    Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
                     Ingredient oldIngredient = new Ingredient(
                             newIngredient.getName(),
                             newIngredient.getDesc(),
@@ -168,7 +193,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
 
                 if(isAddingNewIngredient){
-                    addIngredient();
+                    Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+                    IngredientDBHelper.addIngredientToDB(newIngredient);
                     isAddingNewIngredient = false;
                 }
 
@@ -179,11 +205,73 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
+    void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        String toDelete = (String) adapterView.getItemAtPosition(i);
+                        if (type == "location"){
+                            Location.getInstance().deleteLocation(toDelete);
+                        }
+                        if (type == "unit"){
+                            Unit.getInstance().deleteUnit(toDelete);
+                        }
+                        if (type == "category"){
+                            IngredientCategory.getInstance().deleteCategory(toDelete);
+                        }
+                    }
 
-    void addIngredient(){
-        Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-        IngredientDBHelper.addIngredientToDB(newIngredient);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+            }
+        });
     }
+
+    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i) == message){
+                    addButton.setVisibility(View.VISIBLE);
+                    addText.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
+                    addButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String text = String.valueOf(addText.getText());
+                            if (text != notEqual) {
+                                if (type == "location") {
+                                    Location.getInstance().addLocation(text);
+                                }
+                                if (type == "unit") {
+                                    Unit.getInstance().addUnit(text);
+                                }
+                                if (type == "category") {
+                                    IngredientCategory.getInstance().addIngredientCategory(text);
+                                }
+                            }
+                            addButton.setVisibility(View.INVISIBLE);
+                            addText.setVisibility(View.INVISIBLE);
+                            deleteButton.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
 
 
     void modifyIngredient(Ingredient ingredient){
@@ -254,6 +342,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory = view.findViewById(R.id.sp_ingredient_add_edit_category);
         btnCancel = view.findViewById(R.id.btn_ingredient_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_ingredient_add_edit_save);
+
+        addLocationText = view.findViewById(R.id.addLocation);
+        addLocationButton = view.findViewById(R.id.addLocationButton);
+        deleteLocationButton = view.findViewById(R.id.deleteLocationButton);
+
+        addUnitText = view.findViewById(R.id.addUnit);
+        addUnitButton = view.findViewById(R.id.addUnitButton);
+        deleteUnitButton = view.findViewById(R.id.deleteUnitButton);
+
+        addCategoryText = view.findViewById(R.id.addCategory);
+        addCategoryButton = view.findViewById(R.id.addCategoryButton);
+        deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
     }
 
 
