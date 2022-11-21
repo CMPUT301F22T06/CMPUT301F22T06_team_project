@@ -109,7 +109,7 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static void deleteRecipe(Recipe recipe, int pos){
+    public static void deleteRecipe(Recipe recipe){
         String nameofRecipe = recipe.getTitle();
         recipesDB
                 .document(nameofRecipe)
@@ -129,56 +129,17 @@ public class RecipesDBHelper {
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         String nameOfRecipe = oldRecipe.getTitle();
-        selectedRecipePos = pos;
-        ArrayList update = new ArrayList<>();
-        DocumentReference dr = recipesDB.document(nameOfRecipe);
         if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
             // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            RecipesDBHelper.deleteRecipe(oldRecipe, selectedRecipePos);
-            RecipesDBHelper.addRecipe(newRecipe);
-        }
-
-        if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
-            update.add(newRecipe.getComments());
-            //dr.update("comment", newRecipe.getComments());
-        }
-        else{
-            update.add(oldRecipe.getComments());
-        }
-
-        if(!Objects.equals(newRecipe.getCategory(), oldRecipe.getCategory())){
-            update.add(newRecipe.getCategory());
-        }
-        else{
-            update.add(oldRecipe.getCategory());
-        }
-
-        if(!Objects.equals(newRecipe.getPrep_time(), oldRecipe.getPrep_time())){
-            update.add(String.valueOf(newRecipe.getPrep_time()));
-           // dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
-        }
-        else{
-            update.add(oldRecipe.getPrep_time());
-        }
-
-        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){
-            update.add(String.valueOf(newRecipe.getServings()));
-           // dr.update("servings", String.valueOf(newRecipe.getServings()));
-        }
-        else{
-            update.add(oldRecipe.getServings());
-        }
-        if(!Objects.equals(newRecipe.getRecipeIngredients(), oldRecipe.getRecipeIngredients())){
-            deleteRecipe(oldRecipe, pos);
+            deleteRecipe(oldRecipe);
             addRecipe(newRecipe);
         }
-
-        String result = TextUtils.join("|", update);
-        dr.update("details", result);
-
+        else{
+            addRecipe(newRecipe);
+        }
     }
 
     /**

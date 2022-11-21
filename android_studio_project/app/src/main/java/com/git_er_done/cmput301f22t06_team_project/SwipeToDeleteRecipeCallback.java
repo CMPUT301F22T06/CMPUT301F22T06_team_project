@@ -32,7 +32,7 @@ public class SwipeToDeleteRecipeCallback extends ItemTouchHelper.Callback {
         //mAdapter.removeRecipe(position);
 
         Recipe recipe = mAdapter.getRecipesList().get(position);
-        RecipesDBHelper.deleteRecipe(recipe, position);
+        RecipesDBHelper.deleteRecipe(recipe);
     }
 
 }
