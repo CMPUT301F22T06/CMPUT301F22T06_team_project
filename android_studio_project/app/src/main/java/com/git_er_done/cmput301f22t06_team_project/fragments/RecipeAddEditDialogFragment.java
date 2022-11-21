@@ -146,25 +146,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
 
-        ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientNames);
-        // Test data
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        ArrayList<String> ingredientUnit = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        RecipeIngredient appleRI = new RecipeIngredient("apple", "g", 2, "slice into eighths");
-        RecipeIngredient orangeRI = new RecipeIngredient("orange", "g", 2, "take apart at its seams");
-        RecipeIngredient grapeRI = new RecipeIngredient("grape", "g", 2, "remove tips");
-        RecipeIngredient watermelonRI = new RecipeIngredient("watermelon", "g", 2, "slice into cubes");
-        RecipeIngredient honeydewRI = new RecipeIngredient("honeydew", "g", 2, "slice into cubes");
-        RecipeIngredient mangoRI = new RecipeIngredient("mango", "g", 2, "slice into cubes");
-
-//        recipeIngredients.add(appleRI);
-//        recipeIngredients.add(orangeRI);
-//        recipeIngredients.add(grapeRI);
-//        recipeIngredients.add(watermelonRI);
-//        recipeIngredients.add(honeydewRI);
-        // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
-        // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
-
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
         spIngredients_dropdown.setAdapter(recipeAdapter);
         IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
@@ -177,6 +159,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             fillViewsWithSelectedRecipeAttributes();
             RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients); // Saheel's code is here
 
+        }
+        else{
+            spCategory.setSelection(1);
         }
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

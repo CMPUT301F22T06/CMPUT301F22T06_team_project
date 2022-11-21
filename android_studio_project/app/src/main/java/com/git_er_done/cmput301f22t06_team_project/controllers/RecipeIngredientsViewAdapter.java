@@ -31,6 +31,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
     //private TextView amount;
     private Button plus_button;
     private EditText unit;
+    private Button delete_button;
 
     public RecipeIngredientsViewAdapter(ArrayList<RecipeIngredient> recipeIngredients, Context context){
         super(context, R.layout.recipe_ingredient_item_layout, recipeIngredients);
@@ -77,6 +78,16 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
 
         unit.setText(recipeIngredient.getUnits());
 
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                remove(recipeIngredient);
+                notifyDataSetChanged();
+            }
+        });
+
+        notifyDataSetChanged();
+
         return listItem;
     }
 
@@ -87,6 +98,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         //amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);
         plus_button = (Button) listItem.findViewById(R.id.plus_button);
         unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
+        delete_button = (Button) listItem.findViewById(R.id.delete_button);
     }
 
 }
