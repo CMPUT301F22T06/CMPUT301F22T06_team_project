@@ -9,6 +9,7 @@ public class RecipeCategory{
         private static final RecipeCategory instance = new RecipeCategory();
 
         private RecipeCategory(){
+            recipeCategories.add("Add Category");
             recipeCategories.add("breakfast");
             recipeCategories.add("lunch");
             recipeCategories.add("diner");
