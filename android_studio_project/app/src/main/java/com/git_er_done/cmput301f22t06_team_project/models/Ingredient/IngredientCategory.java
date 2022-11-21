@@ -9,6 +9,7 @@ public class IngredientCategory {
     private static final IngredientCategory instance = new IngredientCategory();
 
     private IngredientCategory(){
+        ingredientCategories.add("Add New Category");
         ingredientCategories.add("dairy");
         ingredientCategories.add("fruit");
         ingredientCategories.add("grain");
@@ -33,6 +34,10 @@ public class IngredientCategory {
 
     public void addIngredientCategory(String locationToAdd){
         ingredientCategories.add(locationToAdd);
+    }
+
+    public void deleteCategory(String categoryToDelete) {
+        ingredientCategories.remove(categoryToDelete);
     }
 
 }

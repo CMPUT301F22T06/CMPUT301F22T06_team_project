@@ -22,7 +22,6 @@ public class Ingredient implements Cloneable{
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
     public static ArrayList<String> units = Unit.getInstance().getAllUnits();
 
-    public static ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
     /**
      * Creates a new Ingredient object
@@ -67,7 +66,7 @@ public class Ingredient implements Cloneable{
 //        Ingredient tomato_paste = new VegetableIngredient("tomato paste", "Thick and creamy tomato paste", LocalDate.now(), locations.get(0), "ml", "Veggie", 250);
 //        Ingredient tomato = new VegetableIngredient("tomato", "Bright red tomato", LocalDate.now(), locations.get(1), "g", "Veggie", 500);
 //        Ingredient romaine_lettuce = new VegetableIngredient("romaine lettuce", "green crunchy lettuce", LocalDate.now(), locations.get(1), "g", "Veggie", 100);
-//        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), locations.get(1), "g", "Veggie", 300);
+//        Ingredient carrot = new VegetableIngredient("carrot", "orange crunchy carrot", LocalDate.now(), locations.get(1), "singles", "Veggie", 3);
 //        Ingredient yellow_potato = new VegetableIngredient("yellow potato", "yellow yukon gold potato", LocalDate.now(), locations.get(1), "g", "Veggie", 300);
 //
 //        // Diary
