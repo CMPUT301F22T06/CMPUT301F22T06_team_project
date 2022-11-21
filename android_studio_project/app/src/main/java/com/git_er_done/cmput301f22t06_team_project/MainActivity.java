@@ -27,7 +27,7 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.*;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.google.android.material.navigation.NavigationView;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_CMPUT301F22T06_team_project);
         setContentView(R.layout.activity_main);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);

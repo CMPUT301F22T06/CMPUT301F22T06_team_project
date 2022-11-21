@@ -1,7 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.*;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
 
 import java.util.ArrayList;
 

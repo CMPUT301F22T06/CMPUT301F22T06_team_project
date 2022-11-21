@@ -6,11 +6,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/burger"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/burger"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CMPUT301F22T06_team_project"
+        android:theme="@style/SplashScreen"
         tools:targetApi="31">
         <activity
             android:name="com.git_er_done.cmput301f22t06_team_project.MainActivity"
