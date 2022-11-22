@@ -5,4 +5,5 @@
     android:paddingBottom="3dip"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:textSize="25dp" />
+    android:textSize="25dp"
+    android:textColor="@color/light_yellow"/>
