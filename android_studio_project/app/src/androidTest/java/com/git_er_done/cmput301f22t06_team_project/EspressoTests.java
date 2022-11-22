@@ -1,19 +1,26 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.*;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.DrawerMatchers.*;
+import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
-import android.view.Gravity;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
 
-import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.contrib.NavigationViewActions;
-import androidx.test.espresso.contrib.RecyclerViewActions;
+import android.view.Gravity;
+import android.view.View;
+
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.*;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +28,7 @@ import org.junit.runner.RunWith;
 
 // TODO: Change checks once placeholder text is gone
 // TODO: Need a better way to detect which fragment is being shown
+// These tests are configured to run locally. Use "FirebaseTests" to run remotely.
 
 @RunWith(AndroidJUnit4.class)
 public class EspressoTests {
@@ -106,6 +114,37 @@ public class EspressoTests {
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
 
+        onView(withId(R.id.fab_ingredient_add)).perform(click());
+
+        onView(withId(R.id.et_ingredient_add_edit_name)).perform(replaceText("9V"));
+        onView(withId(R.id.et_ingredient_add_edit_description)).perform(replaceText("Energizer"));
+        onView(withId(R.id.dp_ingredient_add_edit_best_before_date)).perform(PickerActions.setDate(2023, 11, 14));
+
+        onView(withId(R.id.sp_ingredient_add_edit_location)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("pantry"))).inRoot(isPlatformPopup()).perform(click()); // select pantry location
+
+        onView(withId(R.id.et_ingredient_add_edit_amount)).perform(replaceText("3"));
+        onView(withId(R.id.sp_ingredient_add_edit_unit)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("singles"))).inRoot(isPlatformPopup()).perform(click()); // select oz for units
+        onView(withId(R.id.sp_ingredient_add_edit_category)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("miscellaneous"))).inRoot(isPlatformPopup()).perform(click()); // select vegetable type
+
+        onView(withId(R.id.btn_ingredient_add_edit_save)).perform(click());
+
+        // End create 9V
+
+        onView(withId(R.id.drawer_layout))
+                .perform(DrawerActions.open());
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
+
+        //onView(withId(R.id.rv_ingredients_list))
+        //        .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
+
         onView(withId(R.id.rv_ingredients_list))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
@@ -130,6 +169,11 @@ public class EspressoTests {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         onView(withText("3")).check(matches(isDisplayed()));
+
+        // Cleanup
+
+        onView(withId(R.id.rv_ingredients_list))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, swipeLeft()));
     }
 
     @Test
@@ -144,5 +188,41 @@ public class EspressoTests {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, longClick()));
 
         onView(withId(R.id.et_ingredient_add_edit_name)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testAddIngredient() {
+        onView(withId(R.id.drawer_layout))
+                .perform(DrawerActions.open());
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_ingredients_menu_item));
+
+        onView(withId(R.id.fab_ingredient_add))
+                .perform(click());
+
+        onView(withId(R.id.et_ingredient_add_edit_name)).perform(replaceText("9V"));
+        onView(withId(R.id.et_ingredient_add_edit_description)).perform(replaceText("Energizer"));
+        onView(withId(R.id.dp_ingredient_add_edit_best_before_date)).perform(PickerActions.setDate(2023, 11, 14));
+
+        onView(withId(R.id.sp_ingredient_add_edit_location)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("pantry"))).inRoot(isPlatformPopup()).perform(click()); // select pantry location
+
+        onView(withId(R.id.et_ingredient_add_edit_amount)).perform(replaceText("3"));
+        onView(withId(R.id.sp_ingredient_add_edit_unit)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("singles"))).inRoot(isPlatformPopup()).perform(click()); // select oz for units
+        onView(withId(R.id.sp_ingredient_add_edit_category)).perform(click());
+
+        onData(allOf(is(instanceOf(String.class)), is("miscellaneous"))).inRoot(isPlatformPopup()).perform(click()); // select vegetable type
+
+        onView(withId(R.id.btn_ingredient_add_edit_save)).perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.tv_ingredient_list_item_name), withText("9v"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+                        isDisplayed()));
+        textView.check(matches(withText("9v")));
     }
 }
