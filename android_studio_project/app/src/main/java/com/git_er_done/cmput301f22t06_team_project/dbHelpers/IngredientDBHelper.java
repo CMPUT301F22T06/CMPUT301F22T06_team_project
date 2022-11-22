@@ -145,9 +145,6 @@ public class IngredientDBHelper {
         selectedIngPos = pos;
 
         DocumentReference dr = ingredientsDB.document(nameOfIngredient);
-        if(!Objects.equals(newIngredient.getName(), oldIngredient.getName())){
-            dr.update("name", newIngredient.getName());
-        }
 
         if(!Objects.equals(newIngredient.getDesc(), oldIngredient.getDesc())){
             dr.update("description", newIngredient.getDesc());

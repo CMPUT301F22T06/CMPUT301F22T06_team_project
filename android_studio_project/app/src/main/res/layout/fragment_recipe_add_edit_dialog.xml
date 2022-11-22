@@ -44,7 +44,10 @@
                         android:inputType="textPersonName|textCapWords"
                         android:maxLength="55"
                         android:textColorHint="@color/light_yellow"
-                        android:textSize="13dp" />
+                        android:textColor="@color/yellow"
+                        android:textSize="13dp"
+                        android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -122,28 +125,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:textColor="@color/yellow"
                     android:padding="10dp">
 
-                    <TextView
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:text="Preptime: "
-                        android:textColor="@color/yellow"
-                        android:textSize="15dp" />
+                <!--        TODO Replace a carriage return with ' next '-->
+                <EditText
+                    android:id="@+id/et_recipe_add_edit_preptime"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="5"
+                    android:text="1"
+                    android:textColor="@color/yellow"
+                    android:textSize="11dp" />
+            </LinearLayout>
+                        
 
-                    <!--        TODO Replace a carriage return with ' next '-->
-                    <EditText
-                        android:id="@+id/et_recipe_add_edit_preptime"
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:hint="Minutes"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:maxLength="5"
-                        android:textColorHint="@color/light_yellow"
-                        android:textSize="11dp" />
-                </LinearLayout>
 
+        </LinearLayout>
 
             </LinearLayout>
 
@@ -173,8 +173,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingBottom="10dp"
-                            >
+                            android:paddingBottom="10dp">
 
                             <EditText
                                 android:id="@+id/addCategory"
@@ -183,6 +182,8 @@
                                 android:layout_weight="0"
                                 android:hint="Add Recipe Category"
                                 android:textSize="10dp"
+                                android:textColorHint="@color/light_yellow"
+                                android:textColor="@color/light_yellow"
                                 android:visibility="invisible" />
 
                             <Button
@@ -191,8 +192,10 @@
                                 android:layout_height="50dp"
                                 android:text="Add Category"
                                 android:textSize="8dp"
+                                android:textColor="@color/black"
                                 android:visibility="invisible" />
                         </LinearLayout>
+
                         <Spinner
                             android:id="@+id/sp_recipe_add_edit_category"
                             android:layout_width="match_parent"
@@ -228,6 +231,7 @@
                         android:layout_weight="1"
                         android:layout_marginTop="10dp"
                         android:layout_height="40sp"
+                        android:textColor="@color/yellow"
                         android:backgroundTint="@color/yellow"
                         />
 
@@ -285,6 +289,7 @@
                         android:textColorHint="@color/light_yellow"
                         android:inputType="textCapSentences|textPersonName|textMultiLine"
                         android:gravity="top"
+                        android:textColor="@color/yellow"
                         android:textSize="16dp"/>
 
                 </LinearLayout>
@@ -294,8 +299,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="5dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_cancel"

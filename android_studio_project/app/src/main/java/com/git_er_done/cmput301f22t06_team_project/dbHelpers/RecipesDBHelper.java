@@ -74,8 +74,6 @@ public class RecipesDBHelper {
 
         for (RecipeIngredient i: recipeIngredients) {
             String name = i.getName();
-            Log.d(TAG, "AAAAAAAAAAAAAA" + name);
-
             String units = i.getUnits();
             String amount = String.valueOf(i.getAmount());
             String comment = i.getComment();
@@ -136,14 +134,6 @@ public class RecipesDBHelper {
         selectedRecipePos = pos;
         ArrayList update = new ArrayList<>();
         DocumentReference dr = recipesDB.document(nameOfRecipe);
-        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
-            // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            if(pos != -1) {
-                RecipesDBHelper.deleteRecipe(oldRecipe, selectedRecipePos);
-                RecipesDBHelper.addRecipe(newRecipe);
-
-            }
-        }
 
         if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
             update.add(newRecipe.getComments());
