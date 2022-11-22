@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.*;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,6 +195,7 @@ public class RecipesDBHelper {
                     retrieved.add(recipe);
                 }
                 recipesRecyclerViewAdapter.notifyDataSetChanged();
+//                RecipesFragment.onDataChange();
                 // The adapter will be here
             }
         });
@@ -219,6 +221,7 @@ public class RecipesDBHelper {
                     ingredientList.add(i);
                 }
                 adapter.notifyDataSetChanged();
+
             }
         });
     }
@@ -281,6 +284,8 @@ public class RecipesDBHelper {
                                 rvAdapter.removeRecipe(selectedRecipePos);
                             }
                         }
+                        // Stop the progress bar
+                        RecipesFragment.onDataChange();
                     }
                 });
     }

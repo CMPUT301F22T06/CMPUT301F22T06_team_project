@@ -1,6 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.*;
 
 public class BreakFastRecipe extends Recipe {
 
