@@ -3,8 +3,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 import static android.app.Activity.RESULT_OK;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe.recipeCategories;
 
-// brudah
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +32,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeCategory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
