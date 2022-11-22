@@ -3,6 +3,8 @@ package com.git_er_done.cmput301f22t06_team_project;
 import static org.junit.Assert.*;
 
 import com.git_er_done.cmput301f22t06_team_project.models.*;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.*;
 
@@ -15,7 +17,7 @@ public class ModelTests {
 
     public static Recipe makeRecipe() {
         //Ingredient mockIngredient = new Ingredient();
-        return new LunchRecipe("Ham Sandwich", "N/A", "Lunch",
+        return new Recipe("Ham Sandwich", "N/A", "Lunch",
                 12, 2);
     }
 

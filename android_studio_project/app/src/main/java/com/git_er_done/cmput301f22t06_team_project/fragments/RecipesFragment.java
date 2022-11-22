@@ -1,10 +1,12 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuProvider;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,8 +34,9 @@ import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteRecipeCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 
 /**
@@ -45,6 +49,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     RecyclerView rvRecipes;
     RecipesRecyclerViewAdapter rvAdapter;
     FloatingActionButton fabAddRecipe;
+    static ProgressBar progressBar;
 
     public RecipesFragment() {
         // Required empty public constructor
@@ -55,13 +60,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         super.onCreate(savedInstanceState);
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -114,6 +112,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
 //        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
 //        rvRecipes.setAdapter(rvAdapter);
         fabAddRecipe = root.findViewById(R.id.fab_recipe_add);
+        progressBar = root.findViewById(R.id.progressBarId);
 
         setupRecyclerView();
 
@@ -126,6 +125,9 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
 
         RecipesDBHelper dbHelper = new RecipesDBHelper(rvAdapter);
         //dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
+
+        Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.splash_image);
+        root.setBackground(d);
 
         // Inflate the layout for this fragment
         return root;
@@ -169,7 +171,29 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     }
 
     @Override
+    public void onItemDeleted(Recipe recipe, int position) {
+        Snackbar snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("DELETE", v -> RecipesDBHelper.deleteRecipe(recipe, position));
+        snackbar.addCallback(new Snackbar.Callback() {
+
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    // IF Snackbar closed on its own, item was NOT deleted
+                    rvAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        snackbar.show();
+    }
+
+    @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         return false;
     }
+    static public void onDataChange() {
+        progressBar.setVisibility(View.GONE);
+    }
+
 }

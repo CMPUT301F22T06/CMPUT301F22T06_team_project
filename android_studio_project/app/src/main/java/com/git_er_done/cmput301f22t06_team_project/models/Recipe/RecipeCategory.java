@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes;
+package com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,12 @@ public class RecipeCategory{
 
         private RecipeCategory(){
             recipeCategories.add("Add Category");
-            recipeCategories.add("breakfast");
-            recipeCategories.add("lunch");
-            recipeCategories.add("diner");
+            recipeCategories.add("vegetarian");
+            recipeCategories.add("vegan");
+            recipeCategories.add("seafood");
             recipeCategories.add("dessert");
+            recipeCategories.add("meat");
+            recipeCategories.add("drink");
         }
 
         public static RecipeCategory getInstance(){
