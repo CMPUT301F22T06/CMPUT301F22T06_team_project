@@ -12,36 +12,45 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-    <TextView
-        android:id="@+id/tv_recipe_list_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:text="Title"/>
+        <TextView
+            android:id="@+id/tv_recipe_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/yellow"
+            android:textSize="24dp"
+            android:translationX="25dp" />
 
         <TextView
             android:id="@+id/tv_recipe_list_item_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:text="Comments"
+            android:textColor="@color/yellow"
+            android:translationX="25dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:textColor="@color/yellow">
 
             <TextView
                 android:id="@+id/tv_recipe_list_item_preptime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PrepTime" />
+                android:text="PrepTime"
+                android:textColor="@color/yellow"
+                android:translationX="25dp" />
 
             <TextView
                 android:id="@+id/tv_recipe_list_item_servings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
                 android:text="Serving size"
-                android:paddingHorizontal="15dp"/>
+                android:textColor="@color/yellow"
+                android:translationX="35dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +62,9 @@
                 android:id="@+id/tv_recipe_list_item_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category" />
+                android:text="Category"
+                android:textColor="@color/yellow"
+                android:translationX="25dp" />
 
 
 <!--        Missing photo.-->

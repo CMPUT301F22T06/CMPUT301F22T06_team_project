@@ -211,6 +211,7 @@
                         android:layout_weight="1"
                         android:layout_marginTop="10dp"
                         android:layout_height="40sp"
+                        android:textColor="@color/yellow"
                         android:backgroundTint="@color/yellow"
                         />
 
