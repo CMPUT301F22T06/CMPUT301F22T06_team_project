@@ -322,6 +322,5 @@
                     android:text="SAVE"/>
 
             </LinearLayout>
-        </LinearLayout>
     </ScrollView>
 </RelativeLayout>
