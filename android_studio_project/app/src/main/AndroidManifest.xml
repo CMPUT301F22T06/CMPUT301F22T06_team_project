@@ -22,19 +22,4 @@
             </intent-filter>
         </activity>
     </application>
-    
-    <instrumentation
-        android:name="androidx.test.runner.AndroidJUnitRunner"
-        android:targetPackage="com.git_er_done.cmput301f22t06_team_project">
-        <meta-data
-            android:name="screenCaptureProcessors"
-            android:value="com.google.firebase.testlab.screenshot.FirebaseScreenCaptureProcessor"/>
-    </instrumentation>
-
-    <!-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-
 </manifest>
