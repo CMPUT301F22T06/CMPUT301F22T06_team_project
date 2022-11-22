@@ -17,6 +17,11 @@ android {
 
         // Instrumentation Testing
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 
     buildTypes {
@@ -43,6 +48,7 @@ dependencies {
     }
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     testImplementation 'junit:junit:4.13.2'
+    androidTestUtil 'androidx.test:orchestrator:1.4.2'
 
     // Standard
     implementation 'androidx.appcompat:appcompat:1.5.1'
