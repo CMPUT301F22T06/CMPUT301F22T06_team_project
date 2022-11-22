@@ -1,6 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.models;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
 
 import java.util.ArrayList;
 
