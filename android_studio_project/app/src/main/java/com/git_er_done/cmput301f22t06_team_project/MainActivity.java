@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //recipe toolbar action
-        Toolbar RecipeToolbar = (Toolbar) findViewById(R.id.toolbar_recipe);
+        Toolbar RecipeToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(RecipeToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
