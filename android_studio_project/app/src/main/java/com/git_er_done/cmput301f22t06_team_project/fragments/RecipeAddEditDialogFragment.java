@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -158,8 +159,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients); // Saheel's code is here
-
+            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            etTitle.setEnabled(false);
         }
         else{
             spCategory.setSelection(1);
@@ -197,6 +198,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         });
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
+        lvIngredients_view.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         //Buttons to cancel, save recipe, upload image, add ingredient
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
@@ -342,9 +352,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void assignSelectedRecipeAttributesFromFragmentArgs(){
         //Set associate view items to attributes of selected recipe from view bundle
         title = getArguments().getString("title", "");
-        prep_time = getArguments().getString("prep_time", "0");
-        servings = getArguments().getString("servings", "0");
-        comments = getArguments().getString("comments", "");
+        prep_time = getArguments().getString("prep_time", "1");
+        servings = getArguments().getString("servings", "1");
+        comments = getArguments().getString("comments", "aaaaa");
         ingredients = getArguments().getString("ingredients", "");
         category = getArguments().getString("category", "");
 

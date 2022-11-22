@@ -57,8 +57,8 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(recipeView);
 
-        Drawable d = ContextCompat.getDrawable(context, R.drawable.white_background);
-        recipeView.setBackground(d);
+        //Drawable d = ContextCompat.getDrawable(context, R.drawable.white_background);
+        //recipeView.setBackground(d);
 
         return viewHolder;
     }

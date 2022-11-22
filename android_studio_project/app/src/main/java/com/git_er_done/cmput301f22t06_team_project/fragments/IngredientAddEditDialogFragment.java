@@ -149,6 +149,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingIngredient) {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
+            etName.setEnabled(false);
         }
 
         //Saheel's code
@@ -319,7 +320,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //Set associated view items to attributes of selected ingredient from argument bundle passed to this fragment on creation
         name = getArguments().getString("name", "---");
         description = getArguments().getString("description", "---");
-        amount = getArguments().getInt("amount", -1);
+        amount = getArguments().getInt("amount", 1);
         location = getArguments().getString("location", "---");
         category = getArguments().getString("category", "---");
         bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");

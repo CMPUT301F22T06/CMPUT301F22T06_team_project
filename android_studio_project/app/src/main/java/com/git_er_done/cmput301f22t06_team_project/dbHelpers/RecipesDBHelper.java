@@ -72,7 +72,6 @@ public class RecipesDBHelper {
 
         for (RecipeIngredient i: recipeIngredients) {
             String name = i.getName();
-
             String units = i.getUnits();
             String amount = String.valueOf(i.getAmount());
             String comment = i.getComment();

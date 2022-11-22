@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="NAME"
             android:textSize="18dp"
-            android:textColor="@color/white"
+            android:textColor="@color/yellow"
             android:layout_marginHorizontal="10dp"
             android:paddingRight="10dp"/>
 

@@ -14,6 +14,8 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -58,6 +60,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
         // Inflate the custom layout
         ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
+
+        //set expired ingredients to 0 amount
+        removeExpired();
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(ingredientView);
@@ -157,6 +162,18 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     public ArrayList<Ingredient> getIngredientsList(){
         return (ArrayList<Ingredient>) mIngredients;
+    }
+
+    public void removeExpired(){
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < mIngredients.size(); i++) {
+            Ingredient anIngredient = mIngredients.get(i);
+            if (anIngredient.getBestBefore().compareTo(today) < 0) {
+                Ingredient oldIngredient = anIngredient;
+                anIngredient.setAmount(0);
+                IngredientDBHelper.modifyIngredientInDB(anIngredient, oldIngredient, i);
+            }
+        }
     }
 
     public void deleteItem(int position){
