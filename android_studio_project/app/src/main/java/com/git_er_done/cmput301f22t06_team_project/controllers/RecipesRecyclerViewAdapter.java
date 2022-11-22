@@ -17,7 +17,6 @@ import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredien
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
 
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder>{
 
