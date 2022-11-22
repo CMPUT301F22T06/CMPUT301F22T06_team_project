@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 
 // TODO: Change checks once placeholder text is gone
 // TODO: Need a better way to detect which fragment is being shown
+// These tests are configured to run locally. Use "FirebaseTests" to run remotely.
 
 @RunWith(AndroidJUnit4.class)
 public class EspressoTests {
