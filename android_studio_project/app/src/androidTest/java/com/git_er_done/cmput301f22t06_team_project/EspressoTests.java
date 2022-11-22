@@ -15,11 +15,14 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
 import android.view.Gravity;
+import android.view.View;
 
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.*;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -190,14 +193,6 @@ public class EspressoTests {
 
     @Test
     public void testAddIngredient() {
-        create9V();
-
-        onView(withText("9v"))
-                .check(matches(isDisplayed()));
-
-    }
-
-    public void create9V() {
         onView(withId(R.id.drawer_layout))
                 .perform(DrawerActions.open());
 
@@ -224,5 +219,11 @@ public class EspressoTests {
         onData(allOf(is(instanceOf(String.class)), is("miscellaneous"))).inRoot(isPlatformPopup()).perform(click()); // select vegetable type
 
         onView(withId(R.id.btn_ingredient_add_edit_save)).perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.tv_ingredient_list_item_name), withText("9v"),
+                        withParent(withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class))),
+                        isDisplayed()));
+        textView.check(matches(withText("9v")));
     }
 }
