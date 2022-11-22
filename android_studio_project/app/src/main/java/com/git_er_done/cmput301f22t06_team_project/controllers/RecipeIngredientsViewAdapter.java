@@ -83,4 +83,5 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         plus_button = (Button) listItem.findViewById(R.id.plus_button);
         unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
     }
+
 }
