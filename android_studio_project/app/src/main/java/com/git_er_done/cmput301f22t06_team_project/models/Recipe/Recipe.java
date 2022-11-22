@@ -212,7 +212,7 @@ public class Recipe implements Cloneable{
      *  Returns the amount of time it takes to make the recipe as an int
      * @return The time the recipe takes to cook
      */
-    public int getPrep_time() {
+    public Integer getPrep_time() {
         return prep_time;
     }
 
@@ -220,7 +220,7 @@ public class Recipe implements Cloneable{
      * Sets a new cooking time for the recipe, overwriting the old one.
      * @param prep_time The new cooking time as an int.
      */
-    public void setPrep_time(int prep_time) {
+    public void setPrep_time(Integer prep_time) {
         this.prep_time = prep_time;
     }
 
@@ -228,7 +228,7 @@ public class Recipe implements Cloneable{
      * Returns the number of people the recipe can serve
      * @return The number of people that can be fed with the recipe
      */
-    public int getServings() {
+    public Integer getServings() {
         return servings;
     }
 
@@ -236,7 +236,7 @@ public class Recipe implements Cloneable{
      * Sets a new number of servings, overwriting the old one
      * @param servings The new number of servings
      */
-    public void setServings(int servings) {
+    public void setServings(Integer servings) {
         this.servings = servings;
     }
 
