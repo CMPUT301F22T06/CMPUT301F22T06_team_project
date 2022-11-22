@@ -148,6 +148,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
+
         spIngredients_dropdown.setAdapter(recipeAdapter);
         IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
 
@@ -202,7 +203,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String selected = spIngredients_dropdown.getSelectedItem().toString();
-                RecipeIngredient newIngredient = new RecipeIngredient(selected,"unit", 0, "comment");
+                String[] nameUnit = selected.split(", ");
+                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "comment");
                 recipeIngredients.add(newIngredient);
                 recipeIngredientsViewAdapter.notifyDataSetChanged();
             }

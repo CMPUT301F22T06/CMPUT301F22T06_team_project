@@ -131,7 +131,7 @@ public class IngredientDBHelper {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
                     Ingredient ingredient = createIngredient(doc);
-                    ingredientStorage.add(ingredient.getName());
+                    ingredientStorage.add(ingredient.getName() + ", " + ingredient.getUnit());
                 }
                 recipeAdapter.notifyDataSetChanged();
                 // The adapter will be here
