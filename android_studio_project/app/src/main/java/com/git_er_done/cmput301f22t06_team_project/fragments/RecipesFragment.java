@@ -34,8 +34,9 @@ import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteRecipeCallback;
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 
 /**
@@ -59,13 +60,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         super.onCreate(savedInstanceState);
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
-
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -174,6 +168,24 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     @Override
     public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.recipe_sort_menu, menu);
+    }
+
+    @Override
+    public void onItemDeleted(Recipe recipe, int position) {
+        Snackbar snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("DELETE", v -> RecipesDBHelper.deleteRecipe(recipe, position));
+        snackbar.addCallback(new Snackbar.Callback() {
+
+            @Override
+            public void onDismissed(Snackbar snackbar, int event) {
+                if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                    // IF Snackbar closed on its own, item was NOT deleted
+                    rvAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+        snackbar.show();
     }
 
     @Override
