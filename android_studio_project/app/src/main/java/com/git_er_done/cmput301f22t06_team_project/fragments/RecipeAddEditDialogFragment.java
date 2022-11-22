@@ -3,7 +3,7 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 import static android.app.Activity.RESULT_OK;
 import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe.recipeCategories;
 
-// huh
+// brudah
 
 import android.content.Intent;
 import android.net.Uri;
