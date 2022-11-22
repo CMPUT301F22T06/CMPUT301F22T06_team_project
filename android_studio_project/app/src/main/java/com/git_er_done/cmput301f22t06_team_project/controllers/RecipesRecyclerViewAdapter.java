@@ -1,18 +1,22 @@
 package com.git_er_done.cmput301f22t06_team_project.controllers;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
+import java.util.Collections;
+import java.util.Comparator;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     private final RecipesRecyclerViewInterface rvInterface;
     private List<Recipe> mRecipes;
+    ProgressBar progressBar;
 
     View recipeView;
 
@@ -51,6 +56,10 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(recipeView);
+
+        Drawable d = ContextCompat.getDrawable(context, R.drawable.white_background);
+        recipeView.setBackground(d);
+
         return viewHolder;
     }
 
@@ -121,6 +130,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         public TextView preptimeTextView;
         public TextView servingsTextView;
         public TextView recipeIngredientsTextView;
+        ProgressBar progressBar;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -129,6 +139,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             // to access the context from any ViewHolder instance.
             super(itemView);
 
+            progressBar = itemView.findViewById(R.id.progressBarId);
             nameTextView = itemView.findViewById(R.id.tv_recipe_list_item_name);
             commentTextView = itemView.findViewById(R.id.tv_recipe_list_item_comment);
             categoryTextView = itemView.findViewById(R.id.tv_recipe_list_item_category);
@@ -183,6 +194,42 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     @Override
     public long getItemId(int position) {
         return position;
+    }
+    public void sortByTitle(){
+        Collections.sort(mRecipes, new Comparator<Recipe>(){
+            @Override
+            public int compare(Recipe lhs, Recipe rhs) {
+                return lhs.getTitle().compareTo(rhs.getTitle());
+            }
+        });
+        notifyDataSetChanged();
+    }
+    public void sortByCategory(){
+        Collections.sort(mRecipes, new Comparator<Recipe>(){
+            @Override
+            public int compare(Recipe lhs, Recipe rhs) {
+                return lhs.getCategory().compareTo(rhs.getCategory());
+            }
+        });
+        notifyDataSetChanged();
+    }
+    public void sortByServings(){
+        Collections.sort(mRecipes, new Comparator<Recipe>(){
+            @Override
+            public int compare(Recipe lhs, Recipe rhs) {
+                return lhs.getServings().compareTo(rhs.getServings());
+            }
+        });
+        notifyDataSetChanged();
+    }
+    public void sortByPrepTime(){
+        Collections.sort(mRecipes, new Comparator<Recipe>(){
+            @Override
+            public int compare(Recipe lhs, Recipe rhs) {
+                return lhs.getPrep_time().compareTo(rhs.getPrep_time());
+            }
+        });
+        notifyDataSetChanged();
     }
 
 
