@@ -25,10 +25,12 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -147,6 +149,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingIngredient) {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
+            etName.setEnabled(false);
         }
 
         //Saheel's code
@@ -189,6 +192,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     );
                     modifyIngredient(newIngredient);
                     IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
+                    checkAndEditRecipesUnits();
                     isEdittingExistingIngredient = false;
                 }
 
@@ -203,6 +207,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
+    }
+
+    void checkAndEditRecipesUnits(){
+        String unit = spUnit.getSelectedItem().toString();
+        String name = etName.getText().toString();
+
+        RecipesDBHelper.updateRecipe(unit, name);
     }
 
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
@@ -309,7 +320,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //Set associated view items to attributes of selected ingredient from argument bundle passed to this fragment on creation
         name = getArguments().getString("name", "---");
         description = getArguments().getString("description", "---");
-        amount = getArguments().getInt("amount", -1);
+        amount = getArguments().getInt("amount", 1);
         location = getArguments().getString("location", "---");
         category = getArguments().getString("category", "---");
         bestBeforeStringArray = getArguments().getStringArrayList("bestBeforeDate");

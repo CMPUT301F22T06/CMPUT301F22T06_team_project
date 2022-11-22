@@ -39,7 +39,9 @@
                 android:maxLength="35"
                 android:textColor="@color/yellow"
                 android:textColorHint="@color/yellow"
-                android:textSize="15dp" />
+                android:textSize="15dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                />
         </LinearLayout>
 
             <LinearLayout
@@ -65,6 +67,7 @@
                 android:textSize="15dp"
                 android:inputType="textCapSentences|textPersonName|textMultiLine"
                 android:maxLength="120"
+                android:textColor="@color/light_yellow"
                 android:imeOptions="actionNext" />
         </LinearLayout>
 
@@ -119,6 +122,8 @@
                         android:layout_weight="1"
                         android:hint="Add Location"
                         android:textSize="10dp"
+                        android:textColor="@color/light_yellow"
+                        android:textColorHint="@color/light_yellow"
                         android:visibility="invisible" />
 
                     <RelativeLayout
@@ -133,6 +138,7 @@
                             android:width="10dp"
                             android:text="Add"
                             android:textSize="8dp"
+                            android:textColor="@color/black"
                             android:visibility="invisible" />
 
                         <Button
@@ -143,6 +149,7 @@
                             android:width="10dp"
                             android:text="Delete"
                             android:textSize="8dp"
+                            android:textColor="@color/black"
                             android:visibility="visible" />
 
                     </RelativeLayout>
@@ -182,7 +189,7 @@
                         android:id="@+id/et_ingredient_add_edit_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter amount"
+                        android:text="1"
                         android:inputType="number"
                         android:textColor="@color/yellow"
                         android:textColorHint="@color/light_yellow"
@@ -203,7 +210,6 @@
                         <TextView
                             android:layout_width="34dp"
                             android:layout_height="wrap_content"
-
                             android:text="Unit: "
                             android:textSize="15dp"
                             android:textColor="@color/light_yellow"/>
@@ -215,6 +221,8 @@
                             android:layout_weight="1"
                             android:hint="Add Unit"
                             android:textSize="10dp"
+                            android:textColor="@color/light_yellow"
+                            android:textColorHint="@color/light_yellow"
                             android:visibility="invisible" />
 
                         <RelativeLayout
@@ -229,6 +237,7 @@
                                 android:width="10dp"
                                 android:text="Add"
                                 android:textSize="8dp"
+                                android:textColor="@color/black"
                                 android:visibility="invisible" />
 
                             <Button
@@ -239,6 +248,7 @@
                                 android:width="10dp"
                                 android:text="Delete"
                                 android:textSize="8dp"
+                                android:textColor="@color/black"
                                 android:visibility="visible" />
 
                         </RelativeLayout>
@@ -276,11 +286,13 @@
 
                     <EditText
                         android:id="@+id/addCategory"
-                        android:layout_width="140dp"
+                        android:layout_width="120dp"
                         android:layout_height="40dp"
                         android:layout_weight="1"
                         android:hint="Add Category"
                         android:textSize="10dp"
+                        android:textColor="@color/light_yellow"
+                        android:textColorHint="@color/light_yellow"
                         android:visibility="invisible" />
 
                     <RelativeLayout
@@ -295,6 +307,7 @@
                             android:width="10dp"
                             android:text="Add"
                             android:textSize="8dp"
+                            android:textColor="@color/black"
                             android:visibility="invisible" />
 
                         <Button
@@ -305,6 +318,7 @@
                             android:width="10dp"
                             android:text="Delete"
                             android:textSize="8dp"
+                            android:textColor="@color/black"
                             android:visibility="visible" />
                     </RelativeLayout>
 

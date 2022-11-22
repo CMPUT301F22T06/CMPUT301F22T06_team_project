@@ -131,7 +131,7 @@ public class IngredientDBHelper {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
                     Ingredient ingredient = createIngredient(doc);
-                    ingredientStorage.add(ingredient.getName());
+                    ingredientStorage.add(ingredient.getName() + ", " + ingredient.getUnit());
                 }
                 recipeAdapter.notifyDataSetChanged();
                 // The adapter will be here
@@ -145,9 +145,6 @@ public class IngredientDBHelper {
         selectedIngPos = pos;
 
         DocumentReference dr = ingredientsDB.document(nameOfIngredient);
-        if(!Objects.equals(newIngredient.getName(), oldIngredient.getName())){
-            dr.update("name", newIngredient.getName());
-        }
 
         if(!Objects.equals(newIngredient.getDesc(), oldIngredient.getDesc())){
             dr.update("description", newIngredient.getDesc());
