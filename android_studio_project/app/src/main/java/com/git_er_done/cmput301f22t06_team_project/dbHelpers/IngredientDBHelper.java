@@ -2,8 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.createIngredientList;
-
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -12,8 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -149,9 +145,6 @@ public class IngredientDBHelper {
         selectedIngPos = pos;
 
         DocumentReference dr = ingredientsDB.document(nameOfIngredient);
-        if(!Objects.equals(newIngredient.getName(), oldIngredient.getName())){
-            dr.update("name", newIngredient.getName());
-        }
 
         if(!Objects.equals(newIngredient.getDesc(), oldIngredient.getDesc())){
             dr.update("description", newIngredient.getDesc());

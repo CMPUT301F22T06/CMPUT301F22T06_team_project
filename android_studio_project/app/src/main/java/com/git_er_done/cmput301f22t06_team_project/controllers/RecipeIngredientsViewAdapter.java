@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.controllers;
 
 import static android.content.ContentValues.TAG;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,14 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient> {
     private ArrayList<RecipeIngredient> recipeIngredients;

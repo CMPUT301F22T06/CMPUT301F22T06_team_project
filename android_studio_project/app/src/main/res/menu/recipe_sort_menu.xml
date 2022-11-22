@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_sort_by_title"
+        android:title="Sort By Title"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_preptime"
+        android:title="Sort By Preparation Time"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_servings"
+        android:title="Sort By Number of Servings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_sort_by_recipe_category"
+        android:title="Sort By Recipe Category"
+        app:showAsAction="never"/>
+
+
+</menu>

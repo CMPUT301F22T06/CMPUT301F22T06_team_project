@@ -1,12 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.recipeCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe.recipeCategories;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,9 +28,9 @@ import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredients
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.RecipeCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeCategory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -174,8 +175,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients); // Saheel's code is here
-
+            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            etTitle.setEnabled(false);
         }
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -210,6 +211,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         });
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
+        lvIngredients_view.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
 
         //Buttons to cancel, save recipe, upload image, add ingredient
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
@@ -361,9 +371,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void assignSelectedRecipeAttributesFromFragmentArgs(){
         //Set associate view items to attributes of selected recipe from view bundle
         title = getArguments().getString("title", "");
-        prep_time = getArguments().getString("prep_time", "0");
-        servings = getArguments().getString("servings", "0");
-        comments = getArguments().getString("comments", "");
+        prep_time = getArguments().getString("prep_time", "1");
+        servings = getArguments().getString("servings", "1");
+        comments = getArguments().getString("comments", "aaaaa");
         ingredients = getArguments().getString("ingredients", "");
         category = getArguments().getString("category", "");
 
