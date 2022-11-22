@@ -8,9 +8,7 @@ import static androidx.test.espresso.contrib.DrawerMatchers.*;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 
-import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
