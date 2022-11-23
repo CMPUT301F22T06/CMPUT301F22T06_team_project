@@ -23,6 +23,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -127,10 +128,20 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
     }
 
     private void compareBetweenIDBandMDB () {
-        // We need some way to get ingredients
-        ArrayList<Ingredient> fromIDB = null;
-        ArrayList<String> fromMDB = null;
-        
+        // We need some way to get these arrayLists
+        ArrayList<Ingredient> fromIDB = null; //IngredientDB
+        ArrayList<Meal> fromMDB = null; //MealPleanDB
+        ArrayList<Ingredient> totalIngredientsNeeded = new ArrayList<>();
+        for (Meal meal: fromMDB){
+             ArrayList<Ingredient> ingredients = meal.getIngredientsFromMeal();
+             for (Ingredient i: ingredients){
+                 for (Ingredient j: totalIngredientsNeeded){
+                     if (i.getName() == j.getName()){
+                         j.setAmount(j.getAmount() + i.getAmount());
+                     }
+                 }
+             }
+        }
     }
 
     @Override
