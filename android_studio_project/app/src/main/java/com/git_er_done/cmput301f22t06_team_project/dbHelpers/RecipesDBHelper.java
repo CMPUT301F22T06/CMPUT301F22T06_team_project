@@ -7,11 +7,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
-import com.google.android.gms.common.internal.Constants;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

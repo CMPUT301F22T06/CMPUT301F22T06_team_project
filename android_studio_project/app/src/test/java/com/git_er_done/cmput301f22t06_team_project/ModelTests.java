@@ -2,11 +2,9 @@ package com.git_er_done.cmput301f22t06_team_project;
 
 import static org.junit.Assert.*;
 
-import com.git_er_done.cmput301f22t06_team_project.models.*;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.*;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.*;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.*;
 
 import org.junit.*;
 

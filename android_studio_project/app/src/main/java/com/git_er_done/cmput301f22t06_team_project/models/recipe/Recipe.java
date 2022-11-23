@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+package com.git_er_done.cmput301f22t06_team_project.models.recipe;
 
 import android.os.Build;
 

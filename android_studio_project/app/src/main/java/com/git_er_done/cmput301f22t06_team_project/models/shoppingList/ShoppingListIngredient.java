@@ -1,14 +1,14 @@
-package com.git_er_done.cmput301f22t06_team_project.models;
+package com.git_er_done.cmput301f22t06_team_project.models.shoppingList;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.locations;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.units;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

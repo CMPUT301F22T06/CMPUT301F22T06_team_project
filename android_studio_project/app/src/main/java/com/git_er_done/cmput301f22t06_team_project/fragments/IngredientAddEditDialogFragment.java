@@ -1,12 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static android.content.ContentValues.TAG;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.locations;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.units;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +15,18 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.annotation.BinderThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Location;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Unit;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Location;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Unit;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -2,17 +2,13 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe.recipeCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,27 +24,20 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeCategory;
-import com.google.android.gms.common.internal.Constants;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource

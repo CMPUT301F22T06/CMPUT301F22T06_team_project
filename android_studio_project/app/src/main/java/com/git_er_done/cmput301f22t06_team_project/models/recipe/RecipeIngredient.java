@@ -1,6 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+package com.git_er_done.cmput301f22t06_team_project.models.recipe;
 
 public class RecipeIngredient {
     String name;
