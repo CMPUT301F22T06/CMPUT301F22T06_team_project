@@ -1,6 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
@@ -50,5 +51,22 @@ public class RecipeTest {
 
         ArrayList<RecipeIngredient> retrievedIngredients = mockRecipe.getIngredients();
         assertEquals(mockIngredient, retrievedIngredients.get(0));
+    }
+
+    @Test
+    public void testRecipeEquals() {
+        Recipe firstRecipe = makeRecipe();
+        Recipe secondRecipe = makeRecipe();
+
+        // Uses overridden .equals() operator
+        assertEquals(firstRecipe, secondRecipe);
+    }
+
+    @Test
+    public void testRecipeClone() {
+        Recipe firstRecipe = makeRecipe();
+        Recipe secondRecipe = firstRecipe.clone();
+
+        assertEquals(firstRecipe, secondRecipe);
     }
 }
