@@ -23,14 +23,20 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
+import com.kizitonwose.calendar.core.WeekDay;
 import com.kizitonwose.calendar.view.CalendarView;
 import com.kizitonwose.calendar.view.MonthDayBinder;
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder;
 import com.kizitonwose.calendar.view.ViewContainer;
+import com.kizitonwose.calendar.view.WeekCalendarView;
+import com.kizitonwose.calendar.view.WeekDayBinder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Fragment that holds the meal planner calendar and associated scrollable list of each meal planned for the selected date.
@@ -42,6 +48,10 @@ public class MealPlannerFragment extends Fragment {
 
     MonthDayBinder<?> monthDayBinder;
     MonthHeaderFooterBinder<?> monthHeaderFooterBinder;
+
+    WeekCalendarView weekCalendarView;
+    WeekDayBinder weekDayBinder;
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd");
 
     /**
      * Required empty public constructor
@@ -55,9 +65,14 @@ public class MealPlannerFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_meal_planner, container, false);
 
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
+        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
+
 
         setupMonthDayBinder();
         setupMonthHeaderBinder();
+
+        setupWeekDayBinder();
+
 
         YearMonth currentMonth = YearMonth.now();
         DayOfWeek dayOfWeek = firstDayOfWeekFromLocale();
@@ -68,6 +83,14 @@ public class MealPlannerFragment extends Fragment {
         calendarView.scrollToDate(LocalDate.now());
         calendarView.setDayBinder(monthDayBinder);
         calendarView.setMonthHeaderBinder(monthHeaderFooterBinder);
+
+        LocalDate startDateForWeek = LocalDate.now().minus(14, ChronoUnit.DAYS);
+        LocalDate endDateForWeek = LocalDate.now().plus(14, ChronoUnit.DAYS);
+
+        weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
+        weekCalendarView.scrollToDate(LocalDate.now());
+        weekCalendarView.setDayBinder(weekDayBinder);
+
 
         return root;
     }
@@ -86,19 +109,19 @@ public class MealPlannerFragment extends Fragment {
                 LinearLayout dateBackground = container.getView().findViewById(R.id.layout_around_calendar_date);
                 int dayInt = calendarDay.getDate().getDayOfMonth();
                 text.setText(Integer.toString(dayInt));
-                container.day = calendarDay;
+                container.calendarDay = calendarDay;
 
-                if(container.day.getPosition() == DayPosition.MonthDate){
+                if(container.calendarDay.getPosition() == DayPosition.MonthDate){
                     text.setVisibility(View.VISIBLE);
 
-                    if(container.day.getDate() == selectedDate){
+                    if(container.calendarDay.getDate() == selectedDate){
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
                         dateBackground.setBackgroundColor(Color.BLUE);
                     }
                     else{
                         text.setBackground(null);
-                        if(container.day.getDate().equals(LocalDate.now())){
+                        if(container.calendarDay.getDate().equals(LocalDate.now())){
                             text.setTextColor(Color.BLACK);
                             dateBackground.setBackgroundColor(Color.WHITE);
                         }
@@ -120,6 +143,8 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
+
+
 
     /**
      * Binds the calendar_day_title_container layout to the calendar object.
@@ -152,7 +177,9 @@ public class MealPlannerFragment extends Fragment {
     public class DayViewContainer extends ViewContainer
     {
         TextView dateText;
-        CalendarDay day;
+        CalendarDay calendarDay;
+
+        WeekDay calendarWeekDay;
 
         public DayViewContainer(@NonNull View view) {
             super(view);
@@ -167,10 +194,10 @@ public class MealPlannerFragment extends Fragment {
                     LocalDate currentSelection = selectedDate;
 
                     //If the date belongs to the current calendar month
-                    if(day.getPosition() == DayPosition.MonthDate){
+                    if(calendarDay.getPosition() == DayPosition.MonthDate){
 
                         //if we select an already selected date
-                        if(currentSelection == day.getDate()){
+                        if(currentSelection == calendarDay.getDate()){
                             selectedDate = null;
                             //reload date so the daybinder is called and we can remove the selection background
                             calendarView.notifyDateChanged(currentSelection);
@@ -180,12 +207,12 @@ public class MealPlannerFragment extends Fragment {
                             //Only allow user to select a date if there is not one selected yet.
                             //This ensures only one date is selected at a time.
                             if(selectedDate == null) {
-                                selectedDate = day.getDate();
-                                calendarView.notifyDateChanged(day.getDate());
+                                selectedDate = calendarDay.getDate();
+                                calendarView.notifyDateChanged(calendarDay.getDate());
 
                                 if (currentSelection != null) {
                                     // need to also reload the previously selected date to remove selection background
-                                    calendarView.notifyDateChanged(day.getDate());
+                                    calendarView.notifyDateChanged(calendarDay.getDate());
                                 }
                             }
                             else{
@@ -203,6 +230,29 @@ public class MealPlannerFragment extends Fragment {
         public MonthViewContainer(@NonNull View view) {
             super(view);
         }
+    }
+
+    public void setupWeekDayBinder(){
+
+        weekDayBinder = new WeekDayBinder<DayViewContainer>() {
+            @Override
+            public void bind(@NonNull DayViewContainer container, WeekDay weekDay) {
+                container.calendarWeekDay = weekDay;
+                TextView dateText = container.getView().findViewById(R.id.cv_meal_planner_week_calendar_date_text);
+                TextView dayText = container.getView().findViewById(R.id.cv_meal_planner_week_calendar_day_text);
+
+                //Set date text
+                dateText.setText(dateFormatter.format(weekDay.getDate()));
+
+                //Set day text
+            }
+
+            @NonNull
+            @Override
+            public DayViewContainer create(@NonNull View view) {
+                return new DayViewContainer(view);
+            }
+        };
     }
 
 }
