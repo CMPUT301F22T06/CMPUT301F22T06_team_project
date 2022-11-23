@@ -32,6 +32,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
+/**
+ * Fragment that holds the meal planner calendar and associated scrollable list of each meal planned for the selected date.
+ */
 public class MealPlannerFragment extends Fragment {
 
     CalendarView calendarView;
