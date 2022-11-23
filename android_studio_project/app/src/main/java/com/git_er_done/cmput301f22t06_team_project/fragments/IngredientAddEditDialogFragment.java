@@ -1,8 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.units;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,8 +25,8 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Location;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Unit;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -221,10 +221,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         String toDelete = (String) adapterView.getItemAtPosition(i);
                         if (type == "location"){
-                            Location.getInstance().deleteLocation(toDelete);
+                            IngredientLocation.getInstance().deleteLocation(toDelete);
                         }
                         if (type == "unit"){
-                            Unit.getInstance().deleteUnit(toDelete);
+                            IngredientUnit.getInstance().deleteUnit(toDelete);
                         }
                         if (type == "category"){
                             IngredientCategory.getInstance().deleteCategory(toDelete);
@@ -254,10 +254,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                             String text = String.valueOf(addText.getText());
                             if (text != notEqual) {
                                 if (type == "location") {
-                                    Location.getInstance().addLocation(text);
+                                    IngredientLocation.getInstance().addLocation(text);
                                 }
                                 if (type == "unit") {
-                                    Unit.getInstance().addUnit(text);
+                                    IngredientUnit.getInstance().addUnit(text);
                                 }
                                 if (type == "category") {
                                     IngredientCategory.getInstance().addIngredientCategory(text);
@@ -332,10 +332,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 Integer.parseInt(bestBeforeStringArray.get(1)) - 1,  //NOTE: month is '0' indexed by date picker
                 Integer.parseInt(bestBeforeStringArray.get(2)),
                 null);
-        spLocation.setSelection(locations.indexOf(location));
+        spLocation.setSelection(ingredientLocations.indexOf(location));
         spCategory.setSelection(ingredientCategories.indexOf(category));
         etAmount.setText(String.valueOf(amount));
-        spUnit.setSelection(units.indexOf(unit));
+        spUnit.setSelection(ingredientUnits.indexOf(unit));
     }
 
 
@@ -367,7 +367,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     void setupAdapters(){
         //Declare and instantiate adapters for spinners
         ArrayAdapter<String> locationSpinnerAdapter =
-                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, locations);
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ingredientLocations);
         locationSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ArrayAdapter<String> categorySpinnerAdapter =
@@ -375,7 +375,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ArrayAdapter<String> unitSpinnerAdapter =
-                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, units);
+                new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ingredientUnits);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //Set adapters to corresponding spinners

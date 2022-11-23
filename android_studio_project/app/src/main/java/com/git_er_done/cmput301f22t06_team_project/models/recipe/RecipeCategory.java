@@ -2,6 +2,10 @@ package com.git_er_done.cmput301f22t06_team_project.models.recipe;
 
 import java.util.ArrayList;
 
+/**
+ * Category represents the category of a recipe.
+ * User defined parameter with a few hardcoded example options.
+ */
 public class RecipeCategory{
 
         private ArrayList<String> recipeCategories = new ArrayList<>();
