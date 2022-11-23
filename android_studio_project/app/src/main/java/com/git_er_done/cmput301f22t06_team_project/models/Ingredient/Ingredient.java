@@ -3,6 +3,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.R;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -16,6 +18,7 @@ public class Ingredient implements Cloneable{
     private Integer amount;
     private boolean isVegetarian;
     private boolean isVegan;
+    private int color;
 
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> locations = Location.getInstance().getAllLocations();
@@ -42,6 +45,7 @@ public class Ingredient implements Cloneable{
         this.unit = unit;
         this.category = category;
         this.amount = amount;
+        this.color = R.drawable.border;
     }
 
     /**
@@ -276,6 +280,14 @@ public class Ingredient implements Cloneable{
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
 //    @Override

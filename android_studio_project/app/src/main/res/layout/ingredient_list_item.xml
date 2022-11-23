@@ -3,6 +3,7 @@
 <!--    android:shape="rectangle"><stroke android:width= "1dip" android:color="@color/red"/>-->
 <!--</shape>-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"

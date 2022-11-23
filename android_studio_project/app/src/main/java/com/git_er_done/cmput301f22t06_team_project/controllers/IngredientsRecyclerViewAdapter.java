@@ -1,9 +1,15 @@
 package com.git_er_done.cmput301f22t06_team_project.controllers;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,7 +39,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     private final IngredientsRecyclerViewInterface rvInterface;
     private List<Ingredient> mIngredients;
-
+    ListView ingredientLook;
     View ingredientView;
 
     /**
@@ -43,6 +49,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
     public IngredientsRecyclerViewAdapter(IngredientsRecyclerViewInterface rvInterface){
         mIngredients = new ArrayList<Ingredient>();
         this.rvInterface = rvInterface;
+    }
+
+    public View getView(){
+        return ingredientView;
     }
 
     /**
@@ -87,6 +97,8 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         TextView category = holder.categoryTextView;
         TextView amount = holder.amountTextView;
         TextView unit = holder.unitTextView;
+        LinearLayout background =holder.background;
+        //View itemView = color;
 
         name.setText(ingredient.getName());
         description.setText(ingredient.getDesc());
@@ -95,7 +107,16 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         category.setText(ingredient.getCategory());
         amount.setText(ingredient.getAmount().toString());
         unit.setText(ingredient.getUnit());
+        
+        Ingredient anIngredient = mIngredients.get(position);
+        if (anIngredient.getAmount()==0) {
+            //anIngredient.setColor(Color.CYAN);
+            background.setBackgroundColor(Color.TRANSPARENT);
+            amount.setTextColor(Color.GREEN);
+            amount.setTypeface(null, Typeface.BOLD_ITALIC);
+        }
     }
+
 
     /**
      * Return the number of items (ingredient instances) in list
@@ -126,6 +147,8 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         public TextView unitTextView;
         public TextView locationTextView;
         public TextView categoryTextView;
+        public String color;
+        public LinearLayout background;
 
         //Constructor accepts entire item row and does view lookups to find each subview
         public ViewHolder(View itemView) {
@@ -139,6 +162,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             categoryTextView = itemView.findViewById(R.id.tv_ingredient_list_item_category);
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
+            background = itemView.findViewById(R.id.background);
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
