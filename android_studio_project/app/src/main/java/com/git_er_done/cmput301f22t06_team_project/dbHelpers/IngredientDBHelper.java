@@ -193,6 +193,8 @@ public class IngredientDBHelper {
         return newIngredient;
     }
 
+    //TODO - Make event handle a seperate function?? Maybe create a custom listener
+    // then pass it an adapter and database as needed
     /**
      * Listens for changes in the Ingredient collection in firestore and updates the ingredient adapter local storage accordingly.
      * Is currently called in the constructor.
