@@ -45,9 +45,10 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     FloatingActionButton fabAddRecipe;
     static ProgressBar progressBar;
 
-    public RecipesFragment() {
-        // Required empty public constructor
-    }
+    /**
+     * Required empty public constructor
+     */
+    public RecipesFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menuInflater.inflate(R.menu.recipe_sort_menu, menu);
-                // Add option Menu Here
-
             }
 
             @Override
@@ -90,21 +89,15 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
                         break;
                 }
 
-
                 return false;
-                // Handle option Menu Here
 
             }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
 
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_recipes, container, false);
+
         rvRecipes = (RecyclerView) root.findViewById(R.id.rv_recipes_list);
-//        rvRecipes.setHasFixedSize(true);
-//        rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//        testRecipes = new ArrayList<>();
-//        rvAdapter = new RecipesRecyclerViewAdapter(testRecipes, this);
-//        rvRecipes.setAdapter(rvAdapter);
         fabAddRecipe = root.findViewById(R.id.fab_recipe_add);
         progressBar = root.findViewById(R.id.progressBarId);
 
@@ -118,7 +111,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         });
 
         RecipesDBHelper dbHelper = new RecipesDBHelper(rvAdapter);
-        //dbHelper.setRecipesAdapter(rvAdapter, testRecipes);
 
         Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.splash_image);
         root.setBackground(d);
@@ -159,10 +151,6 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         showEditDialog(selectedRecipe);
 
     }
-    @Override
-    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.recipe_sort_menu, menu);
-    }
 
     @Override
     public void onItemDeleted(Recipe recipe, int position) {
@@ -183,10 +171,16 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     }
 
     @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.recipe_sort_menu, menu);
+    }
+
+    @Override
     public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
         return false;
     }
-    static public void onDataChange() {
+
+    static public void stopRecipesFragmentProgressBar() {
         progressBar.setVisibility(View.GONE);
     }
 

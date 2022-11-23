@@ -280,7 +280,7 @@ public class RecipesDBHelper {
                             }
                         }
                         // Stop the progress bar
-                        RecipesFragment.onDataChange();
+                        RecipesFragment.stopRecipesFragmentProgressBar();
                     }
                 });
     }

@@ -115,7 +115,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             }
         });
 
-        //TODO - Fix this . No point in creating an instance of the DBhelper when its methods are all static
+        //TODO - Fix this . Figure out how to pass the adapter to the db helper without using a constructor
         //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
         IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
 
