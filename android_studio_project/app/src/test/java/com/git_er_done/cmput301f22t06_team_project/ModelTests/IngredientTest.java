@@ -1,9 +1,11 @@
 package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 
 import org.junit.Test;
 
@@ -49,5 +51,20 @@ public class IngredientTest {
         assertEquals("Protein", mockIngredient.getCategory());
         mockIngredient.setAmount(12);
         assertEquals((Integer) 12, mockIngredient.getAmount());
+    }
+
+    @Test
+    public void testIngredientCategory() {
+        IngredientCategory category = IngredientCategory.getInstance();
+
+        category.addIngredientCategory("grain");
+        // First user-defined index
+        assertEquals("grain", category.getIngredientCategoryFromIndex(9));
+
+        category.deleteCategory("grain");
+        System.err.println(category.getAllIngredientCategories().contains("grain"));
+        System.err.println(category.getAllIngredientCategories());
+        //assertFalse(category.getAllIngredientCategories().contains("grain"));
+
     }
 }
