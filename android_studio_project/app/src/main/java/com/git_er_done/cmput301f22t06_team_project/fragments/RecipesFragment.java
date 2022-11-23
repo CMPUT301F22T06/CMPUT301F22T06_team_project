@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.recipesRVAdapter;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,6 +51,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
         super.onStart();
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Recipes");
 
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -83,8 +86,8 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new RecipesRecyclerViewAdapter(this);
-        rvRecipes.setAdapter(rvAdapter);
+//        rvAdapter = new RecipesRecyclerViewAdapter(this);
+        rvRecipes.setAdapter(recipesRVAdapter);
         rvRecipes.setLayoutManager(new LinearLayoutManager(this.getContext()));
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteRecipeCallback(rvAdapter));
         itemTouchHelper.attachToRecyclerView(rvRecipes);
@@ -108,7 +111,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     }
 
     @Override
-    public void onItemLongClick(int position) {
+    public void onRecipeLongClick(int position) {
         Recipe selectedRecipe = rvAdapter.getItem(position);
         //Create a dialog displaying all of the selected Recipes attributes
         showEditDialog(selectedRecipe);

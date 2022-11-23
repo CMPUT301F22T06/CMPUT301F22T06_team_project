@@ -29,10 +29,14 @@ import java.util.List;
  */
 public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<IngredientsRecyclerViewAdapter.ViewHolder> {
 
-    private final IngredientsRecyclerViewInterface rvInterface;
-    private List<Ingredient> mIngredients;
+    public IngredientsRecyclerViewInterface rvInterface;
+    private static List<Ingredient> mIngredients;
 
     View ingredientView;
+
+    public IngredientsRecyclerViewAdapter(){
+
+    }
 
     /**
      * Generic constructor for this adapter

@@ -19,10 +19,6 @@ public class ModelTests {
                 12, 2);
     }
 
-    public static MealPlan makeMealPlan() {
-        return new MealPlan("06-06-2023", 2);
-    }
-
     public static Ingredient makeIngredient() {
         // TODO: Update to new ingredient once merged
         return new ProteinIngredient("Steak", "Tomahawk", LocalDate.of(2023, 1, 23), "Fridge", "singles", "Meat", 2);
@@ -61,32 +57,6 @@ public class ModelTests {
 
         ArrayList<RecipeIngredient> retrievedIngredients = mockRecipe.getIngredients();
         assertEquals(mockIngredient, retrievedIngredients.get(0));
-    }
-
-    @Test
-    public void testMealPlanGetSet() {
-        MealPlan mockPlan = makeMealPlan();
-        Recipe mockRecipe = makeRecipe();
-        mockPlan.addRecipe(mockRecipe);
-
-        // Test getters
-        assertEquals("06-06-2023", mockPlan.getPlanned_date());
-        assertEquals(2, mockPlan.getPlanned_servings());
-        ArrayList<Recipe> retrievedRecipes = mockPlan.getRecipes();
-        assertEquals(retrievedRecipes, mockPlan.getRecipes());
-
-        // Test setters
-        ArrayList<Recipe> newRecipes = new ArrayList<>();
-        newRecipes.add(mockRecipe);
-        mockPlan.setRecipes(newRecipes);
-
-        retrievedRecipes = mockPlan.getRecipes();
-        assertEquals(retrievedRecipes, mockPlan.getRecipes());
-
-        mockPlan.setPlanned_date("07-07-2023");
-        assertEquals("07-07-2023", mockPlan.getPlanned_date());
-        mockPlan.setPlanned_servings(4);
-        assertEquals(4, mockPlan.getPlanned_servings());
     }
 
     @Test

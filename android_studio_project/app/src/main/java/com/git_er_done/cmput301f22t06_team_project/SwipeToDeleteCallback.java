@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.ingredientRVAdapter;
+
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,7 +19,9 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
     private IngredientsRecyclerViewAdapter mAdapter;
 
-    public SwipeToDeleteCallback(IngredientsRecyclerViewAdapter adapter){mAdapter = adapter;}
+    public SwipeToDeleteCallback(IngredientsRecyclerViewAdapter adapter){
+        mAdapter = adapter;
+    }
 
 
     @Override
@@ -33,7 +37,7 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        mAdapter.fakeDeleteForUndo(position);
+        ingredientRVAdapter.fakeDeleteForUndo(position);
     }
 
 }

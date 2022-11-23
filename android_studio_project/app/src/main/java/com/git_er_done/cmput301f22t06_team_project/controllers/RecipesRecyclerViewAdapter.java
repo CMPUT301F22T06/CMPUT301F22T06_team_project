@@ -150,7 +150,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
                         //ensure position is valid
                         if (pos != RecyclerView.NO_POSITION) {
-                            rvInterface.onItemLongClick(pos);
+                            rvInterface.onRecipeLongClick(pos);
                             return true;
                         }
 

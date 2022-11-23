@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 //import com.git_er_done.cmput301f22t06_team_project.DayViewContainer;
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Meal;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
@@ -29,12 +31,18 @@ import com.kizitonwose.calendar.view.ViewContainer;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class MealPlannerFragment extends Fragment {
+public class MealPlannerFragment extends Fragment{
 
     CalendarView calendarView;
 
     private LocalDate selectedDate;
+
+    public static ArrayList<Meal> testMeals = new ArrayList<>();
+
+    public static HashMap mealMap= new HashMap<String,ArrayList<Meal>>();
 
     public MealPlannerFragment() {
         // Required empty public constructor
@@ -48,8 +56,16 @@ public class MealPlannerFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_meal_planner, container, false);
         calendarView = root.findViewById(R.id.calendarView);
 
+        Meal.createTestMealList();
+
+        Meal.getMealsOnDate(LocalDate.now());
 
         MonthDayBinder<?> monthDayBinder = new MonthDayBinder<DayViewContainer>() {
+            /**
+             * Binding is done in increasing chronological order from first day of month to last
+             * @param container
+             * @param calendarDay
+             */
             @Override
             public void bind(@NonNull DayViewContainer container, CalendarDay calendarDay) {
                 TextView text = container.getView().findViewById(R.id.tv_calendar_day_text);
@@ -57,6 +73,8 @@ public class MealPlannerFragment extends Fragment {
                 text.setText(dayInt.toString());
 
                 container.day = calendarDay;
+
+                Log.d("Calendar", "Binding: " + calendarDay.getDate().toString());
 
                 if(container.day.getPosition() == DayPosition.MonthDate){
                     text.setVisibility(View.VISIBLE);

@@ -2,8 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.createIngredientList;
-
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -12,8 +11,6 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,14 +39,18 @@ import java.util.Objects;
  */
 public class IngredientDBHelper {
 
-    private static IngredientsRecyclerViewAdapter rvAdapter;
-    public static int selectedIngPos;
 
-    public IngredientDBHelper(IngredientsRecyclerViewAdapter adapter){
-        rvAdapter = adapter;
+    public static int selectedIngPos;
+    private IngredientsRecyclerViewAdapter ingredientRVAdapter;
+
+    public IngredientDBHelper(){
         eventChangeListener(); //Initialize eventListener for RecyclerView
+        updateIngredientsInDB();
     }
 
+    public IngredientDBHelper(IngredientsRecyclerViewAdapter rvAdapter){
+        this.ingredientRVAdapter = rvAdapter;
+    }
 
     /**
      * This method adds an ingredient to our database in the incredient collection
@@ -106,7 +107,6 @@ public class IngredientDBHelper {
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
      */
-
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
         String nameOfIngredient = ingredient.getName();
         selectedIngPos = position;
@@ -178,6 +178,35 @@ public class IngredientDBHelper {
         }
     }
 
+    static ArrayList<Ingredient> tempIngredients = new ArrayList<>();
+
+    public static ArrayList<Ingredient> getIngredientsFromDB(){
+        return tempIngredients;
+    }
+
+    public static void updateIngredientsInDB(){
+        tempIngredients.clear();
+        ingredientsDB
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Ingredient ingredient = createIngredient(document);
+                                if(!tempIngredients.contains(ingredient)){
+                                    tempIngredients.add(ingredient);
+                                }
+
+                            }
+                        } else {
+                            Log.d("IngredientDBHelper", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
 
     /**
      * Just a random function to search stuff in the db for possible future needs but
@@ -238,22 +267,31 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                rvAdapter.addItem(ingredient);
+                                if(ingredientRVAdapter != null){
+                                    ingredientRVAdapter.addItem(ingredient);
+                                }
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                rvAdapter.modifyIngredient(ingredient, selectedIngPos);
+                                if(ingredientRVAdapter != null) {
+                                    ingredientRVAdapter.modifyIngredient(ingredient, selectedIngPos);
+                                }
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
                                 Ingredient ingredient = createIngredient(dc.getDocument());
-                                int position = rvAdapter.getIngredientsList().indexOf(ingredient);
+                                int position = ingredientRVAdapter.getIngredientsList().indexOf(ingredient);
                                 if(position != -1){
-                                    rvAdapter.deleteItem(selectedIngPos);
+                                    if(ingredientRVAdapter != null) {
+                                        ingredientRVAdapter.deleteItem(selectedIngPos);
+                                    }
                                 }
                             }
                         }
+
+                        updateIngredientsInDB();
+
                     }
                 });
     }

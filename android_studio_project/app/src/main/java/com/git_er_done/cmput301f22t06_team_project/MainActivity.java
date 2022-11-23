@@ -10,6 +10,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,29 +24,45 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
+import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientAddEditDialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeTypes.BreakFastRecipe;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecipesRecyclerViewInterface{
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
+    public static IngredientsRecyclerViewAdapter ingredientRVAdapter;
+    public static RecipesRecyclerViewAdapter recipesRVAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Initialize all DB helpers. Constructor calls snapshot to update local reference to data
+
+//        ingredientRVAdapter = new IngredientsRecyclerViewAdapter();
+        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
+
+        recipesRVAdapter = new RecipesRecyclerViewAdapter(this);
+        RecipesDBHelper recipeDBHelper = new RecipesDBHelper(recipesRVAdapter);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -77,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
-
 
 
         Recipe fruit_salad = new BreakFastRecipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "breakfast", 30, 10);
@@ -118,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
@@ -129,4 +149,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRecipeLongClick(int position) {
+
+    }
 }

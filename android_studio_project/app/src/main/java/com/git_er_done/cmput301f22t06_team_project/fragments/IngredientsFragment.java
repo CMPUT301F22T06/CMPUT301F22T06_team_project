@@ -1,6 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.ingredientRVAdapter;
+
 import android.os.Build;
 import android.os.Bundle;
 
@@ -38,7 +40,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
     RecyclerView rvIngredients;
     FloatingActionButton fabAddIngredient;
-    IngredientsRecyclerViewAdapter rvAdapter;
+    private IngredientsRecyclerViewAdapter rvAdapter;
 
 
     /**
@@ -49,7 +51,8 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+            rvAdapter = new IngredientsRecyclerViewAdapter();
+            IngredientDBHelper ingredientDBHelper = new IngredientDBHelper(rvAdapter);
         }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -57,7 +60,35 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Ingredients List");
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
 
+        rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
+        fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
+
+        setupRecyclerView();
+
+        setupFab();
+
+        setupSortMenu();
+
+        //TODO - Fix this . No point in creating an instance of the DBhelper when its methods are all static
+        //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
+//        IngredientDBHelper dbHelper = new IngredientDBHelper(ingredientRVAdapter);
+
+        // Inflate the layout for this fragment
+        return root;
+    }
+
+    void setupFab(){
+        fabAddIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddDialog();
+            }
+        });
+    }
+
+    void setupSortMenu(){
         requireActivity().addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
@@ -70,64 +101,43 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 switch(id){
 
                     case R.id.action_sort_by_name:
-                        rvAdapter.sortByName();
+                        ingredientRVAdapter.sortByName();
                         break;
 
                     case R.id.action_sort_by_description:
-                        rvAdapter.sortByDescription();
+                        ingredientRVAdapter.sortByDescription();
                         break;
 
                     case R.id.action_sort_by_best_before_date:
-                        rvAdapter.sortByBestBeforeDate();
+                        ingredientRVAdapter.sortByBestBeforeDate();
                         break;
 
                     case R.id.action_sort_by_location:
-                        rvAdapter.sortByLocation();
+                        ingredientRVAdapter.sortByLocation();
                         break;
 
                     case R.id.action_sort_by_amount:
-                        rvAdapter.sortByAmount();
+                        ingredientRVAdapter.sortByAmount();
                         break;
 
                     case R.id.action_sort_by_unit:
-                        rvAdapter.sortByUnit();
+                        ingredientRVAdapter.sortByUnit();
                         break;
 
                     case R.id.action_sort_by_category:
-                        rvAdapter.sortByCategory();
+                        ingredientRVAdapter.sortByCategory();
                         break;
                 }
                 return false;
             }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
-
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_ingredient, container, false);
-
-        rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
-        fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
-
-        setupRecyclerView();
-
-        fabAddIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddDialog();
-            }
-        });
-
-        //TODO - Fix this . No point in creating an instance of the DBhelper when its methods are all static
-        //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
-        IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
-
-        // Inflate the layout for this fragment
-        return root;
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new IngredientsRecyclerViewAdapter(this);
-        rvIngredients.setAdapter(rvAdapter);
+//        ingredientRVAdapter = new IngredientsRecyclerViewAdapter(this);
+        rvIngredients.setAdapter(ingredientRVAdapter);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(ingredientRVAdapter));
         itemTouchHelper.attachToRecyclerView(rvIngredients);
     }
 
@@ -135,7 +145,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         IngredientAddEditDialogFragment editNameDialogFragment =
                 IngredientAddEditDialogFragment.newInstance(
-                        selectedIngredient, rvAdapter);
+                        selectedIngredient, ingredientRVAdapter);
         editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
     }
 
@@ -143,13 +153,13 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         IngredientAddEditDialogFragment editNameDialogFragment =
                 IngredientAddEditDialogFragment.newInstance(
-                        rvAdapter);
+                        ingredientRVAdapter);
         editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
     }
 
     @Override
     public void onItemLongClick(int position) {
-        Ingredient selectedIngredient = rvAdapter.getItem(position);
+        Ingredient selectedIngredient = ingredientRVAdapter.getItem(position);
         showEditDialog(selectedIngredient);
     }
 
@@ -174,10 +184,12 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 public void onDismissed(Snackbar snackbar, int event) {
                     if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
                         // IF Snackbar closed on its own, item was NOT deleted
-                        rvAdapter.notifyDataSetChanged();
+                        ingredientRVAdapter.notifyDataSetChanged();
                     }
                 }
             });
             snackbar.show();
     }
+
+
 }

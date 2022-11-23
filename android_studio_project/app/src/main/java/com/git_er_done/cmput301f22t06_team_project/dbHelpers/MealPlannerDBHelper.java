@@ -22,51 +22,6 @@ import java.util.HashMap;
  */
 public class MealPlannerDBHelper {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    final CollectionReference mealPlansDB = db.collection("mealPlans");
+    final CollectionReference mealPlansDB = db.collection("meals");
 
-    public void addMealPlan(String mealPlan, HashMap<String,String> data){
-        mealPlansDB
-                .document(mealPlan)
-                .set(data)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-// These are a method which gets executed when the task is succeeded
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });
-    }
-
-    /**
-     * Take a string argument and searches the database with a document with the same name as the argument and deletes it
-     * @param mealPlan of type {@link String}
-     * returns void
-     * @see IngredientDBHelper
-     * @see RecipesDBHelper
-     */
-    public void deleteMealPlan(String mealPlan){
-        mealPlansDB
-                .document(mealPlan)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Deleted has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
-                        Log.d(TAG, "Data could not be deleted!" + e.toString());
-                    }
-                });
-    }
 }

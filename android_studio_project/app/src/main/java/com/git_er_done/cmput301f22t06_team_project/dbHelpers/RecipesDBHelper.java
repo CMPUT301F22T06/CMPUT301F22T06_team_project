@@ -2,6 +2,8 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.recipesRVAdapter;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,10 +42,10 @@ import java.util.Objects;
  */
 public class RecipesDBHelper {
 
-    private static RecipesRecyclerViewAdapter rvAdapter;
+    private RecipesRecyclerViewAdapter rvAdapter;
     public static int selectedRecipePos;
     public RecipesDBHelper(RecipesRecyclerViewAdapter adapter){
-        rvAdapter = adapter;
+        rvAdapter = recipesRVAdapter;
         eventChangeListener(); //Initialize eventListener for RecyclerView
     }
     /**
@@ -259,6 +262,31 @@ public class RecipesDBHelper {
         return recipe;
     }
 
+    static ArrayList<Recipe> tempRecipes = new ArrayList<>();
+
+    public static ArrayList<Recipe> getRecipesFromDB(){
+        return tempRecipes;
+    }
+    public static void updateRecipesInDB(){
+        recipesDB
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                Recipe recipe = createRecipe(document);
+                                tempRecipes.add(recipe);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
     public void eventChangeListener(){
         db.collection("Recipes")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -281,6 +309,8 @@ public class RecipesDBHelper {
                                 rvAdapter.removeRecipe(selectedRecipePos);
                             }
                         }
+
+                        updateRecipesInDB();
                     }
                 });
     }
