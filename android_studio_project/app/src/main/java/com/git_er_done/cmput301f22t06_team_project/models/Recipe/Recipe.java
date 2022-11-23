@@ -14,6 +14,7 @@ public class Recipe implements Cloneable{
     private String category;
     private int prep_time;
     private int servings;
+    private String image;
 
     // No empty constructor since it should never be called anyway
 
@@ -238,6 +239,22 @@ public class Recipe implements Cloneable{
      */
     public void setServings(Integer servings) {
         this.servings = servings;
+    }
+
+    /**
+     *  Returns the image uri so we can access and show it later
+     * @return The image uri
+     */
+    public String getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the new image, overwritting the old one
+     * @param image the new image
+     */
+    public void setImage(String image) {
+        this.image = image;
     }
 
     /**

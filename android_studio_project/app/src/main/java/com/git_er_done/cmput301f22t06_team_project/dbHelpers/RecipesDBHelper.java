@@ -11,12 +11,14 @@ import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredients
 import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,6 +68,8 @@ public class RecipesDBHelper {
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
         sendToDb.put("details", firstField);
 
+        sendToDb.put("image", recipe.getImage());
+
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
 
         String ingredientFields;
@@ -96,6 +100,13 @@ public class RecipesDBHelper {
                     }
                 });
         //rvAdapter.notifyDataSetChanged();
+    }
+
+    public static void addImageToDB(String imageURI, Recipe recipe){
+        HashMap<String, String> sendToDb = new HashMap<>();
+        sendToDb.put("image", imageURI);
+        DocumentReference documentReference = recipesDB.document(recipe.getTitle());
+        documentReference.update("image",imageURI);
     }
 
     /**
@@ -208,6 +219,9 @@ public class RecipesDBHelper {
         Integer servings = Integer.parseInt(recipeDetails[3]);
         Recipe recipe = new Recipe(title, comments,category,prepTime,servings);
 
+        String image = fromDBbutString.remove("image");
+        recipe.setImage(image);
+
         for (String key: fromDBbutString.keySet()) {
             String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");
             String name = key;
@@ -217,6 +231,7 @@ public class RecipesDBHelper {
             RecipeIngredient recipeIngredient = new RecipeIngredient(name,units,amount,comment);
             recipe.addIngredient(recipeIngredient);
         }
+
 
         return recipe;
     }
