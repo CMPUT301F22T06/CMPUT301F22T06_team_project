@@ -22,9 +22,11 @@ import android.view.ViewGroup;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -124,8 +126,17 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 //        itemTouchHelper.attachToRecyclerView(rvShoppingListItems);
     }
 
+    private void compareBetweenIDBandMDB () {
+        // We need some way to get ingredients
+        ArrayList<Ingredient> fromIDB = null;
+        ArrayList<String> fromMDB = null;
+        
+    }
+
     @Override
     public void onItemLongClick(int position) {
 
     }
+
+
 }
