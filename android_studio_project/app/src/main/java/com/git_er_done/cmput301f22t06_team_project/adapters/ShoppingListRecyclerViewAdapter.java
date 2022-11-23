@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.controllers;
+package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,12 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.ShoppingListRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.fragments.ShoppingListFragment;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIngredient;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 
 import java.util.ArrayList;
 import java.util.List;

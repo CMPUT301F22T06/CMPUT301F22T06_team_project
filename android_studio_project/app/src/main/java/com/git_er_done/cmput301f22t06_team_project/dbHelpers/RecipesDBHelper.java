@@ -7,11 +7,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
-import com.google.android.gms.common.internal.Constants;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,8 +39,12 @@ import java.util.Objects;
  */
 public class RecipesDBHelper {
 
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final CollectionReference recipesDB = db.collection("Recipes");
+
     private static RecipesRecyclerViewAdapter rvAdapter;
-    public static int selectedRecipePos;
+    private static int selectedRecipePos;
+
     public RecipesDBHelper(RecipesRecyclerViewAdapter adapter){
         rvAdapter = adapter;
         eventChangeListener(); //Initialize eventListener for RecyclerView
@@ -53,21 +56,17 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    static final CollectionReference recipesDB = db.collection("Recipes");
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
         String title = recipe.getTitle();
-
         String comments = recipe.getComments();
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
-        sendToDb.put("details", firstField);
 
+        sendToDb.put("details", firstField);
         sendToDb.put("image", recipe.getImage());
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
@@ -95,11 +94,9 @@ public class RecipesDBHelper {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-        //rvAdapter.notifyDataSetChanged();
     }
 
     public static void addImageToDB(String imageURI, Recipe recipe){
@@ -132,7 +129,6 @@ public class RecipesDBHelper {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
@@ -232,7 +228,6 @@ public class RecipesDBHelper {
             recipe.addIngredient(recipeIngredient);
         }
 
-
         return recipe;
     }
 
@@ -267,26 +262,25 @@ public class RecipesDBHelper {
                         }
 
                         for(DocumentChange dc : value.getDocumentChanges()){
+                            Recipe recipe = createRecipe(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 rvAdapter.addRecipe(recipe);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 rvAdapter.modifyRecipe(recipe, selectedRecipePos);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 int position = rvAdapter.getRecipesList().indexOf(recipe);
+                                //If rvAdapter returns valid position
                                 if(position != -1){
                                     rvAdapter.deleteRecipe(selectedRecipePos);
                                 }
                             }
                         }
                         // Stop the progress bar
-                        RecipesFragment.onDataChange();
+                        RecipesFragment.stopRecipesFragmentProgressBar();
                     }
                 });
     }

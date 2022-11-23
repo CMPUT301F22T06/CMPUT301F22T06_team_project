@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.controllers;
+package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import static android.content.ContentValues.TAG;
 
@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,10 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
     private Context context;
     private TextView name;
     private EditText comment;
-    private Button minus_button;
-    //private TextView amount;
-    private Button plus_button;
+    private Button minusButton;
+    private Button plusButton;
     private EditText unit;
-    private Button delete_button;
+    private Button deleteButton;
 
     public RecipeIngredientsViewAdapter(ArrayList<RecipeIngredient> recipeIngredients, Context context){
         super(context, R.layout.recipe_ingredient_item_layout, recipeIngredients);
@@ -48,32 +47,33 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         final TextView amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);;
 
         name.setText(recipeIngredient.getName());
-
         comment.setText(recipeIngredient.getComment());
-
-        minus_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Integer int_amount = Integer.parseInt((String) amount.getText());
-                int_amount = int_amount - 1;
-                amount.setText(String.valueOf(int_amount));
-            }
-        });
-
         amount.setText(String.valueOf(recipeIngredient.getAmount()));
-
-        plus_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Integer int_amount = Integer.parseInt((String) amount.getText());
-                int_amount = int_amount + 1;
-                amount.setText(String.valueOf(int_amount));
-            }
-        });
-
         unit.setText(recipeIngredient.getUnits());
 
-        delete_button.setOnClickListener(new View.OnClickListener() {
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer intAmount = Integer.parseInt((String) amount.getText());
+                if(intAmount > 0){
+                    intAmount = intAmount - 1;
+                    amount.setText(String.valueOf(intAmount));
+                }
+            }
+        });
+
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer intAmount = Integer.parseInt((String) amount.getText());
+                if(intAmount < 998){
+                    intAmount = intAmount + 1;
+                    amount.setText(String.valueOf(intAmount));
+                }
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 remove(recipeIngredient);
@@ -89,11 +89,10 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
     private void setViews(View listItem){
         name = (TextView) listItem.findViewById(R.id.name_of_ingredient);
         comment = (EditText) listItem.findViewById(R.id.comment_of_ingredient);
-        minus_button = (Button) listItem.findViewById(R.id.minus_button);
-        //amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);
-        plus_button = (Button) listItem.findViewById(R.id.plus_button);
+        minusButton = (Button) listItem.findViewById(R.id.minus_button);
+        plusButton = (Button) listItem.findViewById(R.id.plus_button);
         unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
-        delete_button = (Button) listItem.findViewById(R.id.delete_button);
+        deleteButton = (Button) listItem.findViewById(R.id.delete_button);
     }
 
 }

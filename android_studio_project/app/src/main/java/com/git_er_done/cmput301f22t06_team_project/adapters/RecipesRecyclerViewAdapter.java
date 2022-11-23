@@ -1,7 +1,6 @@
-package com.git_er_done.cmput301f22t06_team_project.controllers;
+package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.Collections;
 import java.util.Comparator;
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.RecipesRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.RecipesRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     private final RecipesRecyclerViewInterface rvInterface;
     private List<Recipe> mRecipes;
-    ProgressBar progressBar;
 
     View recipeView;
 
@@ -76,18 +73,15 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
         // Set item views based on your views and data model
         TextView name = holder.nameTextView;
-        name.setText(recipe.getTitle());
-
         TextView description = holder.commentTextView;
-        description.setText(recipe.getComments());
-
         TextView category = holder.categoryTextView;
-        category.setText(recipe.getCategory());
-
         TextView preptime = holder.preptimeTextView;
-        preptime.setText(String.valueOf(recipe.getPrep_time()));
-
         TextView amount = holder.servingsTextView;
+
+        name.setText(recipe.getTitle());
+        description.setText(recipe.getComments());
+        category.setText(recipe.getCategory());
+        preptime.setText(String.valueOf(recipe.getPrep_time()));
         amount.setText(String.valueOf(recipe.getServings()));
 
         //ArrayList<String> ingredientNames = new ArrayList<>();

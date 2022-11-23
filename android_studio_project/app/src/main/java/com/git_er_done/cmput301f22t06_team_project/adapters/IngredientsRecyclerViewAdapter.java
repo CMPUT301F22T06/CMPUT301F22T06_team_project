@@ -1,27 +1,23 @@
-package com.git_er_done.cmput301f22t06_team_project.controllers;
+package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +27,7 @@ import java.util.List;
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
 
+//TODO - add newly created ingredient to top of recyclerview after creation
 /**
  * Adapter used to render each item in the recycler view dynamically
  * Constructor takes in a list of ingredients and an interface reference for handling onItemLongClick events
@@ -38,8 +35,7 @@ import java.util.List;
 public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<IngredientsRecyclerViewAdapter.ViewHolder> {
 
     private final IngredientsRecyclerViewInterface rvInterface;
-    private List<Ingredient> mIngredients;
-    ListView ingredientLook;
+    private List<Ingredient> mIngredients = new ArrayList<>();
     View ingredientView;
 
     /**
@@ -47,12 +43,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
      * @param rvInterface - Reference to an interface for handling onItemLongClick events
      */
     public IngredientsRecyclerViewAdapter(IngredientsRecyclerViewInterface rvInterface){
-        mIngredients = new ArrayList<Ingredient>();
         this.rvInterface = rvInterface;
-    }
-
-    public View getView(){
-        return ingredientView;
     }
 
     /**
@@ -72,11 +63,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
 
         //set expired ingredients to 0 amount
-        removeExpired();
+        setExpiredIngredientsAmountToZero();
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(ingredientView);
-        return viewHolder;
+        return new ViewHolder(ingredientView);
     }
 
 
@@ -98,7 +88,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         TextView amount = holder.amountTextView;
         TextView unit = holder.unitTextView;
         LinearLayout background =holder.background;
-        //View itemView = color;
 
         name.setText(ingredient.getName());
         description.setText(ingredient.getDesc());
@@ -110,7 +99,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         
         Ingredient anIngredient = mIngredients.get(position);
         if (anIngredient.getAmount()==0) {
-            //anIngredient.setColor(Color.CYAN);
             background.setBackgroundColor(Color.TRANSPARENT);
             amount.setTextColor(Color.GREEN);
             amount.setTypeface(null, Typeface.BOLD_ITALIC);
@@ -168,7 +156,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    //check rv interface is not null
                     if(rvInterface != null){
                         int pos = getAdapterPosition();
 
@@ -188,7 +175,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return (ArrayList<Ingredient>) mIngredients;
     }
 
-    public void removeExpired(){
+    public void setExpiredIngredientsAmountToZero(){
         LocalDate today = LocalDate.now();
         for (int i = 0; i < mIngredients.size(); i++) {
             Ingredient anIngredient = mIngredients.get(i);
@@ -219,12 +206,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    public void sortByName(){
+    public void sortIngredientByName(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -234,7 +216,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByDescription(){
+    public void sortIngredientByDescription(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -244,7 +226,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByBestBeforeDate(){
+    public void sortIngredientByBestBeforeDate(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -254,7 +236,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByLocation(){
+    public void sortIngredientByLocation(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -264,7 +246,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByCategory(){
+    public void sortIngredientByCategory(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -274,7 +256,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByAmount(){
+    public void sortIngredientByAmount(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {
@@ -284,7 +266,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
-    public void sortByUnit(){
+    public void sortIngredientByUnit(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
             public int compare(Ingredient lhs, Ingredient rhs) {

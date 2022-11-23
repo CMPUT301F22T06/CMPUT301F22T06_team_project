@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Recipe;
+package com.git_er_done.cmput301f22t06_team_project.models.recipe;
 
 import android.os.Build;
 
@@ -120,11 +120,9 @@ public class Recipe implements Cloneable{
         fried_rice.addIngredient(fr_bacon);
 
         Recipe honey_soy_chicken = new Recipe("honey soy chicken", "Sweet and tangy", "poultry", 165, 4);
-        RecipeIngredient hschicken_chicken = new RecipeIngredient("chicken_drumstick", "singles", 8, "Chopped and sliced");
 
         // Dinner
         Recipe pumpkin_soup = new Recipe("pumpkin soup", "Creamy and perfect for the fall season", "vegetarian", 50, 6);
-
         Recipe pad_thai = new Recipe("pad thai", "Best noodle dish around.", "meat", 40, 4);
 
         // Dessert

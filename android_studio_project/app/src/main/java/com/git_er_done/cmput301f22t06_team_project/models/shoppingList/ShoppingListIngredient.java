@@ -1,14 +1,14 @@
-package com.git_er_done.cmput301f22t06_team_project.models;
+package com.git_er_done.cmput301f22t06_team_project.models.shoppingList;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.ingredientCategories;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.locations;
-import static com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient.units;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
+import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ public class ShoppingListIngredient {
     public final static ArrayList<ShoppingListIngredient> createShoppingList() {
         ArrayList<ShoppingListIngredient> tempShoppingList = new ArrayList<>();
 
-        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
-        Ingredient yellow_onion = new Ingredient("yellow_onion", "aa yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(0), 4);
+        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), ingredientLocations.get(2), ingredientUnits.get(0), ingredientCategories.get(1), 4);
+        Ingredient yellow_onion = new Ingredient("yellow_onion", "aa yellow skinned onion", LocalDate.now(), ingredientLocations.get(0), ingredientUnits.get(3), ingredientCategories.get(0), 4);
 
         ShoppingListIngredient buyLimes = new ShoppingListIngredient(lime, 5);
         ShoppingListIngredient buyYellowOnions = new ShoppingListIngredient(yellow_onion, 3);

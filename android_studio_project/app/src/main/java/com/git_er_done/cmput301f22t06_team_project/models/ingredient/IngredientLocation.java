@@ -1,21 +1,25 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+package com.git_er_done.cmput301f22t06_team_project.models.ingredient;
 
 import java.util.ArrayList;
 
-public class Location {
+/**
+ * Location represents the physical spot an ingredient will be stored.
+ * User defined parameter with a few hardcoded example options.
+ */
+public class IngredientLocation {
 
     private ArrayList<String> locations = new ArrayList<>();
 
-    private static final Location instance = new Location();
+    private static final IngredientLocation instance = new IngredientLocation();
 
-    private Location(){
+    private IngredientLocation(){
         locations.add("Add New Location");
         locations.add("pantry");
         locations.add("fridge");
         locations.add("freezer");
     }
 
-    public static Location getInstance(){
+    public static IngredientLocation getInstance(){
         return instance;
     }
 

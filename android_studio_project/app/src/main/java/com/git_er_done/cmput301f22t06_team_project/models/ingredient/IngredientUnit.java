@@ -1,13 +1,17 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+package com.git_er_done.cmput301f22t06_team_project.models.ingredient;
 
 import java.util.ArrayList;
 
-public class Unit {
+/**
+ * Unit represents the physical unit used to measure the amount of an ingredient.
+ * User defined parameter with a few hardcoded example options.
+ */
+public class IngredientUnit {
     private ArrayList<String> units = new ArrayList<>();
 
-    private static final Unit instance = new Unit();
+    private static final IngredientUnit instance = new IngredientUnit();
 
-    private Unit(){
+    private IngredientUnit(){
         units.add("Add New Unit");
         units.add("g");
         units.add("ml");
@@ -16,7 +20,7 @@ public class Unit {
         units.add("singles");
     }
 
-    public static Unit getInstance(){
+    public static IngredientUnit getInstance(){
         return instance;
     }
 

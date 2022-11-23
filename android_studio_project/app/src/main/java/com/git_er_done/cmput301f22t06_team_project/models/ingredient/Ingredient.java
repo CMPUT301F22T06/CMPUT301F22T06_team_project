@@ -1,4 +1,4 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+package com.git_er_done.cmput301f22t06_team_project.models.ingredient;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -16,14 +16,12 @@ public class Ingredient implements Cloneable{
     private String unit;
     private String category;
     private Integer amount;
-    private boolean isVegetarian;
-    private boolean isVegan;
     private int color;
 
     //Grab singleton arrays for user defined attributes like location and category
-    public static ArrayList<String> locations = Location.getInstance().getAllLocations();
+    public static ArrayList<String> ingredientLocations = IngredientLocation.getInstance().getAllLocations();
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
-    public static ArrayList<String> units = Unit.getInstance().getAllUnits();
+    public static ArrayList<String> ingredientUnits = IngredientUnit.getInstance().getAllUnits();
 
 
     /**
@@ -56,8 +54,8 @@ public class Ingredient implements Cloneable{
     public final static ArrayList<Ingredient> createIngredientList(){
         ArrayList<Ingredient> testIngredients = new ArrayList<>();
 
-        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), locations.get(2), units.get(0), ingredientCategories.get(1), 4);
-        Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), locations.get(0), units.get(3), ingredientCategories.get(6), 4);
+        Ingredient lime = new  Ingredient ("lime", "small green lime", LocalDate.now(), ingredientLocations.get(2), ingredientUnits.get(0), ingredientCategories.get(1), 4);
+        Ingredient yellow_onion = new Ingredient("yellow_onion", "yellow skinned onion", LocalDate.now(), ingredientLocations.get(0), ingredientUnits.get(3), ingredientCategories.get(6), 4);
 
         // Fruits
 //        Ingredient lime = new  FruitIngredient ("lime", "small green lime", LocalDate.now(), locations.get(0), "Singles", "Fruit", 4);
@@ -115,9 +113,6 @@ public class Ingredient implements Cloneable{
 //        Ingredient vanilla_extract  = new MiscIngredient("vanilla_extract", "sweet smelling vanilla", LocalDate.now(), locations.get(0), "ml", "Misc", 50 );
 //
 
-        // Adding all the ingredients
-        //fruits
-//        testIngredients.add(apple);
         testIngredients.add(lime);
         testIngredients.add(yellow_onion);
 //        testIngredients.add(banana);
@@ -230,10 +225,7 @@ public class Ingredient implements Cloneable{
         return amount;
     }
 
-    public void setAmount(Integer amount) {
-
-        this.amount = amount;
-    }
+    public void setAmount(Integer amount) { this.amount = amount; }
 
     public String getName() {
         return name;
@@ -243,24 +235,16 @@ public class Ingredient implements Cloneable{
         this.name = name;
     }
 
-    public boolean isVegetarian() {
-        return isVegetarian;
+    public int getColor() {
+        return color;
     }
 
-    public void setVegetarian(boolean vegetarian) {
-        isVegetarian = vegetarian;
-    }
-
-    public boolean isVegan() {
-        return isVegan;
-    }
-
-    public void setVegan(boolean vegan) {
-        isVegan = vegan;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     /**
-     * Required for indexOf call
+     * Overriden equals method is required for indexOf call
      */
     @Override
     public boolean equals(Object o) {
@@ -282,16 +266,4 @@ public class Ingredient implements Cloneable{
         }
     }
 
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-//    @Override
-//    public int compareTo(Object o) {
-//        return 0;
-//    }
 }
