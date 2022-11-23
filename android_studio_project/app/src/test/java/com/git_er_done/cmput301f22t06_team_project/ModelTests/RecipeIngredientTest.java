@@ -2,9 +2,12 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
 
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class RecipeIngredientTest {
 
@@ -27,5 +30,17 @@ public class RecipeIngredientTest {
 
         mockIngredient.setAmount(500);
         assertEquals(500, mockIngredient.getAmount());
+    }
+
+    @Test
+    public void testRecipeCategory() {
+        RecipeCategory category = RecipeCategory.getInstance();
+
+        category.addRecipeCategory("milkshake");
+
+        ArrayList<String> allCategories = category.getAllRecipeCategories();
+
+        // First user-defined category index
+        assertEquals("milkshake", category.getRecipeCategoryFromIndex(7));
     }
 }
