@@ -1,7 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
