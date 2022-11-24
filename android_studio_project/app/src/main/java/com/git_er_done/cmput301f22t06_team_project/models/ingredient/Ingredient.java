@@ -276,5 +276,4 @@ public class Ingredient implements Cloneable{
             throw new AssertionError();
         }
     }
-
 }

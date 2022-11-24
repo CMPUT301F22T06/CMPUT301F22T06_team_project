@@ -261,7 +261,7 @@ public class RecipesDBHelper {
                     for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
-                            i.setUnits(unit);
+                            i.setUnit(unit);
                         }
                     }
                     addRecipe(recipe);
