@@ -71,6 +71,7 @@ public class IngredientDBHelper {
         return ingredientInStorage;
     }
 
+    //TODO - Put newly added ingredients ontop of recyclerview top show user
     /**
      * This method adds an ingredient to our database in the incredient collection
      * @param ingredient of type {@link Ingredient}
