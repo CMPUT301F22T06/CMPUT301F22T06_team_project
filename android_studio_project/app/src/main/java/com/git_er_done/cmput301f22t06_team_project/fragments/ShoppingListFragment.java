@@ -148,8 +148,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         }
 
         ArrayList<Ingredient> ingredientsFromIDB = null; //IngredientDB
-
-
         for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
             Boolean alreadyInIDB = false;
             for (Ingredient j: ingredientsFromIDB){
