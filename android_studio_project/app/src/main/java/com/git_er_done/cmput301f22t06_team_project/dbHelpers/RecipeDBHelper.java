@@ -77,6 +77,7 @@ public class RecipeDBHelper {
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
 
         sendToDb.put("details", firstField);
+
         sendToDb.put("image", recipe.getImage());
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();

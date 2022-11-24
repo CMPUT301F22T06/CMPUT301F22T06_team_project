@@ -268,9 +268,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
+                int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
 
                 if(isEdittingExistingRecipe) {
-                    int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
                     Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                     //RecipesDBHelper.deleteRecipe(oldRecipe);
                     Recipe newRecipe = modifiedRecipe();
@@ -284,8 +284,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     RecipeDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
-                assert imageBitmap != null;
-                encodeBitmapAndSaveToFirebase(imageBitmap);
+
+                if (imageBitmap == null && isEdittingExistingRecipe){
+                    RecipeDBHelper.addImageToDB(" ", rvAdapter.getRecipesList().get(selectedRecipeIndex));
+                }
+                else{
+                    encodeBitmapAndSaveToFirebase(imageBitmap);
+                }
                 rvAdapter.notifyDataSetChanged();
                 dismiss();
             } // broke here
