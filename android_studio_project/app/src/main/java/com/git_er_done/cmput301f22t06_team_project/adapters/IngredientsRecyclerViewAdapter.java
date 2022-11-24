@@ -196,6 +196,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         rvInterface.onItemDeleted(mIngredients.get(position), position);
     }
 
+
     public void addItem(Ingredient newIngredient){
         mIngredients.add(newIngredient);
         notifyDataSetChanged();

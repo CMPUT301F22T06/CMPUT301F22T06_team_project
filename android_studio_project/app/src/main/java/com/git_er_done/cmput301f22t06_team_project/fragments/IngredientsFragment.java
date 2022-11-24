@@ -117,7 +117,9 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
         //TODO - Fix this . Figure out how to pass the adapter to the db helper without using a constructor
         //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
-        IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
+//        IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
+
+        IngredientDBHelper.setupSnapshotListenerForIngredientRVAdapter(rvAdapter);
 
         // Inflate the layout for this fragment
         return root;

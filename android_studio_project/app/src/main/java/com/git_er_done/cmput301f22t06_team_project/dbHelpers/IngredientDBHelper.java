@@ -40,16 +40,34 @@ public class IngredientDBHelper {
 
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final CollectionReference ingredientsDB = db.collection("Ingredients");
-
-    private static IngredientsRecyclerViewAdapter rvAdapter;
     private static int selectedIngPos;
+    private static IngredientDBHelper singleInstance = null;
 
-    public IngredientDBHelper(IngredientsRecyclerViewAdapter adapter){
-        rvAdapter = adapter;
-        eventChangeListener(); //Initialize eventListener for RecyclerView
+    /**
+     * Private constructor can only be called when an instance of this singleton is created
+     */
+    private IngredientDBHelper(){
+        setupSnapshotListenerForLocalIngredientStorage();
     }
 
+    // Static method to create instance of Singleton class
+    public static IngredientDBHelper getInstance()
+    {
+        if (singleInstance == null)
+            singleInstance = new IngredientDBHelper();
+        return singleInstance;
+    }
 
+    private static ArrayList<Ingredient> ingredientInStorage= new ArrayList<>();
+
+    //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
+    //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will
+    //  result in the snapshot listeners updating the local storage
+    public static ArrayList<Ingredient> getIngredientsFromStorage(){
+        return ingredientInStorage;
+    }
+
+    //TODO - Put newly added ingredients ontop of recyclerview top show user
     /**
      * This method adds an ingredient to our database in the incredient collection
      * @param ingredient of type {@link Ingredient}
@@ -172,6 +190,7 @@ public class IngredientDBHelper {
     }
 
 
+    //TODO - handle null exceptions in case the DB is broken so this doesnt crash the app
     /**
      * This method take a document from firestore and takes the data then converts it into an Ingredient object
      * to return
@@ -193,11 +212,14 @@ public class IngredientDBHelper {
         return newIngredient;
     }
 
+
     /**
-     * Listens for changes in the Ingredient collection in firestore and updates the ingredient adapter local storage accordingly.
-     * Is currently called in the constructor.
+     *  Called when the DBHelper singleton is instantiated - this happens in main activity onCreate().
+     *  This ensures the private arraylist of ingredients stored in this class is always up to date with
+     *      the firestore DB.
+     *  This has nothing to do with the ingredientFragment recyclerview and does not rely on an adapter instance.
      */
-    public void eventChangeListener(){
+    public void setupSnapshotListenerForLocalIngredientStorage(){
         db.collection("Ingredients")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -210,18 +232,62 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             Ingredient ingredient = createIngredient(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                rvAdapter.addItem(ingredient);
+                                ingredientInStorage.add(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                rvAdapter.modifyIngredient(ingredient, selectedIngPos);
+                                ingredientInStorage.set(selectedIngPos, ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = rvAdapter.getIngredientsList().indexOf(ingredient);
+                                int position = ingredientInStorage.indexOf(ingredient);
                                 //If the rvAdapter returns a valid position
                                 if(position != -1){
-                                    rvAdapter.deleteItem(selectedIngPos);
+                                    ingredientInStorage.remove(position);
+                                }
+                                else{
+                                    Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM STORAGE");
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Sets up a snapshot listener to update the ingredient recyclerview adapter accordingly. Because
+     * it relies on an adapter instance this method is called in the IngredientFragments onCreateView method after the
+     * associated RecyclerView adapter is instantiated and attached to the ingredientsRecyclerView;
+     * @param adapter Instance of the IngredientRecyclerViewAdapter that is to be updated via firebase snapshot listener api callbacks
+     */
+    public static void setupSnapshotListenerForIngredientRVAdapter(IngredientsRecyclerViewAdapter adapter){
+        db.collection("Ingredients")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            Ingredient ingredient = createIngredient(dc.getDocument());
+                            if(dc.getType() == DocumentChange.Type.ADDED){
+                                adapter.addItem(ingredient);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                adapter.modifyIngredient(ingredient, selectedIngPos);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.REMOVED){
+                                int position = adapter.getIngredientsList().indexOf(ingredient);
+                                //If the rvAdapter returns a valid position
+                                if(position != -1){
+                                    adapter.deleteItem(position);
+                                }
+                                else{
+                                    Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM RECYCLERVIEW ADAPTER");
                                 }
                             }
                         }

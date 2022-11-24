@@ -4,7 +4,9 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -23,9 +25,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
@@ -38,7 +44,9 @@ import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredien
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
 
@@ -87,8 +95,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
+    private static final int CAMERA_PERMISSION_CODE = 100;
     private static final int CAMERA_REQUEST = 1888;
     private static final int REQUEST_IMAGE_CAPTURE = 111;
+    Context context;
+    Bitmap imageBitmap = null;
 
     /**
      * Empty constructor required
@@ -153,10 +164,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "ADADADAD" + imageURI);
 
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
+        context = this.getContext();
 
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
@@ -166,7 +177,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
         lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
-        Log.d(TAG, "ADADADAD" + imageURI);
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
@@ -229,17 +239,17 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageChooser();
-            }
-        });
+//        btnUpload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                imageChooser();
+//            }
+//        });
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                camera();
+                checkPermission(Manifest.permission.CAMERA, CAMERA_PERMISSION_CODE);
             }
         });
 
@@ -275,7 +285,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     RecipesDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
-
+                assert imageBitmap != null;
+                encodeBitmapAndSaveToFirebase(imageBitmap);
                 rvAdapter.notifyDataSetChanged();
                 dismiss();
             } // broke here
@@ -304,7 +315,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
      */
     void camera() {
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, SELECT_PICTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
     /**
@@ -318,29 +329,51 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
 
-        if (requestCode == SELECT_PICTURE && resultCode == getActivity().RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            view_recipe_image.setImageBitmap(imageBitmap);
-            encodeBitmapAndSaveToFirebase(imageBitmap);
-        }
-        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+            if (requestCode == CAMERA_REQUEST) {
+                Bundle extras = data.getExtras();
+                imageBitmap = (Bitmap) extras.get("data");
+                view_recipe_image.setImageBitmap(imageBitmap);
+                Log.d(TAG, "TOOK A PICTURE" + imageBitmap);
 
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
-            if (requestCode == SELECT_PICTURE) {
-                // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    // update the preview image in the layout
-                    view_recipe_image.setImageURI(selectedImageUri);
-                }
             }
-        }
 
+            if (requestCode == SELECT_PICTURE) {
+                // Get the uri of the image from data
+                Uri selectedImageUri = data.getData();
+                // update the preview image in the layout
+                view_recipe_image.setImageURI(selectedImageUri);
+                imageBitmap = decodeUriAsBitmap(context, selectedImageUri);
+
+                Log.d(TAG, "SELECTED A PICTURE" + imageBitmap);
+
+            }
+
+        }
     }
 
+    /**
+     * This function takes in the uri from the selected image from the gallery and coneverts it to a bitmap
+     * @param context
+     * @param uri this is the uri of the image.
+     * @return Returns the converted bitmap so it can be used later on.
+     */
+    public static Bitmap decodeUriAsBitmap(Context context, Uri uri) {
+        Bitmap bitmap;
+        try {
+            bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+
+    /**
+     * This function takes in a bitmap and then adds it to the database by converting it back to a uri
+     * @param bitmap
+     */
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
         int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -348,6 +381,41 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         imageURI = imageEncoded;
         RecipesDBHelper.addImageToDB(imageEncoded, rvAdapter.getRecipesList().get(selectedRecipeIndex));
+    }
+
+    // Function to check and request permission.
+    public void checkPermission(String permission, int requestCode)
+    {
+        if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
+
+            // Requesting the permission
+            ActivityCompat.requestPermissions(requireActivity(), new String[] { permission }, requestCode);
+        }
+        else {
+            Toast.makeText(getActivity(), "Permission already granted", Toast.LENGTH_SHORT).show();
+            camera();
+        }
+    }
+
+    // This function is called when the user accepts or decline the permission.
+    // Request Code is used to check which permission called this function.
+    // This request code is provided when the user is prompt for permission.
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode,
+                permissions,
+                grantResults);
+
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(), "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
+            }
+            else {
+                Toast.makeText(getActivity(), "Camera Permission Denied", Toast.LENGTH_SHORT) .show();
+            }
+        }
     }
 
     Recipe modifiedRecipe(){
@@ -406,12 +474,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
-        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
-        btnCamera = view.findViewById(R.id.btn_recipe_add_edit_camera);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
         // stuff for photos
-        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+//        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
         view_recipe_image = view.findViewById(R.id.view_recipe_image);
+        btnCamera = view.findViewById(R.id.btn_recipe_add_edit_camera);
 
         addCategoryText = view.findViewById((R.id.addCategory));
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
