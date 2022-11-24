@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
+import static android.text.TextUtils.isEmpty;
 import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
 import android.Manifest;
@@ -269,38 +270,44 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
+                if (isEmpty(etTitle.getText())){
+                    Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(isEdittingExistingRecipe) {
+                        Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
+                        //RecipesDBHelper.deleteRecipe(oldRecipe);
+                        Recipe newRecipe = modifiedRecipe();
+                        RecipeDBHelper.addRecipe(newRecipe);
+                        isEdittingExistingRecipe = false;
 
-                if(isEdittingExistingRecipe) {
-                    Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                    //RecipesDBHelper.deleteRecipe(oldRecipe);
-                    Recipe newRecipe = modifiedRecipe();
-                    RecipeDBHelper.addRecipe(newRecipe);
-                    isEdittingExistingRecipe = false;
+                        if (imageBitmap == null){
+                            RecipeDBHelper.addImageToDB("", rvAdapter.getRecipesList().get(selectedRecipeIndex));
+                        }
+                        else{
+                            encodeBitmapAndSaveToFirebase(imageBitmap);
+                        }
+                    }
 
-                    if (imageBitmap == null){
-                        RecipeDBHelper.addImageToDB("", rvAdapter.getRecipesList().get(selectedRecipeIndex));
+                    if(isAddingNewRecipe){
+                        Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                        // Still need to add recipeIngredients here somehow
+                        if (imageBitmap == null){
+                            newRecipe.setImage("");
+                        }
+                        else{
+                            encodeBitmapAndSaveToFirebase(imageBitmap);
+                        }
+                        RecipeDBHelper.addRecipe(newRecipe);
+                        isAddingNewRecipe = false;
                     }
-                    else{
-                        encodeBitmapAndSaveToFirebase(imageBitmap);
-                    }
+                    rvAdapter.notifyDataSetChanged();
+                    dismiss();
                 }
 
-                if(isAddingNewRecipe){
-                    Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
-                    // Still need to add recipeIngredients here somehow
-                    if (imageBitmap == null){
-                        newRecipe.setImage("");
-                    }
-                    else{
-                        encodeBitmapAndSaveToFirebase(imageBitmap);
-                    }
-                    RecipeDBHelper.addRecipe(newRecipe);
-                    isAddingNewRecipe = false;
-                }
 
 
-                rvAdapter.notifyDataSetChanged();
-                dismiss();
+
             } // broke here
         });
     }
