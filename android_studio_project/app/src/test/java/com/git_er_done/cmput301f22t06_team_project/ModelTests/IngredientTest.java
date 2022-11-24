@@ -54,20 +54,4 @@ public class IngredientTest {
         mockIngredient.setAmount(12);
         assertEquals((Integer) 12, mockIngredient.getAmount());
     }
-
-
-    @Test
-    public void testIngredientLocation() {
-        IngredientLocation location = IngredientLocation.getInstance();
-        ArrayList<String> initialLocations = new ArrayList<>();
-        initialLocations.add("Add New Location");
-        initialLocations.add("pantry");
-        initialLocations.add("fridge");
-        initialLocations.add("freezer");
-
-        ArrayList<String> fromSingleton = location.getAllLocations();
-        assertEquals(initialLocations, fromSingleton);
-
-
-    }
 }
