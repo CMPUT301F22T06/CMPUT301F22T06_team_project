@@ -40,10 +40,7 @@ public class IngredientDBHelper {
 
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final CollectionReference ingredientsDB = db.collection("Ingredients");
-
-    private static IngredientsRecyclerViewAdapter rvAdapter;
     private static int selectedIngPos;
-
     private static IngredientDBHelper singleInstance = null;
 
     /**
@@ -58,7 +55,6 @@ public class IngredientDBHelper {
     {
         if (singleInstance == null)
             singleInstance = new IngredientDBHelper();
-
         return singleInstance;
     }
 
