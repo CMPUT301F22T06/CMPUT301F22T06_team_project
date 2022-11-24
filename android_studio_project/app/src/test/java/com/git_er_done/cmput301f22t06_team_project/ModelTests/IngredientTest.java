@@ -6,10 +6,12 @@ import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class IngredientTest {
     public static Ingredient makeIngredient() {
@@ -55,16 +57,35 @@ public class IngredientTest {
 
     @Test
     public void testIngredientCategory() {
+        ArrayList<String> initialCategories = new ArrayList<>();
+        initialCategories.add("Add New Category");
+        initialCategories.add("dairy");
+        initialCategories.add("fruit");
+        initialCategories.add("grain");
+        initialCategories.add("lipid");
+        initialCategories.add("protein");
+        initialCategories.add("spice");
+        initialCategories.add("vegetable");
+        initialCategories.add("miscellaneous");
+
         IngredientCategory category = IngredientCategory.getInstance();
+
+        ArrayList<String> fromSingleton = category.getAllIngredientCategories();
+        assertEquals(initialCategories, fromSingleton);
 
         category.addIngredientCategory("grain");
         // First user-defined index
         assertEquals("grain", category.getIngredientCategoryFromIndex(9));
 
         category.deleteCategory("grain");
-        System.err.println(category.getAllIngredientCategories().contains("grain"));
-        System.err.println(category.getAllIngredientCategories());
-        //assertFalse(category.getAllIngredientCategories().contains("grain"));
+        //System.err.println(category.getAllIngredientCategories().contains("grain"));
+        //System.err.println(category.getAllIngredientCategories());
+        assertFalse(category.getAllIngredientCategories().contains("grain"));
 
+    }
+
+    @Test
+    public void testIngredientLocation() {
+        IngredientLocation location = IngredientLocation.getInstance();
     }
 }
