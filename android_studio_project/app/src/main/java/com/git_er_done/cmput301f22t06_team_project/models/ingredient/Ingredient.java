@@ -16,7 +16,7 @@ public class Ingredient implements Cloneable{
     private String unit;
     private String category;
     private Integer amount;
-    private int color;
+    private Integer color;
 
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> ingredientLocations = IngredientLocation.getInstance().getAllLocations();
@@ -235,7 +235,7 @@ public class Ingredient implements Cloneable{
         this.name = name;
     }
 
-    public int getColor() {
+    public Integer getColor() {
         return color;
     }
 
