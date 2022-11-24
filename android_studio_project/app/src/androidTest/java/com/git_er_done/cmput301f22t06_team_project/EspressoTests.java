@@ -44,8 +44,10 @@ public class EspressoTests {
     public ActivityScenarioRule<MainActivity> activityRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
+    // Fragment navigation Tests
+
     @Test
-    public void testIngredientRecyclerView() {
+    public void testIngredientNavigation() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open())
@@ -63,7 +65,7 @@ public class EspressoTests {
     }
 
     @Test
-    public void testMealPlannerRecyclerView() {
+    public void testMealPlannerNavigation() {
 
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
@@ -82,7 +84,7 @@ public class EspressoTests {
     }
 
     @Test
-    public void testShoppingListRecyclerView() {
+    public void testShoppingListNavigation() {
 
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
@@ -101,7 +103,7 @@ public class EspressoTests {
     }
 
     @Test
-    public void testRecipeRecyclerView() {
+    public void testRecipeNavigation() {
         onView(withId(R.id.drawer_layout))
                 .check(matches(isClosed(Gravity.LEFT)))
                 .perform(DrawerActions.open())
@@ -141,6 +143,8 @@ public class EspressoTests {
                         isDisplayed()));
         textView1.check(matches(withText("Recipes")));
     }
+
+    // Ingredient Tests
 
     @Test
     public void testIngredientEdit() {
@@ -385,6 +389,100 @@ public class EspressoTests {
                                 withParent(IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class)))),
                         isDisplayed()));
         textView.check(matches(withText("Ingredients List")));
+    }
+
+    @Test
+    public void testIngredientBlankName() {
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Drawer Open"),
+                        childAtPosition(
+                                allOf(withId(R.id.my_toolbar),
+                                        childAtPosition(
+                                                withClassName(Matchers.is("android.widget.LinearLayout")),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(withId(R.id.nav_ingredients_menu_item),
+                        childAtPosition(
+                                allOf(withId(com.google.android.material.R.id.design_navigation_view),
+                                        childAtPosition(
+                                                withId(R.id.navigation_view),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
+
+        ViewInteraction floatingActionButton = onView(
+                allOf(withId(R.id.fab_ingredient_add),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                1),
+                        isDisplayed()));
+        floatingActionButton.perform(click());
+
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.et_ingredient_add_edit_description),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(Matchers.is("android.widget.LinearLayout")),
+                                        1),
+                                1)));
+        appCompatEditText2.perform(scrollTo(), replaceText("AAA"), closeSoftKeyboard());
+
+        onView(withId(R.id.sp_ingredient_add_edit_location)).perform(click());
+        onData(allOf(CoreMatchers.is(instanceOf(String.class)), CoreMatchers.is("pantry"))).inRoot(isPlatformPopup()).perform(click());
+
+        onView(withId(R.id.sp_ingredient_add_edit_unit)).perform(click());
+        onData(allOf(CoreMatchers.is(instanceOf(String.class)), CoreMatchers.is("singles"))).inRoot(isPlatformPopup()).perform(click()); // select oz for units
+
+        onView(withId(R.id.sp_ingredient_add_edit_category)).perform(click());
+        onData(allOf(CoreMatchers.is(instanceOf(String.class)), CoreMatchers.is("miscellaneous"))).inRoot(isPlatformPopup()).perform(click());
+
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.et_ingredient_add_edit_amount),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(Matchers.is("android.widget.LinearLayout")),
+                                        0),
+                                1)));
+        appCompatEditText3.perform(scrollTo(), replaceText("4"), closeSoftKeyboard());
+
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.btn_ingredient_add_edit_save), withText("SAVE"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(Matchers.is("android.widget.LinearLayout")),
+                                        6),
+                                1)));
+        appCompatButton.perform(scrollTo(), click());
+
+        // TODO: Assert error checking occurred
+    }
+
+    // Recipe tests
+
+    @Test
+    public void testAddRecipe() {
+        onView(withId(R.id.drawer_layout))
+                .perform(DrawerActions.open());
+
+        onView(withId(R.id.navigation_view))
+                .perform(NavigationViewActions.navigateTo(R.id.nav_recipes_menu_item));
+
+        ViewInteraction floatingActionButton = onView(
+                allOf(withId(R.id.fab_recipe_add),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                2),
+                        isDisplayed()));
+        floatingActionButton.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
