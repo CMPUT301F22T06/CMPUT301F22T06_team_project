@@ -193,13 +193,13 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<RecipeIngredient> ingredientList) {
+    public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<Ingredient> ingredientList) {
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 Recipe recipe = createRecipe(doc);
-                ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
-                for (RecipeIngredient i: recipeIngredients){
+                ArrayList<Ingredient> recipeIngredients = recipe.getIngredients();
+                for (Ingredient i: recipeIngredients){
                     ingredientList.add(i);
                 }
                 adapter.notifyDataSetChanged();
