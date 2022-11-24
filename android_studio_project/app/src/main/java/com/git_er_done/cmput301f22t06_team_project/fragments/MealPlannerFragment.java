@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
@@ -37,6 +39,7 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 /**
  * Fragment that holds the meal planner calendar and associated scrollable list of each meal planned for the selected date.
@@ -66,6 +69,8 @@ public class MealPlannerFragment extends Fragment {
 
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
         weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
+
+        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
 
 
         setupMonthDayBinder();
@@ -226,7 +231,6 @@ public class MealPlannerFragment extends Fragment {
     }
 
     public class MonthViewContainer extends ViewContainer {
-
         public MonthViewContainer(@NonNull View view) {
             super(view);
         }

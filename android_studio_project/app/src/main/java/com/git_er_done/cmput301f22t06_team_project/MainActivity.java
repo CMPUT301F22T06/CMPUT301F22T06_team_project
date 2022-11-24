@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        IngredientDBHelper.getInstance();
 
         addMenuProvider(new MenuProvider() {
             @Override
