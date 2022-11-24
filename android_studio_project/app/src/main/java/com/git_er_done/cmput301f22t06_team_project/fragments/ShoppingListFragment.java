@@ -129,18 +129,49 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 
     private void compareBetweenIDBandMDB () {
         // We need some way to get these arrayLists
-        ArrayList<Ingredient> fromIDB = null; //IngredientDB
-        ArrayList<Meal> fromMDB = null; //MealPleanDB
-        ArrayList<Ingredient> totalIngredientsNeeded = new ArrayList<>();
-        for (Meal meal: fromMDB){
-             ArrayList<Ingredient> ingredients = meal.getIngredientsFromMeal();
-             for (Ingredient i: ingredients){
-                 for (Ingredient j: totalIngredientsNeeded){
+        ArrayList<Meal> mealPlansFromMDB = null; //MealPleanDB
+        ArrayList<Ingredient> totalIngredientsforMealPlan = new ArrayList<>();
+        for (Meal meal: mealPlansFromMDB){ // Get all the ingredients and total them from the meal plans
+             ArrayList<Ingredient> ingredientsFromMeal = meal.getIngredientsFromMeal();
+             for (Ingredient i: ingredientsFromMeal){
+                 Boolean alreadyInTotalIngredients = false;
+                 for (Ingredient j: totalIngredientsforMealPlan){
                      if (i.getName() == j.getName()){
                          j.setAmount(j.getAmount() + i.getAmount());
+                         alreadyInTotalIngredients = true;
                      }
                  }
+                 if (!alreadyInTotalIngredients){
+                     totalIngredientsforMealPlan.add(i);
+                 }
              }
+        }
+
+        ArrayList<Ingredient> ingredientsFromIDB = null; //IngredientDB
+
+
+        for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
+            Boolean alreadyInIDB = false;
+            for (Ingredient j: ingredientsFromIDB){
+                if (i.getName() == j.getName()){
+                    j.setAmount(j.getAmount() - i.getAmount());
+                    alreadyInIDB = true;
+                }
+            }
+            if (!alreadyInIDB){
+                Ingredient iClone = i.clone();
+                iClone.setAmount(-i.getAmount());
+                ingredientsFromIDB.add(iClone);
+            }
+        }
+
+        ArrayList<Ingredient> shoppingList = new ArrayList<>();
+        for (Ingredient i: ingredientsFromIDB){ //Any ingredient in the ingredientFromDB list that's zero gets added to the shopping List
+            if (i.getAmount() < 0){
+                Ingredient iClone = i.clone();
+                iClone.setAmount(-i.getAmount()); //reverse the negative sign
+                shoppingList.add(iClone);
+            }
         }
     }
 
