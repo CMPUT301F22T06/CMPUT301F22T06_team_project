@@ -276,21 +276,29 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     Recipe newRecipe = modifiedRecipe();
                     RecipeDBHelper.addRecipe(newRecipe);
                     isEdittingExistingRecipe = false;
+
+                    if (imageBitmap == null){
+                        RecipeDBHelper.addImageToDB("", rvAdapter.getRecipesList().get(selectedRecipeIndex));
+                    }
+                    else{
+                        encodeBitmapAndSaveToFirebase(imageBitmap);
+                    }
                 }
 
                 if(isAddingNewRecipe){
                     Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
                     // Still need to add recipeIngredients here somehow
+                    if (imageBitmap == null){
+                        newRecipe.setImage("");
+                    }
+                    else{
+                        encodeBitmapAndSaveToFirebase(imageBitmap);
+                    }
                     RecipeDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
 
-                if (imageBitmap == null && isEdittingExistingRecipe){
-                    RecipeDBHelper.addImageToDB(" ", rvAdapter.getRecipesList().get(selectedRecipeIndex));
-                }
-                else{
-                    encodeBitmapAndSaveToFirebase(imageBitmap);
-                }
+
                 rvAdapter.notifyDataSetChanged();
                 dismiss();
             } // broke here
