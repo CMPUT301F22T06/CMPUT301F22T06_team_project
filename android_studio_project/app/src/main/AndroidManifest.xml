@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.git_er_done.cmput301f22t06_team_project"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
@@ -13,7 +14,7 @@
         android:theme="@style/SplashScreen"
         tools:targetApi="31">
         <activity
-            android:name="com.git_er_done.cmput301f22t06_team_project.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

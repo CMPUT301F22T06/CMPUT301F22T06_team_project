@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -137,6 +138,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         public TextView categoryTextView;
         public String color;
         public LinearLayout background;
+        ProgressBar progressBar;
 
         //Constructor accepts entire item row and does view lookups to find each subview
         public ViewHolder(View itemView) {
@@ -151,6 +153,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
             background = itemView.findViewById(R.id.background);
+            progressBar = itemView.findViewById(R.id.progressBarId);
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientsFragment;
+import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -289,6 +291,9 @@ public class IngredientDBHelper {
                                     Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM RECYCLERVIEW ADAPTER");
                                 }
                             }
+                        }
+                        if (adapter.getIngredientsList().size() == ingredientInStorage.size() ){
+                            IngredientsFragment.stopIngredientsFragmentProgressBar();
                         }
                     }
                 });

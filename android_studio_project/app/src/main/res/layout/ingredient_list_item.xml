@@ -45,6 +45,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_ingredient_list_item_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location: "
+                android:textColor="@color/yellow"
+                android:translationX="20dp" />
+
+            <TextView
                 android:id="@+id/tv_ingredient_list_item_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,19 +61,38 @@
                 android:translationX="20dp" />
 
             <TextView
+                android:id="@+id/tv_ingredient_list_item_best_before_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:paddingHorizontal="15dp"
+                android:text="Best Before:"
+                android:textColor="@color/yellow"
+                android:translationX="30dp" />
+
+            <TextView
                 android:id="@+id/tv_ingredient_list_item_best_before_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="15dp"
+                android:paddingHorizontal="1dp"
                 android:text="Best before date"
                 android:textColor="@color/yellow"
-                android:translationX="30dp" />
+                android:translationX="20dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_category_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category: "
+                android:textColor="@color/yellow"
+                android:translationX="20dp" />
 
             <TextView
                 android:id="@+id/tv_ingredient_list_item_category"
@@ -74,6 +101,16 @@
                 android:text="Category"
                 android:textColor="@color/yellow"
                 android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_amount_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:paddingHorizontal="1dp"
+                android:text="Amount: "
+                android:textColor="@color/yellow"
+                android:translationX="30dp" />
 
             <TextView
                 android:id="@+id/tv_ingredient_list_item_amount"
@@ -91,7 +128,7 @@
                 android:paddingHorizontal="2dp"
                 android:text="Unit"
                 android:textColor="@color/yellow"
-                android:translationX="30dp" />
+                android:translationX="25dp" />
 
         </LinearLayout>
 
