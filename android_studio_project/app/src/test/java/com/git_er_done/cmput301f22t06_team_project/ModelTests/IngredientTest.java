@@ -1,17 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class IngredientTest {
     public static Ingredient makeIngredient() {
