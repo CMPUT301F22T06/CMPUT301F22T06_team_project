@@ -34,7 +34,7 @@ import java.util.Objects;
  * @ingredientsFragment (for now)
  * @Version 1 (Because I didn't write the version before writing this)
  * @see MealPlannerDBHelper
- * @see RecipesDBHelper
+ * @see RecipeDBHelper
  */
 public class IngredientDBHelper {
 
@@ -73,7 +73,7 @@ public class IngredientDBHelper {
      * @param ingredient of type {@link Ingredient}
      * @returns void
      * @see MealPlannerDBHelper
-     * @see RecipesDBHelper
+     * @see RecipeDBHelper
      */
     public static void addIngredientToDB(Ingredient ingredient){
         String name = ingredient.getName().toLowerCase();
@@ -119,7 +119,7 @@ public class IngredientDBHelper {
      * @param ingredient of type {@link String}
      * @returns void
      * @see MealPlannerDBHelper
-     * @see RecipesDBHelper
+     * @see RecipeDBHelper
      */
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
         String nameOfIngredient = ingredient.getName();
@@ -131,7 +131,6 @@ public class IngredientDBHelper {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "Deleted has been deleted successfully!");
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -197,7 +196,7 @@ public class IngredientDBHelper {
      * @param doc
      * @return ingredient of type {@link Ingredient}
      * @see MealPlannerDBHelper
-     * @see RecipesDBHelper
+     * @see RecipeDBHelper
      */
     private static Ingredient createIngredient(DocumentSnapshot doc) {
         String name = doc.getId();

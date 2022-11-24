@@ -22,7 +22,7 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
@@ -209,7 +209,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         String unit = spUnit.getSelectedItem().toString();
         String name = etName.getText().toString();
 
-        RecipesDBHelper.updateRecipe(unit, name);
+        RecipeDBHelper.updateRecipe(unit, name);
     }
 
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
