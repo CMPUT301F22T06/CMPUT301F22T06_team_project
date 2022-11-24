@@ -40,6 +40,8 @@ public class IngredientCategoryTest {
         category.addIngredientCategory("grain");
         // First user-defined index
         assertEquals("grain", category.getIngredientCategoryFromIndex(9));
+        // Cleanup
+        category.deleteCategory("grain");
     }
 
     @Test
