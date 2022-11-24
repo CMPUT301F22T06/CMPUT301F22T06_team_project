@@ -144,9 +144,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    //check rv interface is not null
                     if (rvInterface != null) {
-                        //get position from adapter for onclickmethod
                         int pos = getAdapterPosition();
 
                         //ensure position is valid

@@ -27,7 +27,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteRecipeCallback;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -110,7 +110,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
             }
         });
 
-        RecipesDBHelper dbHelper = new RecipesDBHelper(rvAdapter);
+        RecipeDBHelper.setupSnapshotListenerForRecipeRVAdapter(rvAdapter);
 
         Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.splash_image);
         root.setBackground(d);
@@ -156,7 +156,7 @@ public class RecipesFragment extends Fragment implements RecipesRecyclerViewInte
     public void onItemDeleted(Recipe recipe, int position) {
         Snackbar snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
                 Snackbar.LENGTH_LONG);
-        snackbar.setAction("DELETE", v -> RecipesDBHelper.deleteRecipe(recipe, position));
+        snackbar.setAction("DELETE", v -> RecipeDBHelper.deleteRecipe(recipe, position));
         snackbar.addCallback(new Snackbar.Callback() {
 
             @Override

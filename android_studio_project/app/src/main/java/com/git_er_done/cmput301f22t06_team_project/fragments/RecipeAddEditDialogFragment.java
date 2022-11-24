@@ -38,7 +38,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
@@ -46,7 +46,6 @@ import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
 
@@ -180,7 +179,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            RecipeDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
             etTitle.setEnabled(false);
         }
         else{
@@ -275,14 +274,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                     //RecipesDBHelper.deleteRecipe(oldRecipe);
                     Recipe newRecipe = modifiedRecipe();
-                    RecipesDBHelper.addRecipe(newRecipe);
+                    RecipeDBHelper.addRecipe(newRecipe);
                     isEdittingExistingRecipe = false;
                 }
 
                 if(isAddingNewRecipe){
                     Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
                     // Still need to add recipeIngredients here somehow
-                    RecipesDBHelper.addRecipe(newRecipe);
+                    RecipeDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
                 assert imageBitmap != null;
@@ -380,7 +379,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         imageURI = imageEncoded;
-        RecipesDBHelper.addImageToDB(imageEncoded, rvAdapter.getRecipesList().get(selectedRecipeIndex));
+        RecipeDBHelper.addImageToDB(imageEncoded, rvAdapter.getRecipesList().get(selectedRecipeIndex));
     }
 
     // Function to check and request permission.
