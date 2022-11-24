@@ -232,7 +232,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 String selected = spIngredients_dropdown.getSelectedItem().toString();
                 String[] nameUnit = selected.split(", ");
-                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "comment");
+                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "");
                 recipeIngredients.add(newIngredient);
                 recipeIngredientsViewAdapter.notifyDataSetChanged();
             }
@@ -430,25 +430,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 Integer.parseInt(String.valueOf(etPrep_time.getText())),
                 Integer.parseInt(String.valueOf(etServings.getText())));
 
-        ArrayList<RecipeIngredient> modifiedRecipeIngredients = new ArrayList<>();
-        for (int i = 0; i < lvIngredients_view.getChildCount(); i++) {
-            View child = lvIngredients_view.getChildAt(i);
-            TextView name = child.findViewById(R.id.name_of_ingredient);
-            String nameString = name.getText().toString();
-
-            EditText comment = child.findViewById(R.id.comment_of_ingredient);
-            String commentString = comment.getText().toString();
-
-            TextView amount = child.findViewById(R.id.amount_of_ingredient);
-            String amountString = amount.getText().toString();
-            Integer amountInt = Integer.parseInt(amountString);
-
-            EditText unit = child.findViewById(R.id.unit_of_ingredient);
-            String unitString = unit.getText().toString();
-
-            RecipeIngredient modifiedRecipeIngredient = new RecipeIngredient(nameString, unitString, amountInt, commentString);
-            modifiedRecipeIngredients.add(modifiedRecipeIngredient);
-        }
+        ArrayList<RecipeIngredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
         modifiedRecipe.setImage(imageURI);
         modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
         return modifiedRecipe;
