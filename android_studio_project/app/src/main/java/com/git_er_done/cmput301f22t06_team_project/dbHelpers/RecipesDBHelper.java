@@ -2,16 +2,15 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
 import static android.service.controls.ControlsProviderService.TAG;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,8 +39,12 @@ import java.util.Objects;
  */
 public class RecipesDBHelper {
 
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static final CollectionReference recipesDB = db.collection("Recipes");
+
     private static RecipesRecyclerViewAdapter rvAdapter;
-    public static int selectedRecipePos;
+    private static int selectedRecipePos;
+
     public RecipesDBHelper(RecipesRecyclerViewAdapter adapter){
         rvAdapter = adapter;
         eventChangeListener(); //Initialize eventListener for RecyclerView
@@ -53,20 +56,18 @@ public class RecipesDBHelper {
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-
-    static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    static final CollectionReference recipesDB = db.collection("Recipes");
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
 
         String title = recipe.getTitle();
-
         String comments = recipe.getComments();
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+
         sendToDb.put("details", firstField);
+        sendToDb.put("image", recipe.getImage());
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
 
@@ -93,11 +94,16 @@ public class RecipesDBHelper {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be added!" + e.toString());
                     }
                 });
-        //rvAdapter.notifyDataSetChanged();
+    }
+
+    public static void addImageToDB(String imageURI, Recipe recipe){
+        HashMap<String, String> sendToDb = new HashMap<>();
+        sendToDb.put("image", imageURI);
+        DocumentReference documentReference = recipesDB.document(recipe.getTitle());
+        documentReference.update("image",imageURI);
     }
 
     /**
@@ -105,10 +111,11 @@ public class RecipesDBHelper {
      * taking a string argument to look for the document with that na,e
      * @param recipe of type {@link String}
      * returns void
+     * @param position
      * @see IngredientDBHelper
      * @see MealPlannerDBHelper
      */
-    public static void deleteRecipe(Recipe recipe, int pos){
+    public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
         recipesDB
                 .document(nameofRecipe)
@@ -122,53 +129,22 @@ public class RecipesDBHelper {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-// These are a method which gets executed if there’s any problem
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int position){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         String nameOfRecipe = oldRecipe.getTitle();
-        selectedRecipePos = pos;
-        ArrayList update = new ArrayList<>();
-        DocumentReference dr = recipesDB.document(nameOfRecipe);
-
-        if(!Objects.equals(newRecipe.getComments(), oldRecipe.getComments())){
-            update.add(newRecipe.getComments());
-            //dr.update("comment", newRecipe.getComments());
+        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
+            // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
+            deleteRecipe(oldRecipe, position);
+            addRecipe(newRecipe);
         }
         else{
-            update.add(oldRecipe.getComments());
+            addRecipe(newRecipe);
         }
-
-        if(!Objects.equals(newRecipe.getCategory(), oldRecipe.getCategory())){
-            update.add(newRecipe.getCategory());
-        }
-        else{
-            update.add(oldRecipe.getCategory());
-        }
-
-        if(!Objects.equals(newRecipe.getPrep_time(), oldRecipe.getPrep_time())){
-            update.add(String.valueOf(newRecipe.getPrep_time()));
-           // dr.update("prep time", String.valueOf(newRecipe.getPrep_time()));
-        }
-        else{
-            update.add(oldRecipe.getPrep_time());
-        }
-
-        if(!Objects.equals(newRecipe.getServings(), oldRecipe.getServings())){
-            update.add(String.valueOf(newRecipe.getServings()));
-           // dr.update("servings", String.valueOf(newRecipe.getServings()));
-        }
-        else{
-            update.add(oldRecipe.getServings());
-        }
-
-        String result = TextUtils.join("|", update);
-        dr.update("details", result);
-
     }
 
     /**
@@ -202,8 +178,6 @@ public class RecipesDBHelper {
      * @see MealPlannerDBHelper
      */
     public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<RecipeIngredient> ingredientList) {
-        ArrayList<Recipe> retrieved = new ArrayList<>();
-//        IngredientDBHelper ingredientDBHelper = new IngredientDBHelper();
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
@@ -241,6 +215,9 @@ public class RecipesDBHelper {
         Integer servings = Integer.parseInt(recipeDetails[3]);
         Recipe recipe = new Recipe(title, comments,category,prepTime,servings);
 
+        String image = fromDBbutString.remove("image");
+        recipe.setImage(image);
+
         for (String key: fromDBbutString.keySet()) {
             String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");
             String name = key;
@@ -254,6 +231,26 @@ public class RecipesDBHelper {
         return recipe;
     }
 
+    public static void updateRecipe(String unit, String name){
+        recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                QuerySnapshot docs = task.getResult();
+                for(QueryDocumentSnapshot doc: docs) {
+                    Recipe recipe = createRecipe(doc);
+                    for (RecipeIngredient i: recipe.getIngredients()){
+                        if (i.getName().equals(name)){
+                            Log.d(TAG, "MOMOMO");
+                            i.setUnits(unit);
+                        }
+                    }
+                    addRecipe(recipe);
+                }
+            }
+        });
+    }
+
+
     public void eventChangeListener(){
         db.collection("Recipes")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -265,26 +262,25 @@ public class RecipesDBHelper {
                         }
 
                         for(DocumentChange dc : value.getDocumentChanges()){
+                            Recipe recipe = createRecipe(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 rvAdapter.addRecipe(recipe);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 rvAdapter.modifyRecipe(recipe, selectedRecipePos);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                Recipe recipe = createRecipe(dc.getDocument());
                                 int position = rvAdapter.getRecipesList().indexOf(recipe);
+                                //If rvAdapter returns valid position
                                 if(position != -1){
                                     rvAdapter.deleteRecipe(selectedRecipePos);
                                 }
                             }
                         }
                         // Stop the progress bar
-                        RecipesFragment.onDataChange();
+                        RecipesFragment.stopRecipesFragmentProgressBar();
                     }
                 });
     }

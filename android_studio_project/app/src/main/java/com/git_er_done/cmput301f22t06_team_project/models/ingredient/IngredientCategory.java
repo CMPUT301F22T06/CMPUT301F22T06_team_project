@@ -1,7 +1,11 @@
-package com.git_er_done.cmput301f22t06_team_project.models.Ingredient;
+package com.git_er_done.cmput301f22t06_team_project.models.ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * Category represents the category of an ingredient
+ * User defined parameter with a few hardcoded example options.
+ */
 public class IngredientCategory {
 
     private ArrayList<String> ingredientCategories = new ArrayList<>();

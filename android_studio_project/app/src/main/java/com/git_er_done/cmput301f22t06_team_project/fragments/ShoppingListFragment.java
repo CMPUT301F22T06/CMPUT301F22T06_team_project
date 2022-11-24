@@ -1,6 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
-import static com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIngredient.testShoppingList;
+import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
 import android.os.Bundle;
 
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.ShoppingListRecyclerViewInterface;
-import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.ShoppingListRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ShoppingListIngredient;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;

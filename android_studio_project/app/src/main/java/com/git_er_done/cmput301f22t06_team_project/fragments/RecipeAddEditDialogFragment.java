@@ -1,11 +1,16 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe.recipeCategories;
+import static android.content.ContentValues.TAG;
+import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,14 +29,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipeIngredientsViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.controllers.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeIngredient;
-import com.git_er_done.cmput301f22t06_team_project.models.Recipe.RecipeCategory;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
@@ -57,8 +63,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private ImageView view_recipe_image;
     private Button btnAddIngredient;
     private Button btnUpload;
+    private Button btnCamera;
     private Button btnCancel;
     private Button btnSave;
+
+    RecipeIngredientsViewAdapter recipeIngredientsViewAdapter;
 
     private EditText addCategoryText;
     private Button addCategoryButton;
@@ -70,6 +79,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     String comments;
     String ingredients;
     String category;
+    String imageURI;
 
     private static boolean isAddingNewRecipe = false;
     private static boolean isEdittingExistingRecipe = false;
@@ -77,6 +87,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int REQUEST_IMAGE_CAPTURE = 111;
 
     /**
      * Empty constructor required
@@ -102,12 +114,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         args.putString("servings", String.valueOf(selectedRecipe.getServings()));
         args.putString("prep_time", String.valueOf(selectedRecipe.getPrep_time()));
         args.putString("category", selectedRecipe.getCategory());
+        args.putString("image", selectedRecipe.getImage());
 
         for (RecipeIngredient i : selectedRecipe.getIngredients()){
             args.putString("ingredients", i.toString());
         }
         frag.setArguments(args);
-
         isEdittingExistingRecipe = true;
         return frag;
     }
@@ -141,41 +153,28 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "ADADADAD" + imageURI);
 
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
 
-        ArrayAdapter<String> ingredientView = new ArrayAdapter<String>(getActivity(), R.layout.ingredient_listview, ingredientNames);
-        // Test data
         ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        ArrayList<String> ingredientUnit = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        RecipeIngredient appleRI = new RecipeIngredient("apple", "g", 2, "slice into eighths");
-        RecipeIngredient orangeRI = new RecipeIngredient("orange", "g", 2, "take apart at its seams");
-        RecipeIngredient grapeRI = new RecipeIngredient("grape", "g", 2, "remove tips");
-        RecipeIngredient watermelonRI = new RecipeIngredient("watermelon", "g", 2, "slice into cubes");
-        RecipeIngredient honeydewRI = new RecipeIngredient("honeydew", "g", 2, "slice into cubes");
-        RecipeIngredient mangoRI = new RecipeIngredient("mango", "g", 2, "slice into cubes");
-
-        recipeIngredients.add(appleRI);
-        recipeIngredients.add(orangeRI);
-        recipeIngredients.add(grapeRI);
-        recipeIngredients.add(watermelonRI);
-        recipeIngredients.add(honeydewRI);
-        // Take in all the recipe ingredients and put them into a more readable format. probably a better way to do this.
-        // TODO: get name of all ingredients from ingredient storage and put into "ingredientstorage"
-
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
+
         spIngredients_dropdown.setAdapter(recipeAdapter);
         IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
-        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
-        RecipeIngredientsViewAdapter recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
-        lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
 
+        recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
+        lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
+        Log.d(TAG, "ADADADAD" + imageURI);
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
             RecipesDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
             etTitle.setEnabled(false);
+        }
+        else{
+            spCategory.setSelection(1);
         }
 
         spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -196,11 +195,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             addCategoryButton.setVisibility(View.INVISIBLE);
                             addCategoryText.setVisibility(View.INVISIBLE);
                             spCategory.setVisibility(View.VISIBLE);
-
                         }
                     });
                 }
-
             }
 
             @Override
@@ -225,8 +222,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 String selected = spIngredients_dropdown.getSelectedItem().toString();
-                ingredientNames.add(selected);
-                ingredientView.notifyDataSetChanged();
+                String[] nameUnit = selected.split(", ");
+                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "comment");
+                recipeIngredients.add(newIngredient);
+                recipeIngredientsViewAdapter.notifyDataSetChanged();
             }
         });
 
@@ -234,6 +233,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 imageChooser();
+            }
+        });
+
+        btnCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                camera();
             }
         });
 
@@ -256,28 +262,23 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
                 if(isEdittingExistingRecipe) {
                     int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
-                    Recipe newRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                    Recipe oldRecipe = new Recipe(
-                            newRecipe.getTitle(),
-                            newRecipe.getComments(),
-                            newRecipe.getCategory(),
-                            newRecipe.getPrep_time(),
-                            newRecipe.getServings()
-                    );
-                    modifyRecipe(newRecipe);
-                    RecipesDBHelper.modifyRecipeInDB(newRecipe,oldRecipe,selectedRecipeIndex);
+                    Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
+                    //RecipesDBHelper.deleteRecipe(oldRecipe);
+                    Recipe newRecipe = modifiedRecipe();
+                    RecipesDBHelper.addRecipe(newRecipe);
                     isEdittingExistingRecipe = false;
                 }
 
                 if(isAddingNewRecipe){
                     Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                    // Still need to add recipeIngredients here somehow
                     RecipesDBHelper.addRecipe(newRecipe);
                     isAddingNewRecipe = false;
                 }
 
                 rvAdapter.notifyDataSetChanged();
                 dismiss();
-            }
+            } // broke here
         });
     }
 
@@ -286,16 +287,24 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
      * It then opens up the gallery and prompts the user to choose an image.
      */
     void imageChooser() {
-
         // create an instance of the
         // intent of the type image
-        Intent i = new Intent();
+        Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
 
         // pass the constant to compare it
         // with the returned requestCode
         startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+    }
+
+    /**
+     * This function is triggered when the camera button is clicked.
+     * It then opens up the camera and prompts the user to take a picture.
+     */
+    void camera() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, SELECT_PICTURE);
     }
 
     /**
@@ -306,10 +315,17 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
      * @param data of type intent
      */
     // TODO: Remove deprecated code for something more up to date
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (requestCode == SELECT_PICTURE && resultCode == getActivity().RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            view_recipe_image.setImageBitmap(imageBitmap);
+            encodeBitmapAndSaveToFirebase(imageBitmap);
+        }
+        if (resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             // compare the resultCode with the
             // SELECT_PICTURE constant
@@ -322,17 +338,48 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
+
     }
 
-    void modifyRecipe(Recipe recipe){
-        Recipe modifiedRecipe = recipe;
+    public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
+        int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        imageURI = imageEncoded;
+        RecipesDBHelper.addImageToDB(imageEncoded, rvAdapter.getRecipesList().get(selectedRecipeIndex));
+    }
 
-        modifiedRecipe.setTitle(etTitle.getText().toString());
-        modifiedRecipe.setComments(etComments.getText().toString());
-        modifiedRecipe.setPrep_time(Integer.parseInt(String.valueOf(etPrep_time.getText())));
-        modifiedRecipe.setServings(Integer.parseInt(String.valueOf(etServings.getText())));
-        modifiedRecipe.setCategory(spCategory.getSelectedItem().toString());
-       // modifiedRecipe.setRecipeIngredients(); This is where Saheel will set the changed recipe ingredients but we're missing more information for each ingredient right now
+    Recipe modifiedRecipe(){
+        Recipe modifiedRecipe = new Recipe(
+                etTitle.getText().toString(),
+                (etComments.getText().toString()),
+                spCategory.getSelectedItem().toString(),
+                Integer.parseInt(String.valueOf(etPrep_time.getText())),
+                Integer.parseInt(String.valueOf(etServings.getText())));
+
+        ArrayList<RecipeIngredient> modifiedRecipeIngredients = new ArrayList<>();
+        for (int i = 0; i < lvIngredients_view.getChildCount(); i++) {
+            View child = lvIngredients_view.getChildAt(i);
+            TextView name = child.findViewById(R.id.name_of_ingredient);
+            String nameString = name.getText().toString();
+
+            EditText comment = child.findViewById(R.id.comment_of_ingredient);
+            String commentString = comment.getText().toString();
+
+            TextView amount = child.findViewById(R.id.amount_of_ingredient);
+            String amountString = amount.getText().toString();
+            Integer amountInt = Integer.parseInt(amountString);
+
+            EditText unit = child.findViewById(R.id.unit_of_ingredient);
+            String unitString = unit.getText().toString();
+
+            RecipeIngredient modifiedRecipeIngredient = new RecipeIngredient(nameString, unitString, amountInt, commentString);
+            modifiedRecipeIngredients.add(modifiedRecipeIngredient);
+        }
+        modifiedRecipe.setImage(imageURI);
+        modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
+        return modifiedRecipe;
     }
 
     void assignRecipeAttributesFromViews(){
@@ -341,8 +388,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         prep_time = String.valueOf(etPrep_time.getText());
         servings = String.valueOf(etServings.getText());
         category = spCategory.getSelectedItem().toString();
-        //ingredients = lvIngredients_view.getSelectedItem().toString();
-    }
+      }
 
     void assignSelectedRecipeAttributesFromFragmentArgs(){
         //Set associate view items to attributes of selected recipe from view bundle
@@ -352,7 +398,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         comments = getArguments().getString("comments", "aaaaa");
         ingredients = getArguments().getString("ingredients", "");
         category = getArguments().getString("category", "");
-
+        imageURI = getArguments().getString("image", "");
     }
 
     void fillViewsWithSelectedRecipeAttributes(){
@@ -361,8 +407,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         etServings.setText(String.valueOf(servings));
         etPrep_time.setText(String.valueOf(prep_time));
         etComments.setText(comments);
-
         spCategory.setSelection(recipeCategories.indexOf(category));
+        byte [] encodeByte = Base64.decode(imageURI,Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        view_recipe_image.setImageBitmap(bitmap);
     }
 
     void attachLayoutViewsToLocalInstances(View view){
@@ -377,6 +425,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        btnCamera = view.findViewById(R.id.btn_recipe_add_edit_camera);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
         // stuff for photos
         btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
@@ -392,6 +441,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
+
+        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
+        spIngredients_dropdown.setAdapter(recipeAdapter);
+        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
 
     }
 

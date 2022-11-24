@@ -22,11 +22,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.git_er_done.cmput301f22t06_team_project.IngredientsRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.SwipeToDeleteCallback;
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.google.android.material.snackbar.Snackbar;
@@ -70,31 +70,31 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 switch(id){
 
                     case R.id.action_sort_by_name:
-                        rvAdapter.sortByName();
+                        rvAdapter.sortIngredientByName();
                         break;
 
                     case R.id.action_sort_by_description:
-                        rvAdapter.sortByDescription();
+                        rvAdapter.sortIngredientByDescription();
                         break;
 
                     case R.id.action_sort_by_best_before_date:
-                        rvAdapter.sortByBestBeforeDate();
+                        rvAdapter.sortIngredientByBestBeforeDate();
                         break;
 
                     case R.id.action_sort_by_location:
-                        rvAdapter.sortByLocation();
+                        rvAdapter.sortIngredientByLocation();
                         break;
 
                     case R.id.action_sort_by_amount:
-                        rvAdapter.sortByAmount();
+                        rvAdapter.sortIngredientByAmount();
                         break;
 
                     case R.id.action_sort_by_unit:
-                        rvAdapter.sortByUnit();
+                        rvAdapter.sortIngredientByUnit();
                         break;
 
                     case R.id.action_sort_by_category:
-                        rvAdapter.sortByCategory();
+                        rvAdapter.sortIngredientByCategory();
                         break;
                 }
                 return false;
@@ -115,7 +115,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
             }
         });
 
-        //TODO - Fix this . No point in creating an instance of the DBhelper when its methods are all static
+        //TODO - Fix this . Figure out how to pass the adapter to the db helper without using a constructor
         //Creates an instance of DB helper to initiate event listener and pass reference of RV adapter
         IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
 
@@ -127,7 +127,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
         rvAdapter = new IngredientsRecyclerViewAdapter(this);
         rvIngredients.setAdapter(rvAdapter);
         rvIngredients.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteIngredientCallback(rvAdapter));
         itemTouchHelper.attachToRecyclerView(rvIngredients);
     }
 

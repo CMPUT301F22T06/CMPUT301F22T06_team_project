@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.controllers.IngredientsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.models.Ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,8 +38,11 @@ import java.util.Objects;
  */
 public class IngredientDBHelper {
 
+    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final CollectionReference ingredientsDB = db.collection("Ingredients");
+
     private static IngredientsRecyclerViewAdapter rvAdapter;
-    public static int selectedIngPos;
+    private static int selectedIngPos;
 
     public IngredientDBHelper(IngredientsRecyclerViewAdapter adapter){
         rvAdapter = adapter;
@@ -54,9 +57,6 @@ public class IngredientDBHelper {
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
      */
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final CollectionReference ingredientsDB = db.collection("Ingredients");
-
     public static void addIngredientToDB(Ingredient ingredient){
         String name = ingredient.getName().toLowerCase();
         String desc = ingredient.getDesc().toLowerCase();
@@ -94,6 +94,7 @@ public class IngredientDBHelper {
                 });
     }
 
+
     /**
      * Take a string and searches the ingredients database for it and deletes the document
      * with that name if it's found
@@ -102,7 +103,6 @@ public class IngredientDBHelper {
      * @see MealPlannerDBHelper
      * @see RecipesDBHelper
      */
-
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
         String nameOfIngredient = ingredient.getName();
         selectedIngPos = position;
@@ -131,7 +131,7 @@ public class IngredientDBHelper {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
                     Ingredient ingredient = createIngredient(doc);
-                    ingredientStorage.add(ingredient.getName());
+                    ingredientStorage.add(ingredient.getName() + ", " + ingredient.getUnit());
                 }
                 recipeAdapter.notifyDataSetChanged();
                 // The adapter will be here
@@ -173,31 +173,6 @@ public class IngredientDBHelper {
 
 
     /**
-     * Just a random function to search stuff in the db for possible future needs but
-     * it's not used right now and I don't know if it works
-     * @param ingredient of type {@link String}
-     * @param ingredientsFirebaseCallBack of type IngredientsFirebaseCallBack
-     * @returns void
-     * @see MealPlannerDBHelper
-     * @see RecipesDBHelper
-     */
-    public void searchForIngredient(String ingredient, IngredientsFirebaseCallBack ingredientsFirebaseCallBack) {
-        ArrayList<Ingredient> retrieved = new ArrayList<Ingredient>();
-        Log.d(TAG, "The name I'm looking for is " + ingredient);
-        ingredientsDB.document(ingredient).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    Log.d(TAG, "The document name is " + doc.getId());
-                    Ingredient ingredient = createIngredient(doc);
-                    ingredientsFirebaseCallBack.onCallback(ingredient);
-                }
-            }
-        });
-    }
-
-    /**
      * This method take a document from firestore and takes the data then converts it into an Ingredient object
      * to return
      * @param doc
@@ -218,6 +193,10 @@ public class IngredientDBHelper {
         return newIngredient;
     }
 
+    /**
+     * Listens for changes in the Ingredient collection in firestore and updates the ingredient adapter local storage accordingly.
+     * Is currently called in the constructor.
+     */
     public void eventChangeListener(){
         db.collection("Ingredients")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -229,19 +208,18 @@ public class IngredientDBHelper {
                         }
 
                         for(DocumentChange dc : value.getDocumentChanges()){
+                            Ingredient ingredient = createIngredient(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                Ingredient ingredient = createIngredient(dc.getDocument());
                                 rvAdapter.addItem(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                Ingredient ingredient = createIngredient(dc.getDocument());
                                 rvAdapter.modifyIngredient(ingredient, selectedIngPos);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                Ingredient ingredient = createIngredient(dc.getDocument());
                                 int position = rvAdapter.getIngredientsList().indexOf(ingredient);
+                                //If the rvAdapter returns a valid position
                                 if(position != -1){
                                     rvAdapter.deleteItem(selectedIngPos);
                                 }
