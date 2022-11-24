@@ -244,8 +244,8 @@ public class RecipesDBHelper {
             String ingredientCategory = ingredientDetails[4];
             Integer amount = Integer.parseInt(ingredientDetails[5]);
             Integer color = Integer.parseInt(ingredientDetails[6]);
-            RecipeIngredient recipeIngredient = new Ingredient(name,units,amount,comment);
-            recipe.addIngredient(recipeIngredient);
+            Ingredient ingredient = new Ingredient(name,units,bestBefore,comment,unit,ingredientCategory,amount,color);
+            recipe.addIngredient(ingredient);
         }
 
         return recipe;
@@ -258,7 +258,7 @@ public class RecipesDBHelper {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
-                    for (RecipeIngredient i: recipe.getIngredients()){
+                    for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
                             i.setUnits(unit);

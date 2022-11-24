@@ -46,6 +46,17 @@ public class Ingredient implements Cloneable{
         this.color = R.drawable.border;
     }
 
+    public Ingredient(String name, String desc, LocalDate bestBefore, String location, String unit, String category, Integer amount, Integer color) {
+        this.name = name;
+        this.desc = desc;
+        this.bestBefore = bestBefore;
+        this.location = location;
+        this.unit = unit;
+        this.category = category;
+        this.amount = amount;
+        this.color = color;
+    }
+
     /**
      * Quick and dirty generator of arraylist of ingredients for UI testing
      * @return ArrayList of {@link Ingredient} instances
