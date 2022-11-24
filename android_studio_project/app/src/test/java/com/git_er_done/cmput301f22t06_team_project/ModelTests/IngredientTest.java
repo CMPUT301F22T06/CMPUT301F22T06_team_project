@@ -55,37 +55,19 @@ public class IngredientTest {
         assertEquals((Integer) 12, mockIngredient.getAmount());
     }
 
-    @Test
-    public void testIngredientCategory() {
-        ArrayList<String> initialCategories = new ArrayList<>();
-        initialCategories.add("Add New Category");
-        initialCategories.add("dairy");
-        initialCategories.add("fruit");
-        initialCategories.add("grain");
-        initialCategories.add("lipid");
-        initialCategories.add("protein");
-        initialCategories.add("spice");
-        initialCategories.add("vegetable");
-        initialCategories.add("miscellaneous");
-
-        IngredientCategory category = IngredientCategory.getInstance();
-
-        ArrayList<String> fromSingleton = category.getAllIngredientCategories();
-        assertEquals(initialCategories, fromSingleton);
-
-        category.addIngredientCategory("grain");
-        // First user-defined index
-        assertEquals("grain", category.getIngredientCategoryFromIndex(9));
-
-        category.deleteCategory("grain");
-        //System.err.println(category.getAllIngredientCategories().contains("grain"));
-        //System.err.println(category.getAllIngredientCategories());
-        assertFalse(category.getAllIngredientCategories().contains("grain"));
-
-    }
 
     @Test
     public void testIngredientLocation() {
         IngredientLocation location = IngredientLocation.getInstance();
+        ArrayList<String> initialLocations = new ArrayList<>();
+        initialLocations.add("Add New Location");
+        initialLocations.add("pantry");
+        initialLocations.add("fridge");
+        initialLocations.add("freezer");
+
+        ArrayList<String> fromSingleton = location.getAllLocations();
+        assertEquals(initialLocations, fromSingleton);
+
+
     }
 }
