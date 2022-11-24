@@ -13,11 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 
 import java.util.ArrayList;
 
 public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient> {
+
     private ArrayList<RecipeIngredient> recipeIngredients;
     private Context context;
     private TextView name;
@@ -58,6 +60,8 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
                 if(intAmount > 0){
                     intAmount = intAmount - 1;
                     amount.setText(String.valueOf(intAmount));
+                    recipeIngredient.setAmount(Integer.parseInt(amount.getText().toString()));
+
                 }
             }
         });
@@ -69,6 +73,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
                 if(intAmount < 998){
                     intAmount = intAmount + 1;
                     amount.setText(String.valueOf(intAmount));
+                    recipeIngredient.setAmount(Integer.parseInt(amount.getText().toString()));
                 }
             }
         });
@@ -78,6 +83,17 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
             public void onClick(View view) {
                 remove(recipeIngredient);
                 notifyDataSetChanged();
+            }
+        });
+
+        recipeIngredient.setAmount(Integer.parseInt(amount.getText().toString()));
+
+        comment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b){
+                    recipeIngredient.setComment(comment.getText().toString());
+                }
             }
         });
 
@@ -93,6 +109,10 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         plusButton = (Button) listItem.findViewById(R.id.plus_button);
         unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
         deleteButton = (Button) listItem.findViewById(R.id.delete_button);
+    }
+
+    public ArrayList<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
     }
 
 }

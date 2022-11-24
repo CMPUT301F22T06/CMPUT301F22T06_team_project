@@ -7,8 +7,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,18 +39,26 @@ import java.util.Objects;
  * @see MealPlannerDBHelper
  * @version 1 Since this is the first time I'm commenting
  */
-public class RecipesDBHelper {
+public class RecipeDBHelper {
 
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static final CollectionReference recipesDB = db.collection("Recipes");
-
-    private static RecipesRecyclerViewAdapter rvAdapter;
     private static int selectedRecipePos;
+    private static ArrayList<Recipe> recipesInStorage= new ArrayList<>();
+    private static RecipeDBHelper singleInstance = null;
 
-    public RecipesDBHelper(RecipesRecyclerViewAdapter adapter){
-        rvAdapter = adapter;
-        eventChangeListener(); //Initialize eventListener for RecyclerView
+    private RecipeDBHelper() {
+        setupSnapshotListenerForLocalRecipeStorage();
     }
+
+    // Static method to create instance of Singleton class
+    public static RecipeDBHelper getInstance()
+    {
+        if (singleInstance == null)
+            singleInstance = new RecipeDBHelper();
+        return singleInstance;
+    }
+
     /**
      * This method add a recipe to our recipe data base
      * @param recipe of type {@link Recipe}
@@ -67,6 +77,7 @@ public class RecipesDBHelper {
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
 
         sendToDb.put("details", firstField);
+
         sendToDb.put("image", recipe.getImage());
 
         ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
@@ -145,28 +156,6 @@ public class RecipesDBHelper {
         else{
             addRecipe(newRecipe);
         }
-    }
-
-    /**
-     * This method sets the adapter for the list of recipes but getting the data from our recipe Database
-     * returns void
-     * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
-     */
-    public void setRecipesAdapter(RecipesRecyclerViewAdapter recipesRecyclerViewAdapter, ArrayList<Recipe> retrieved){
-        recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot docs = task.getResult();
-                for(QueryDocumentSnapshot doc: docs) {
-                    Recipe recipe = createRecipe(doc);
-                    retrieved.add(recipe);
-                }
-                recipesRecyclerViewAdapter.notifyDataSetChanged();
-//                RecipesFragment.onDataChange();
-                // The adapter will be here
-            }
-        });
     }
 
     /**
@@ -250,8 +239,13 @@ public class RecipesDBHelper {
         });
     }
 
-
-    public void eventChangeListener(){
+    /**
+     *  Called when the DBHelper singleton is instantiated - this happens in main activity onCreate().
+     *  This ensures the private arraylist of recipes stored in this class is always up to date with
+     *      the firestore DB.
+     *  This has nothing to do with the recipeFragment recyclerview and does not rely on an adapter instance.
+     */
+    public void setupSnapshotListenerForLocalRecipeStorage(){
         db.collection("Recipes")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -264,25 +258,72 @@ public class RecipesDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             Recipe recipe = createRecipe(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                rvAdapter.addRecipe(recipe);
+                                recipesInStorage.add(recipe);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                rvAdapter.modifyRecipe(recipe, selectedRecipePos);
+                                recipesInStorage.set(selectedRecipePos, recipe);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = rvAdapter.getRecipesList().indexOf(recipe);
-                                //If rvAdapter returns valid position
+                                int position = recipesInStorage.indexOf(recipe);
+                                //If the rvAdapter returns a valid position
                                 if(position != -1){
-                                    rvAdapter.deleteRecipe(selectedRecipePos);
+                                    recipesInStorage.remove(position);
+                                }
+                                else{
+                                    Log.e("DB ERROR", "ERROR REMOVING RECIPE FROM STORAGE");
                                 }
                             }
                         }
-                        // Stop the progress bar
-                        RecipesFragment.stopRecipesFragmentProgressBar();
                     }
                 });
     }
+
+    /**
+     * Sets up a snapshot listener to update the recipe recyclerview adapter accordingly. Because
+     * it relies on an adapter instance this method is called in the RecipeFragment onCreateView method after the
+     * associated RecyclerView adapter is instantiated and attached to the RecipesRecyclerView;
+     * @param adapter Instance of the RecipesRecyclerViewAdapter that is to be updated via firebase snapshot listener api callbacks
+     */
+    public static void setupSnapshotListenerForRecipeRVAdapter(RecipesRecyclerViewAdapter adapter){
+        db.collection("Recipes")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            Recipe recipe = createRecipe(dc.getDocument());
+                            if(dc.getType() == DocumentChange.Type.ADDED){
+                                adapter.addRecipe(recipe);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                adapter.modifyRecipe(recipe, selectedRecipePos);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.REMOVED){
+                                int position = adapter.getRecipesList().indexOf(recipe);
+                                //If the rvAdapter returns a valid position
+                                if(position != -1){
+                                    adapter.deleteRecipe(position);
+                                }
+                                else{
+                                    Log.e("DB ERROR", "ERROR REMOVING RECIPE FROM RECYCLERVIEW ADAPTER");
+                                }
+                            }
+                        }
+
+                        if (adapter.getRecipesList().size() == recipesInStorage.size() ){
+                            RecipesFragment.stopRecipesFragmentProgressBar();
+                        }
+                    }
+                });
+    }
+
 }
 
