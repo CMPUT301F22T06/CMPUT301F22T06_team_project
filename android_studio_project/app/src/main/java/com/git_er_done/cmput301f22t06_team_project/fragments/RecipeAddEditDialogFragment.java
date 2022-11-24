@@ -233,7 +233,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 String selected = spIngredients_dropdown.getSelectedItem().toString();
                 String[] nameUnit = selected.split(", ");
-                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "");
+                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, " ");
                 recipeIngredients.add(newIngredient);
                 recipeIngredientsViewAdapter.notifyDataSetChanged();
             }
