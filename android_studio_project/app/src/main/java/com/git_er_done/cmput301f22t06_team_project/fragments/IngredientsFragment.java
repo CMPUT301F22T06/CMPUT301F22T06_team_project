@@ -1,12 +1,14 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
@@ -39,6 +42,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
     RecyclerView rvIngredients;
     FloatingActionButton fabAddIngredient;
     IngredientsRecyclerViewAdapter rvAdapter;
+    static ProgressBar progressBar;
 
 
     /**
@@ -105,6 +109,7 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
         rvIngredients = (RecyclerView) root.findViewById(R.id.rv_ingredients_list);
         fabAddIngredient = root.findViewById(R.id.fab_ingredient_add);
+        progressBar = root.findViewById(R.id.progressBarId);
 
         setupRecyclerView();
 
@@ -120,6 +125,9 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 //        IngredientDBHelper dbHelper = new IngredientDBHelper(rvAdapter);
 
         IngredientDBHelper.setupSnapshotListenerForIngredientRVAdapter(rvAdapter);
+
+        Drawable d = ContextCompat.getDrawable(getContext(), R.drawable.splash_image);
+        root.setBackground(d);
 
         // Inflate the layout for this fragment
         return root;
@@ -181,5 +189,9 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                 }
             });
             snackbar.show();
+    }
+
+    static public void stopIngredientsFragmentProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }
