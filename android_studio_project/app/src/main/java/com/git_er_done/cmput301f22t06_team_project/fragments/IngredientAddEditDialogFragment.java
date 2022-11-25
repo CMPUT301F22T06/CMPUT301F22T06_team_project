@@ -188,7 +188,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     );
                     modifyIngredient(newIngredient);
                     IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
-                    checkAndEditRecipesUnits();
+                    //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+//                    checkAndEditRecipesUnits();
                     isEdittingExistingIngredient = false;
                 }
 
