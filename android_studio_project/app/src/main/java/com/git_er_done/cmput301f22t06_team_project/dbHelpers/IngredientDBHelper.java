@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientsFragment;
+import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -290,8 +292,28 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
+//
+                        IngredientsFragment.stopIngredientsFragmentProgressBar();
+
                     }
                 });
+    }
+
+    public static void setExpiredIngredientsAmountToZero(){
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < IngredientDBHelper.getIngredientsFromStorage().size(); i++) {
+            Ingredient anIngredient = IngredientDBHelper.getIngredientsFromStorage().get(i);
+            if (anIngredient.getBestBefore().compareTo(today) < 0) {
+                Ingredient newIngredient = new Ingredient(anIngredient.getName(),
+                        anIngredient.getDesc(),
+                        anIngredient.getBestBefore(),
+                        anIngredient.getLocation(),
+                        anIngredient.getUnit(),
+                        anIngredient.getCategory(),
+                        0);
+                IngredientDBHelper.modifyIngredientInDB(newIngredient, anIngredient, i);
+            }
+        }
     }
 
 }
