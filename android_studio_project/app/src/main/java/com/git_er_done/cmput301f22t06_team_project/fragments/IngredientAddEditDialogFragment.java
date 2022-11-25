@@ -176,38 +176,39 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 boolean duplicate = false; // Checks to see if an ingredient already exists in the list.
+                int day = dpBestBeforeDate.getDayOfMonth();
+                int year = dpBestBeforeDate.getYear();
+                int month = dpBestBeforeDate.getMonth();
                 assignIngredientAttributesFromViews();
                 if (isEmpty(etName.getText())) {
                     Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
-                } else if (etAmount.getText().toString().equals(Character.toString('0'))) {
+                }
+                else if (etAmount.getText().toString().equals(Character.toString('0'))) {
                     Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
+                }
+                else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
+                    Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
                 }
                 else {
                     if (isEdittingExistingIngredient) {
 
                         int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
                         Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        if (newIngredient.getBestBefore().compareTo(LocalDate.now()) < 0){
-                            Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
-                        }
-                        else {
-                            Ingredient oldIngredient = new Ingredient(
-                                    newIngredient.getName(),
-                                    newIngredient.getDesc(),
-                                    newIngredient.getBestBefore(),
-                                    newIngredient.getLocation(),
-                                    newIngredient.getUnit(),
-                                    newIngredient.getCategory(),
-                                    newIngredient.getAmount()
-                            );
-                            modifyIngredient(newIngredient);
-                            IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
-                            //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
-                            //                    checkAndEditRecipesUnits();
-                            isEdittingExistingIngredient = false;
-                            dismiss();
-
-                        }
+                        Ingredient oldIngredient = new Ingredient(
+                                newIngredient.getName(),
+                                newIngredient.getDesc(),
+                                newIngredient.getBestBefore(),
+                                newIngredient.getLocation(),
+                                newIngredient.getUnit(),
+                                newIngredient.getCategory(),
+                                newIngredient.getAmount()
+                        );
+                        modifyIngredient(newIngredient);
+                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+                        //                    checkAndEditRecipesUnits();
+                        isEdittingExistingIngredient = false;
+                        dismiss();
                     }
 
                     if (isAddingNewIngredient) {
@@ -224,11 +225,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                             Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
                             IngredientDBHelper.addIngredientToDB(newIngredient);
                             isAddingNewIngredient = false;
-                            duplicate = false;
                             dismiss();
-
                         }
-
 
                     }
 
