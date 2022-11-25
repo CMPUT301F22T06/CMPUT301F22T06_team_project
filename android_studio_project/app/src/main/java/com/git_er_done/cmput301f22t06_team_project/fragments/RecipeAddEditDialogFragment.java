@@ -181,7 +181,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipeDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            for (RecipeIngredient i: si.getIngredients()){
+                recipeIngredients.add(i);
+            }
+            recipeIngredientsViewAdapter.notifyDataSetChanged();
             etTitle.setEnabled(false);
         }
         else{
@@ -284,9 +287,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 else{
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                        //RecipesDBHelper.deleteRecipe(oldRecipe);
                         Recipe newRecipe = modifiedRecipe();
-                        RecipeDBHelper.addRecipe(newRecipe);
+                        RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe, selectedRecipeIndex);
                         isEdittingExistingRecipe = false;
 
                         if (imageBitmap == null){
@@ -309,7 +311,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                            Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             if (imageBitmap == null) {
                                 newRecipe.setImage("");
@@ -321,11 +323,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             dismiss();
                         }
                     }
-                    rvAdapter.notifyDataSetChanged();
                 }
-
-
-
 
             } // broke here
         });
