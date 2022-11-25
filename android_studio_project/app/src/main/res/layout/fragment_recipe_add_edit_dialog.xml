@@ -260,7 +260,7 @@
                 <ListView
                     android:id="@+id/lv_recipe_add_edit_ingredients_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:width="1dp"
                     android:color="#ff9900"
                     android:gravity="top"
