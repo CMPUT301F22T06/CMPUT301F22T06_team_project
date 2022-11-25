@@ -182,21 +182,23 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if (isEdittingExistingIngredient) {
-                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
-                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        Ingredient oldIngredient = new Ingredient(
-                                newIngredient.getName(),
-                                newIngredient.getDesc(),
-                                newIngredient.getBestBefore(),
-                                newIngredient.getLocation(),
-                                newIngredient.getUnit(),
-                                newIngredient.getCategory(),
-                                newIngredient.getAmount()
-                        );
-                        modifyIngredient(newIngredient);
-                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
-                        checkAndEditRecipesUnits();
+
+                if(isEdittingExistingIngredient) {
+                    int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
+                    Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
+                    Ingredient oldIngredient = new Ingredient(
+                            newIngredient.getName(),
+                            newIngredient.getDesc(),
+                            newIngredient.getBestBefore(),
+                            newIngredient.getLocation(),
+                            newIngredient.getUnit(),
+                            newIngredient.getCategory(),
+                            newIngredient.getAmount()
+                    );
+                    modifyIngredient(newIngredient);
+                    IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
+                    //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+//                    checkAndEditRecipesUnits();
                         isEdittingExistingIngredient = false;
                     }
 
@@ -206,11 +208,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         isAddingNewIngredient = false;
                     }
 
-                    rvAdapter.notifyDataSetChanged();
-
                     dismiss();
                 }
-            }
         });
     }
 
