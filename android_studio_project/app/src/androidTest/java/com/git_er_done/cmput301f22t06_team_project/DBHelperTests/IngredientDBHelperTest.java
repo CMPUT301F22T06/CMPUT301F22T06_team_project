@@ -27,6 +27,7 @@ public class IngredientDBHelperTest {
 
     @Test
     public void testAddIngredient(){
+        IngredientDBHelper.getInstance();
         Ingredient mockIngredient = new Ingredient("Steak", "T-Bone", LocalDate.now().plusYears(1),
                 "freezer", "singles", "protein", 2);
         IngredientDBHelper.addIngredientToDB(mockIngredient);
