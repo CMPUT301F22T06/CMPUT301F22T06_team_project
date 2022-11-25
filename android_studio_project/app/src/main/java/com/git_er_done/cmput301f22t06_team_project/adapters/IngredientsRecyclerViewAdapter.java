@@ -104,15 +104,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         if (ingredient.getColor()!=Color.GREEN){
             amount.setTextColor(Color.YELLOW);
             amount.setTextSize(12);
-//        amount.setTextColor(Color.GREEN);
-//        amount.setTypeface(null, Typeface.BOLD_ITALIC);
     }
         else{
-            //background.setBackgroundColor(Color.TRANSPARENT);
-            //background.setBackgroundColor(Color.MAGENTA);
             amount.setTextColor(Color.GREEN);
             amount.setTextSize(20);
-            //amount.setTypeface(null, Typeface.BOLD_ITALIC);
         }
     }
 
