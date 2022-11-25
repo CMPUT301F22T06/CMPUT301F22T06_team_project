@@ -292,9 +292,9 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
-                        if (adapter.getIngredientsList().size() == ingredientInStorage.size() ){
-                            IngredientsFragment.stopIngredientsFragmentProgressBar();
-                        }
+//
+                        IngredientsFragment.stopIngredientsFragmentProgressBar();
+
                     }
                 });
     }

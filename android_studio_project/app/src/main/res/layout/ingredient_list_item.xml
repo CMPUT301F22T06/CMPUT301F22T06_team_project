@@ -67,6 +67,7 @@
                 android:layout_marginLeft="25dp"
                 android:paddingHorizontal="15dp"
                 android:text="Best Before:"
+                android:layout_gravity="center"
                 android:textColor="@color/yellow"
                 android:translationX="30dp" />
 
@@ -107,6 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
+                android:layout_gravity="center"
                 android:paddingHorizontal="1dp"
                 android:text="Amount: "
                 android:textColor="@color/yellow"
