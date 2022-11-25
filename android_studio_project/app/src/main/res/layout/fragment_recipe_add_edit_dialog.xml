@@ -100,31 +100,6 @@
                             android:padding="10dp">
 
                             <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Serves: "
-                                android:textColor="@color/yellow"
-                                android:textSize="18dp" />
-
-                            <EditText
-                                android:id="@+id/et_recipe_add_edit_servings"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="3"
-                                android:text="1"
-                                android:textColor="@color/yellow"
-                                android:textSize="15dp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="10dp">
-
-                            <TextView
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="Preptime: "
@@ -143,6 +118,32 @@
                                 android:textColor="@color/yellow"
                                 android:textSize="15dp" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Serves: "
+                                android:textColor="@color/yellow"
+                                android:textSize="18dp" />
+
+                            <EditText
+                                android:id="@+id/et_recipe_add_edit_servings"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="3"
+                                android:text="1"
+                                android:textColor="@color/yellow"
+                                android:textSize="15dp" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -259,7 +260,7 @@
                 <ListView
                     android:id="@+id/lv_recipe_add_edit_ingredients_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="250dp"
+                    android:layout_height="wrap_content"
                     android:width="1dp"
                     android:color="#ff9900"
                     android:gravity="top"
