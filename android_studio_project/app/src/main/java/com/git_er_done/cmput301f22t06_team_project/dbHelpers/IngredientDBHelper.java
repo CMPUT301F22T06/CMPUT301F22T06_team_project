@@ -299,4 +299,21 @@ public class IngredientDBHelper {
                 });
     }
 
+    public static void setExpiredIngredientsAmountToZero(){
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < IngredientDBHelper.getIngredientsFromStorage().size(); i++) {
+            Ingredient anIngredient = IngredientDBHelper.getIngredientsFromStorage().get(i);
+            if (anIngredient.getBestBefore().compareTo(today) < 0) {
+                Ingredient newIngredient = new Ingredient(anIngredient.getName(),
+                        anIngredient.getDesc(),
+                        anIngredient.getBestBefore(),
+                        anIngredient.getLocation(),
+                        anIngredient.getUnit(),
+                        anIngredient.getCategory(),
+                        0);
+                IngredientDBHelper.modifyIngredientInDB(newIngredient, anIngredient, i);
+            }
+        }
+    }
+
 }
