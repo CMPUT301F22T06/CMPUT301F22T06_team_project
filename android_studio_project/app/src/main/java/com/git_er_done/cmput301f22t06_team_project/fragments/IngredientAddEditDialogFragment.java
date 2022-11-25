@@ -192,26 +192,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
                     //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
 //                    checkAndEditRecipesUnits();
-                    isEdittingExistingIngredient = false;
-                if (isEmpty(etName.getText())){
-                    Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    if (isEdittingExistingIngredient) {
-                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
-                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        Ingredient oldIngredient = new Ingredient(
-                                newIngredient.getName(),
-                                newIngredient.getDesc(),
-                                newIngredient.getBestBefore(),
-                                newIngredient.getLocation(),
-                                newIngredient.getUnit(),
-                                newIngredient.getCategory(),
-                                newIngredient.getAmount()
-                        );
-                        modifyIngredient(newIngredient);
-                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
-                        checkAndEditRecipesUnits();
+
                         isEdittingExistingIngredient = false;
                     }
 
@@ -225,7 +206,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
                     dismiss();
                 }
-            }
+
         });
     }
 
