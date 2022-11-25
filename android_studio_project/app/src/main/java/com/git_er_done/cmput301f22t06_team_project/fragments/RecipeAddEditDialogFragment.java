@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
+import static android.text.TextUtils.isEmpty;
 import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
 import android.Manifest;
@@ -232,7 +233,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 String selected = spIngredients_dropdown.getSelectedItem().toString();
                 String[] nameUnit = selected.split(", ");
-                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, "comment");
+                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, " ");
                 recipeIngredients.add(newIngredient);
                 recipeIngredientsViewAdapter.notifyDataSetChanged();
             }
@@ -268,26 +269,45 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
+                int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
+                if (isEmpty(etTitle.getText())){
+                    Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    if(isEdittingExistingRecipe) {
+                        Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
+                        //RecipesDBHelper.deleteRecipe(oldRecipe);
+                        Recipe newRecipe = modifiedRecipe();
+                        RecipeDBHelper.addRecipe(newRecipe);
+                        isEdittingExistingRecipe = false;
 
-                if(isEdittingExistingRecipe) {
-                    int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
-                    Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                    //RecipesDBHelper.deleteRecipe(oldRecipe);
-                    Recipe newRecipe = modifiedRecipe();
-                    RecipeDBHelper.addRecipe(newRecipe);
-                    isEdittingExistingRecipe = false;
+                        if (imageBitmap == null){
+                            RecipeDBHelper.addImageToDB("", rvAdapter.getRecipesList().get(selectedRecipeIndex));
+                        }
+                        else{
+                            encodeBitmapAndSaveToFirebase(imageBitmap);
+                        }
+                    }
+
+                    if(isAddingNewRecipe){
+                        Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                        // Still need to add recipeIngredients here somehow
+                        if (imageBitmap == null){
+                            newRecipe.setImage("");
+                        }
+                        else{
+                            encodeBitmapAndSaveToFirebase(imageBitmap);
+                        }
+                        RecipeDBHelper.addRecipe(newRecipe);
+                        isAddingNewRecipe = false;
+                    }
+                    rvAdapter.notifyDataSetChanged();
+                    dismiss();
                 }
 
-                if(isAddingNewRecipe){
-                    Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
-                    // Still need to add recipeIngredients here somehow
-                    RecipeDBHelper.addRecipe(newRecipe);
-                    isAddingNewRecipe = false;
-                }
-                assert imageBitmap != null;
-                encodeBitmapAndSaveToFirebase(imageBitmap);
-                rvAdapter.notifyDataSetChanged();
-                dismiss();
+
+
+
             } // broke here
         });
     }
@@ -425,25 +445,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 Integer.parseInt(String.valueOf(etPrep_time.getText())),
                 Integer.parseInt(String.valueOf(etServings.getText())));
 
-        ArrayList<RecipeIngredient> modifiedRecipeIngredients = new ArrayList<>();
-        for (int i = 0; i < lvIngredients_view.getChildCount(); i++) {
-            View child = lvIngredients_view.getChildAt(i);
-            TextView name = child.findViewById(R.id.name_of_ingredient);
-            String nameString = name.getText().toString();
-
-            EditText comment = child.findViewById(R.id.comment_of_ingredient);
-            String commentString = comment.getText().toString();
-
-            TextView amount = child.findViewById(R.id.amount_of_ingredient);
-            String amountString = amount.getText().toString();
-            Integer amountInt = Integer.parseInt(amountString);
-
-            EditText unit = child.findViewById(R.id.unit_of_ingredient);
-            String unitString = unit.getText().toString();
-
-            RecipeIngredient modifiedRecipeIngredient = new RecipeIngredient(nameString, unitString, amountInt, commentString);
-            modifiedRecipeIngredients.add(modifiedRecipeIngredient);
-        }
+        ArrayList<RecipeIngredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
         modifiedRecipe.setImage(imageURI);
         modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
         return modifiedRecipe;
