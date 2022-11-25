@@ -311,7 +311,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                            Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             if (imageBitmap == null) {
                                 newRecipe.setImage("");
@@ -323,12 +323,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             dismiss();
                         }
                     }
-                    rvAdapter.notifyDataSetChanged();
-                    dismiss();
                 }
-
-
-
 
             } // broke here
         });
