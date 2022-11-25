@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
@@ -49,6 +56,9 @@ public class MealPlannerFragment extends Fragment {
     CalendarView calendarView;
     private LocalDate selectedDate;
 
+    RecyclerView rvMeals;
+    MealsRecyclerViewAdapter rvAdapter;
+
     MonthDayBinder<?> monthDayBinder;
     MonthHeaderFooterBinder<?> monthHeaderFooterBinder;
 
@@ -69,6 +79,7 @@ public class MealPlannerFragment extends Fragment {
 
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
         weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
+        rvMeals = root.findViewById(R.id.rv_meal_plans);
 
         ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
 
@@ -95,9 +106,19 @@ public class MealPlannerFragment extends Fragment {
         weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
         weekCalendarView.scrollToDate(LocalDate.now());
         weekCalendarView.setDayBinder(weekDayBinder);
+        weekCalendarView.setVisibility(View.INVISIBLE);
 
+        setupRecyclerView();
 
         return root;
+    }
+
+    private void setupRecyclerView(){
+        rvAdapter = new MealsRecyclerViewAdapter();
+        rvMeals.setAdapter(rvAdapter);
+        rvMeals.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteIngredientCallback(rvAdapter));
+//        itemTouchHelper.attachToRecyclerView(rvAdapter);
     }
 
     void setupMonthDayBinder(){
