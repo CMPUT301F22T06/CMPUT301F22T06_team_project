@@ -293,7 +293,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                        Recipe newRecipe = modifiedRecipe();
                         // Still need to add recipeIngredients here somehow
                         if (imageBitmap == null){
                             newRecipe.setImage("");
