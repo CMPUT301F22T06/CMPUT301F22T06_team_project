@@ -273,6 +273,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 if (isEmpty(etTitle.getText())){
                     Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
                 }
+                else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
+                    Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
+                }
+                else if (etServings.getText().toString().equals(Character.toString('0'))){
+                    Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
+                }
                 else{
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);

@@ -178,6 +178,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 if (isEmpty(etName.getText())){
                     Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
                 }
+                else if (etAmount.getText().toString().equals(Character.toString('0'))){
+                    Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
+                }
                 else {
                     if (isEdittingExistingIngredient) {
                         int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
