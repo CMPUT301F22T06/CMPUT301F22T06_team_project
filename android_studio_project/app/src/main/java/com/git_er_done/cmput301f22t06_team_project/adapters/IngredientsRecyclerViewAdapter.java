@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
+import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -63,8 +65,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         // Inflate the custom layout
         ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
 
-        //set expired ingredients to 0 amount
-        setExpiredIngredientsAmountToZero();
 
         // Return a new holder instance
         return new ViewHolder(ingredientView);
@@ -160,6 +160,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             background = itemView.findViewById(R.id.background);
             progressBar = itemView.findViewById(R.id.progressBarId);
 
+            //set expired ingredients to 0 amount
+            setExpiredIngredientsAmountToZero();
+
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -181,18 +184,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     public ArrayList<Ingredient> getIngredientsList(){
         return (ArrayList<Ingredient>) mIngredients;
-    }
-
-    public void setExpiredIngredientsAmountToZero(){
-        LocalDate today = LocalDate.now();
-        for (int i = 0; i < mIngredients.size(); i++) {
-            Ingredient anIngredient = mIngredients.get(i);
-            if (anIngredient.getBestBefore().compareTo(today) < 0) {
-                Ingredient oldIngredient = anIngredient;
-                anIngredient.setAmount(0);
-                IngredientDBHelper.modifyIngredientInDB(anIngredient, oldIngredient, i);
-            }
-        }
     }
 
     public void deleteItem(int position){
