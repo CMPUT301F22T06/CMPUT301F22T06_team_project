@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.text.TextUtils.isEmpty;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -188,19 +190,41 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     );
                     modifyIngredient(newIngredient);
                     IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
-                    checkAndEditRecipesUnits();
+                    //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+//                    checkAndEditRecipesUnits();
                     isEdittingExistingIngredient = false;
+                if (isEmpty(etName.getText())){
+                    Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
                 }
+                else {
+                    if (isEdittingExistingIngredient) {
+                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
+                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
+                        Ingredient oldIngredient = new Ingredient(
+                                newIngredient.getName(),
+                                newIngredient.getDesc(),
+                                newIngredient.getBestBefore(),
+                                newIngredient.getLocation(),
+                                newIngredient.getUnit(),
+                                newIngredient.getCategory(),
+                                newIngredient.getAmount()
+                        );
+                        modifyIngredient(newIngredient);
+                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        checkAndEditRecipesUnits();
+                        isEdittingExistingIngredient = false;
+                    }
 
-                if(isAddingNewIngredient){
-                    Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-                    IngredientDBHelper.addIngredientToDB(newIngredient);
-                    isAddingNewIngredient = false;
+                    if (isAddingNewIngredient) {
+                        Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+                        IngredientDBHelper.addIngredientToDB(newIngredient);
+                        isAddingNewIngredient = false;
+                    }
+
+                    rvAdapter.notifyDataSetChanged();
+
+                    dismiss();
                 }
-
-                rvAdapter.notifyDataSetChanged();
-
-                dismiss();
             }
         });
     }

@@ -97,12 +97,22 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         category.setText(ingredient.getCategory());
         amount.setText(ingredient.getAmount().toString());
         unit.setText(ingredient.getUnit());
-        
-        Ingredient anIngredient = mIngredients.get(position);
-        if (anIngredient.getAmount()==0) {
-            background.setBackgroundColor(Color.TRANSPARENT);
+        ;
+        if (ingredient.getAmount()==0) {
+            ingredient.setColor(Color.GREEN);
+        }
+        if (ingredient.getColor()!=Color.GREEN){
+            amount.setTextColor(Color.YELLOW);
+            amount.setTextSize(12);
+//        amount.setTextColor(Color.GREEN);
+//        amount.setTypeface(null, Typeface.BOLD_ITALIC);
+    }
+        else{
+            //background.setBackgroundColor(Color.TRANSPARENT);
+            //background.setBackgroundColor(Color.MAGENTA);
             amount.setTextColor(Color.GREEN);
-            amount.setTypeface(null, Typeface.BOLD_ITALIC);
+            amount.setTextSize(20);
+            //amount.setTypeface(null, Typeface.BOLD_ITALIC);
         }
     }
 
