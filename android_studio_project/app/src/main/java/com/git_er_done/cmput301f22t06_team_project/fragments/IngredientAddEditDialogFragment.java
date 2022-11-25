@@ -1,11 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.text.TextUtils.isEmpty;
+import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,41 +175,63 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
-
+                boolean duplicate = false; // Checks to see if an ingredient already exists in the list.
                 assignIngredientAttributesFromViews();
                 if (isEmpty(etName.getText())) {
                     Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
                 } else if (etAmount.getText().toString().equals(Character.toString('0'))) {
                     Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
-                } else {
-
-
+                }
+                else {
                     if (isEdittingExistingIngredient) {
+
                         int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
                         Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        Ingredient oldIngredient = new Ingredient(
-                                newIngredient.getName(),
-                                newIngredient.getDesc(),
-                                newIngredient.getBestBefore(),
-                                newIngredient.getLocation(),
-                                newIngredient.getUnit(),
-                                newIngredient.getCategory(),
-                                newIngredient.getAmount()
-                        );
-                        modifyIngredient(newIngredient);
-                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
-                        //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
-                        //                    checkAndEditRecipesUnits();
-                        isEdittingExistingIngredient = false;
+                        if (newIngredient.getBestBefore().compareTo(LocalDate.now()) < 0){
+                            Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Ingredient oldIngredient = new Ingredient(
+                                    newIngredient.getName(),
+                                    newIngredient.getDesc(),
+                                    newIngredient.getBestBefore(),
+                                    newIngredient.getLocation(),
+                                    newIngredient.getUnit(),
+                                    newIngredient.getCategory(),
+                                    newIngredient.getAmount()
+                            );
+                            modifyIngredient(newIngredient);
+                            IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                            //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+                            //                    checkAndEditRecipesUnits();
+                            isEdittingExistingIngredient = false;
+                            dismiss();
+
+                        }
                     }
 
                     if (isAddingNewIngredient) {
-                        Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-                        IngredientDBHelper.addIngredientToDB(newIngredient);
-                        isAddingNewIngredient = false;
+                        for (Ingredient i : rvAdapter.getIngredientsList()){
+                            if (i.getName().equals(etName.getText().toString())) {
+                                duplicate = true;
+                            }
+                        }
+
+                        if (duplicate){
+                            Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+                            IngredientDBHelper.addIngredientToDB(newIngredient);
+                            isAddingNewIngredient = false;
+                            duplicate = false;
+                            dismiss();
+
+                        }
+
+
                     }
 
-                    dismiss();
                 }
             }
         });
