@@ -40,8 +40,6 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsVie
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
@@ -261,12 +259,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
-//        btnUpload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                imageChooser();
-//            }
-//        });
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageChooser();
+            }
+        });
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,13 +305,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         Recipe newRecipe = modifiedRecipe();
                         RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe, selectedRecipeIndex);
                         isEdittingExistingRecipe = false;
-
-                        if (imageBitmap == null){
-                            RecipeDBHelper.addImageToDB("", rvAdapter.getRecipesList().get(selectedRecipeIndex));
-                        }
-                        else{
-                            encodeBitmapAndSaveToFirebase(imageBitmap);
-                        }
                         dismiss();
                     }
 
@@ -324,12 +315,12 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         else {
                             Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
+                            RecipeDBHelper.addRecipe(newRecipe);
                             if (imageBitmap == null) {
-                                newRecipe.setImage("");
+                                newRecipe.setImage(" ");
                             } else {
                                 encodeBitmapAndSaveToFirebase(imageBitmap);
                             }
-                            RecipeDBHelper.addRecipe(newRecipe);
                             isAddingNewRecipe = false;
                             dismiss();
                         }
@@ -393,7 +384,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 imageBitmap = (Bitmap) extras.get("data");
                 view_recipe_image.setImageBitmap(imageBitmap);
                 Log.d(TAG, "TOOK A PICTURE" + imageBitmap);
-
+                encodeBitmapAndSaveToFirebase(imageBitmap);
             }
 
             if (requestCode == SELECT_PICTURE) {
@@ -402,11 +393,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 // update the preview image in the layout
                 view_recipe_image.setImageURI(selectedImageUri);
                 imageBitmap = decodeUriAsBitmap(context, selectedImageUri);
-
+                encodeBitmapAndSaveToFirebase(imageBitmap);
                 Log.d(TAG, "SELECTED A PICTURE" + imageBitmap);
 
             }
-
         }
     }
 
@@ -430,14 +420,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     /**
      * This function takes in a bitmap and then adds it to the database by converting it back to a uri
      * @param bitmap
+     * @return
      */
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
-        int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
+        //int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
         imageURI = imageEncoded;
-        RecipeDBHelper.addImageToDB(imageEncoded, rvAdapter.getRecipesList().get(selectedRecipeIndex));
     }
 
     // Function to check and request permission.
@@ -481,7 +471,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 (etComments.getText().toString()),
                 spCategory.getSelectedItem().toString(),
                 Integer.parseInt(String.valueOf(etPrep_time.getText())),
-                Integer.parseInt(String.valueOf(etServings.getText())));
+                Integer.parseInt(String.valueOf(etServings.getText())),
+                imageURI);
 
         ArrayList<RecipeIngredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
         modifiedRecipe.setImage(imageURI);
@@ -534,7 +525,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
         btnAddIngredient = view.findViewById(R.id.btn_recipe_add_edit_add_ingredient);
         // stuff for photos
-//        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
+        btnUpload = view.findViewById(R.id.btn_recipe_add_edit_upload);
         view_recipe_image = view.findViewById(R.id.view_recipe_image);
         btnCamera = view.findViewById(R.id.btn_recipe_add_edit_camera);
 
