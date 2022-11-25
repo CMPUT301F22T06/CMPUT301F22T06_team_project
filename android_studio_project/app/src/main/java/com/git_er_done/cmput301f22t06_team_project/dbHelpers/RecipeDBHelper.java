@@ -129,6 +129,7 @@ public class RecipeDBHelper {
      */
     public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
+        selectedRecipePos = position;
         recipesDB
                 .document(nameofRecipe)
                 .delete()
@@ -146,8 +147,9 @@ public class RecipeDBHelper {
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
+        selectedRecipePos = pos;
         String nameOfRecipe = oldRecipe.getTitle();
         DocumentReference dr = recipesDB.document(nameOfRecipe);
         String comments = newRecipe.getComments();

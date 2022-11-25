@@ -181,7 +181,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipeDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            for (RecipeIngredient i: si.getIngredients()){
+                recipeIngredients.add(i);
+            }
+            recipeIngredientsViewAdapter.notifyDataSetChanged();
             etTitle.setEnabled(false);
         }
         else{
@@ -278,7 +281,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                         Recipe newRecipe = modifiedRecipe();
-                        RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe);
+                        RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe, selectedRecipeIndex);
                         isEdittingExistingRecipe = false;
 
                         if (imageBitmap == null){
