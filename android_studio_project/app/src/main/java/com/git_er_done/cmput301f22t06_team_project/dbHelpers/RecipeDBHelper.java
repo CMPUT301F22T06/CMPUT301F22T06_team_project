@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -145,7 +146,7 @@ public class RecipeDBHelper {
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int position){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         String nameOfRecipe = oldRecipe.getTitle();
         DocumentReference dr = recipesDB.document(nameOfRecipe);
@@ -156,7 +157,19 @@ public class RecipeDBHelper {
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
         dr.update("details", firstField);
 
-        
+        for (RecipeIngredient i: oldRecipe.getIngredients()){
+            dr.update(i.getName(), FieldValue.delete());
+        }
+
+        String ingredientFields;
+        for (RecipeIngredient i: newRecipe.getIngredients()) {
+            String name = i.getName();
+            String units = i.getUnits();
+            String amount = String.valueOf(i.getAmount());
+            String comment = i.getComment();
+            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
+            dr.update(name, ingredientFields);
+        }
 
     }
 
