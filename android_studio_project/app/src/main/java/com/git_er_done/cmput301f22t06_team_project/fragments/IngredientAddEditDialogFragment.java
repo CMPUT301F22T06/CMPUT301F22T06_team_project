@@ -155,10 +155,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //Saheel's code
 
         addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
-        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         addUserDefinedStuff(spUnit, addUnitButton, addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
         addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
+
+        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
+        deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,7 +177,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
-                boolean duplicate = false; // Checks to see if an ingredient already exists in the list.
                 int day = dpBestBeforeDate.getDayOfMonth();
                 int year = dpBestBeforeDate.getYear();
                 int month = dpBestBeforeDate.getMonth();
@@ -212,95 +213,111 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
 
                     if (isAddingNewIngredient) {
-                        for (Ingredient i : rvAdapter.getIngredientsList()){
-                            if (i.getName().equals(etName.getText().toString())) {
-                                duplicate = true;
-                            }
-                        }
-
-                        if (duplicate){
+                        if (checkDuplicateInDB()){
                             Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
+                            Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
                             IngredientDBHelper.addIngredientToDB(newIngredient);
                             isAddingNewIngredient = false;
                             dismiss();
                         }
-
                     }
 
                 }
             }
         });
+    }
+
+    boolean checkDuplicateInDB(){
+        for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
+            if (i.getName().equals(etName.getText().toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String toDelete = (String) adapterView.getItemAtPosition(i);
-                        if (type == "location"){
-                            IngredientLocation.getInstance().deleteLocation(toDelete);
-                        }
-                        if (type == "unit"){
-                            IngredientUnit.getInstance().deleteUnit(toDelete);
-                        }
-                        if (type == "category"){
-                            IngredientCategory.getInstance().deleteCategory(toDelete);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == message){
-                    addButton.setVisibility(View.VISIBLE);
-                    addText.setVisibility(View.VISIBLE);
-                    deleteButton.setVisibility(View.INVISIBLE);
-                    addButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String text = String.valueOf(addText.getText());
-                            if (text != notEqual) {
-                                if (type == "location") {
-                                    IngredientLocation.getInstance().addLocation(text);
-                                }
-                                if (type == "unit") {
-                                    IngredientUnit.getInstance().addUnit(text);
-                                }
-                                if (type == "category") {
-                                    IngredientCategory.getInstance().addIngredientCategory(text);
-                                }
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (sp.getAdapter().getCount() > 1) {
+                            String toDelete = (String) adapterView.getItemAtPosition(i);
+                            if (type == "location") {
+                                IngredientLocation.getInstance().deleteLocation(toDelete);
                             }
-                            addButton.setVisibility(View.INVISIBLE);
-                            addText.setVisibility(View.INVISIBLE);
-                            deleteButton.setVisibility(View.VISIBLE);
+                            if (type == "unit") {
+                                IngredientUnit.getInstance().deleteUnit(toDelete);
+                            }
+                            if (type == "category") {
+                                IngredientCategory.getInstance().deleteCategory(toDelete);
+                            }
+                            //This changes the dropdown value to something that isn't currently selected.
+                            if (i == 0) {
+                                sp.setSelection(sp.getAdapter().getCount() - 1); // Last value in the list
+                            } else {
+                                sp.setSelection(0);
+                            }
                         }
-                    });
-                }
-
+                        else{
+                            Toast.makeText(getActivity(), "There must be atleast one item left in the dropdown.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+
     }
+
+    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = String.valueOf(addText.getText());
+                if (text != notEqual) {
+                    if (type == "location") {
+                        IngredientLocation.getInstance().addLocation(text);
+                    }
+                    if (type == "unit") {
+                        IngredientUnit.getInstance().addUnit(text);
+                    }
+                    if (type == "category") {
+                        IngredientCategory.getInstance().addIngredientCategory(text);
+                    }
+                    addText.setText("");
+                }
+//                            addButton.setVisibility(View.INVISIBLE);
+//                            addText.setVisibility(View.INVISIBLE);
+//                            deleteButton.setVisibility(View.VISIBLE);
+            }
+        });
+//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (adapterView.getItemAtPosition(i) == message){
+////                    addButton.setVisibility(View.VISIBLE);
+////                    addText.setVisibility(View.VISIBLE);
+////                    deleteButton.setVisibility(View.INVISIBLE);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+    }
+
 
 
 
