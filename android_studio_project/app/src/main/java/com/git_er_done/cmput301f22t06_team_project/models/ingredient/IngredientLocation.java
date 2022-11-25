@@ -13,7 +13,6 @@ public class IngredientLocation {
     private static final IngredientLocation instance = new IngredientLocation();
 
     private IngredientLocation(){
-        locations.add("Add New Location");
         locations.add("pantry");
         locations.add("fridge");
         locations.add("freezer");
