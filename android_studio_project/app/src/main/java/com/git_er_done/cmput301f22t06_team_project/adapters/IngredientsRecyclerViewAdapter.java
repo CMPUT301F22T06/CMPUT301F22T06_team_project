@@ -64,7 +64,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
 
         //set expired ingredients to 0 amount
-        setExpiredIngredientsAmountToZero();
+//        setExpiredIngredientsAmountToZero();
 
         // Return a new holder instance
         return new ViewHolder(ingredientView);
@@ -183,7 +183,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return (ArrayList<Ingredient>) mIngredients;
     }
 
-    public void setExpiredIngredientsAmountToZero(){
+    public void setExpiredIngredientsAmountToZero() {
         LocalDate today = LocalDate.now();
         for (int i = 0; i < mIngredients.size(); i++) {
             Ingredient anIngredient = mIngredients.get(i);

@@ -235,13 +235,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
-    void checkAndEditRecipesUnits(){
-        String unit = spUnit.getSelectedItem().toString();
-        String name = etName.getText().toString();
-
-        RecipeDBHelper.updateRecipe(unit, name);
-    }
-
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

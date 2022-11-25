@@ -321,7 +321,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             dismiss();
                         }
                     }
-                    rvAdapter.notifyDataSetChanged();
+                    //rvAdapter.notifyDataSetChanged();
                 }
 
 
