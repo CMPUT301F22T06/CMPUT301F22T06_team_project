@@ -148,14 +148,16 @@ public class RecipeDBHelper {
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int position){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         String nameOfRecipe = oldRecipe.getTitle();
-        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
-            // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            deleteRecipe(oldRecipe, position);
-            addRecipe(newRecipe);
-        }
-        else{
-            addRecipe(newRecipe);
-        }
+        DocumentReference dr = recipesDB.document(nameOfRecipe);
+        String comments = newRecipe.getComments();
+        String category = newRecipe.getCategory();
+        String prepTime = String.valueOf(newRecipe.getPrep_time());
+        String servings = String.valueOf(newRecipe.getServings());
+        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        dr.update("details", firstField);
+
+        
+
     }
 
     /**

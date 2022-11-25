@@ -40,6 +40,7 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsVie
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
@@ -276,9 +277,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 else{
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                        //RecipesDBHelper.deleteRecipe(oldRecipe);
                         Recipe newRecipe = modifiedRecipe();
-                        RecipeDBHelper.addRecipe(newRecipe);
+                        RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe);
                         isEdittingExistingRecipe = false;
 
                         if (imageBitmap == null){
@@ -301,7 +301,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         RecipeDBHelper.addRecipe(newRecipe);
                         isAddingNewRecipe = false;
                     }
-                    rvAdapter.notifyDataSetChanged();
                     dismiss();
                 }
 
