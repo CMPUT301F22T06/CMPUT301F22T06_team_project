@@ -22,6 +22,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -128,6 +129,7 @@ public class RecipeDBHelper {
      */
     public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
+        selectedRecipePos = position;
         recipesDB
                 .document(nameofRecipe)
                 .delete()
@@ -145,17 +147,32 @@ public class RecipeDBHelper {
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int position){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
+        selectedRecipePos = pos;
         String nameOfRecipe = oldRecipe.getTitle();
-        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
-            // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            deleteRecipe(oldRecipe, position);
-            addRecipe(newRecipe);
+        DocumentReference dr = recipesDB.document(nameOfRecipe);
+        String comments = newRecipe.getComments();
+        String category = newRecipe.getCategory();
+        String prepTime = String.valueOf(newRecipe.getPrep_time());
+        String servings = String.valueOf(newRecipe.getServings());
+        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        dr.update("details", firstField);
+
+        for (RecipeIngredient i: oldRecipe.getIngredients()){
+            dr.update(i.getName(), FieldValue.delete());
         }
-        else{
-            addRecipe(newRecipe);
+
+        String ingredientFields;
+        for (RecipeIngredient i: newRecipe.getIngredients()) {
+            String name = i.getName();
+            String units = i.getUnits();
+            String amount = String.valueOf(i.getAmount());
+            String comment = i.getComment();
+            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
+            dr.update(name, ingredientFields);
         }
+
     }
 
     /**

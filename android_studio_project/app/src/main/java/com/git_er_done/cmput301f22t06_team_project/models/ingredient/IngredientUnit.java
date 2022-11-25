@@ -12,7 +12,6 @@ public class IngredientUnit {
     private static final IngredientUnit instance = new IngredientUnit();
 
     private IngredientUnit(){
-        units.add("Add New Unit");
         units.add("g");
         units.add("ml");
         units.add("L");

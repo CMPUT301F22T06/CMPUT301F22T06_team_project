@@ -41,6 +41,7 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewA
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
@@ -80,6 +81,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     private EditText addCategoryText;
     private Button addCategoryButton;
+    private Button deleteCategoryButton;
     private TextView addCategoryTitle;
 
     String title;
@@ -181,41 +183,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            RecipeDBHelper.setRecipeIngredientAdapter(title, recipeIngredientsViewAdapter, recipeIngredients);
+            for (RecipeIngredient i: si.getIngredients()){
+                recipeIngredients.add(i);
+            }
+            recipeIngredientsViewAdapter.notifyDataSetChanged();
             etTitle.setEnabled(false);
         }
         else{
             spCategory.setSelection(1);
         }
-
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == "Add Category"){
-                    addCategoryButton.setVisibility(View.VISIBLE);
-                    addCategoryText.setVisibility(View.VISIBLE);
-                    spCategory.setVisibility(View.INVISIBLE);
-
-                    addCategoryButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String CategoryText = String.valueOf(addCategoryText.getText());
-                            if (CategoryText != "Add Category") {
-                                RecipeCategory.getInstance().addRecipeCategory(CategoryText);
-                            }
-                            addCategoryButton.setVisibility(View.INVISIBLE);
-                            addCategoryText.setVisibility(View.INVISIBLE);
-                            spCategory.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         //IF WE ARE ADDING A NEW RECIPE - LEAVE INPUT FIELDS EMPTY TO SHOW HINTS
         lvIngredients_view.setOnTouchListener(new View.OnTouchListener() {
@@ -228,7 +204,52 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        //Buttons to cancel, save recipe, upload image, add ingredient
+        //Buttons to cancel, save recipe, upload image, add ingredient, add/delete recipe categories
+        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                deleteCategoryButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if(spCategory.getAdapter().getCount() > 1){
+                            String toDelete = (String) adapterView.getItemAtPosition(i);
+                            RecipeCategory.getInstance().deleteRecipeCategory(toDelete);
+
+                            //This changes the dropdown value to something that isn't currently selected.
+                            if (i == 0) {
+                                spCategory.setSelection(spCategory.getAdapter().getCount() - 1); // Last value in the list
+                            }
+                            else{
+                                spCategory.setSelection(0);
+
+                            }
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "There must be atleast one category left.", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        addCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String CategoryText = String.valueOf(addCategoryText.getText());
+                if (CategoryText != "Add Category") {
+                    RecipeCategory.getInstance().addRecipeCategory(CategoryText);
+                    addCategoryText.setText("");
+                }
+            }
+        });
+
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,7 +291,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
-                boolean duplicate = false;
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
                 if (isEmpty(etTitle.getText())){
                     Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
@@ -284,9 +304,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 else{
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
-                        //RecipesDBHelper.deleteRecipe(oldRecipe);
                         Recipe newRecipe = modifiedRecipe();
-                        RecipeDBHelper.addRecipe(newRecipe);
+                        RecipeDBHelper.modifyRecipeInDB(newRecipe,oldRecipe, selectedRecipeIndex);
                         isEdittingExistingRecipe = false;
 
                         if (imageBitmap == null){
@@ -299,17 +318,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        for (Recipe i : rvAdapter.getRecipesList()){
-                            if (i.getTitle().equals(etTitle.getText().toString())) {
-                                duplicate = true;
-                            }
-                        }
-
-                        if (duplicate){
+                        if (checkDuplicateInDB()){
                             Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                            Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             if (imageBitmap == null) {
                                 newRecipe.setImage("");
@@ -321,14 +334,20 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             dismiss();
                         }
                     }
-                    rvAdapter.notifyDataSetChanged();
                 }
-
-
 
 
             } // broke here
         });
+    }
+
+    boolean checkDuplicateInDB(){
+        for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
+            if (i.getTitle().equals(etTitle.getText().toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -509,6 +528,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         //spCategory = view.findViewById(R.id.et_recipe_add_edit_category);
         lvIngredients_view = view.findViewById(R.id.lv_recipe_add_edit_ingredients_view);
         spCategory = view.findViewById(R.id.sp_recipe_add_edit_category);
+
         spIngredients_dropdown = view.findViewById(R.id.sp_recipe_add_edit_ingredients_dropdown);
         btnCancel = view.findViewById(R.id.btn_recipe_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_recipe_add_edit_save);
@@ -521,6 +541,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         addCategoryText = view.findViewById((R.id.addCategory));
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         addCategoryTitle = view.findViewById(R.id.categoryTitle);
+        deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
     }
 
     void setupAdapters(){
