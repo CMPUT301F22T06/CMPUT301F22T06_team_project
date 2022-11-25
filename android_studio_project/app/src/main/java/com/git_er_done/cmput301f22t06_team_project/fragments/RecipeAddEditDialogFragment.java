@@ -273,9 +273,16 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
+                boolean duplicate = false;
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
                 if (isEmpty(etTitle.getText())){
                     Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+                }
+                else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
+                    Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
+                }
+                else if (etServings.getText().toString().equals(Character.toString('0'))){
+                    Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
                 }
                 else{
                     if(isEdittingExistingRecipe) {
@@ -290,20 +297,33 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         else{
                             encodeBitmapAndSaveToFirebase(imageBitmap);
                         }
+                        dismiss();
                     }
 
                     if(isAddingNewRecipe){
-                        Recipe newRecipe = modifiedRecipe();
-                        // Still need to add recipeIngredients here somehow
-                        if (imageBitmap == null){
-                            newRecipe.setImage("");
+                        for (Recipe i : rvAdapter.getRecipesList()){
+                            if (i.getTitle().equals(etTitle.getText().toString())) {
+                                duplicate = true;
+                            }
                         }
-                        else{
-                            encodeBitmapAndSaveToFirebase(imageBitmap);
+
+                        if (duplicate){
+                            Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                         }
-                        RecipeDBHelper.addRecipe(newRecipe);
-                        isAddingNewRecipe = false;
+                        else {
+                            Recipe newRecipe = new Recipe(title, comments, category, Integer.parseInt(prep_time), Integer.parseInt(servings));
+                            // Still need to add recipeIngredients here somehow
+                            if (imageBitmap == null) {
+                                newRecipe.setImage("");
+                            } else {
+                                encodeBitmapAndSaveToFirebase(imageBitmap);
+                            }
+                            RecipeDBHelper.addRecipe(newRecipe);
+                            isAddingNewRecipe = false;
+                            dismiss();
+                        }
                     }
+                    rvAdapter.notifyDataSetChanged();
                     dismiss();
                 }
 

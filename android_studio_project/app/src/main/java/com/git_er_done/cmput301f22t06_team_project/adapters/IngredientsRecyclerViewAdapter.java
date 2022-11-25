@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
+import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -7,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -62,8 +65,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         // Inflate the custom layout
         ingredientView = inflater.inflate(R.layout.ingredient_list_item, parent, false);
 
-        //set expired ingredients to 0 amount
-        setExpiredIngredientsAmountToZero();
 
         // Return a new holder instance
         return new ViewHolder(ingredientView);
@@ -96,12 +97,17 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         category.setText(ingredient.getCategory());
         amount.setText(ingredient.getAmount().toString());
         unit.setText(ingredient.getUnit());
-        
-        Ingredient anIngredient = mIngredients.get(position);
-        if (anIngredient.getAmount()==0) {
-            background.setBackgroundColor(Color.TRANSPARENT);
+        ;
+        if (ingredient.getAmount()==0) {
+            ingredient.setColor(Color.GREEN);
+        }
+        if (ingredient.getColor()!=Color.GREEN){
+            amount.setTextColor(Color.YELLOW);
+            amount.setTextSize(12);
+    }
+        else{
             amount.setTextColor(Color.GREEN);
-            amount.setTypeface(null, Typeface.BOLD_ITALIC);
+            amount.setTextSize(20);
         }
     }
 
@@ -137,6 +143,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         public TextView categoryTextView;
         public String color;
         public LinearLayout background;
+        ProgressBar progressBar;
 
         //Constructor accepts entire item row and does view lookups to find each subview
         public ViewHolder(View itemView) {
@@ -151,6 +158,10 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             amountTextView = itemView.findViewById(R.id.tv_ingredient_list_item_amount);
             unitTextView = itemView.findViewById(R.id.tv_ingredient_list_item_unit);
             background = itemView.findViewById(R.id.background);
+            progressBar = itemView.findViewById(R.id.progressBarId);
+
+            //set expired ingredients to 0 amount
+            setExpiredIngredientsAmountToZero();
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -173,18 +184,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
 
     public ArrayList<Ingredient> getIngredientsList(){
         return (ArrayList<Ingredient>) mIngredients;
-    }
-
-    public void setExpiredIngredientsAmountToZero(){
-        LocalDate today = LocalDate.now();
-        for (int i = 0; i < mIngredients.size(); i++) {
-            Ingredient anIngredient = mIngredients.get(i);
-            if (anIngredient.getBestBefore().compareTo(today) < 0) {
-                Ingredient oldIngredient = anIngredient;
-                anIngredient.setAmount(0);
-                IngredientDBHelper.modifyIngredientInDB(anIngredient, oldIngredient, i);
-            }
-        }
     }
 
     public void deleteItem(int position){

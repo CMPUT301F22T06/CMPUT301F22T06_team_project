@@ -25,6 +25,7 @@
             android:textSize="18dp"
             android:text="-"
             android:textAlignment="center"
+            android:textColor="@color/black"
             />
 
         <TextView
@@ -41,7 +42,9 @@
             android:layout_height="45dp"
             android:id="@+id/plus_button"
             android:textSize="15dp"
-            android:text="+"/>
+            android:text="+"
+            android:textColor="@color/black"
+            />
 
         <EditText
             android:id="@+id/unit_of_ingredient"
@@ -49,7 +52,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Unit"
-            android:textSize="15dp"/>
+            android:textSize="15dp"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -77,7 +81,9 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:text="Delete"
-            android:textSize="10dp" />
+            android:textSize="10dp"
+            android:textColor="@color/black"
+            />
     </LinearLayout>
 
     <View
