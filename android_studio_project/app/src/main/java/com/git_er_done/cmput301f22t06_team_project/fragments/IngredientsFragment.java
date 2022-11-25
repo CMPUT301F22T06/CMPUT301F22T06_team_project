@@ -1,6 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 
+import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
+
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -131,6 +133,12 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
         // Inflate the layout for this fragment
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        setExpiredIngredientsAmountToZero();
     }
 
     private void setupRecyclerView(){
