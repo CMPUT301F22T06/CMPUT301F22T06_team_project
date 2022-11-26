@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
+import static com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment.getSelectedDate;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecycle
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +43,38 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     public void onBindViewHolder(@NonNull MealsRecyclerViewAdapter.ViewHolder holder, int position) {
         Meal meal = mMeals.get(position);
 
+        LocalDate selectedDate = getSelectedDate();
+
         TextView test = holder.testText;
 
-        test.setText("Test Text");
+        test.setText(selectedDate.toString());
     }
 
     @Override
     public int getItemCount() {
         return mMeals.size();
+    }
+
+    /**
+     * Gets the new selected date - fetches the meals associated with this date from the DB and populates the recyclerview
+     */
+    public void updateRVToSelectedDate(LocalDate newlySelectedDate){
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position){
+        mMeals.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(Meal newMeal){
+        mMeals.add(newMeal);
+        notifyDataSetChanged();
+    }
+
+    public void modifyMealInAdapter(Meal meal, int position){
+        mMeals.set(position, meal);
+        notifyDataSetChanged();
     }
 
     // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
