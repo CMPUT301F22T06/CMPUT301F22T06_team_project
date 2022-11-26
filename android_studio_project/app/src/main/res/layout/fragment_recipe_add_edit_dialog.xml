@@ -159,50 +159,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/categoryTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category: "
-                    android:textColor="@color/yellow"
-                    android:textSize="18dp"
-                    android:paddingLeft="10dp"/>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingLeft="10dp">
 
-                        <EditText
-                            android:id="@+id/addCategory"
+                        <TextView
+                            android:id="@+id/categoryTitle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:hint="Add Recipe Category"
-                            android:textSize="10dp"
-                            android:textColorHint="@color/light_yellow"
-                            android:textColor="@color/light_yellow" />
+                            android:text="Category: "
+                            android:layout_weight="1"
+                            android:textColor="@color/yellow"
+                            android:textSize="18dp"
+                            android:paddingLeft="10dp"/>
 
                         <Button
-                            android:id="@+id/addCategoryButton"
+                            android:id="@+id/btn_edit_category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Add"
+                            android:text="Edit"
                             android:textSize="10dp"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"/>
 
-                        <Button
-                            android:id="@+id/deleteCategoryButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Delete"
-                            android:textSize="10dp"
-                            android:textColor="@color/black"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"/>
                     </LinearLayout>
 
                     <Spinner

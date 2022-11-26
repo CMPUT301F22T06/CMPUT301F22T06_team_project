@@ -35,6 +35,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import com.git_er_done.cmput301f22t06_team_project.EditUserDefinedStuff;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
@@ -82,6 +83,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private EditText addCategoryText;
     private Button addCategoryButton;
     private Button deleteCategoryButton;
+    private Button btnEditCategory;
     private TextView addCategoryTitle;
 
     String title;
@@ -236,6 +238,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        btnEditCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //startActivity(new Intent(this, EditUserDefinedStuff.class));
             }
         });
 
@@ -542,6 +551,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         addCategoryTitle = view.findViewById(R.id.categoryTitle);
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
+        btnEditCategory = view.findViewById(R.id.btn_edit_category);
     }
 
     void setupAdapters(){
