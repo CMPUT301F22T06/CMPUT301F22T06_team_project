@@ -40,6 +40,15 @@ public class Recipe implements Cloneable{
         this.servings = servings;
     }
 
+    public Recipe(String title, String comments, String category, int prep_time, int servings, String image) {
+        this.title = title;
+        this.comments = comments;
+        this.category = category;
+        this.prep_time = prep_time;
+        this.servings = servings;
+        this.image = image;
+    }
+
     /**
      * Returns an {@link ArrayList} of {@link RecipeIngredient}s contained in the Recipe
      * @return The ingredients contained in the recipe

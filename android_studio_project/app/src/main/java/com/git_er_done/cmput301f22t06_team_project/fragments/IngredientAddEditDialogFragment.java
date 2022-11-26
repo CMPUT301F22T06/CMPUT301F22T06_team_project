@@ -1,10 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static android.text.TextUtils.isEmpty;
+import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,7 +26,7 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipesDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
@@ -151,10 +155,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         //Saheel's code
 
         addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
-        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         addUserDefinedStuff(spUnit, addUnitButton, addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
         addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
+
+        deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
+        deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,113 +177,147 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
-
+                int day = dpBestBeforeDate.getDayOfMonth();
+                int year = dpBestBeforeDate.getYear();
+                int month = dpBestBeforeDate.getMonth();
                 assignIngredientAttributesFromViews();
-
-                if(isEdittingExistingIngredient) {
-                    int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
-                    Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                    Ingredient oldIngredient = new Ingredient(
-                            newIngredient.getName(),
-                            newIngredient.getDesc(),
-                            newIngredient.getBestBefore(),
-                            newIngredient.getLocation(),
-                            newIngredient.getUnit(),
-                            newIngredient.getCategory(),
-                            newIngredient.getAmount()
-                    );
-                    modifyIngredient(newIngredient);
-                    IngredientDBHelper.modifyIngredientInDB(newIngredient,oldIngredient,selectedIngredientIndex);
-                    checkAndEditRecipesUnits();
-                    isEdittingExistingIngredient = false;
+                if (isEmpty(etName.getText())) {
+                    Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
                 }
-
-                if(isAddingNewIngredient){
-                    Ingredient newIngredient = new Ingredient(name, description, LocalDate.now(), location, unit, category, amount);
-                    IngredientDBHelper.addIngredientToDB(newIngredient);
-                    isAddingNewIngredient = false;
+                else if (etAmount.getText().toString().equals(Character.toString('0'))) {
+                    Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
                 }
+                else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
+                    Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if (isEdittingExistingIngredient) {
 
-                rvAdapter.notifyDataSetChanged();
+                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
+                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
+                        Ingredient oldIngredient = new Ingredient(
+                                newIngredient.getName(),
+                                newIngredient.getDesc(),
+                                newIngredient.getBestBefore(),
+                                newIngredient.getLocation(),
+                                newIngredient.getUnit(),
+                                newIngredient.getCategory(),
+                                newIngredient.getAmount()
+                        );
+                        modifyIngredient(newIngredient);
+                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
+                        //                    checkAndEditRecipesUnits();
+                        isEdittingExistingIngredient = false;
+                        dismiss();
+                    }
 
-                dismiss();
+                    if (isAddingNewIngredient) {
+                        if (checkDuplicateInDB()){
+                            Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
+                            IngredientDBHelper.addIngredientToDB(newIngredient);
+                            isAddingNewIngredient = false;
+                            dismiss();
+                        }
+                    }
+
+                }
             }
         });
     }
 
-    void checkAndEditRecipesUnits(){
-        String unit = spUnit.getSelectedItem().toString();
-        String name = etName.getText().toString();
-
-        RecipesDBHelper.updateRecipe(unit, name);
+    boolean checkDuplicateInDB(){
+        for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
+            if (i.getName().equals(etName.getText().toString())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String toDelete = (String) adapterView.getItemAtPosition(i);
-                        if (type == "location"){
-                            IngredientLocation.getInstance().deleteLocation(toDelete);
-                        }
-                        if (type == "unit"){
-                            IngredientUnit.getInstance().deleteUnit(toDelete);
-                        }
-                        if (type == "category"){
-                            IngredientCategory.getInstance().deleteCategory(toDelete);
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-            }
-        });
-    }
-
-    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView.getItemAtPosition(i) == message){
-                    addButton.setVisibility(View.VISIBLE);
-                    addText.setVisibility(View.VISIBLE);
-                    deleteButton.setVisibility(View.INVISIBLE);
-                    addButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String text = String.valueOf(addText.getText());
-                            if (text != notEqual) {
-                                if (type == "location") {
-                                    IngredientLocation.getInstance().addLocation(text);
-                                }
-                                if (type == "unit") {
-                                    IngredientUnit.getInstance().addUnit(text);
-                                }
-                                if (type == "category") {
-                                    IngredientCategory.getInstance().addIngredientCategory(text);
-                                }
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (sp.getAdapter().getCount() > 1) {
+                            String toDelete = (String) adapterView.getItemAtPosition(i);
+                            if (type == "location") {
+                                IngredientLocation.getInstance().deleteLocation(toDelete);
                             }
-                            addButton.setVisibility(View.INVISIBLE);
-                            addText.setVisibility(View.INVISIBLE);
-                            deleteButton.setVisibility(View.VISIBLE);
+                            if (type == "unit") {
+                                IngredientUnit.getInstance().deleteUnit(toDelete);
+                            }
+                            if (type == "category") {
+                                IngredientCategory.getInstance().deleteCategory(toDelete);
+                            }
+                            //This changes the dropdown value to something that isn't currently selected.
+                            if (i == 0) {
+                                sp.setSelection(sp.getAdapter().getCount() - 1); // Last value in the list
+                            } else {
+                                sp.setSelection(0);
+                            }
                         }
-                    });
-                }
-
+                        else{
+                            Toast.makeText(getActivity(), "There must be atleast one item left in the dropdown.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
+
     }
+
+    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = String.valueOf(addText.getText());
+                if (text != notEqual) {
+                    if (type == "location") {
+                        IngredientLocation.getInstance().addLocation(text);
+                    }
+                    if (type == "unit") {
+                        IngredientUnit.getInstance().addUnit(text);
+                    }
+                    if (type == "category") {
+                        IngredientCategory.getInstance().addIngredientCategory(text);
+                    }
+                    addText.setText("");
+                }
+//                            addButton.setVisibility(View.INVISIBLE);
+//                            addText.setVisibility(View.INVISIBLE);
+//                            deleteButton.setVisibility(View.VISIBLE);
+            }
+        });
+//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (adapterView.getItemAtPosition(i) == message){
+////                    addButton.setVisibility(View.VISIBLE);
+////                    addText.setVisibility(View.VISIBLE);
+////                    deleteButton.setVisibility(View.INVISIBLE);
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+    }
+
 
 
 

@@ -75,23 +75,49 @@
 
                             android:textColor="@color/black" />
 
-<!--                        <Button-->
-<!--                            android:id="@+id/btn_recipe_add_edit_upload"-->
-<!--                            android:layout_width="40dp"-->
-<!--                            android:layout_height="45dp"-->
-<!--                            android:paddingLeft="17dp"-->
-<!--                            android:paddingTop="8dp"-->
-<!--                            android:layout_marginLeft="5dp"-->
-<!--                            android:drawableTop="@drawable/upload_image"-->
+                        <Button
+                            android:id="@+id/btn_recipe_add_edit_upload"
+                            android:layout_width="40dp"
+                            android:layout_height="45dp"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="8dp"
+                            android:layout_marginLeft="5dp"
+                            android:drawableTop="@drawable/upload_image"
 
-<!--                            android:gravity="center"-->
-<!--                            android:textColor="@color/black" />-->
+                            android:gravity="center"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:text="Preptime: "
+                                android:textColor="@color/yellow"
+                                android:textSize="18dp" />
+
+                            <!--        TODO Replace a carriage return with ' next '-->
+                            <EditText
+                                android:id="@+id/et_recipe_add_edit_preptime"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:text="1"
+                                android:textColor="@color/yellow"
+                                android:textSize="15dp" />
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -118,31 +144,6 @@
                                 android:textSize="15dp" />
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="10dp">
-
-                            <TextView
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:text="Preptime: "
-                                android:textColor="@color/yellow"
-                                android:textSize="18dp" />
-
-                            <!--        TODO Replace a carriage return with ' next '-->
-                            <EditText
-                                android:id="@+id/et_recipe_add_edit_preptime"
-                                android:layout_width="65dp"
-                                android:layout_height="wrap_content"
-                                android:imeOptions="actionNext"
-                                android:inputType="number"
-                                android:maxLength="5"
-                                android:text="1"
-                                android:textColor="@color/yellow"
-                                android:textSize="15dp" />
-                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -158,57 +159,57 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-                    <TextView
-                        android:id="@+id/categoryTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Category: "
-                        android:textColor="@color/yellow"
-                        android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/categoryTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category: "
+                    android:textColor="@color/yellow"
+                    android:textSize="18dp"
+                    android:paddingLeft="10dp"/>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <EditText
+                            android:id="@+id/addCategory"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingBottom="10dp">
+                            android:layout_weight="2"
+                            android:hint="Add Recipe Category"
+                            android:textSize="10dp"
+                            android:textColorHint="@color/light_yellow"
+                            android:textColor="@color/light_yellow" />
 
-                            <EditText
-                                android:id="@+id/addCategory"
-                                android:layout_width="100dp"
-                                android:layout_height="55dp"
-                                android:layout_weight="0"
-                                android:hint="Add Recipe Category"
-                                android:textSize="10dp"
-                                android:textColorHint="@color/light_yellow"
-                                android:textColor="@color/light_yellow"
-                                android:visibility="invisible" />
+                        <Button
+                            android:id="@+id/addCategoryButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Add"
+                            android:textSize="10dp"
+                            android:textColor="@color/black" />
 
-                            <Button
-                                android:id="@+id/addCategoryButton"
-                                android:layout_width="80dp"
-                                android:layout_height="50dp"
-                                android:text="Add Category"
-                                android:textSize="10dp"
-                                android:textColor="@color/black"
-                                android:visibility="invisible" />
-                        </LinearLayout>
+                        <Button
+                            android:id="@+id/deleteCategoryButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Delete"
+                            android:textSize="10dp"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"/>
+                    </LinearLayout>
 
-                        <Spinner
-                            android:id="@+id/sp_recipe_add_edit_category"
-                            android:layout_width="match_parent"
-                            android:layout_height="50sp"
-                            android:backgroundTint="@color/yellow" />
-                    </RelativeLayout>
-                </LinearLayout>
+                    <Spinner
+                        android:id="@+id/sp_recipe_add_edit_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:backgroundTint="@color/yellow" />
 
 
             </LinearLayout>
@@ -259,7 +260,7 @@
                 <ListView
                     android:id="@+id/lv_recipe_add_edit_ingredients_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="250dp"
+                    android:layout_height="120dp"
                     android:width="1dp"
                     android:color="#ff9900"
                     android:gravity="top"
