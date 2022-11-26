@@ -1,13 +1,9 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.Comparator;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;

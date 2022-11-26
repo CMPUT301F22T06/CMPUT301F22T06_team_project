@@ -7,12 +7,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,9 +30,7 @@ import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Saheel Sarker
@@ -77,7 +73,6 @@ public class RecipeDBHelper {
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
-        String image = recipe.getImage();
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
 
         sendToDb.put("details", firstField);
@@ -177,17 +172,29 @@ public class RecipeDBHelper {
         dr.update("details", firstField);
         dr.update("image", image);
 
-        for (RecipeIngredient i: oldRecipe.getIngredients()){
+        for (Ingredient i: oldRecipe.getIngredients()){
             dr.update(i.getName(), FieldValue.delete());
         }
 
         String ingredientFields;
-        for (RecipeIngredient i: newRecipe.getIngredients()) {
+        for (Ingredient i: newRecipe.getIngredients()) {
             String name = i.getName();
-            String units = i.getUnits();
-            String amount = String.valueOf(i.getAmount());
-            String comment = i.getComment();
-            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
+            String units = i.getDesc();
+            String bestBefore = i.getBestBefore().toString();
+            String comment = i.getLocation();
+            String unit = i.getUnit();
+            String ingredientCategory = i.getCategory();
+            String amount = i.getAmount().toString();
+            String color = i.getColor().toString();
+
+            ingredientFields =
+                    units + "|" +
+                            bestBefore + "|" +
+                            comment + "|" +
+                            unit + "|" +
+                            ingredientCategory + "|" +
+                            amount + "|" +
+                            color;
             dr.update(name, ingredientFields);
         }
 

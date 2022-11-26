@@ -50,7 +50,7 @@ public class Recipe implements Cloneable{
     }
 
     /**
-     * Returns an {@link ArrayList} of {@link RecipeIngredient}s contained in the Recipe
+     * Returns an {@link ArrayList} of {@link Ingredient}s contained in the Recipe
      * @return The ingredients contained in the recipe
      */
     public ArrayList<Ingredient> getIngredients() {
@@ -59,7 +59,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new list of Ingredients for the recipe, replacing the old list.
-     * @param recipeIngredients An {@link ArrayList} of {@link RecipeIngredient}s to be set.
+     * @param recipeIngredients An {@link ArrayList} of {@link Ingredient}s to be set.
      */
     public void setIngredientsList(ArrayList<Ingredient> recipeIngredients) { //Got rid of this
         this.recipeIngredients = recipeIngredients;
@@ -67,17 +67,17 @@ public class Recipe implements Cloneable{
 
     /**
      * Adds a new Ingredient to the recipe alongside the old ones
-     * @param recipeIngredient The new {@link RecipeIngredient} to be added
+     * @param recipeIngredient The new {@link Ingredient} to be added
      */
     public void addIngredient(Ingredient recipeIngredient) { // I changed this
         recipeIngredients.add(recipeIngredient);
     }
 
     /**
-     * Removes the specified {@link RecipeIngredient} if it exists in the Recipe
+     * Removes the specified {@link Ingredient} if it exists in the Recipe
      * @param recipeIngredient The Ingredient to be removed.
      */
-    public void removeIngredient(RecipeIngredient recipeIngredient) {
+    public void removeIngredient(Ingredient recipeIngredient) {
         if (recipeIngredients.contains(recipeIngredient)) {
             recipeIngredients.remove(recipeIngredient);
         } else {

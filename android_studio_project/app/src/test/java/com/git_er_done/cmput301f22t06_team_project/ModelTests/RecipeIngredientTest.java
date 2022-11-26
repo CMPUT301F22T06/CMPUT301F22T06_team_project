@@ -3,7 +3,6 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 import static org.junit.Assert.assertEquals;
 
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 
 import org.junit.Test;
 
