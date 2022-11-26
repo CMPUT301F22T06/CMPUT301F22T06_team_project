@@ -13,14 +13,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.util.ArrayList;
 
-public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient> {
+public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
 
-    private ArrayList<RecipeIngredient> recipeIngredients;
+    private ArrayList<Ingredient> recipeIngredients;
     private Context context;
     private TextView name;
     private EditText comment;
@@ -29,7 +28,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
     private EditText unit;
     private Button deleteButton;
 
-    public RecipeIngredientsViewAdapter(ArrayList<RecipeIngredient> recipeIngredients, Context context){
+    public RecipeIngredientsViewAdapter(ArrayList<Ingredient> recipeIngredients, Context context){
         super(context, R.layout.recipe_ingredient_item_layout, recipeIngredients);
         this.context = context;
         this.recipeIngredients = recipeIngredients;
@@ -43,15 +42,15 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
             listItem = LayoutInflater.from(context).inflate(R.layout.recipe_ingredient_item_layout,parent,false);
         }
 
-        RecipeIngredient recipeIngredient = recipeIngredients.get(position);
+        Ingredient recipeIngredient = recipeIngredients.get(position);
 
         setViews(listItem);
         final TextView amount = (TextView) listItem.findViewById(R.id.amount_of_ingredient);;
 
         name.setText(recipeIngredient.getName());
-        comment.setText(recipeIngredient.getComment());
+        comment.setText(recipeIngredient.getDesc());
         amount.setText(String.valueOf(recipeIngredient.getAmount()));
-        unit.setText(recipeIngredient.getUnits());
+        unit.setText(recipeIngredient.getUnit());
 
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +91,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (!b){
-                    recipeIngredient.setComment(comment.getText().toString());
+                    recipeIngredient.setDesc(comment.getText().toString());
                 }
             }
         });
@@ -111,7 +110,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<RecipeIngredient>
         deleteButton = (Button) listItem.findViewById(R.id.delete_button);
     }
 
-    public ArrayList<RecipeIngredient> getRecipeIngredients() {
+    public ArrayList<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
 
