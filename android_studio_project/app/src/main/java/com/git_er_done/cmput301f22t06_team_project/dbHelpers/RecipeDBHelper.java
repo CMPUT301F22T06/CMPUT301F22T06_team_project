@@ -79,6 +79,7 @@ public class RecipeDBHelper {
         String category = recipe.getCategory();
         String prepTime = String.valueOf(recipe.getPrep_time());
         String servings = String.valueOf(recipe.getServings());
+        String image = recipe.getImage();
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
 
         sendToDb.put("details", firstField);
@@ -160,8 +161,10 @@ public class RecipeDBHelper {
         String category = newRecipe.getCategory();
         String prepTime = String.valueOf(newRecipe.getPrep_time());
         String servings = String.valueOf(newRecipe.getServings());
+        String image = newRecipe.getImage();
         String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
         dr.update("details", firstField);
+        dr.update("image", image);
 
         for (RecipeIngredient i: oldRecipe.getIngredients()){
             dr.update(i.getName(), FieldValue.delete());
