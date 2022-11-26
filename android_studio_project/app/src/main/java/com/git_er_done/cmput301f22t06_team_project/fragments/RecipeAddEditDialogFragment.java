@@ -410,6 +410,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         Bitmap bitmap;
         try {
             bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                    bitmap, 300, 300, false);
+            bitmap = resizedBitmap;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
