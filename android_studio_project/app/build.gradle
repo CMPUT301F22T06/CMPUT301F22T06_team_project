@@ -63,7 +63,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-tasks:18.0.1'
 
     // Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.0.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore'
-    implementation platform('com.google.firebase:firebase-bom:31.0.1')
 }

@@ -125,7 +125,7 @@ public class RecipeDBHelper {
 
     /**
      * This delete a recipe from the Recipe data base by
-     * taking a string argument to look for the document with that na,e
+     * taking a string argument to look for the document with that name
      * @param recipe of type {@link String}
      * returns void
      * @param position
