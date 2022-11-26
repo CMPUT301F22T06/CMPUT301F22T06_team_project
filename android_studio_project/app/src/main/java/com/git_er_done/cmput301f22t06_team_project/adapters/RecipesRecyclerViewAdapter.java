@@ -1,20 +1,31 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.Comparator;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.RecipesRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,28 +81,25 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     public void onBindViewHolder(@NonNull RecipesRecyclerViewAdapter.ViewHolder holder, int position) {
         // Get the data model based on position
         Recipe recipe = mRecipes.get(position);
-
         // Set item views based on your views and data model
         TextView name = holder.nameTextView;
         TextView description = holder.commentTextView;
         TextView category = holder.categoryTextView;
         TextView preptime = holder.preptimeTextView;
         TextView amount = holder.servingsTextView;
+        ImageView photo = holder.recipeImageView;
 
         name.setText(recipe.getTitle());
         description.setText(recipe.getComments());
         category.setText(recipe.getCategory());
         preptime.setText(String.valueOf(recipe.getPrep_time()));
         amount.setText(String.valueOf(recipe.getServings()));
-
-        //ArrayList<String> ingredientNames = new ArrayList<>();
-        for(RecipeIngredient i: recipe.getIngredients()){
-//            ingredientNames.add(i.getName());
-            //unit.setText(Log.d(TAG, i.getName()));
-
-
-            // MISSING - PHOTOGRAPH
-        }
+        //photo.setImageURI(Uri.parse(recipe.getImage()));
+        //Picasso.get().load(Uri.parse(recipe.getImage())).into(photo);
+        String uri = recipe.getImage();
+        byte [] encodeByte = Base64.decode(String.valueOf(uri),Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        photo.setImageBitmap(bitmap);
     }
 
     /**
@@ -123,7 +131,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         public TextView categoryTextView;
         public TextView preptimeTextView;
         public TextView servingsTextView;
-        public TextView recipeIngredientsTextView;
+        public ImageView recipeImageView;
         ProgressBar progressBar;
 
         // We also create a constructor that accepts the entire item row
@@ -139,7 +147,8 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             categoryTextView = itemView.findViewById(R.id.tv_recipe_list_item_category);
             preptimeTextView = itemView.findViewById(R.id.tv_recipe_list_item_preptime);
             servingsTextView = itemView.findViewById(R.id.tv_recipe_list_item_servings);
-            //recipeIngredientsTextView = itemView.findViewById(R.id.tv_recipe_list_item_recipe_ingredients);
+            recipeImageView = itemView.findViewById(R.id.tv_view_recipe);
+
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -156,8 +165,8 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
                     return false;
                 }
             });
-        }
 
+        }
     }
 
     public ArrayList<Recipe> getRecipesList(){
