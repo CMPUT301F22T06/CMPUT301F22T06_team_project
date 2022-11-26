@@ -60,6 +60,10 @@ public class RecipeDBHelper {
         return singleInstance;
     }
 
+    public static ArrayList<Recipe> getRecipesFromStorage(){
+        return recipesInStorage;
+    }
+
     /**
      * This method add a recipe to our recipe data base
      * @param recipe of type {@link Recipe}
