@@ -181,7 +181,10 @@ public class IngredientDBHelper {
             dr.update("category", newIngredient.getCategory());
         }
 
-        if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
+        if(newIngredient.getBestBefore().compareTo(LocalDate.now()) < 0){
+            dr.update("amount", "0");
+        }
+        else if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
             dr.update("amount", newIngredient.getAmount().toString());
         }
 
@@ -223,6 +226,7 @@ public class IngredientDBHelper {
     public void setupSnapshotListenerForLocalIngredientStorage(){
         db.collection("Ingredients")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
+
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if(error != null){
@@ -251,6 +255,10 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
+                        //check ingredient best before
+                        // update expired ingredients to zero amount
+
+
                     }
                 });
     }

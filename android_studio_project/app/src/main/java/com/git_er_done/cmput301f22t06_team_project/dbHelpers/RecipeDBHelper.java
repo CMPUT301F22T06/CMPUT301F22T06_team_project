@@ -60,6 +60,10 @@ public class RecipeDBHelper {
         return singleInstance;
     }
 
+    public static ArrayList<Recipe> getRecipesFromStorage(){
+        return recipesInStorage;
+    }
+
     /**
      * This method add a recipe to our recipe data base
      * @param recipe of type {@link Recipe}
@@ -238,25 +242,6 @@ public class RecipeDBHelper {
         }
 
         return recipe;
-    }
-
-    public static void updateRecipe(String unit, String name){
-        recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot docs = task.getResult();
-                for(QueryDocumentSnapshot doc: docs) {
-                    Recipe recipe = createRecipe(doc);
-                    for (RecipeIngredient i: recipe.getIngredients()){
-                        if (i.getName().equals(name)){
-                            Log.d(TAG, "MOMOMO");
-                            i.setUnits(unit);
-                        }
-                    }
-                    addRecipe(recipe);
-                }
-            }
-        });
     }
 
     /**
