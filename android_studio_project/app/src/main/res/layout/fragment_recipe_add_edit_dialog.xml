@@ -75,17 +75,17 @@
 
                             android:textColor="@color/black" />
 
-<!--                        <Button-->
-<!--                            android:id="@+id/btn_recipe_add_edit_upload"-->
-<!--                            android:layout_width="40dp"-->
-<!--                            android:layout_height="45dp"-->
-<!--                            android:paddingLeft="17dp"-->
-<!--                            android:paddingTop="8dp"-->
-<!--                            android:layout_marginLeft="5dp"-->
-<!--                            android:drawableTop="@drawable/upload_image"-->
+                        <Button
+                            android:id="@+id/btn_recipe_add_edit_upload"
+                            android:layout_width="40dp"
+                            android:layout_height="45dp"
+                            android:paddingLeft="17dp"
+                            android:paddingTop="8dp"
+                            android:layout_marginLeft="5dp"
+                            android:drawableTop="@drawable/upload_image"
 
-<!--                            android:gravity="center"-->
-<!--                            android:textColor="@color/black" />-->
+                            android:gravity="center"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout

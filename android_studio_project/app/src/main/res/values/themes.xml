@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.CMPUT301F22T06_team_project" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#F5BE41</item>
+        <item name="colorPrimary">@color/yellow</item>
         <item name="colorPrimaryVariant">@color/red</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
