@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.dummyMeals;
 import static com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment.getSelectedDate;
 
 import android.content.Context;
@@ -16,11 +17,13 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO - add a prompt that tells the user if they don't have any meals planned on the selected date
 public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecyclerViewAdapter.ViewHolder>{
 
 //    private final IngredientsRecyclerViewInterface rvInterface;
@@ -41,13 +44,17 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
     @Override
     public void onBindViewHolder(@NonNull MealsRecyclerViewAdapter.ViewHolder holder, int position) {
+        //Get the meal at this position in the list
         Meal meal = mMeals.get(position);
-
+        ArrayList<Recipe> recipes = meal.getRecipesFromMeal();
+        ArrayList<Ingredient> ingredients = meal.getIngredientsFromMeal();
         LocalDate selectedDate = getSelectedDate();
 
         TextView test = holder.testText;
 
-        test.setText(selectedDate.toString());
+        test.setText(meal.getId().toString());
+
+
     }
 
     @Override
@@ -57,8 +64,17 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
     /**
      * Gets the new selected date - fetches the meals associated with this date from the DB and populates the recyclerview
+     * This is called each time the user selects a new date (current date changes)
      */
     public void updateRVToSelectedDate(LocalDate newlySelectedDate){
+        mMeals.clear();
+        //Loop through all dummy meals - only add ones with selected date as date to the adapter
+        for(int i = 0; i < dummyMeals.size(); i++){
+            if(dummyMeals.get(i).getDate().equals(newlySelectedDate)){
+                mMeals.add(dummyMeals.get(i));
+            }
+        }
+
         notifyDataSetChanged();
     }
 

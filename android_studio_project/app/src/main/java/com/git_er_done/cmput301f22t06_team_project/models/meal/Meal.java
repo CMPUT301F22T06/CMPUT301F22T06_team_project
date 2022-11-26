@@ -6,6 +6,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -30,6 +31,14 @@ public class Meal {
      * List of ingredients in this meal. Does not exactly match ingredients in storage as amount can be adjusted by user.
      */
     ArrayList<Ingredient> ingredients;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 
     /**
      * Date assigned to this meal.
@@ -87,7 +96,7 @@ public class Meal {
         Meal meal1 = new Meal(
                 new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1))),
                 new ArrayList<Ingredient>(Arrays.asList(ingredients.get(0),ingredients.get(1))),
-                LocalDate.now()
+                LocalDate.now().plus(1, ChronoUnit.DAYS)
         );
 
         Meal meal2 = new Meal(

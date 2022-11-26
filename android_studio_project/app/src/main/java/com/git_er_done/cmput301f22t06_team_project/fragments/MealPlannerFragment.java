@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.dummyMeals;
 import static com.kizitonwose.calendar.core.ExtensionsKt.firstDayOfWeekFromLocale;
 
 import android.annotation.SuppressLint;
@@ -87,12 +88,12 @@ public class MealPlannerFragment extends Fragment {
         weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
         rvMeals = root.findViewById(R.id.rv_meal_plans);
 
-        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
-
+        //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
+//        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
+        dummyMeals = Meal.createDummyMealList();
 
         setupMonthDayBinder();
         setupMonthHeaderBinder();
-
         setupWeekDayBinder();
 
 
@@ -116,9 +117,9 @@ public class MealPlannerFragment extends Fragment {
 
         setupRecyclerView();
 
-        ArrayList<Meal> dummyMeals = Meal.createDummyMealList();
-        rvAdapter.addItem(dummyMeals.get(0));
-        rvAdapter.addItem(dummyMeals.get(1));
+        selectedDate = LocalDate.now();
+        calendarView.notifyDateChanged(selectedDate);
+        rvAdapter.updateRVToSelectedDate(selectedDate);
 
         return root;
     }
@@ -160,32 +161,7 @@ public class MealPlannerFragment extends Fragment {
 //                        textView.setBackgroundResource(R.drawable.selection_background);
                         dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
                     }
-
                 }
-
-//                if(container.calendarDay.getPosition() == DayPosition.MonthDate){
-//                    text.setVisibility(View.VISIBLE);
-//                    if(container.calendarDay.getDate() == selectedDate){
-//                        text.setTextColor(Color.WHITE);
-////                        textView.setBackgroundResource(R.drawable.selection_background);
-//                        dateBackground.setBackgroundColor(getResources().getColor(R.color.black));
-//                    }
-//                    else{
-//                        text.setBackground(null);
-//                        //For todays date
-//                        if(container.calendarDay.getDate().equals(LocalDate.now())){
-//                            text.setTextColor(Color.BLACK);
-//                            dateBackground.setBackgroundColor(Color.WHITE);
-//                        }
-//                        else{
-//                            text.setTextColor(Color.BLACK);
-//                            dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
-//                        }
-//                    }
-//                }
-//                else{
-//                    text.setVisibility(View.INVISIBLE);
-//                }
             }
 
             @NonNull
@@ -321,5 +297,6 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
+
 
 }
