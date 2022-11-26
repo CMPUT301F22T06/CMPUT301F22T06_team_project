@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="48sp"
+    android:layout_margin="5dp"
+    android:background="@drawable/border"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_ingredient_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NAME"
+        android:textColor="@color/yellow"
+        android:layout_marginLeft="10sp"
+        android:textSize="18dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/tv_ingredient_list_item_amount_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:paddingHorizontal="1dp"
+        android:text="Amount: "
+        android:textColor="@color/yellow"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_meal_ingredient_add_amount"
+        android:layout_width="48sp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:text="+"/>
+
+    <TextView
+        android:id="@+id/tv_ingredient_list_item_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="7dp"
+        android:text="Amount"
+        android:textColor="@color/yellow"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_meal_ingredient_minus_amount"
+        android:layout_width="48sp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:text="-"/>
+
+    <TextView
+        android:id="@+id/tv_ingredient_list_item_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:layout_marginLeft="7dp"
+        android:text="Unit"
+        android:textColor="@color/yellow"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

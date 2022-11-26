@@ -7,7 +7,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,8 +53,13 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         LocalDate selectedDate = getSelectedDate();
 
         TextView test = holder.testText;
+        ListView ingredientsListView = holder.ingredientsListView;
 
         test.setText(meal.getId().toString());
+
+        //Update ingredient list view adapter to include ingredients from this meal
+
+
 
 
     }
@@ -98,6 +105,14 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView testText;
+        ListView ingredientsListView;
+        ListView recipesListView;
+
+
+        ArrayList<Ingredient> mealIngredients = new ArrayList<>();
+        //Create adapter for ArrayList
+        ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(mealView.getContext(), android.R.layout.simple_list_item_1, mealIngredients);
+
 
 
         //Constructor accepts entire item row and does view lookups to find each subview
@@ -106,6 +121,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             super(itemView);
 
             testText = itemView.findViewById(R.id.tv_meal_text_test);
+            ingredientsListView = itemView.findViewById(R.id.lv_ingredients_in_meal);
 
 //            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 //                @Override

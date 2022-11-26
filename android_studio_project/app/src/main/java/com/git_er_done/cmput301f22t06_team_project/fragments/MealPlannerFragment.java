@@ -233,37 +233,6 @@ public class MealPlannerFragment extends Fragment {
                         }
 
                     }
-
-
-
-//                    //If the date belongs to the current calendar month
-//                    if(calendarDay.getPosition() == DayPosition.MonthDate){
-//
-//                        //if we select an already selected date
-//                        if(currentSelection == calendarDay.getDate()){
-//                            selectedDate = null;
-//                            //reload date so the daybinder is called and we can remove the selection background
-//                            calendarView.notifyDateChanged(currentSelection);
-//                        }
-//                        //if we select a date that is not already selected
-//                        else{
-//                            //Only allow user to select a date if there is not one selected yet.
-//                            //This ensures only one date is selected at a time.
-//                            if(selectedDate == null) {
-//                                selectedDate = calendarDay.getDate();
-//                                calendarView.notifyDateChanged(calendarDay.getDate());
-//
-//                                if (currentSelection != null) {
-//                                    // need to also reload the previously selected date to remove selection background
-//                                    calendarView.notifyDateChanged(calendarDay.getDate());
-//                                }
-//                            }
-//                            else{
-//                                selectedDate = currentSelection;
-////                                Toast.makeText(getContext(), "Date: " + selectedDate.toString() + " is already selected!", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    }
                 }
             });
         }
