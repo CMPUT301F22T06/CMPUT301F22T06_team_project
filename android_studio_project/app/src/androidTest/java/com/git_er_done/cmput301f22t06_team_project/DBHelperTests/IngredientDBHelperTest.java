@@ -154,6 +154,10 @@ public class IngredientDBHelperTest {
         assertEquals(secondIngredient.getUnit(), ingFromDB.get(updatedIndex).getUnit());
         assertEquals(secondIngredient.getCategory(), ingFromDB.get(updatedIndex).getCategory());
         assertEquals(secondIngredient.getAmount(), ingFromDB.get(updatedIndex).getAmount());
+
+        // Cleanup
+
+        IngredientDBHelper.deleteIngredientFromDB(secondIngredient, 0);
     }
 
 }
