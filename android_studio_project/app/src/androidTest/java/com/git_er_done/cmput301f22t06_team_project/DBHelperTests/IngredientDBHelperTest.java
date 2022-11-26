@@ -28,11 +28,11 @@ public class IngredientDBHelperTest {
 
     public Ingredient makeIngredient(int index) {
         if (index == 1) {
-            return new Ingredient("steak", "T-Bone", LocalDate.now().plusYears(1),
+            return new Ingredient("unit test", "T-Bone", LocalDate.now().plusYears(1),
                     "freezer", "singles", "protein", 2);
         }
         else {
-            return new Ingredient("steak", "Sirloin", LocalDate.now().plusMonths(1),
+            return new Ingredient("unit test", "Sirloin", LocalDate.now().plusMonths(1),
                     "fridge", "oz", "meats", 8);
         }
     }
@@ -47,7 +47,7 @@ public class IngredientDBHelperTest {
 
         // Allow database time to give data
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class IngredientDBHelperTest {
         }
         System.out.println("End of DB data.");
 
-        assertTrue(namesFromDB.contains(mockIngredient.getName().toLowerCase()));
+        assertTrue(namesFromDB.contains(mockIngredient.getName()));
 
         // Cleanup
         IngredientDBHelper.deleteIngredientFromDB(mockIngredient, 0);
@@ -77,7 +77,7 @@ public class IngredientDBHelperTest {
 
         // Allow database time to give data
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -122,7 +122,7 @@ public class IngredientDBHelperTest {
 
         // Allow database time to give data
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
