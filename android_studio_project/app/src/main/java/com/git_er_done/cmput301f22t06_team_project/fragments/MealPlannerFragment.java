@@ -49,13 +49,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
+//TODO - FIX if the fragment is left, and then returned too, the selected date is no longer highlighted
 /**
  * Fragment that holds the meal planner calendar and associated scrollable list of each meal planned for the selected date.
  */
 public class MealPlannerFragment extends Fragment {
 
     CalendarView calendarView;
-    private LocalDate selectedDate;
+    private static LocalDate selectedDate = LocalDate.now();
+
+    public static LocalDate getSelectedDate(){
+        return selectedDate;
+    }
 
     RecyclerView rvMeals;
     MealsRecyclerViewAdapter rvAdapter;
@@ -142,29 +147,45 @@ public class MealPlannerFragment extends Fragment {
                 text.setText(Integer.toString(dayInt));
                 container.calendarDay = calendarDay;
 
+                //if the date is within the current month
                 if(container.calendarDay.getPosition() == DayPosition.MonthDate){
-                    text.setVisibility(View.VISIBLE);
-
+                    //If the date is equal to the selectedDate
                     if(container.calendarDay.getDate() == selectedDate){
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
-                        dateBackground.setBackgroundColor(Color.BLUE);
+                        dateBackground.setBackgroundColor(getResources().getColor(R.color.black));
                     }
                     else{
-                        text.setBackground(null);
-                        if(container.calendarDay.getDate().equals(LocalDate.now())){
-                            text.setTextColor(Color.BLACK);
-                            dateBackground.setBackgroundColor(Color.WHITE);
-                        }
-                        else{
-                            text.setTextColor(Color.BLACK);
-                            dateBackground.setBackgroundColor(Color.RED);
-                        }
+                        text.setTextColor(Color.WHITE);
+//                        textView.setBackgroundResource(R.drawable.selection_background);
+                        dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
                     }
+
                 }
-                else{
-                    text.setVisibility(View.INVISIBLE);
-                }
+
+//                if(container.calendarDay.getPosition() == DayPosition.MonthDate){
+//                    text.setVisibility(View.VISIBLE);
+//                    if(container.calendarDay.getDate() == selectedDate){
+//                        text.setTextColor(Color.WHITE);
+////                        textView.setBackgroundResource(R.drawable.selection_background);
+//                        dateBackground.setBackgroundColor(getResources().getColor(R.color.black));
+//                    }
+//                    else{
+//                        text.setBackground(null);
+//                        //For todays date
+//                        if(container.calendarDay.getDate().equals(LocalDate.now())){
+//                            text.setTextColor(Color.BLACK);
+//                            dateBackground.setBackgroundColor(Color.WHITE);
+//                        }
+//                        else{
+//                            text.setTextColor(Color.BLACK);
+//                            dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
+//                        }
+//                    }
+//                }
+//                else{
+//                    text.setVisibility(View.INVISIBLE);
+//                }
             }
 
             @NonNull
@@ -209,7 +230,6 @@ public class MealPlannerFragment extends Fragment {
     {
         TextView dateText;
         CalendarDay calendarDay;
-
         WeekDay calendarWeekDay;
 
         public DayViewContainer(@NonNull View view) {
@@ -222,35 +242,52 @@ public class MealPlannerFragment extends Fragment {
                     String dateNumString = dateText.getText().toString();
                     Log.d("Calendar", "Calendar date: " + dateNumString + "  clicked");
 
-                    LocalDate currentSelection = selectedDate;
-
                     //If the date belongs to the current calendar month
                     if(calendarDay.getPosition() == DayPosition.MonthDate){
-
                         //if we select an already selected date
-                        if(currentSelection == calendarDay.getDate()){
-                            selectedDate = null;
-                            //reload date so the daybinder is called and we can remove the selection background
-                            calendarView.notifyDateChanged(currentSelection);
-                        }
-                        //if we select a date that is not already selected
-                        else{
-                            //Only allow user to select a date if there is not one selected yet.
-                            //This ensures only one date is selected at a time.
-                            if(selectedDate == null) {
-                                selectedDate = calendarDay.getDate();
-                                calendarView.notifyDateChanged(calendarDay.getDate());
+                        if(selectedDate != calendarDay.getDate()){
+                            LocalDate previousDate = selectedDate;
+                            selectedDate = calendarDay.getDate();
+                            calendarView.notifyDateChanged(previousDate);
+                            calendarView.notifyDateChanged(selectedDate);
 
-                                if (currentSelection != null) {
-                                    // need to also reload the previously selected date to remove selection background
-                                    calendarView.notifyDateChanged(calendarDay.getDate());
-                                }
-                            }
-                            else{
-                                Toast.makeText(getContext(), "Date: " + selectedDate.toString() + " is already selected!", Toast.LENGTH_SHORT).show();
-                            }
+                            //NOTIFY RECYCLERVIEW THAT THE SELECTED DATE HAS CHANGED
+                            //RECYCLERVIEW ADAPTER SHOULD THEN FETCH THE MEALS ASSOCIATED WITH THIS DATE
+                            rvAdapter.updateRVToSelectedDate(selectedDate);
                         }
+
                     }
+
+
+
+//                    //If the date belongs to the current calendar month
+//                    if(calendarDay.getPosition() == DayPosition.MonthDate){
+//
+//                        //if we select an already selected date
+//                        if(currentSelection == calendarDay.getDate()){
+//                            selectedDate = null;
+//                            //reload date so the daybinder is called and we can remove the selection background
+//                            calendarView.notifyDateChanged(currentSelection);
+//                        }
+//                        //if we select a date that is not already selected
+//                        else{
+//                            //Only allow user to select a date if there is not one selected yet.
+//                            //This ensures only one date is selected at a time.
+//                            if(selectedDate == null) {
+//                                selectedDate = calendarDay.getDate();
+//                                calendarView.notifyDateChanged(calendarDay.getDate());
+//
+//                                if (currentSelection != null) {
+//                                    // need to also reload the previously selected date to remove selection background
+//                                    calendarView.notifyDateChanged(calendarDay.getDate());
+//                                }
+//                            }
+//                            else{
+//                                selectedDate = currentSelection;
+////                                Toast.makeText(getContext(), "Date: " + selectedDate.toString() + " is already selected!", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    }
                 }
             });
         }

@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="30sp" />
 
-    <LinearLayout
+    <ListView
         android:orientation="vertical"
-        android:id="@+id/ll_recipes_in_meal"
+        android:id="@+id/lv_recipes_in_meal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
+    <ListView
         android:orientation="vertical"
-        android:id="@+id/ll_ingredients_in_meal"
+        android:id="@+id/lv_ingredients_in_meal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
