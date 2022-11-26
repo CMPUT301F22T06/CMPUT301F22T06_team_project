@@ -62,7 +62,7 @@ public class IngredientDBHelper {
         return singleInstance;
     }
 
-    private static ArrayList<Ingredient> ingredientInStorage= new ArrayList<>();
+    private static ArrayList<Ingredient> ingredientInStorage = new ArrayList<>();
 
     //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
     //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will
