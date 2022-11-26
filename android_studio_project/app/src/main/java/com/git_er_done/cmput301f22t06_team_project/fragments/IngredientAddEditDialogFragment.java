@@ -181,18 +181,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 int year = dpBestBeforeDate.getYear();
                 int month = dpBestBeforeDate.getMonth();
                 assignIngredientAttributesFromViews();
-                if (isEmpty(etName.getText())) {
-                    Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
-                }
-                else if (etAmount.getText().toString().equals(Character.toString('0'))) {
-                    Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
-                    Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
-                }
-                else {
+                if (!checkExceptions()){
                     if (isEdittingExistingIngredient) {
-
                         int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
                         Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
                         Ingredient oldIngredient = new Ingredient(
@@ -213,17 +203,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
 
                     if (isAddingNewIngredient) {
-                        if (checkDuplicateInDB()){
-                            Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
-                        }
-                        else{
+                        if (!checkDuplicateInDB()){
                             Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
                             IngredientDBHelper.addIngredientToDB(newIngredient);
                             isAddingNewIngredient = false;
                             dismiss();
                         }
                     }
-
                 }
             }
         });
@@ -232,10 +218,32 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     boolean checkDuplicateInDB(){
         for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getName().equals(etName.getText().toString())) {
+                Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
         return false;
+    }
+
+    boolean checkExceptions(){
+        int day = dpBestBeforeDate.getDayOfMonth();
+        int year = dpBestBeforeDate.getYear();
+        int month = dpBestBeforeDate.getMonth();
+        if (isEmpty(etName.getText())) {
+            Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (etAmount.getText().toString().equals(Character.toString('0'))) {
+            Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
+            Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     void checkAndEditRecipesUnits(){
