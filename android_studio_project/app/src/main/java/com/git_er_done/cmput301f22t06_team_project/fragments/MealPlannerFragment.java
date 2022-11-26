@@ -28,6 +28,7 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAda
 import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
@@ -109,6 +110,10 @@ public class MealPlannerFragment extends Fragment {
         weekCalendarView.setVisibility(View.INVISIBLE);
 
         setupRecyclerView();
+
+        ArrayList<Meal> dummyMeals = Meal.createDummyMealList();
+        rvAdapter.addItem(dummyMeals.get(0));
+        rvAdapter.addItem(dummyMeals.get(1));
 
         return root;
     }

@@ -1,10 +1,13 @@
 package com.git_er_done.cmput301f22t06_team_project.models.meal;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 //TODO - Allow users to copy a meal to a different date
@@ -74,6 +77,29 @@ public class Meal {
 
     public void addIngredientToMeal(Ingredient ingredientToAdd){
         ingredients.add(ingredientToAdd);
+    }
+
+    public static ArrayList<Meal> createDummyMealList(){
+        ArrayList<Meal> dummyMeals = new ArrayList<Meal>();
+        ArrayList<Ingredient> ingredients = IngredientDBHelper.getIngredientsFromStorage();
+        ArrayList<Recipe> recipes = RecipeDBHelper.getRecipesFromStorage();
+
+        Meal meal1 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(0),ingredients.get(1))),
+                LocalDate.now()
+        );
+
+        Meal meal2 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(2), recipes.get(3))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3))),
+                LocalDate.now()
+        );
+
+        dummyMeals.add(meal1);
+        dummyMeals.add(meal2);
+
+        return dummyMeals;
     }
 
 }

@@ -50,6 +50,21 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         return mMeals.size();
     }
 
+    public void deleteItem(int position){
+        mMeals.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(Meal newMeal){
+        mMeals.add(newMeal);
+        notifyDataSetChanged();
+    }
+
+    public void modifyMealInAdapter(Meal meal, int position){
+        mMeals.set(position, meal);
+        notifyDataSetChanged();
+    }
+
     // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
