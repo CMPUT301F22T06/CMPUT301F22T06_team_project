@@ -15,7 +15,6 @@ public class IngredientLocationTest {
     public void testGetAllLocation() {
         IngredientLocation location = IngredientLocation.getInstance();
         ArrayList<String> initialLocations = new ArrayList<>();
-        initialLocations.add("Add New Location");
         initialLocations.add("pantry");
         initialLocations.add("fridge");
         initialLocations.add("freezer");
@@ -30,7 +29,7 @@ public class IngredientLocationTest {
 
         location.addLocation("cupboard");
         // First user-defined index
-        assertEquals("cupboard", location.getLocationFromIndex(4));
+        assertEquals("cupboard", location.getLocationFromIndex(3));
 
         // Cleanup
         location.deleteLocation("cupboard");

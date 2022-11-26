@@ -17,7 +17,6 @@ public class IngredientCategoryTest {
     @Test
     public void testGetAllCategories() {
         ArrayList<String> initialCategories = new ArrayList<>();
-        initialCategories.add("Add New Category");
         initialCategories.add("dairy");
         initialCategories.add("fruit");
         initialCategories.add("grain");
@@ -39,7 +38,7 @@ public class IngredientCategoryTest {
 
         category.addIngredientCategory("grain");
         // First user-defined index
-        assertEquals("grain", category.getIngredientCategoryFromIndex(9));
+        assertEquals("grain", category.getIngredientCategoryFromIndex(8));
         // Cleanup
         category.deleteCategory("grain");
     }
