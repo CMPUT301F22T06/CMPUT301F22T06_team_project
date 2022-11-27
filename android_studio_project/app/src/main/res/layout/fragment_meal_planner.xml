@@ -37,11 +37,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_meal_plans"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/btn_meal_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv_meal_planner_calendar" />
+        app:layout_constraintTop_toBottomOf="@+id/cv_meal_planner_calendar"
+        app:layout_constrainedHeight="true"
+        android:paddingBottom="5dp"/>
 
     <Button
         android:id="@+id/btn_meal_add"

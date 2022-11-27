@@ -7,7 +7,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,30 +46,48 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MealsRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //Get the meal at this position in the list
         Meal meal = mMeals.get(position);
-
-        holder.mealIngredientListViewAdapter.clear();
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
-
-        holder.mealRecipeListViewAdapter.clear();
         holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
-        TextView test = holder.testText;
-        test.setText(meal.getId().toString());
+//        holder.mealIngredientListViewAdapter.clear();
+//        holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
+//
+//        holder.mealRecipeListViewAdapter.clear();
+//        holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
-        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
+//        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
+//        for(int i = 0; i < holder.mealRecipes.size(); i++){
+//            holder.mealRecipeListViewAdapter.add(holder.mealRecipes.get(i));
+//            holder.mealRecipeListViewAdapter.notifyDataSetChanged();
+//        }
+//        holder.mealRecipeListViewAdapter.setListViewHeightBasedOnChildren(holder.recipesListView);
+
+//        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
+//        for(int i = 0; i < holder.mealIngredients.size(); i++){
+//            holder.mealIngredientListViewAdapter.add(holder.mealIngredients.get(i));
+//            holder.mealIngredientListViewAdapter.notifyDataSetChanged();
+//        }
+//        holder.mealIngredientListViewAdapter.setListViewHeightBasedOnChildren(holder.ingredientsListView);
+
+        ((LinearLayout)holder.linearRecipes).removeAllViews();
         for(int i = 0; i < holder.mealRecipes.size(); i++){
-            holder.mealRecipeListViewAdapter.add(holder.mealRecipes.get(i));
-            holder.mealRecipeListViewAdapter.notifyDataSetChanged();
+            TextView textView = new TextView(holder.itemView.getContext());
+            textView.setText(holder.mealRecipes.get(i).getTitle());
+            textView.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            ((LinearLayout)holder.linearRecipes).addView(textView);
         }
 
-        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
+        ((LinearLayout)holder.linearIngredients).removeAllViews();
         for(int i = 0; i < holder.mealIngredients.size(); i++){
-            holder.mealIngredientListViewAdapter.add(holder.mealIngredients.get(i));
-            holder.mealIngredientListViewAdapter.notifyDataSetChanged();
+            TextView textView = new TextView(holder.itemView.getContext());
+            textView.setText(holder.mealIngredients.get(i).getName());
+            textView.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            ((LinearLayout)holder.linearIngredients).addView(textView);
         }
+
     }
 
     @Override
@@ -109,9 +129,11 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView testText;
         ListView ingredientsListView;
         ListView recipesListView;
+
+        View linearIngredients;
+        View linearRecipes;
 
         ArrayList<Recipe> mealRecipes = new ArrayList<>();
         MealRecipeListViewAdapter mealRecipeListViewAdapter = new MealRecipeListViewAdapter(mealView.getContext(), mealRecipes);
@@ -125,7 +147,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             // Stores itemView in a public final member variable that can be used to access context from any ViewHolder instance
             super(itemView);
 
-            testText = itemView.findViewById(R.id.tv_meal_text_test);
+            linearIngredients = itemView.findViewById(R.id.ll_ingredients);
+            linearRecipes = itemView.findViewById(R.id.ll_recipes);
 
             recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);
             recipesListView.setScrollContainer(false);

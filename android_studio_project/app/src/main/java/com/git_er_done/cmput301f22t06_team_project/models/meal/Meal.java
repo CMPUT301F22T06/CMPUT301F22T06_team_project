@@ -108,8 +108,12 @@ public class Meal {
         );
 
         Meal meal2 = new Meal(
-                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1), recipes.get(2), recipes.get(3))),
-                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9))),
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1), recipes.get(2), recipes.get(3),recipes.get(0))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9),
+                        ingredients.get(10),ingredients.get(11),ingredients.get(12),ingredients.get(13),
+                        ingredients.get(14),ingredients.get(15),ingredients.get(16),ingredients.get(9),
+                        ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9),
+                        ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9))),
                 LocalDate.now()
         );
         Meal meal3 = new Meal(

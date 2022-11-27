@@ -85,7 +85,7 @@ public class MealPlannerFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_meal_planner, container, false);
 
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
-        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
+//        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
         rvMeals = root.findViewById(R.id.rv_meal_plans);
 
         //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
@@ -107,13 +107,12 @@ public class MealPlannerFragment extends Fragment {
         calendarView.setDayBinder(monthDayBinder);
         calendarView.setMonthHeaderBinder(monthHeaderFooterBinder);
 
-        LocalDate startDateForWeek = LocalDate.now().minus(14, ChronoUnit.DAYS);
-        LocalDate endDateForWeek = LocalDate.now().plus(14, ChronoUnit.DAYS);
-
-        weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
-        weekCalendarView.scrollToDate(LocalDate.now());
-        weekCalendarView.setDayBinder(weekDayBinder);
-        weekCalendarView.setVisibility(View.INVISIBLE);
+//        LocalDate startDateForWeek = LocalDate.now().minus(14, ChronoUnit.DAYS);
+//        LocalDate endDateForWeek = LocalDate.now().plus(14, ChronoUnit.DAYS);
+//        weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
+//        weekCalendarView.scrollToDate(LocalDate.now());
+//        weekCalendarView.setDayBinder(weekDayBinder);
+//        weekCalendarView.setVisibility(View.INVISIBLE);
 
         setupRecyclerView();
 

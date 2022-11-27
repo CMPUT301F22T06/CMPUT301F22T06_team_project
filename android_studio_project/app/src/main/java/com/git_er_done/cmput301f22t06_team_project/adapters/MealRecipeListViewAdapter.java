@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,5 +39,23 @@ public class MealRecipeListViewAdapter extends ArrayAdapter<Recipe> {
         recipeAmount.setText(currentItemRecipe.getServings().toString());
 
         return currentItemView;
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        MealRecipeListViewAdapter listAdapter = (MealRecipeListViewAdapter) listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight() + listItem.getMeasuredHeightAndState()/2;
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount()));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }
