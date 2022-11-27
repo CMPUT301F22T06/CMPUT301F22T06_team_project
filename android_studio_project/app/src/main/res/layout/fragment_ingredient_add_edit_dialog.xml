@@ -36,7 +36,7 @@
 
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapWords"
-                android:maxLength="15"
+                android:maxLength="20"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/light_blue"
