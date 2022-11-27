@@ -41,6 +41,7 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsVie
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
@@ -237,6 +238,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 String CategoryText = String.valueOf(addCategoryText.getText());
                 if (CategoryText != "Add Category") {
                     RecipeCategory.getInstance().addRecipeCategory(CategoryText);
+                    UserDefinedDBHelper.addUserDefined(CategoryText, "recipeCategory");
                     addCategoryText.setText("");
                 }
             }
@@ -541,6 +543,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
+        UserDefinedDBHelper.setupSnapshotListenerForRecipeCategoryAdapter(categorySpinnerAdapter);
 
         ArrayList<String> ingredientNames = new ArrayList<>();
         for (Ingredient i: ingredientStorage){

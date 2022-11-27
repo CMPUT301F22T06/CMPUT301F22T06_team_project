@@ -3,10 +3,13 @@ package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 import static android.service.controls.ControlsProviderService.TAG;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
@@ -28,6 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,24 +74,9 @@ public class UserDefinedDBHelper {
         return recipeCategories;
     }
 
-    public void addIUserDefined(String userDefined, String type){
-        HashMap<String, String> sendToDb = new HashMap<>();
-        sendToDb.put(userDefined, userDefined);
-        userDefinedDB
-                .document(type)
-                .set(sendToDb)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d(TAG, "Data has been added successfully!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, "Data could not be added!" + e.toString());
-                    }
-                });
+    public static void addUserDefined(String userDefined, String type){
+        DocumentReference dr = userDefinedDB.document(type);
+        dr.update(userDefined,userDefined);
     }
 
     public static void deleteUserDefined(String userDefined, String document, int position){
@@ -96,8 +85,7 @@ public class UserDefinedDBHelper {
         dr.update(userDefined, FieldValue.delete());
     }
 
-
-    private void setupSnapshotListenerForUserDefinedStuff() {
+    private static void setupSnapshotListenerForUserDefinedStuff() {
         db.collection("UserDefined")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -114,22 +102,78 @@ public class UserDefinedDBHelper {
                             for (String key: map.keySet()){
                                 newArray.add(key);
                             }
-                            if(dc.getType() == DocumentChange.Type.ADDED){
-                                recipesInStorage.add(recipe);
-                            }
-
-                            if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = recipesInStorage.indexOf(recipe);
-                                //If the rvAdapter returns a valid position
-                                if(position != -1){
-                                    recipesInStorage.remove(position);
+                            if(dc.getType() == DocumentChange.Type.MODIFIED) {
+                                if (documentSnapshot.getId() == "ingredientCategory"){
+                                    ingredientCategories = newArray;
                                 }
-                                else{
-                                    Log.e("DB ERROR", "ERROR REMOVING RECIPE FROM STORAGE");
+                                if (documentSnapshot.getId() == "ingredientUnits"){
+                                    ingredientUnits = newArray;
+                                }
+                                if (documentSnapshot.getId() == "ingredientLocations"){
+                                    ingredientLocations = newArray;
+                                }
+                                if (documentSnapshot.getId().equals("recipeCategory")){
+                                    recipeCategories = newArray;
                                 }
                             }
                         }
                     }
                 });
     }
+
+
+    public static void setupSnapshotListenerForRecipeCategoryAdapter(
+//            ArrayAdapter<String> ingredientUnitAdapter,
+//            ArrayAdapter<String> ingredientLocationAdapter,
+//            ArrayAdapter<String> ingredientCategoryAdapter,
+            ArrayAdapter<String> recipeCategoryAdapter){
+        db.collection("UserDefined")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            DocumentSnapshot documentSnapshot = dc.getDocument();
+                            Map<String, Object> map = documentSnapshot.getData();
+                            ArrayList<String> newArray = new ArrayList<>();
+                            for (String key: map.keySet()){
+                                newArray.add(key);
+                            }
+                            if(dc.getType() == DocumentChange.Type.MODIFIED) {
+//                                if (documentSnapshot.getId() == "ingredientCategories"){
+//                                    ingredientCategoryAdapter.clear();
+//                                    for (String i: newArray){
+//                                        ingredientCategoryAdapter.add(i);
+//                                    };
+//                                }
+//                                if (documentSnapshot.getId() == "ingredientUnits"){
+//                                    ingredientUnitAdapter.clear();
+//                                    for (String i: newArray){
+//                                        ingredientUnitAdapter.add(i);
+//                                    };
+//                                }
+//                                if (documentSnapshot.getId() == "ingredientLocations"){
+//                                    ingredientUnitAdapter.clear();
+//                                    for (String i: newArray){
+//                                        ingredientUnitAdapter.add(i);
+//                                    };
+//                                }
+                                if (documentSnapshot.getId() == "recipesCategories"){
+                                    recipeCategoryAdapter.clear();
+                                    for (String i: newArray){
+                                        recipeCategoryAdapter.add(i);
+                                    };
+                                    recipeCategoryAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+
 }

@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Recipe implements Cloneable{
 
 
     //Grab singleton arrays for user defined attributes like location and category
-    public static ArrayList<String> recipeCategories = RecipeCategory.getInstance().getAllRecipeCategories();
+    public static ArrayList<String> recipeCategories = UserDefinedDBHelper.getRecipeCategories();
 
     /**
      * Creates a new Recipe object.
