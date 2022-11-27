@@ -375,5 +375,13 @@ public class RecipeDBHelper {
                 });
     }
 
+    public static int getIndexOfRecipeFromTitle(String recipeTitle) {
+        for(Recipe recipe : recipesInStorage)  {
+            if(recipe.getTitle().equals(recipeTitle))
+                return recipesInStorage.indexOf(recipe);
+        }
+        return -1;
+    }
+
 }
 

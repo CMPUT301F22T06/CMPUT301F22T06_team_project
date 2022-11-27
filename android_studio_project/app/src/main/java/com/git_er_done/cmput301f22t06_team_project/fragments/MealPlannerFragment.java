@@ -118,7 +118,10 @@ public class MealPlannerFragment extends Fragment {
         buttonAddMealToCurrentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MealDBHelper.addMealToDB(dummyMeals.get(0));
+
+//                MealDBHelper.addMealToDB(dummyMeals.get(0));
+
+//                MealDBHelper.deleteMealFromDB(dummyMeals.get(0).getId().toString());
             }
         });
 

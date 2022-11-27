@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
@@ -101,12 +102,15 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
      */
     public void updateRVToSelectedDate(LocalDate newlySelectedDate){
         mMeals.clear();
-        //Loop through all dummy meals - only add ones with selected date as date to the adapter
-        for(int i = 0; i < dummyMeals.size(); i++){
-            if(dummyMeals.get(i).getDate().equals(newlySelectedDate)){
-                mMeals.add(dummyMeals.get(i));
-            }
-        }
+
+        mMeals.addAll(MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate));
+
+//        //Loop through all dummy meals - only add ones with selected date as date to the adapter
+//        for(int i = 0; i < dummyMeals.size(); i++){
+//            if(dummyMeals.get(i).getDate().equals(newlySelectedDate)){
+//                mMeals.add(dummyMeals.get(i));
+//            }
+//        }
         notifyDataSetChanged();
     }
 
