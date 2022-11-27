@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:text="NAME"
             android:textSize="18dp"
-            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:textColor="@color/light_blue"
             android:layout_marginHorizontal="10dp"
             android:paddingRight="10dp"/>
 
@@ -41,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/light_blue" />
 
             <TextView
                 android:id="@+id/tv_shopping_list_item_amount"
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Amount"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/light_blue" />
 
             <TextView
                 android:id="@+id/tv_shopping_list_item_unit"
@@ -57,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Unit"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/light_blue" />
 
         </LinearLayout>
 
@@ -66,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
-            android:textColor="@color/yellow"
+            android:textColor="@color/light_blue"
             android:layout_marginHorizontal="10dp"/>
 
     </LinearLayout>

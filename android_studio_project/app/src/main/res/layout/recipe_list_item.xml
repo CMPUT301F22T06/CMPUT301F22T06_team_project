@@ -9,103 +9,101 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:orientation="vertical"
         android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/tv_view_recipe"
+            android:layout_width="183dp"
+            android:layout_height="147dp"
+            android:paddingRight="5dp" />
 
         <TextView
             android:id="@+id/tv_recipe_list_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textColor="@color/yellow"
+            android:textColor="@color/light_blue"
             android:textSize="24dp"
-            android:translationX="25dp" />
+            android:textStyle="bold"
+            android:translationX="180dp"
+            android:translationY="-147dp" />
 
         <TextView
-            android:id="@+id/tv_recipe_list_item_comment"
+            android:id="@+id/tv_recipe_list_item_preptime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comments"
-            android:textColor="@color/yellow"
-            android:translationX="25dp" />
+            android:text="PrepTime"
+            android:textColor="@color/light_blue"
+            android:translationX="256dp"
+            android:translationY="-140dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_preptime_label"
+            android:layout_width="97dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingHorizontal="10dp"
+            android:text="Prep. Time (in Minutes)"
+            android:textColor="@color/light_blue"
+            android:translationX="171dp"
+            android:translationY="-160dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_servings_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:text="Serving size"
+            android:textColor="@color/light_blue"
+            android:translationX="172dp"
+            android:translationY="-155dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:text="Serving size"
+            android:textColor="@color/light_blue"
+            android:translationX="250dp"
+            android:translationY="-175dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:textColor="@color/light_blue"
+            android:translationX="245dp"
+            android:translationY="-166dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_category_label"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Category: "
+            android:textColor="@color/light_blue"
+            android:translationX="180dp"
+            android:translationY="-185dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="109dp"
             android:orientation="horizontal"
-            android:textColor="@color/yellow">
-
-            <TextView
-                android:id="@+id/tv_recipe_list_item_preptime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="PrepTime"
-                android:textColor="@color/yellow"
-                android:translationX="25dp" />
-
-            <TextView
-                android:id="@+id/tv_recipe_list_item_preptime_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:paddingHorizontal="10dp"
-                android:text="Minute Prep. Time"
-                android:textColor="@color/yellow"
-                android:translationX="20dp" />
-
-            <TextView
-                android:id="@+id/tv_recipe_list_item_servings_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:text="Serving size"
-                android:textColor="@color/yellow"
-                android:translationX="15dp" />
-
-            <TextView
-                android:id="@+id/tv_recipe_list_item_servings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:text="Serving size"
-                android:textColor="@color/yellow"
-                android:translationX="5dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:translationY="-160dp">
 
 
             <TextView
-                android:id="@+id/tv_recipe_list_item_category_label"
+                android:id="@+id/tv_recipe_list_item_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category: "
-                android:textColor="@color/yellow"
-                android:translationX="25dp" />
+                android:text="Comments"
+                android:textColor="@color/light_blue" />
 
 
-            <TextView
-                android:id="@+id/tv_recipe_list_item_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Category"
-                android:textColor="@color/yellow"
-                android:translationX="25dp" />
-
-            <ImageView
-                android:id="@+id/tv_view_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="87dp"
-                android:paddingRight="5dp" />
-
-
-
-<!--        Missing photo.-->
+            <!--        Missing photo.-->
         </LinearLayout>
 
     </LinearLayout>
