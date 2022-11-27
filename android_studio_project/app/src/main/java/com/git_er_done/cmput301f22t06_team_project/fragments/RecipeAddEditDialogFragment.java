@@ -285,16 +285,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
-                if (isEmpty(etTitle.getText())){
-                    Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
-                }
-                else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
-                    Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else if (etServings.getText().toString().equals(Character.toString('0'))){
-                    Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else{
+                if (!checkExceptions()){
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                         Recipe newRecipe = modifiedRecipe();
@@ -304,10 +295,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        if (checkDuplicateInDB()){
-                            Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        if (!checkDuplicateInDB()){
                             Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             RecipeDBHelper.addRecipe(newRecipe);
@@ -322,7 +310,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
                 }
 
-
             } // broke here
         });
     }
@@ -330,10 +317,30 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     boolean checkDuplicateInDB(){
         for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getTitle().equals(etTitle.getText().toString())) {
+                Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
         return false;
+    }
+
+    boolean checkExceptions(){
+        if (isEmpty(etTitle.getText())){
+            Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
+            Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+
+        }
+        else if (etServings.getText().toString().equals(Character.toString('0'))){
+            Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -437,7 +444,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[] { permission }, requestCode);
         }
         else {
-            Toast.makeText(getActivity(), "Permission already granted", Toast.LENGTH_SHORT).show();
             camera();
         }
     }

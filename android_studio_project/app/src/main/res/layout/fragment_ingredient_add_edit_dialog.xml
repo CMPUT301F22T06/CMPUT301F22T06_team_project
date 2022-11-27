@@ -200,51 +200,38 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="34dp"
-                            android:layout_height="wrap_content"
-                            android:text="Unit: "
-                            android:textSize="15dp"
-                            android:textColor="@color/light_yellow"/>
-
                         <EditText
                             android:id="@+id/addUnit"
-                            android:layout_width="35dp"
+                            android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Add Unit"
                             android:textSize="10dp"
                             android:textColor="@color/light_yellow"
-                            android:textColorHint="@color/light_yellow"
-                            android:visibility="invisible" />
+                            android:textColorHint="@color/light_yellow" />
 
-                        <RelativeLayout
-                            android:layout_width="65dp"
-                            android:layout_height="30dp">
+                        <Button
+                            android:id="@+id/addUnitButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:text="Add"
+                            android:textSize="8dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textColor="@color/black" />
 
-                            <Button
-                                android:id="@+id/addUnitButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:width="10dp"
-                                android:text="Add"
-                                android:textSize="8dp"
-                                android:textColor="@color/black"
-                                android:visibility="invisible" />
+                        <Button
+                            android:id="@+id/deleteUnitButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:text="Delete"
+                            android:textSize="8dp"
+                            android:textColor="@color/black" />
 
-                            <Button
-                                android:id="@+id/deleteUnitButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:width="10dp"
-                                android:text="Delete"
-                                android:textSize="8dp"
-                                android:textColor="@color/black"
-                                android:visibility="visible" />
-
-                        </RelativeLayout>
                     </LinearLayout>
 
                     <Spinner
