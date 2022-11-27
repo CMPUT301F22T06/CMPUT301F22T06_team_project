@@ -74,7 +74,6 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
         ((LinearLayout)holder.linearRecipes).removeAllViews(); //remove
         for(int i = 0; i < holder.mealRecipes.size(); i++){
-
             TextView tvRecipeName = new TextView(holder.itemView.getContext());
             tvRecipeName.setText(holder.mealRecipes.get(i).getTitle());
             tvRecipeName.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));

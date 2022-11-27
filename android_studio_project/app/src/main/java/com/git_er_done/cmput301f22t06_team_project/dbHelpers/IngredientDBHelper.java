@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientsFragment;
-import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +34,7 @@ import java.util.Objects;
  * @author Saheel Sarker
  * @ingredientsFragment (for now)
  * @Version 1 (Because I didn't write the version before writing this)
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @see RecipeDBHelper
  */
 public class IngredientDBHelper {
@@ -76,7 +75,7 @@ public class IngredientDBHelper {
      * This method adds an ingredient to our database in the incredient collection
      * @param ingredient of type {@link Ingredient}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void addIngredientToDB(Ingredient ingredient){
@@ -122,7 +121,7 @@ public class IngredientDBHelper {
      * with that name if it's found
      * @param ingredient of type {@link String}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
@@ -202,7 +201,7 @@ public class IngredientDBHelper {
      * to return
      * @param doc
      * @return ingredient of type {@link Ingredient}
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     private static Ingredient createIngredient(DocumentSnapshot doc) {
