@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests.Singletons;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 
@@ -40,6 +41,8 @@ public class IngredientLocationTest {
         IngredientLocation location = IngredientLocation.getInstance();
 
         location.addLocation("cupboard");
+
+        assertTrue(location.getAllLocations().contains("cupboard"));
 
         location.deleteLocation("cupboard");
         assertFalse(location.getAllLocations().contains("cupboard"));
