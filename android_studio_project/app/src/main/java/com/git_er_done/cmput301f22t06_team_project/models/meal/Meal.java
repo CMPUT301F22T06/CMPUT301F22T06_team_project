@@ -67,7 +67,11 @@ public class Meal {
         recipes.add(recipeToAdd);
     }
 
-    public ArrayList<Ingredient> getIngredientsFromMeal() {
+    public ArrayList<Ingredient> getOnlyIngredientsFromMeal(){
+        return ingredients;
+    }
+
+    public ArrayList<Ingredient> getAllIngredientsFromMeal() {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
         //Gather all ingredients from recipes in this meal
