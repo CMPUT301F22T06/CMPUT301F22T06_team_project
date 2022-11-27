@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -59,6 +60,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     EditText addLocationText;
     Button addLocationButton;
     Button deleteLocationButton;
+    Button editLocationButton;
+    TextView displayLocationText;
 
     EditText addUnitText;
     Button addUnitButton;
@@ -151,6 +154,19 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             fillViewsWithSelectedIngredientAttributes();
             etName.setEnabled(false);
         }
+
+
+        editLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addLocationButton.setVisibility(View.VISIBLE);
+                addLocationText.setVisibility(View.VISIBLE);
+                deleteLocationButton.setVisibility(View.VISIBLE);
+                spLocation.setVisibility(View.VISIBLE);
+                editLocationButton.setVisibility(View.GONE);
+                displayLocationText.setVisibility(View.GONE);
+            }
+        });
 
         //Saheel's code
 
@@ -391,6 +407,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory.setSelection(ingredientCategories.indexOf(category));
         etAmount.setText(String.valueOf(amount));
         spUnit.setSelection(ingredientUnits.indexOf(unit));
+        displayLocationText.setText(location);
     }
 
 
@@ -408,6 +425,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         addLocationText = view.findViewById(R.id.addLocation);
         addLocationButton = view.findViewById(R.id.addLocationButton);
         deleteLocationButton = view.findViewById(R.id.deleteLocationButton);
+        displayLocationText = view.findViewById(R.id.textView);
+        editLocationButton = view.findViewById(R.id.EditLocationButton);
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);

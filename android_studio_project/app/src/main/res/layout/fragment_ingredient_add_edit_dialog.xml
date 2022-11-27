@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -32,16 +33,16 @@
                 android:id="@+id/et_ingredient_add_edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name Here"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
 
+                android:hint="Name Here"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapWords"
                 android:maxLength="35"
+                android:minHeight="48dp"
                 android:textColor="@color/yellow"
                 android:textColorHint="@color/yellow"
-                android:textSize="15dp"
-                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
-                />
+                android:textSize="15dp" />
         </LinearLayout>
 
             <LinearLayout
@@ -58,17 +59,18 @@
                 android:textColor="@color/yellow"
                 android:textSize="18dp"/>
 
-            <EditText
-                android:id="@+id/et_ingredient_add_edit_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Description Here"
-                android:textColorHint="@color/light_yellow"
-                android:textSize="15dp"
-                android:inputType="textCapSentences|textPersonName|textMultiLine"
-                android:maxLength="120"
-                android:textColor="@color/light_yellow"
-                android:imeOptions="actionNext" />
+                <EditText
+                    android:id="@+id/et_ingredient_add_edit_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Description Here"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences|textPersonName|textMultiLine"
+                    android:maxLength="120"
+                    android:minHeight="48dp"
+                    android:textColor="@color/light_yellow"
+                    android:textColorHint="@color/light_yellow"
+                    android:textSize="15dp" />
         </LinearLayout>
 
             <LinearLayout
@@ -113,49 +115,71 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="97dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="Location"
+                        android:textAlignment="center"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/EditLocationButton"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="2"
+                        android:text="Edit"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+
                     <EditText
                         android:id="@+id/addLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:hint="Add Location"
-                        android:textSize="13dp"
+                        android:paddingRight="10dp"
                         android:textColor="@color/light_yellow"
                         android:textColorHint="@color/light_yellow"
-                        android:paddingRight="10dp"
-                         />
+                        android:textSize="13dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/addLocationButton"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="Add"
-                        android:textSize="10dp"
                         android:textColor="@color/black"
-                        android:layout_marginLeft="10dp"
-                         />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/deleteLocationButton"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="Delete"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_location"
                     android:layout_width="match_parent"
-                    android:layout_height="40sp"
+                    android:layout_height="48dp"
                     android:backgroundTint="@color/yellow"
+                    android:scrollbarSize="200dp"
                     android:textColor="@color/yellow"
-                    android:scrollbarSize="200dp"/>
+                    android:visibility="gone"
+                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <LinearLayout
@@ -182,8 +206,9 @@
                         android:id="@+id/et_ingredient_add_edit_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1"
                         android:inputType="number"
+                        android:minHeight="48dp"
+                        android:text="1"
                         android:textColor="@color/yellow"
                         android:textColorHint="@color/light_yellow"
                         android:textSize="12dp" />
@@ -206,9 +231,10 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Add Unit"
-                            android:textSize="10dp"
+                            android:minHeight="48dp"
                             android:textColor="@color/light_yellow"
-                            android:textColorHint="@color/light_yellow" />
+                            android:textColorHint="@color/light_yellow"
+                            android:textSize="10dp" />
 
                         <Button
                             android:id="@+id/addUnitButton"
@@ -237,9 +263,10 @@
                     <Spinner
                         android:id="@+id/sp_ingredient_add_edit_unit"
                         android:layout_width="match_parent"
-                        android:layout_height="40sp"
+                        android:layout_height="48dp"
                         android:backgroundTint="@color/yellow"
-                        android:textColor="@color/yellow" />
+                        android:textColor="@color/yellow"
+                        tools:ignore="SpeakableTextPresentCheck" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -300,9 +327,10 @@
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_category"
                     android:layout_width="match_parent"
-                    android:layout_height="36dp"
+                    android:layout_height="48dp"
                     android:backgroundTint="@color/yellow"
-                    android:textColor="@color/yellow" />
+                    android:textColor="@color/yellow"
+                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <LinearLayout
@@ -318,7 +346,8 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:text="CANCEL"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/btn_ingredient_add_edit_save"
@@ -327,7 +356,8 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:text="SAVE"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
