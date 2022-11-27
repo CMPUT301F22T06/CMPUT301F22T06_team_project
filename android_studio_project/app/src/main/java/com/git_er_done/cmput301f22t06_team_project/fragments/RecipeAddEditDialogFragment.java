@@ -538,7 +538,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void setupAdapters(){
         context = this.getContext();
         ingredientStorage = IngredientDBHelper.getIngredientsFromStorage();
-
         ArrayAdapter<String> categorySpinnerAdapter =
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

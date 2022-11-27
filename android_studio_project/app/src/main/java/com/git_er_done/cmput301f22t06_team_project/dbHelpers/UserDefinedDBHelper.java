@@ -162,7 +162,7 @@ public class UserDefinedDBHelper {
 //                                        ingredientUnitAdapter.add(i);
 //                                    };
 //                                }
-                                if (documentSnapshot.getId() == "recipesCategories"){
+                                if (documentSnapshot.getId().equals("recipeCategory")){
                                     recipeCategoryAdapter.clear();
                                     for (String i: newArray){
                                         recipeCategoryAdapter.add(i);
