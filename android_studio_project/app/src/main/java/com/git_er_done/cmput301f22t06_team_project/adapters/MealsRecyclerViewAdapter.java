@@ -31,10 +31,6 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
     View mealView;
 
-//    ArrayList<Ingredient> mealIngredients = new ArrayList<>();
-//    MealIngredientListViewAdapter mealIngredientListViewAdapter;
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,8 +38,6 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the custom layout
         mealView = inflater.inflate(R.layout.meal_list_item, parent, false);
-
-//        mealIngredientListViewAdapter = new MealIngredientListViewAdapter(mealView.getContext(), mealIngredients);
 
         // Return a new holder instance
         return new MealsRecyclerViewAdapter.ViewHolder(mealView);
@@ -53,24 +47,27 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     public void onBindViewHolder(@NonNull MealsRecyclerViewAdapter.ViewHolder holder, int position) {
         //Get the meal at this position in the list
         Meal meal = mMeals.get(position);
-        ArrayList<Recipe> recipes = meal.getRecipesFromMeal();
 
         holder.mealIngredientListViewAdapter.clear();
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
 
-        LocalDate selectedDate = getSelectedDate();
+        holder.mealRecipeListViewAdapter.clear();
+        holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
         TextView test = holder.testText;
-
         test.setText(meal.getId().toString());
+
+        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
+        for(int i = 0; i < holder.mealRecipes.size(); i++){
+            holder.mealRecipeListViewAdapter.add(holder.mealRecipes.get(i));
+            holder.mealRecipeListViewAdapter.notifyDataSetChanged();
+        }
 
         //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
         for(int i = 0; i < holder.mealIngredients.size(); i++){
             holder.mealIngredientListViewAdapter.add(holder.mealIngredients.get(i));
             holder.mealIngredientListViewAdapter.notifyDataSetChanged();
         }
-
-        //Update ingredient list view adapter to include ingredients from this meal
     }
 
     @Override
@@ -116,6 +113,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         ListView ingredientsListView;
         ListView recipesListView;
 
+        ArrayList<Recipe> mealRecipes = new ArrayList<>();
+        MealRecipeListViewAdapter mealRecipeListViewAdapter = new MealRecipeListViewAdapter(mealView.getContext(), mealRecipes);
 
         ArrayList<Ingredient> mealIngredients = new ArrayList<>();
         MealIngredientListViewAdapter mealIngredientListViewAdapter = new MealIngredientListViewAdapter(mealView.getContext(), mealIngredients);
@@ -127,6 +126,11 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             super(itemView);
 
             testText = itemView.findViewById(R.id.tv_meal_text_test);
+
+            recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);
+            recipesListView.setScrollContainer(false);
+            recipesListView.setAdapter(mealRecipeListViewAdapter);
+
             ingredientsListView = itemView.findViewById(R.id.lv_ingredients_in_meal);
             ingredientsListView.setScrollContainer(false);
             ingredientsListView.setAdapter(mealIngredientListViewAdapter);

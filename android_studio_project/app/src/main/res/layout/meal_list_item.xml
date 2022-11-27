@@ -13,13 +13,15 @@
         android:orientation="vertical"
         android:id="@+id/lv_recipes_in_meal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"/>
 
     <ListView
         android:orientation="vertical"
         android:id="@+id/lv_ingredients_in_meal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"/>
 
 
 </LinearLayout>

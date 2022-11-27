@@ -71,6 +71,10 @@ public class Meal {
         return this.ingredients;
     }
 
+    public ArrayList<Recipe> getOnlyRecipesFromMeal(){
+        return this.recipes;
+    }
+
     public ArrayList<Ingredient> getAllIngredientsFromMeal() {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
@@ -104,8 +108,8 @@ public class Meal {
         );
 
         Meal meal2 = new Meal(
-                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1))),
-                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3))),
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1), recipes.get(2), recipes.get(3))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9))),
                 LocalDate.now()
         );
         Meal meal3 = new Meal(
