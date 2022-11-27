@@ -1,11 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +102,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
         if (ingredient.getColor()!=Color.RED){
 
-            amount.setTextColor(R.color.blue);
+            amount.setTextColor(R.color.light_blue);
             //amount.setTextSize(12);
     }
         else{
