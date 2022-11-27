@@ -72,12 +72,13 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 //        }
 //        holder.mealIngredientListViewAdapter.setListViewHeightBasedOnChildren(holder.ingredientsListView);
 
-        ((LinearLayout)holder.linearRecipes).removeAllViews();
+        ((LinearLayout)holder.linearRecipes).removeAllViews(); //remove
         for(int i = 0; i < holder.mealRecipes.size(); i++){
-            TextView textView = new TextView(holder.itemView.getContext());
-            textView.setText(holder.mealRecipes.get(i).getTitle());
-            textView.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            ((LinearLayout)holder.linearRecipes).addView(textView);
+
+            TextView tvRecipeName = new TextView(holder.itemView.getContext());
+            tvRecipeName.setText(holder.mealRecipes.get(i).getTitle());
+            tvRecipeName.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            ((LinearLayout)holder.linearRecipes).addView(tvRecipeName);
         }
 
         ((LinearLayout)holder.linearIngredients).removeAllViews();
@@ -148,6 +149,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             super(itemView);
 
             linearIngredients = itemView.findViewById(R.id.ll_ingredients);
+
             linearRecipes = itemView.findViewById(R.id.ll_recipes);
 
             recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);

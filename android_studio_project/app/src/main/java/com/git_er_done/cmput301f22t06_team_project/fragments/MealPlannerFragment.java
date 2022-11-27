@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,18 +18,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
@@ -44,11 +38,8 @@ import com.kizitonwose.calendar.view.WeekDayBinder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 
 //TODO - FIX if the fragment is left, and then returned too, the selected date is no longer highlighted
 /**
@@ -73,6 +64,8 @@ public class MealPlannerFragment extends Fragment {
     WeekDayBinder weekDayBinder;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd");
 
+    Button buttonAddMealToCurrentDate;
+
     /**
      * Required empty public constructor
      */
@@ -87,6 +80,7 @@ public class MealPlannerFragment extends Fragment {
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
 //        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
         rvMeals = root.findViewById(R.id.rv_meal_plans);
+        buttonAddMealToCurrentDate = root.findViewById(R.id.btn_meal_add_new_meal);
 
         //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
 //        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
@@ -119,6 +113,13 @@ public class MealPlannerFragment extends Fragment {
         selectedDate = LocalDate.now();
         calendarView.notifyDateChanged(selectedDate);
         rvAdapter.updateRVToSelectedDate(selectedDate);
+
+        buttonAddMealToCurrentDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return root;
     }
