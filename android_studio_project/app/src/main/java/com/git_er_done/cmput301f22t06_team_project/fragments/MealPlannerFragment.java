@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,16 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
 import com.kizitonwose.calendar.core.DayPosition;
@@ -43,7 +38,6 @@ import com.kizitonwose.calendar.view.WeekDayBinder;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -158,7 +152,7 @@ public class MealPlannerFragment extends Fragment {
                     else{
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
-                        dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
+                        dateBackground.setBackgroundColor(getResources().getColor(R.color.light_blue));
                     }
 
                 }

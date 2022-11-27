@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_marginTop="50dp"
-    android:background="@color/red"
+    android:background="@color/blue"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Menu"
-        android:textColor="@color/yellow"
+        android:textColor="@color/light_blue"
         android:textSize="25dp"
         android:textStyle="bold" />
 
