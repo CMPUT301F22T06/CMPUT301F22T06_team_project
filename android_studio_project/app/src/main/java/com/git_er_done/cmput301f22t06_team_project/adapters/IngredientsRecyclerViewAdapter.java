@@ -186,6 +186,18 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         return (ArrayList<Ingredient>) mIngredients;
     }
 
+    public void setExpiredIngredientsAmountToZero() {
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < mIngredients.size(); i++) {
+            Ingredient anIngredient = mIngredients.get(i);
+            if (anIngredient.getBestBefore().compareTo(today) < 0) {
+                Ingredient oldIngredient = anIngredient;
+                anIngredient.setAmount(0);
+                IngredientDBHelper.modifyIngredientInDB(anIngredient, oldIngredient, i);
+            }
+        }
+    }
+
     public void deleteItem(int position){
         mIngredients.remove(position);
         notifyDataSetChanged();
