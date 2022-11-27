@@ -40,8 +40,8 @@ import java.util.Objects;
  */
 public class IngredientDBHelper {
 
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final CollectionReference ingredientsDB = db.collection("Ingredients");
+    private static FirebaseFirestore db;
+    private static CollectionReference ingredientsDB;
     private static int selectedIngPos;
     private static IngredientDBHelper singleInstance = null;
 
@@ -49,6 +49,8 @@ public class IngredientDBHelper {
      * Private constructor can only be called when an instance of this singleton is created
      */
     private IngredientDBHelper(){
+        db = FirebaseFirestore.getInstance();
+        ingredientsDB = db.collection("Ingredients");
         setupSnapshotListenerForLocalIngredientStorage();
     }
 
@@ -60,7 +62,7 @@ public class IngredientDBHelper {
         return singleInstance;
     }
 
-    private static ArrayList<Ingredient> ingredientInStorage= new ArrayList<>();
+    private static ArrayList<Ingredient> ingredientInStorage = new ArrayList<>();
 
     //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
     //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will

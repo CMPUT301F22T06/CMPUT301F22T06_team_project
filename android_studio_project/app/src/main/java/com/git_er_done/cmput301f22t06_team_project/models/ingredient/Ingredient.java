@@ -16,7 +16,7 @@ public class Ingredient implements Cloneable{
     private String unit;
     private String category;
     private Integer amount;
-    private int color;
+    private Integer color;
 
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> ingredientLocations = IngredientLocation.getInstance().getAllLocations();
@@ -44,6 +44,17 @@ public class Ingredient implements Cloneable{
         this.category = category;
         this.amount = amount;
         this.color = R.drawable.border;
+    }
+
+    public Ingredient(String name, String desc, LocalDate bestBefore, String location, String unit, String category, Integer amount, Integer color) {
+        this.name = name;
+        this.desc = desc;
+        this.bestBefore = bestBefore;
+        this.location = location;
+        this.unit = unit;
+        this.category = category;
+        this.amount = amount;
+        this.color = color;
     }
 
     /**
@@ -235,7 +246,7 @@ public class Ingredient implements Cloneable{
         this.name = name;
     }
 
-    public int getColor() {
+    public Integer getColor() {
         return color;
     }
 
@@ -265,5 +276,4 @@ public class Ingredient implements Cloneable{
             throw new AssertionError();
         }
     }
-
 }

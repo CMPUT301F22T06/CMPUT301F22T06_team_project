@@ -36,12 +36,13 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.io.ByteArrayOutputStream;
@@ -77,6 +78,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     RecipeIngredientsViewAdapter recipeIngredientsViewAdapter;
 
+    ArrayList<Ingredient> ingredientStorage;
+
     private EditText addCategoryText;
     private Button addCategoryButton;
     private Button deleteCategoryButton;
@@ -92,7 +95,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     private static boolean isAddingNewRecipe = false;
     private static boolean isEdittingExistingRecipe = false;
-    ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
     ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
@@ -128,7 +131,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         args.putString("category", selectedRecipe.getCategory());
         args.putString("image", selectedRecipe.getImage());
 
-        for (RecipeIngredient i : selectedRecipe.getIngredients()){
+        for (Ingredient i : selectedRecipe.getIngredients()){
             args.putString("ingredients", i.toString());
         }
         frag.setArguments(args);
@@ -168,20 +171,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
-        context = this.getContext();
 
-        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
-
-        spIngredients_dropdown.setAdapter(recipeAdapter);
-        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
-
-        recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,getContext()); // Saheel did this
-        lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
             fillViewsWithSelectedRecipeAttributes();
-            for (RecipeIngredient i: si.getIngredients()){
+            for (Ingredient i: si.getIngredients()){
                 recipeIngredients.add(i);
             }
             recipeIngredientsViewAdapter.notifyDataSetChanged();
@@ -251,9 +245,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String selected = spIngredients_dropdown.getSelectedItem().toString();
-                String[] nameUnit = selected.split(", ");
-                RecipeIngredient newIngredient = new RecipeIngredient(nameUnit[0],nameUnit[1], 0, " ");
+                Integer index = spIngredients_dropdown.getSelectedItemPosition();
+                Ingredient newIngredient = ingredientStorage.get(index).clone();
+                newIngredient.setDesc(" ");
+                newIngredient.setAmount(0);
                 recipeIngredients.add(newIngredient);
                 recipeIngredientsViewAdapter.notifyDataSetChanged();
             }
@@ -290,16 +285,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
-                if (isEmpty(etTitle.getText())){
-                    Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
-                }
-                else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
-                    Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else if (etServings.getText().toString().equals(Character.toString('0'))){
-                    Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else{
+                if (!checkExceptions()){
                     if(isEdittingExistingRecipe) {
                         Recipe oldRecipe = rvAdapter.getRecipesList().get(selectedRecipeIndex);
                         Recipe newRecipe = modifiedRecipe();
@@ -309,10 +295,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        if (checkDuplicateInDB()){
-                            Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        if (!checkDuplicateInDB()){
                             Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             RecipeDBHelper.addRecipe(newRecipe);
@@ -327,7 +310,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
                 }
 
-
             } // broke here
         });
     }
@@ -335,10 +317,30 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     boolean checkDuplicateInDB(){
         for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getTitle().equals(etTitle.getText().toString())) {
+                Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
         return false;
+    }
+
+    boolean checkExceptions(){
+        if (isEmpty(etTitle.getText())){
+            Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
+            Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+
+        }
+        else if (etServings.getText().toString().equals(Character.toString('0'))){
+            Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -442,7 +444,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[] { permission }, requestCode);
         }
         else {
-            Toast.makeText(getActivity(), "Permission already granted", Toast.LENGTH_SHORT).show();
             camera();
         }
     }
@@ -477,7 +478,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 Integer.parseInt(String.valueOf(etServings.getText())),
                 imageURI);
 
-        ArrayList<RecipeIngredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
+        ArrayList<Ingredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
         modifiedRecipe.setImage(imageURI);
         modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
         return modifiedRecipe;
@@ -539,15 +540,22 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     }
 
     void setupAdapters(){
+        context = this.getContext();
+        ingredientStorage = IngredientDBHelper.getIngredientsFromStorage();
+
         ArrayAdapter<String> categorySpinnerAdapter =
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
 
-        ArrayList<String> ingredientStorage = new ArrayList<>(); // Ingredients that arent in the recipe (in the storage)
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientStorage);
+        ArrayList<String> ingredientNames = new ArrayList<>();
+        for (Ingredient i: ingredientStorage){
+            ingredientNames.add(i.getName());
+        }
+        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
         spIngredients_dropdown.setAdapter(recipeAdapter);
-        IngredientDBHelper.setSpIngredientsDropDownAdapter(recipeAdapter,ingredientStorage); // Saheel did this
+        recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,context); // Saheel did this
+        lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
 
     }
 
