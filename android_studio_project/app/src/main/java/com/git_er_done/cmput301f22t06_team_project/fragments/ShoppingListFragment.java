@@ -1,5 +1,7 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.getIndexOfIngredientFromName;
+import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.modifyIngredientInDB;
 import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
@@ -20,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
@@ -28,6 +31,7 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecycler
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,6 +45,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
     private RecyclerView rvShoppingListItems;
     private FloatingActionButton fabAddShoppingListItem;
     private ShoppingListRecyclerViewAdapter rvAdapter;
+    private Button gotButton;
 
     public ShoppingListFragment() {
         // Required empty public constructor
@@ -62,8 +67,26 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 
         rvShoppingListItems = (RecyclerView) root.findViewById(R.id.rv_shopping_list);
         fabAddShoppingListItem = root.findViewById(R.id.fab_shopping_list_ingredient_add);
+        gotButton = root.findViewById(R.id.got_shopping_list_item_button);
 
         setupRecyclerView();
+
+//        gotButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // add testShoppingList.get(position) * QuantityNeeded to ingredients
+//                // by Ingredient.setamount = amount + quantitybought
+//                Ingredient selectedIngredient = testShoppingList.get(position).getIngredient();
+//                int quantity = testShoppingList.get(position).getRequiredAmount();
+//                testShoppingList.get(position).getIngredient().setAmount(selectedIngredient.getAmount() + quantity);
+//                int pos = getIndexOfIngredientFromName(selectedIngredient.getName());
+//                Ingredient newIngredient = new Ingredient(selectedIngredient.getName(), selectedIngredient.getDesc(), selectedIngredient.getBestBefore(),
+//                        selectedIngredient.getLocation(), selectedIngredient.getUnit(), selectedIngredient.getCategory(),
+//                        selectedIngredient.getAmount() + quantity);
+//                modifyIngredientInDB(newIngredient, selectedIngredient, pos);
+//            }
+//        });
+
 
         requireActivity().addMenuProvider(new MenuProvider() {
             @Override

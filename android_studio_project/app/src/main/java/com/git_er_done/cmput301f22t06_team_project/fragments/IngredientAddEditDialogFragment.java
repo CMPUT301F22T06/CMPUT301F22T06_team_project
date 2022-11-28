@@ -467,7 +467,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * @param view - this is the fragment to get all the layout views to attach to local instances
      */
     void attachLayoutViewsToLocalInstances(View view){
-        etName = (EditText) view.findViewById(R.id.et_ingredient_add_edit_name);
+        etName = view.findViewById(R.id.et_ingredient_add_edit_name);
         etDescription = (EditText) view.findViewById(R.id.et_ingredient_add_edit_description);
         dpBestBeforeDate = view.findViewById(R.id.dp_ingredient_add_edit_best_before_date);
         spLocation = view.findViewById(R.id.sp_ingredient_add_edit_location);

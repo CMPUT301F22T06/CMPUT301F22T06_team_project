@@ -70,6 +70,12 @@
             android:textColor="@color/light_blue"
             android:layout_marginHorizontal="10dp"/>
 
+        <Button
+            android:id="@+id/got_shopping_list_item_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Got Item" />
+
     </LinearLayout>
 
 </LinearLayout>

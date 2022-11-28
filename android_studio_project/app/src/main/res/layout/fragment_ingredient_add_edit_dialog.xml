@@ -23,7 +23,8 @@
                 android:padding="10dp">
 
 
-                <TextView
+                <EditText
+                    android:id="@+id/et_ingredient_add_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
