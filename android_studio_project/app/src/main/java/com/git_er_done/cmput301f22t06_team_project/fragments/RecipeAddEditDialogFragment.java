@@ -6,6 +6,7 @@ import static android.text.TextUtils.isEmpty;
 import static com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe.recipeCategories;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,7 +36,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
@@ -157,8 +156,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        return super.onCreateView(inflater, container, savedInstanceState);
-
         return inflater.inflate(R.layout.fragment_recipe_add_edit_dialog, container);
     }
 
@@ -173,6 +170,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         attachLayoutViewsToLocalInstances(view);
         setupAdapters();
+        editUserDefinedStuff(addCategoryButton, deleteCategoryButton, editCategoryButton, addCategoryText);
 
         if(isEdittingExistingRecipe) {
             assignSelectedRecipeAttributesFromFragmentArgs();
@@ -216,13 +214,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                             }
                             else{
                                 spCategory.setSelection(0);
-
                             }
                         }
                         else{
                             Toast.makeText(getActivity(), "There must be atleast one category left.", Toast.LENGTH_LONG).show();
                         }
-
                     }
                 });
             }
@@ -281,13 +277,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        editUserDefinedStuff(addCategoryButton, deleteCategoryButton, editCategoryButton, addCategoryText);
-
-        //TODO - Save the added/edited ingredient attributes to the selected instance
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 assignRecipeAttributesFromViews();
                 int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
@@ -315,7 +307,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         }
                     }
                 }
-
             }
         });
     }
@@ -332,6 +323,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 return true;
             }
         }
+        //Checks for duplicate recipe categories
         for (String i : RecipeCategory.getInstance().getAllRecipeCategories()){
             if (categoryText.equalsIgnoreCase(i)){
                 Toast.makeText(getActivity(), "A recipe category of the same name exists already.", Toast.LENGTH_LONG).show();
@@ -363,9 +355,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
     }
 
+    /**
+     * set OnClickListeners for each of the 'edit' buttons. All of these buttons will make their respective
+     * add and delete buttons, along with editText boxes appear.
+     * @param addButton - the button to add a recipe category to the db
+     * @param deleteButton - the button to delete a recipe category from the db
+     * @param editButton - the edit button to show the add/delete/text
+     * @param addText - the text to go into the db after clicking the add button
+     */
     void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
-        //set OnClickListeners for each of the 'edit' buttons. All of these buttons will make their respective
-        //add and delete buttons, along with editText boxes appear.
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -444,7 +442,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     /**
      * This function takes in the uri from the selected image from the gallery and coneverts it to a bitmap
-     * @param context
+     * @param context - used to access the standard common resources needed to recode the uri
      * @param uri this is the uri of the image.
      * @return Returns the converted bitmap so it can be used later on.
      */
@@ -464,11 +462,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     /**
      * This function takes in a bitmap and then adds it to the database by converting it back to a uri
-     * @param bitmap
-     * @return
+     * @param bitmap - the image bitmap to use so the function can convert it to a URI to pass into the db
      */
     public void encodeBitmapAndSaveToFirebase(Bitmap bitmap) {
-        //int selectedRecipeIndex = rvAdapter.getRecipesList().indexOf(si);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
@@ -492,21 +488,18 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
     }
 
-
     /**
      * This function is called when the user accepts or decline the permission.
      * Request Code is used to check which permission called this function.
      * This request code is provided when the user is prompt for permission.
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode - this code tells the function which permission to ask and check
+     * @param permissions - A list of strings to hold all the permissions
+     * @param grantResults - shows the results after the permissions are granted or not
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
-        super.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

@@ -118,7 +118,8 @@
                         android:layout_weight="0"
                         android:text="Location: "
                         android:textColor="@color/light_blue"
-                        android:textSize="18dp" />
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
 
                     <Button
                         android:id="@+id/editLocationButton"

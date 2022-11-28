@@ -190,59 +190,58 @@
                         android:layout_weight="1"
                         android:text="Edit Categories"
                         android:textColor="@color/black"
-                        android:textSize="10dp" />
+                        android:layout_marginRight="10dp"
+                        />
                 </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp">
+
+                    <EditText
+                        android:id="@+id/addCategory"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp">
+                        android:layout_weight="2"
+                        android:ellipsize="end"
+                        android:hint="Add Category"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:textColor="@color/white_blue"
+                        android:textColorHint="@color/white_blue"
+                        android:textSize="13dp"
+                        android:visibility="gone" />
 
-                        <EditText
-                            android:id="@+id/addCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:ellipsize="end"
-                            android:hint="Add Recipe Category"
-                            android:maxLength="15"
-                            android:maxLines="1"
-                            android:textColor="@color/white_blue"
-                            android:textColorHint="@color/white_blue"
-                            android:textSize="10dp"
-                            android:visibility="gone" />
+                    <Button
+                        android:id="@+id/addCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Add"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
-                        <Button
-                            android:id="@+id/addCategoryButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Add"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            android:visibility="gone" />
+                    <Button
+                        android:id="@+id/deleteCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="Delete"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
 
-                        <Button
-                            android:id="@+id/deleteCategoryButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="1"
-                            android:text="Delete"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            android:visibility="gone" />
-                    </LinearLayout>
-
-                    <Spinner
-                        android:id="@+id/sp_recipe_add_edit_category"
-                        android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:backgroundTint="@color/light_blue" />
-
-
+                <Spinner
+                    android:id="@+id/sp_recipe_add_edit_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:backgroundTint="@color/light_blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -278,15 +277,12 @@
                         android:layout_width="10dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
                         android:textColor="@color/black"
                         android:textSize="13dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="3dp"
                         android:text="Add"/>
-
                 </LinearLayout>
-
-
-                <!--        TODO Replace a carriage return with ' next ' action-->
 
                 <ListView
                     android:id="@+id/lv_recipe_add_edit_ingredients_view"
@@ -299,7 +295,6 @@
                     android:imeOptions="actionNext"
                     android:textSize="18dp" >
                 </ListView>
-
             </LinearLayout>
 
             <View
@@ -339,10 +334,8 @@
                         android:maxLength="100"
                         android:ellipsize="end"
                         android:textSize="18dp"/>
-
                 </LinearLayout>
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
