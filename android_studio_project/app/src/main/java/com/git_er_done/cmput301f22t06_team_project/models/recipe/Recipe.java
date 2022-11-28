@@ -15,8 +15,6 @@ import java.util.ArrayList;
  * @see {Ingredient} {MealPlan} {RecipeDBHelper}
  * @version 1.8
  */
-
-
 public class Recipe implements Cloneable {
     private ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
     private String title;

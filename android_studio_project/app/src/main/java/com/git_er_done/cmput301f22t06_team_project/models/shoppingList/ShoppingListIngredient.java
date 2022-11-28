@@ -13,6 +13,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
 public class ShoppingListIngredient {
 
     private Ingredient ingredient;

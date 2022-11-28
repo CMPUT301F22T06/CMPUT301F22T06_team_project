@@ -31,7 +31,8 @@ import java.util.UUID;
 
 
 /**
- * Meal keys are their associated UUID
+ * DBHelper singleton class that provided methods to interact with the associated firestore db meal collection
+ * Also provides snapshot listeners that update the apps local storage (arraylist of meal items) and associated recyclerview adapters.
  */
 public class MealDBHelper {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -73,11 +74,6 @@ public class MealDBHelper {
 
         return mealsForThisDate;
     }
-
-    //method to get all meals of an associated day
-
-    //Hashmap storing all meals, where key = date, and the value is an arraylist of meals
-
 
     //method to convert a meal object to a corresponding POJO (Plain Old Java Object ) hashmap
     public static HashMap<String, Object> createPOJOHashMapFromMealObject(Meal meal){

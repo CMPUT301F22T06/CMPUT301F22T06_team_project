@@ -33,10 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Saheel Sarker
- * @see IngredientDBHelper
- * @see MealDBHelper
- * @version 1 Since this is the first time I'm commenting
+ * DBHelper singleton class that provided methods to interact with the associated firestore db recipe collection
+ * Also provides snapshot listeners that update the apps local storage (arraylist of recipe items) and associated recyclerview adapters.
  */
 public class RecipeDBHelper {
 

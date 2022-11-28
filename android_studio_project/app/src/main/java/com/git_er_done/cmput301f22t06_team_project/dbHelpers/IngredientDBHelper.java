@@ -31,11 +31,8 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- * @author Saheel Sarker
- * @ingredientsFragment (for now)
- * @Version 1 (Because I didn't write the version before writing this)
- * @see MealDBHelper
- * @see RecipeDBHelper
+ * DBHelper singleton class that provided methods to interact with the associated firestore db ingredient collection
+ * Also provideds snapshot listeners that update the apps local storage (arraylist of ingredient items) and associated recyclerview adapters.
  */
 public class IngredientDBHelper {
 
