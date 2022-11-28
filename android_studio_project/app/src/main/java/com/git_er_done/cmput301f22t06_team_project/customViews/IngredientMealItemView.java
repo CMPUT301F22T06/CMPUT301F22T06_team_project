@@ -22,8 +22,8 @@ public class IngredientMealItemView extends LinearLayout {
     private TextView tvIngredientName;
     private TextView tvAmount;
     private TextView tvUnit;
-    private Button buttonAddMealIngredientAmount;
-    private Button buttonMinusMealIngredientAmount;
+    public Button buttonAddMealIngredientAmount;
+    public Button buttonMinusMealIngredientAmount;
 
     private String name;
     private Integer amount;
@@ -90,6 +90,8 @@ public class IngredientMealItemView extends LinearLayout {
             }
         });
     }
+
+
 
     /**
      * An initialization function to get default style attributes from the associated .xml file

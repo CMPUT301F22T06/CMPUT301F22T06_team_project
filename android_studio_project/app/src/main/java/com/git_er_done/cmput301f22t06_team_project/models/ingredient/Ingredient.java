@@ -125,7 +125,7 @@ public class Ingredient implements Cloneable{
     public ArrayList<String> getBestBeforeStringArrayList(){
         ArrayList<String> bb4StringArray = new ArrayList<String>();
         String bb4year = Integer.toString(this.bestBefore.getYear());
-        String bb4month = Integer.toString(this.bestBefore.getMonthValue());;
+        String bb4month = Integer.toString(this.bestBefore.getMonthValue());
         String bb4date = Integer.toString(this.bestBefore.getDayOfMonth());
         bb4StringArray.add(bb4year);
         bb4StringArray.add(bb4month);

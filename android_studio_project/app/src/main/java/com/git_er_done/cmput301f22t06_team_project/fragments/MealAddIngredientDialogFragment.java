@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static com.git_er_done.cmput301f22t06_team_project.fragments.MealAddEditDialogFragment.selectedIngredientsToAddToMeal;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsAddIngredientListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewIngredientsListViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
@@ -29,18 +32,21 @@ import java.util.ArrayList;
  */
 public class MealAddIngredientDialogFragment extends DialogFragment {
 
-    MealsAddIngredientListViewAdapter mealsAddIngredientListViewAdapter;
+    static MealsAddIngredientListViewAdapter mealsAddIngredientListViewAdapter;
     Button btnCancel;
     Button btnAddSelectedIngredientsToMeal;
     ListView listViewAddIngredientsToMeal;
+
+    static MealsSelectedNewIngredientsListViewAdapter selectedMealAdapter;
 
     /**
      * Required empty constructor
      */
     public MealAddIngredientDialogFragment() {}
 
-    public static MealAddIngredientDialogFragment newInstance() {
+    public static MealAddIngredientDialogFragment newInstance(MealsSelectedNewIngredientsListViewAdapter adapter) {
         MealAddIngredientDialogFragment fragment = new MealAddIngredientDialogFragment();
+        selectedMealAdapter = adapter;
         return fragment;
     }
 
@@ -80,6 +86,7 @@ public class MealAddIngredientDialogFragment extends DialogFragment {
                 for(Ingredient ingredient : ingredientArrayList){
                     if(ingredient.isChecked()){
                         selectedIngredientsToAddToMeal.add(ingredient);
+                        selectedMealAdapter.notifyDataSetChanged();
                     }
                     ingredient.setChecked(false); //ensure afterwards that all ingredients are set back to unchecked
                 }

@@ -19,13 +19,13 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 @SuppressLint("SetTextI18n")
 public class RecipeMealItemView extends LinearLayout {
 
-    private TextView tvRecipeName;
-    private TextView tvAmount;
-    private Button buttonAddMealRecipeServing;
-    private Button buttonMinusMealRecipeServing;
+    private TextView tvRecipeTitle;
+    private TextView tvServings;
+    public Button buttonAddMealRecipeServing;
+    public Button buttonMinusMealRecipeServing;
 
-    private String name;
-    private Integer amount;
+    private String title;
+    private Integer servings;
 
     /**
      * Constructor to be used by the compiler
@@ -68,22 +68,22 @@ public class RecipeMealItemView extends LinearLayout {
      */
     private void init() {
         inflate(getContext(), R.layout.meal_recipe_list_item, this);
-        tvRecipeName = findViewById(R.id.tv_meal_recipe_list_item_name);
-        tvAmount = findViewById(R.id.tv_meal_recipe_list_item_servings);
+        tvRecipeTitle = findViewById(R.id.tv_meal_recipe_list_item_name);
+        tvServings = findViewById(R.id.tv_meal_recipe_list_item_servings);
         buttonAddMealRecipeServing = findViewById(R.id.btn_meal_recipe_add_serving);
         buttonMinusMealRecipeServing = findViewById(R.id.btn_meal_recipe_minus_serving);
         // On click listeners for buttons
         buttonAddMealRecipeServing.setOnClickListener(v -> {
-            amount += 1;
-            tvAmount.setText(Integer.toString(amount));
+            servings += 1;
+            tvServings.setText(Integer.toString(servings));
         });
 
         buttonMinusMealRecipeServing.setOnClickListener(v -> {
-            if (amount >= 1) {
-                amount -= 1;
-                tvAmount.setText(Integer.toString(amount));
+            if (servings >= 1) {
+                servings -= 1;
+                tvServings.setText(Integer.toString(servings));
             } else {
-                tvAmount.setText("0");
+                tvServings.setText("0");
             }
         });
     }
@@ -99,12 +99,12 @@ public class RecipeMealItemView extends LinearLayout {
         if (attrs != null) {
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IngredientMealItemView, defStyleAttr, 0);
 
-            name = typedArray.getString(R.styleable.RecipeMealItemView_rec_name);
-            amount = typedArray.getInteger(R.styleable.RecipeMealItemView_rec_amount, 0);
+            title = typedArray.getString(R.styleable.RecipeMealItemView_rec_name);
+            servings = typedArray.getInteger(R.styleable.RecipeMealItemView_rec_amount, 0);
             return;
         }
-        name = "N/A";
-        amount = 0;
+        title = "N/A";
+        servings = 0;
     }
 
     /**
@@ -112,28 +112,28 @@ public class RecipeMealItemView extends LinearLayout {
      *
      * @return The current number of recipe servings as an {@link Integer} wrapper
      */
-    public Integer getAmount() {
-        return amount;
+    public Integer getServings() {
+        return servings;
     }
 
     /**
      * Sets the number of servings to be displayed
      *
-     * @param amount The number of servings to be displayed as an {@link Integer} wrapper
+     * @param servings The number of servings to be displayed as an {@link Integer} wrapper
      */
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-        tvAmount.setText(Integer.toString(amount));
+    public void setServings(Integer servings) {
+        this.servings = servings;
+        tvServings.setText(Integer.toString(servings));
     }
 
     /**
      * Sets the name to be displayed beside the counter
      *
-     * @param name The name of the Ingredient being displayed as a {@link String}
+     * @param title The name of the Ingredient being displayed as a {@link String}
      */
-    public void setName(String name) {
-        this.name = name;
-        tvRecipeName.setText(name);
+    public void setTitle(String title) {
+        this.title = title;
+        tvRecipeTitle.setText(title);
     }
 
     /**
@@ -141,7 +141,7 @@ public class RecipeMealItemView extends LinearLayout {
      *
      * @return the name of the displayed ingredient as a {@link String}
      */
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 }
