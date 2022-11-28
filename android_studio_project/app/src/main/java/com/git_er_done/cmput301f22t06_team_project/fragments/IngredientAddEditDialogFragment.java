@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
@@ -54,14 +56,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     EditText addLocationText;
     Button addLocationButton;
     Button deleteLocationButton;
+    Button editLocationButton;
+    TextView displayLocationText;
 
     EditText addUnitText;
     Button addUnitButton;
     Button deleteUnitButton;
+    Button editUnitButton;
 
     EditText addCategoryText;
     Button addCategoryButton;
     Button deleteCategoryButton;
+    Button editCategoryButton;
 
     String name;
     String description;
@@ -114,9 +120,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     /**
      * Returns an inflated instance of this dialog fragments XML layout
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater of type layoutinflator
+     * @param container of type viewgroup
+     * @param savedInstanceState of type bundle
      * @return View - Inflated dialog fragment layout
      */
     @Nullable
@@ -132,8 +138,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * View item variables are assigned to their associated xml view items.
      * During an add, each field is left empty.
      * During an edit, each field is filled in with the associated parameters of the selected ingredient item
-     * @param view
-     * @param savedInstanceState
+     * @param view of type view
+     * @param savedInstanceState of type bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -147,7 +153,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             etName.setEnabled(false);
         }
 
-
+        // Button checking
         addUserDefinedStuff(addLocationButton, addLocationText, "location");
         addUserDefinedStuff(addUnitButton, addUnitText, "unit");
         addUserDefinedStuff(addCategoryButton, addCategoryText, "category");
@@ -155,6 +161,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
         deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
+
+        editUserDefinedStuff(addLocationButton, deleteLocationButton, editLocationButton, addLocationText);
+        editUserDefinedStuff(addCategoryButton, deleteCategoryButton, editCategoryButton, addCategoryText);
+        editUserDefinedStuff(addUnitButton, deleteUnitButton, editUnitButton, addUnitText);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,11 +175,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        //TODO - Save the added/editted ingredient attributes to the selected instance
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 int day = dpBestBeforeDate.getDayOfMonth();
                 int year = dpBestBeforeDate.getYear();
@@ -190,6 +198,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         );
                         modifyIngredient(newIngredient);
                         IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        RecipeDBHelper.updateRecipe(newIngredient.getUnit(), newIngredient.getLocation(), newIngredient.getCategory(), newIngredient.getName());
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
                         isEdittingExistingIngredient = false;
                         dismiss();
@@ -231,7 +240,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * @return - true if the value wanting to add to the dropdown exists, false otherwise
      */
     boolean checkDuplicateInUserDefined(String userDefinedText, String type){
-        if (type == "location") {
+        if (type.equals("location")) {
             for (String i : UserDefinedDBHelper.getIngredientLocations()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -239,7 +248,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
-        if (type == "unit") {
+        if (type.equals("unit")) {
             for (String i : UserDefinedDBHelper.getIngredientUnits()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -247,7 +256,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
-        if (type == "category") {
+        if (type.equals("category")) {
             for (String i : UserDefinedDBHelper.getIngredientCategories()){
                 if (userDefinedText.equalsIgnoreCase(i)) {
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -300,13 +309,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     public void onClick(View view) {
                         if (sp.getAdapter().getCount() > 1) {
                             String toDelete = (String) adapterView.getItemAtPosition(i);
-                            if (type == "location") {
+                            if (type.equals("location")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientLocations", 0);
                             }
-                            if (type == "unit") {
+                            if (type.equals("unit")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientUnits", 0);
                             }
-                            if (type == "category") {
+                            if (type.equals("category")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientCategory", 0);
                             }
                             //This changes the dropdown value to something that isn't currently selected.
@@ -327,7 +336,32 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+    }
 
+    /**
+     * This function checks if the edit button is pressed and will make the corresponding add,delete and text box visible.
+     * Clicking the edit button will make those things disappear again.
+     * @param addButton - the add button to appear and disappear on edit button click
+     * @param deleteButton - the delete button to appear and disappear on edit button click
+     * @param editButton - the edit button to appear and disappear on edit button click
+     * @param addText - the text box to appear and disappear on edit button click
+     */
+    void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (addButton.getVisibility() == View.VISIBLE){
+                    addButton.setVisibility(View.GONE);
+                    addText.setVisibility(View.GONE);
+                    deleteButton.setVisibility(View.GONE);
+                }
+                else{
+                    addButton.setVisibility(View.VISIBLE);
+                    addText.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     /**
@@ -344,18 +378,17 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 if (isEmpty(text)) {
                     Toast.makeText(getActivity(), "This value can't be empty", Toast.LENGTH_LONG).show();
                 } else if (!checkDuplicateInUserDefined(text, type)) {
-                    if (type == "location") {
+                    if (type.equals("location")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientLocations");
                     }
-                    if (type == "unit") {
+                    if (type.equals("unit")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientUnits");
                     }
-                    if (type == "category") {
+                    if (type.equals("category")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientCategory");
                     }
                     addText.setText("");
                 }
-
             }
         });
     }
@@ -426,6 +459,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory.setSelection(ingredientCategories.indexOf(category));
         etAmount.setText(String.valueOf(amount));
         spUnit.setSelection(ingredientUnits.indexOf(unit));
+
     }
 
     /**
@@ -446,14 +480,17 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         addLocationText = view.findViewById(R.id.addLocation);
         addLocationButton = view.findViewById(R.id.addLocationButton);
         deleteLocationButton = view.findViewById(R.id.deleteLocationButton);
+        editLocationButton = view.findViewById(R.id.editLocationButton);
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);
         deleteUnitButton = view.findViewById(R.id.deleteUnitButton);
+        editUnitButton = view.findViewById(R.id.editUnitButton);
 
         addCategoryText = view.findViewById(R.id.addCategory);
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
+        editCategoryButton = view.findViewById(R.id.editCategoryButton);
     }
 
     /**
@@ -493,9 +530,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     /**
      * This function takes in a year, month and date and turns them into integers.
-     * @param year
-     * @param month
-     * @param date
+     * @param year of type string
+     * @param month of type string
+     * @param date of type string
      * @return - returns the dates that were converted to a string and put together in a tpe localdate.
      */
     public LocalDate getLocalDateFromStringArray(String year, String month, String date){

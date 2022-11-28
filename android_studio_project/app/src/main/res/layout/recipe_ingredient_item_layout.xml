@@ -66,6 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:maxLines="3"
+                android:maxLength="100"
                 android:hint="Comment"
                 android:textSize="15dp"/>
     </LinearLayout>
