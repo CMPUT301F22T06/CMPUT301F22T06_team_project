@@ -6,38 +6,68 @@ import java.util.ArrayList;
  * Category represents the category of a recipe.
  * User defined parameter with a few hardcoded example options.
  */
-public class RecipeCategory{
+public class RecipeCategory {
 
-        private ArrayList<String> recipeCategories = new ArrayList<>();
+    private ArrayList<String> recipeCategories = new ArrayList<>();
 
-        private static final RecipeCategory instance = new RecipeCategory();
+    private static final RecipeCategory instance = new RecipeCategory();
 
-        private RecipeCategory(){
-            recipeCategories.add("vegetarian");
-            recipeCategories.add("vegan");
-            recipeCategories.add("seafood");
-            recipeCategories.add("dessert");
-            recipeCategories.add("meat");
-            recipeCategories.add("drink");
-        }
+    /**
+     * Private constructor creates the singleton instance of RecipeCategory and populates the
+     * default values
+     */
+    private RecipeCategory() {
+        recipeCategories.add("vegetarian");
+        recipeCategories.add("vegan");
+        recipeCategories.add("seafood");
+        recipeCategories.add("dessert");
+        recipeCategories.add("meat");
+        recipeCategories.add("drink");
+    }
 
-        public static RecipeCategory getInstance(){
-            return instance;
-        }
+    /**
+     * The effective "Constructor". Returns the singleton instance of the class.
+     *
+     * @return The singleton instance of RecipeCategory.
+     */
+    public static RecipeCategory getInstance() {
+        return instance;
+    }
 
-        public ArrayList<String> getAllRecipeCategories(){
-            return recipeCategories;
-        }
+    /**
+     * Returns an ArrayList of all currently held categories.
+     *
+     * @return An {@link ArrayList} of {@link String}s with the current categories.
+     */
+    public ArrayList<String> getAllRecipeCategories() {
+        return recipeCategories;
+    }
 
-        public String getRecipeCategoryFromIndex(int index){
-            return recipeCategories.get(index);
-        }
+    /**
+     * Returns the category stored at the given index.
+     *
+     * @param index The index of the category to be retrieved as a primitive int.
+     * @return The category at the input index as a {@link String}.
+     */
+    public String getRecipeCategoryFromIndex(int index) {
+        return recipeCategories.get(index);
+    }
 
-        public void addRecipeCategory(String locationToAdd){
-            recipeCategories.add(locationToAdd);
-        }
+    /**
+     * Adds the input category to the list of categories.
+     *
+     * @param categoryToAdd The category to be added to the list as a {@link String}.
+     */
+    public void addRecipeCategory(String categoryToAdd) {
+        recipeCategories.add(categoryToAdd);
+    }
 
-        public void deleteRecipeCategory(String categoryToDelete) {
-            recipeCategories.remove(categoryToDelete);
-        }
+    /**
+     * Deletes the given category from the list.
+     *
+     * @param categoryToDelete The category to be removed from the list as a {@link String}.
+     */
+    public void deleteRecipeCategory(String categoryToDelete) {
+        recipeCategories.remove(categoryToDelete);
+    }
 }
