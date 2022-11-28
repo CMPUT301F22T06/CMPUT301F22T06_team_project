@@ -162,6 +162,13 @@ public class RecipeDBHelper {
                 });
     }
 
+    /**
+     * Modifies the data of a recipes that's already in the database.
+     * @param newRecipe of type Recipe
+     * @param oldRecipe of type Recipe
+     * @param pos of type Int
+     */
+
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         selectedRecipePos = pos;

@@ -36,6 +36,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Saheel Sarker
+ * @ingredientsAddEditFragment and @recipesAddEditFragment (for now)
+ * @Version 1 (Because I didn't write the version before writing this)
+ * @see MealPlannerDBHelper
+ * @see RecipeDBHelper
+ * @see IngredientDBHelper
+ */
+
 public class UserDefinedDBHelper {
     static FirebaseFirestore db = FirebaseFirestore.getInstance();
     static final CollectionReference userDefinedDB = db.collection("UserDefined");
@@ -51,6 +60,9 @@ public class UserDefinedDBHelper {
         setupSnapshotListenerForUserDefinedStuff();
     }
 
+    /**
+     * This method creates a instance of UserDefinedDBHelper to use anywhere in the code
+     */
     public static UserDefinedDBHelper getInstance()
     {
         if (singleInstance == null)
@@ -58,32 +70,62 @@ public class UserDefinedDBHelper {
         return singleInstance;
     }
 
+    /**
+     * @return ingredientCategories which is an Arraylist<String>
+     */
+
     public static ArrayList<String> getIngredientCategories() {
         return ingredientCategories;
     }
+
+    /**
+     * @return ingredientUnits which is an Arraylist<String>
+     */
 
     public static ArrayList<String> getIngredientUnits() {
         return ingredientUnits;
     }
 
+    /**
+     * @return ingredientLocations which is an Arraylist<String>
+     */
+
     public static ArrayList<String> getIngredientLocations() {
         return ingredientLocations;
     }
 
+    /**
+     * @return recipeCategories which is an Arraylist<String>
+     */
+
     public static ArrayList<String> getRecipeCategories() {
         return recipeCategories;
     }
+
+    /**
+     * @param {userDefined which is String} {type which is a String}
+     * Adds a userDefined "something" to the database
+     */
 
     public static void addUserDefined(String userDefined, String type){
         DocumentReference dr = userDefinedDB.document(type);
         dr.update(userDefined,userDefined);
     }
 
+    /**
+     * @param {userDefined which is String} {type which is a String} {position which is an int}
+     * Deletes a userDefined "something" in the database
+     */
+
     public static void deleteUserDefined(String userDefined, String document, int position){
         selectedUserDefinedPos = position;
         DocumentReference dr = userDefinedDB.document(document);
         dr.update(userDefined, FieldValue.delete());
     }
+
+    /**
+     * starts a listener in the database whenever data has changed and changes every array accordingly
+     */
 
     private static void setupSnapshotListenerForUserDefinedStuff() {
         db.collection("UserDefined")
@@ -121,6 +163,10 @@ public class UserDefinedDBHelper {
                 });
     }
 
+    /**
+     * starts a listener in the database whenever data has changed
+     * and changes the recipes category spinner adapter accordingly
+     */
 
     public static void setupSnapshotListenerForRecipeCategoryAdapter(
             ArrayAdapter<String> recipeCategoryAdapter){
@@ -153,6 +199,11 @@ public class UserDefinedDBHelper {
                     }
                 });
     }
+
+    /**
+     * starts a listener in the database whenever data has changed
+     * and changes every spinner adapter in the ingredients add/edit fragment accordingly
+     */
 
     public static void setupSnapshotListenerForIngredientUserDefinedAdapter(
             ArrayAdapter<String> ingredientUnitAdapter,
