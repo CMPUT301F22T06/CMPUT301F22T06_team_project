@@ -74,8 +74,8 @@ public class RecipeMealItemView extends LinearLayout {
         if (attrs != null) {
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IngredientMealItemView, defStyleAttr, 0);
 
-            name = typedArray.getString(R.styleable.IngredientMealItemView_name);
-            amount = typedArray.getInteger(R.styleable.IngredientMealItemView_amount, 0);
+            name = typedArray.getString(R.styleable.RecipeMealItemView_rec_name);
+            amount = typedArray.getInteger(R.styleable.RecipeMealItemView_rec_amount, 0);
             return;
         }
         name = "N/A";

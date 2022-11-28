@@ -14,7 +14,9 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 // Followed https://blog.netcetera.com/creating-your-first-android-custom-view-f4666925956
 
 /**
+ * A custom view for displaying Ingredients in the meal planner calendar
  *
+ * @author Kirk Rieberger
  */
 @SuppressLint("SetTextI18n")
 public class IngredientMealItemView extends LinearLayout {
@@ -29,24 +31,45 @@ public class IngredientMealItemView extends LinearLayout {
     private Integer amount;
     private String unit;
 
+    /**
+     * Constructor to be used by the compiler
+     *
+     * @param context The application environment
+     */
     public IngredientMealItemView(Context context) {
         super(context);
         init();
 
     }
 
+    /**
+     * Constructor to be used by the compiler
+     *
+     * @param context The application environment
+     * @param attrs   A collection of attributes
+     */
     public IngredientMealItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
         obtainStyledAttributes(context, attrs, 0);
     }
 
+    /**
+     * Constructor to be used by the compiler
+     *
+     * @param context      The application environment
+     * @param attrs        A collection of attributes
+     * @param defStyleAttr The default style attribute value
+     */
     public IngredientMealItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
         obtainStyledAttributes(context, attrs, defStyleAttr);
     }
 
+    /**
+     * Initialization function to set up the contained views and onClick listeners
+     */
     private void init() {
         inflate(getContext(), R.layout.meal_ingredient_list_item, this);
         tv_ingredientName = findViewById(R.id.tv_meal_ingredient_list_item_name);
@@ -76,13 +99,20 @@ public class IngredientMealItemView extends LinearLayout {
         });
     }
 
+    /**
+     * An initialization function to get default style attributes from the associated .xml file
+     *
+     * @param context      The application environment
+     * @param attrs        A collection of attributes
+     * @param defStyleAttr The default style attribute value
+     */
     private void obtainStyledAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         if (attrs != null) {
             TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.IngredientMealItemView, defStyleAttr, 0);
 
-            name = typedArray.getString(R.styleable.IngredientMealItemView_name);
-            amount = typedArray.getInteger(R.styleable.IngredientMealItemView_amount, 0);
-            unit = typedArray.getString(R.styleable.IngredientMealItemView_unit);
+            name = typedArray.getString(R.styleable.IngredientMealItemView_ing_name);
+            amount = typedArray.getInteger(R.styleable.IngredientMealItemView_ing_amount, 0);
+            unit = typedArray.getString(R.styleable.IngredientMealItemView_ing_unit);
             return;
         }
         name = "N/A";
@@ -90,29 +120,47 @@ public class IngredientMealItemView extends LinearLayout {
         unit = "N/A";
     }
 
+    /**
+     * @return
+     */
     public Integer getAmount() {
         return amount;
     }
 
+    /**
+     * @param amount
+     */
     public void setAmount(Integer amount) {
         this.amount = amount;
         tv_amount.setText(Integer.toString(amount));
     }
 
+    /**
+     * @param unit
+     */
     public void setUnit(String unit) {
         this.unit = unit;
         tv_unit.setText(unit);
     }
 
+    /**
+     * @return
+     */
     public String getUnit() {
         return unit;
     }
 
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
         tv_ingredientName.setText(name);
     }
 
+    /**
+     * @return
+     */
     public String getName() {
         return name;
     }
