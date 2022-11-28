@@ -19,6 +19,7 @@
                 android:id="@+id/view_recipe_image"
                 android:layout_width="match_parent"
                 android:layout_height="146dp"
+                android:src="@drawable/no_image"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"/>
 
@@ -144,21 +145,20 @@
                     android:layout_width="40dp"
                     android:layout_height="45dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:drawableTop="@drawable/upload_image"
                     android:gravity="center"
                     android:paddingLeft="17dp"
-
                     android:paddingTop="8dp"
                     android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_camera"
                     android:layout_width="40dp"
-                    android:layout_height="43dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/camera"
                     android:gravity="center"
-
                     android:textColor="@color/black"
                     android:translationY="-65dp" />
 
