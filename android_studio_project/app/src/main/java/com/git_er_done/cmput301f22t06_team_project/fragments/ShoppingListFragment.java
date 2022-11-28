@@ -137,20 +137,35 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         ArrayList<Meal> mealPlansFromMDB = new ArrayList<>();
 
         //Meal 1
+        ArrayList<Ingredient> ingredientsInMeal = new ArrayList<>();
+        ArrayList<Recipe> recipesInMeal = new ArrayList<>();
+        //Recipe 1
         Ingredient apple1 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 3);
-        Ingredient ingredient1 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
-        Ingredient ingredient2 = new Ingredient("banana", " ", LocalDate.now(), " ", " ", " ", 1);
+        Ingredient orange1 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
+        Ingredient banana1 = new Ingredient("banana", " ", LocalDate.now(), " ", " ", " ", 1);
         Recipe recipe = new Recipe("fruit salad", " ", " ", 0, 2);
         recipe.addIngredient(apple1);
-        recipe.addIngredient(ingredient1);
-        recipe.addIngredient(ingredient2);
-        Ingredient ingredientClone = apple1.clone();
-        ingredientClone.setAmount(10);
-        ArrayList<Ingredient> ingredientsInMeal = new ArrayList<>();
-        ingredientsInMeal.add(ingredientClone);
-        ingredientsInMeal.add(ingredient1.clone());
-        ArrayList<Recipe> recipesInMeal = new ArrayList<>();
+        recipe.addIngredient(orange1);
+        recipe.addIngredient(banana1);
         recipesInMeal.add(recipe);
+
+        //Recipe 2
+        Ingredient cream = new Ingredient("cream", " ", LocalDate.now(), " ", " ", " ", 2);
+        Ingredient sugar = new Ingredient("sugar", " ", LocalDate.now(), " ", " ", " ", 6);
+        Ingredient eggs = new Ingredient("eggs", " ", LocalDate.now(), " ", " ", " ", 1);
+        Ingredient ice = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 50);
+        Recipe iceCream = new Recipe("Icecream", " ", " ", 0, 2);
+        iceCream.addIngredient(cream);
+        iceCream.addIngredient(sugar);
+        iceCream.addIngredient(eggs);
+        iceCream.addIngredient(ice);
+        recipesInMeal.add(iceCream);
+
+        //Ingredients
+        Ingredient apple2 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 10);
+        Ingredient orange2 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
+        ingredientsInMeal.add(apple2);
+        ingredientsInMeal.add(orange2);
 
         Meal meel = new Meal(recipesInMeal, ingredientsInMeal, LocalDate.now());
         mealPlansFromMDB.add(meel);
@@ -159,30 +174,31 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         for (Meal meal: mealPlansFromMDB){ // Get all the ingredients and total them from the meal plans
              ArrayList<Ingredient> ingredientsFromMeal = meal.getAllIngredientsFromMeal();
              for (Ingredient i: ingredientsFromMeal){
-                 Boolean alreadyInTotalIngredients = false;
-                 for (Ingredient j: totalIngredientsforMealPlan){
-                     if (i.getName() == j.getName()){
-                         j.setAmount(j.getAmount() + i.getAmount());
-                         alreadyInTotalIngredients = true;
-                     }
+                 if(totalIngredientsforMealPlan.contains(i)){
+                     int index = totalIngredientsforMealPlan.indexOf(i);
+                     Ingredient ingredientToAdd = totalIngredientsforMealPlan.get(index);
+                     ingredientToAdd.setAmount(ingredientToAdd.getAmount()+i.getAmount());
                  }
-                 if (!alreadyInTotalIngredients){
+                 else {
                      totalIngredientsforMealPlan.add(i);
                  }
              }
         }
 
+        //Storage
         ArrayList<Ingredient> ingredientsFromIDB = new ArrayList<>();
-        ingredientsFromIDB.add()
+        Ingredient apple3 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 21);
+        Ingredient orange3 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 30);
+        ingredientsFromIDB.add(apple3);
+        ingredientsFromIDB.add(orange3);
+
         for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
-            Boolean alreadyInIDB = false;
-            for (Ingredient j: ingredientsFromIDB){
-                if (i.getName() == j.getName()){
-                    j.setAmount(j.getAmount() - i.getAmount());
-                    alreadyInIDB = true;
-                }
+            if (ingredientsFromIDB.contains(i)){
+                int index = ingredientsFromIDB.indexOf(i);
+                Ingredient ingredientToSub = ingredientsFromIDB.get(index);
+                ingredientToSub.setAmount(ingredientToSub.getAmount() - i.getAmount());
             }
-            if (!alreadyInIDB){
+            else {
                 Ingredient iClone = i.clone();
                 iClone.setAmount(-i.getAmount());
                 ingredientsFromIDB.add(iClone);
@@ -197,6 +213,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
                 shoppingList.add(iClone);
             }
         }
+
     }
 
     @Override
