@@ -52,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
         MealDBHelper.getInstance();
         UserDefinedDBHelper.getInstance(); // Saheel was here
 
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientUnits");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
+
         addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
