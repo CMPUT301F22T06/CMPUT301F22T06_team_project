@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/border">
+    android:background="@drawable/edit_border">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,18 +27,27 @@
                     android:id="@+id/et_ingredient_add_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
-                    android:hint="Name Here"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName|textCapWords"
-                    android:maxLength="20"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/light_blue"
-                    android:textColorHint="@color/light_blue"
-                    android:textSize="15dp"
-                    />
-            </LinearLayout>
+                    android:text="Name: "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/et_ingredient_add_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name Here"
+
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/dark_blue"
+                android:textColorHint="@color/blue"
+                android:textSize="15dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                />
+        </LinearLayout>
 
             <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description: "
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:textSize="18dp"/>
 
             <EditText
@@ -59,13 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description Here"
-                android:textColorHint="@color/white_blue"
+                android:textColorHint="@color/blue"
                 android:textSize="15dp"
                 android:inputType="textCapSentences|textPersonName|textMultiLine"
                 android:maxLines="5"
                 android:ellipsize="end"
                 android:maxLength="100"
-                android:textColor="@color/white_blue"
+                android:textColor="@color/dark_blue"
                 android:imeOptions="actionNext" />
 
             </LinearLayout>
@@ -81,7 +90,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/dark_blue"
                     android:text="Best Before Date: "
                     android:textSize="18dp"/>
 
@@ -111,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
                         android:text="Location: "
-                        android:textColor="@color/light_blue"
+                        android:textColor="@color/dark_blue"
                         android:textSize="18dp"
                         android:layout_marginLeft="10dp"/>
 
@@ -128,6 +137,13 @@
                         android:visibility="visible" />
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Location: "
+                    android:textSize="18dp"
+                    android:textColor="@color/dark_blue"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -140,8 +156,8 @@
                         android:layout_weight="2"
                         android:text="Location"
                         android:textAlignment="center"
-                        android:textColor="@color/light_blue"
-                        android:textColorHint="@color/light_blue"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
                         android:textSize="15dp"
                         android:visibility="gone" />
 
@@ -155,8 +171,8 @@
                         android:maxLines="1"
                         android:maxLength="15"
                         android:ellipsize="end"
-                        android:textColor="@color/white_blue"
-                        android:textColorHint="@color/white_blue"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
                         android:visibility="gone"
                         android:paddingRight="10dp"
                         android:layout_marginLeft="10dp"
@@ -192,7 +208,7 @@
                     android:layout_height="48dp"
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/light_blue"
-                    android:textColor="@color/light_blue"
+                    android:textColor="@color/dark_blue"
                     android:layout_marginLeft="10dp"
                     android:scrollbarSize="200dp"/>
 
@@ -215,7 +231,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Amount: "
-                        android:textColor="@color/light_blue"
+                        android:textColor="@color/dark_blue"
                         android:textSize="15dp" />
 
                     <EditText
@@ -228,8 +244,8 @@
                         android:maxLines="1"
                         android:maxLength="5"
                         android:ellipsize="end"
-                        android:textColor="@color/light_blue"
-                        android:textColorHint="@color/white_blue"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
                         android:textSize="12dp" />
                 </LinearLayout>
 
@@ -248,7 +264,7 @@
                             android:layout_height="wrap_content"
                             android:text="Unit: "
                             android:layout_weight="1"
-                            android:textColor="@color/light_blue"
+                            android:textColor="@color/dark_blue"
                             android:textSize="15dp" />
 
                         <Button
@@ -275,8 +291,8 @@
                             android:layout_weight="1"
                             android:hint="Add Unit"
                             android:minHeight="48dp"
-                            android:textColor="@color/light_blue"
-                            android:textColorHint="@color/light_blue"
+                            android:textColor="@color/dark_blue"
+                            android:textColorHint="@color/blue"
                             android:textSize="10dp"
                             android:visibility="gone" />
 
@@ -314,7 +330,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="40sp"
                         android:backgroundTint="@color/light_blue"
-                        android:textColor="@color/light_blue" />
+                        android:textColor="@color/dark_blue"
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -324,8 +341,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:textColor="@color/light_blue">
+                android:textColor="@color/dark_blue">
 
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:text="Category: "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="18dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -337,7 +361,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
                         android:text="Category: "
-                        android:textColor="@color/light_blue"
+                        android:textColor="@color/dark_blue"
                         android:textSize="18dp" />
 
                     <Button
@@ -366,8 +390,8 @@
                         android:textSize="13dp"
                         android:maxLines="1"
                         android:maxLength="25"
-                        android:textColor="@color/white_blue"
-                        android:textColorHint="@color/white_blue"
+                        android:textColorHint="@color/blue"
+                        android:textColor="@color/dark_blue"
                         android:paddingRight="10dp"
                         android:visibility="gone" />
                     <Button
@@ -398,7 +422,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
                     android:backgroundTint="@color/light_blue"
-                    android:textColor="@color/light_blue" />
+                    android:textColor="@color/dark_blue" />
             </LinearLayout>
 
             <LinearLayout
