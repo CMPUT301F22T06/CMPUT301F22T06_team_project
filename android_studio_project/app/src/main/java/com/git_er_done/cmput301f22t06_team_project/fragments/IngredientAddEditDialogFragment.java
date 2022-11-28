@@ -1,13 +1,11 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.text.TextUtils.isEmpty;
-import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +24,8 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -153,7 +147,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             etName.setEnabled(false);
         }
 
-        //Saheel's code
 
         addUserDefinedStuff(addLocationButton, addLocationText, "location");
         addUserDefinedStuff(addUnitButton, addUnitText, "unit");
@@ -239,7 +232,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      */
     boolean checkDuplicateInUserDefined(String userDefinedText, String type){
         if (type == "location") {
-            for (String i : IngredientLocation.getInstance().getAllLocations()){
+            for (String i : UserDefinedDBHelper.getIngredientLocations()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;
@@ -247,7 +240,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         }
         if (type == "unit") {
-            for (String i : IngredientUnit.getInstance().getAllUnits()){
+            for (String i : UserDefinedDBHelper.getIngredientUnits()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;
@@ -255,7 +248,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         }
         if (type == "category") {
-            for (String i : IngredientCategory.getInstance().getAllIngredientCategories()){
+            for (String i : UserDefinedDBHelper.getIngredientCategories()){
                 if (userDefinedText.equalsIgnoreCase(i)) {
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;
@@ -308,13 +301,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         if (sp.getAdapter().getCount() > 1) {
                             String toDelete = (String) adapterView.getItemAtPosition(i);
                             if (type == "location") {
-                                IngredientLocation.getInstance().deleteLocation(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientLocations", 0);
                             }
                             if (type == "unit") {
-                                IngredientUnit.getInstance().deleteUnit(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientUnits", 0);
                             }
                             if (type == "category") {
-                                IngredientCategory.getInstance().deleteCategory(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientCategory", 0);
                             }
                             //This changes the dropdown value to something that isn't currently selected.
                             if (i == 0) {
@@ -352,13 +345,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "This value can't be empty", Toast.LENGTH_LONG).show();
                 } else if (!checkDuplicateInUserDefined(text, type)) {
                     if (type == "location") {
-                        IngredientLocation.getInstance().addLocation(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientLocations");
                     }
                     if (type == "unit") {
-                        IngredientUnit.getInstance().addUnit(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientUnits");
                     }
                     if (type == "category") {
-                        IngredientCategory.getInstance().addIngredientCategory(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientCategory");
                     }
                     addText.setText("");
                 }
@@ -484,6 +477,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spLocation.setAdapter(locationSpinnerAdapter);
         spCategory.setAdapter(categorySpinnerAdapter);
         spUnit.setAdapter(unitSpinnerAdapter);
+
+        UserDefinedDBHelper.setupSnapshotListenerForIngredientUserDefinedAdapter(
+                unitSpinnerAdapter,
+                locationSpinnerAdapter,
+                categorySpinnerAdapter);
+
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientUnits");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
     }
 
     /**

@@ -17,6 +17,12 @@ import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.util.ArrayList;
 
+/**
+ * @author Saheel Sarker
+ * @version 1.3
+ * Makes the list of ingredients for each recipe including the buttons
+ */
+
 public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
 
     private ArrayList<Ingredient> recipeIngredients;
@@ -28,11 +34,25 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
     private TextView unit;
     private Button deleteButton;
 
+    /**
+     * THis initializes the adapter
+     * @param recipeIngredients which is a ArrayList<Ingredient>
+     * @param context which is a Context
+     */
+
     public RecipeIngredientsViewAdapter(ArrayList<Ingredient> recipeIngredients, Context context){
         super(context, R.layout.recipe_ingredient_item_layout, recipeIngredients);
         this.context = context;
         this.recipeIngredients = recipeIngredients;
     }
+
+    /**
+     * Creates each row in the list of ingredients for a recipe
+     * @param position which is the position of a row in the list of type int
+     * @param convertView which is the current row of type View
+     * @param parent which is the listview that the row is in
+     * @return
+     */
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -101,6 +121,11 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
         return listItem;
     }
 
+    /**
+     * Sets the views with the resources
+     * @param listItem The view for each row
+     */
+
     private void setViews(View listItem){
         name = (TextView) listItem.findViewById(R.id.name_of_ingredient);
         comment = (EditText) listItem.findViewById(R.id.comment_of_ingredient);
@@ -110,6 +135,10 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
         deleteButton = (Button) listItem.findViewById(R.id.delete_button);
     }
 
+    /**
+     * returns the list of ingredients for the recipe
+     * @return recipeIngredients of type ArrayList<Ingredient>
+     */
     public ArrayList<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
