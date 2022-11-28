@@ -2,6 +2,8 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 //import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -141,7 +144,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         ArrayList<Meal> mealPlansFromMDB = MealDBHelper.getMealsFromStorage();
         ArrayList<Meal> mealPlansCopy = new ArrayList<>();
         for (Meal i: mealPlansFromMDB){
-            if (i.getDate().compareTo(LocalDate.now()) > 0) {
+            if (i.getDate().compareTo(LocalDate.now()) >= 0) {
                 mealPlansCopy.add(i.clone());
             }
         }
