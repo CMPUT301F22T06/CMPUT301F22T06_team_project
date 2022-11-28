@@ -18,6 +18,8 @@ public class Ingredient implements Cloneable{
     private Integer amount;
     private Integer color;
 
+    private boolean isChecked;
+
     //Grab singleton arrays for user defined attributes like location and category
     public static ArrayList<String> ingredientLocations = IngredientLocation.getInstance().getAllLocations();
     public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
@@ -252,6 +254,14 @@ public class Ingredient implements Cloneable{
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     /**
