@@ -120,7 +120,6 @@ public class IngredientDBHelper {
                 });
     }
 
-
     /**
      * Take a string and searches the ingredients database for it and deletes the document
      * with that name if it's found
@@ -149,22 +148,6 @@ public class IngredientDBHelper {
                         Log.d(TAG, "Data could not be deleted!" + e.toString());
                     }
                 });
-
-    }
-
-    public static void setSpIngredientsDropDownAdapter(ArrayAdapter<String> recipeAdapter, ArrayList<String> ingredientStorage) {
-        ingredientsDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                QuerySnapshot docs = task.getResult();
-                for (QueryDocumentSnapshot doc : docs) {
-                    Ingredient ingredient = createIngredient(doc);
-                    ingredientStorage.add(ingredient.getName() + ", " + ingredient.getUnit());
-                }
-                recipeAdapter.notifyDataSetChanged();
-                // The adapter will be here
-            }
-        });
     }
 
     /**
@@ -206,9 +189,6 @@ public class IngredientDBHelper {
         }
     }
 
-
-    //TODO - handle null exceptions in case the DB is broken so this doesnt crash the app
-
     /**
      * This method take a document from firestore and takes the data then converts it into an Ingredient object
      * to return
@@ -230,7 +210,6 @@ public class IngredientDBHelper {
         Ingredient newIngredient = new Ingredient(name, desc, bestBefore, location, unit, category, amount);
         return newIngredient;
     }
-
 
     /**
      * Called when the DBHelper singleton is instantiated - this happens in main activity onCreate().
@@ -269,10 +248,6 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
-                        //check ingredient best before
-                        // update expired ingredients to zero amount
-
-
                     }
                 });
     }
@@ -314,17 +289,15 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
-//
                         IngredientsFragment.stopIngredientsFragmentProgressBar();
-
                     }
                 });
     }
 
     /**
-     * Sets the amount of an ingredient to zero in the database if the ingredient is past its expiry data
+     * Checks and sets the amount of an ingredient to zero in the database if the ingredient is past its expiry data
+     * It will then create a new ingredient and reupdate everything along with the amount to be 0
      */
-
     public static void setExpiredIngredientsAmountToZero(){
         LocalDate today = LocalDate.now();
         for (int i = 0; i < IngredientDBHelper.getIngredientsFromStorage().size(); i++) {
@@ -341,7 +314,11 @@ public class IngredientDBHelper {
             }
         }
     }
-
+    /**
+     * This function takes in a name of a ingredient and it will index through the ingredients in storage and return the found ingredients or -1 if it wasn't found.
+     * @param ingredientName of type string
+     * @return the location of the ingredient in the storage or -1 if it wasn't found
+     */
     public static int getIndexOfIngredientFromName(String ingredientName) {
         for (Ingredient ingredient : ingredientsInStorage) {
             if (ingredient.getName().equals(ingredientName))
@@ -349,5 +326,4 @@ public class IngredientDBHelper {
         }
         return -1;
     }
-
 }
