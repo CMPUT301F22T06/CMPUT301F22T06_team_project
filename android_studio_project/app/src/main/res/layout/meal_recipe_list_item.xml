@@ -57,10 +57,11 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="2dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
         android:text="Servings"
         android:textColor="@color/blue"
         android:translationY="15dp"
-        android:translationX="300dp"
+        android:translationX="275dp"
         android:textSize="13sp"
         android:layout_gravity="center"/>
 
