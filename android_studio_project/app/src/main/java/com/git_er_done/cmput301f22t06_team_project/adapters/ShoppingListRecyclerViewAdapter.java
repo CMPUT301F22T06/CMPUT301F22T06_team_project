@@ -71,9 +71,9 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             public void onClick(View v) {
                 // add testShoppingList.get(position) * QuantityNeeded to ingredients
                 // by Ingredient.setamount = amount + quantitybought
-                Ingredient selectedIngredient = testShoppingList.get(holder.getAdapterPosition()).getIngredient();
-                int quantity = testShoppingList.get(holder.getAdapterPosition()).getRequiredAmount();
-                testShoppingList.get(holder.getAdapterPosition()).getIngredient().setAmount(selectedIngredient.getAmount() + quantity);
+                Ingredient selectedIngredient = mShoppingList.get(holder.getAdapterPosition());
+                int quantity = mShoppingList.get(holder.getAdapterPosition()).getAmount();
+                mShoppingList.get(holder.getAdapterPosition()).setAmount(selectedIngredient.getAmount() + quantity);
                 int pos = getIndexOfIngredientFromName(selectedIngredient.getName());
                 Ingredient newIngredient = new Ingredient(selectedIngredient.getName(), selectedIngredient.getDesc(), selectedIngredient.getBestBefore(),
                         selectedIngredient.getLocation(), selectedIngredient.getUnit(), selectedIngredient.getCategory(),
