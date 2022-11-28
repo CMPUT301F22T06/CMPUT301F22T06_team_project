@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="NAME"
             android:textStyle="bold"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:textSize="25dp"
             android:translationX="20dp" />
 
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Description"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:translationX="20dp" />
 
         <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Location: "
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Location"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:paddingHorizontal="15dp"
                 android:text="Best Before:"
                 android:layout_gravity="center"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="30dp" />
 
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="1dp"
                 android:text="Best before date"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
         </LinearLayout>
 
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category: "
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
 
             <TextView
@@ -112,7 +112,7 @@
                 android:layout_gravity="center"
                 android:paddingHorizontal="1dp"
                 android:text="Amount: "
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="30dp" />
 
             <TextView
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="Amount"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="20dp" />
 
             <TextView
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="2dp"
                 android:text="Unit"
-                android:textColor="@color/light_blue"
+                android:textColor="@color/dark_blue"
                 android:translationX="25dp" />
 
         </LinearLayout>

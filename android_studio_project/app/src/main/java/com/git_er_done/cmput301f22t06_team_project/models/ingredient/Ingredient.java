@@ -9,6 +9,13 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * This class represents an ingredient for the storage, recipe, or mealplan.
+ * Takes name, description, bestbefore, location, unit, category, amount, and color
+ * @see {Recipe} {MealPlan} {IngredientDBHelper}
+ * @version 1
+ */
+
 public class Ingredient implements Cloneable{
     private String name;
     private String desc;
