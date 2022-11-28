@@ -2,9 +2,13 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.git_er_done.cmput301f22t06_team_project.MainActivity;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -22,10 +26,20 @@ public class RecipeTest {
                 12, 2);
     }
 
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
     @Test
     // Should be representative for all recipes since they all extend Recipe
     public void testRecipeGetSet() {
         // TODO: Test Ingredient list once new ingredient is merged into main
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Recipe mockRecipe = makeRecipe();
         Ingredient mockIngredient = makeRecipeIngredient();
 

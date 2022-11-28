@@ -308,14 +308,14 @@ public class Recipe implements Cloneable {
     /**
      * Required for indexOf call
      */
-//    @Override
-//    public boolean equals(Object o) {
-//        if (!(o instanceof Recipe)) {
-//            return false;
-//        }
-//        Recipe other = (Recipe) o;
-//        return title.equalsIgnoreCase(other.getTitle());
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe other = (Recipe) o;
+        return title.equalsIgnoreCase(other.getTitle());
+    }
 //    @Override
 //    public int hashCode() {
 //        final int prime = 31;
