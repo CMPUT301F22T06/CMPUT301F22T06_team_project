@@ -38,4 +38,58 @@ public class UserDefinedDBHelperTest {
 
         UserDefinedDBHelper.deleteUserDefined("unit test", "ingredientCategory", 0);
     }
+
+    @Test
+    public void testIngredientUnits() {
+        UserDefinedDBHelper.getInstance();
+
+        UserDefinedDBHelper.addUserDefined("unit test", "ingredientUnits");
+        ArrayList<String> catFromDB = UserDefinedDBHelper.getIngredientUnits();
+        // Allow database time to give data
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(catFromDB.contains("unit test"));
+
+        UserDefinedDBHelper.deleteUserDefined("unit test", "ingredientUnits", 0);
+    }
+
+    @Test
+    public void testIngredientLocations() {
+        UserDefinedDBHelper.getInstance();
+
+        UserDefinedDBHelper.addUserDefined("unit test", "ingredientLocations");
+        ArrayList<String> catFromDB = UserDefinedDBHelper.getIngredientLocations();
+        // Allow database time to give data
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(catFromDB.contains("unit test"));
+
+        UserDefinedDBHelper.deleteUserDefined("unit test", "ingredientLocations", 0);
+    }
+
+    @Test
+    public void testRecipeCategory() {
+        UserDefinedDBHelper.getInstance();
+
+        UserDefinedDBHelper.addUserDefined("unit test", "recipeCategory");
+        ArrayList<String> catFromDB = UserDefinedDBHelper.getRecipeCategories();
+        // Allow database time to give data
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(catFromDB.contains("unit test"));
+
+        UserDefinedDBHelper.deleteUserDefined("unit test", "recipeCategory", 0);
+    }
 }
