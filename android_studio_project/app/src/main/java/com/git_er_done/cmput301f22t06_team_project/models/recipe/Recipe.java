@@ -235,6 +235,20 @@ public class Recipe implements Cloneable {
     }
 
     /**
+     * Compares Recipes based on their Title
+     * @param o The Recipe to be compared
+     * @return True if the recipes have the same title, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe other = (Recipe) o;
+        return title.equalsIgnoreCase(other.getTitle());
+    }
+
+    /**
      * Creates a field-for-field copy of the given Recipe.
      *
      * @return A field-for-field copy of the original Recipe.
