@@ -25,6 +25,7 @@ public class Recipe implements Cloneable {
     private int prep_time;
     private int servings;
     private String image;
+    boolean isChecked;
 
     // No empty constructor since it should never be called anyway
 
@@ -232,6 +233,14 @@ public class Recipe implements Cloneable {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     /**
