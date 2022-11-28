@@ -60,6 +60,9 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
         // Return a new holder instance
         return new ViewHolder(recipeView);
+        ViewHolder viewHolder = new ViewHolder(recipeView);
+
+        return viewHolder;
     }
 
     /**
