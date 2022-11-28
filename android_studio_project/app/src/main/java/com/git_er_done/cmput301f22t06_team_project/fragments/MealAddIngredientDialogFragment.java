@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static com.git_er_done.cmput301f22t06_team_project.fragments.MealAddEditDialogFragment.selectedIngredientsToAddToMeal;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

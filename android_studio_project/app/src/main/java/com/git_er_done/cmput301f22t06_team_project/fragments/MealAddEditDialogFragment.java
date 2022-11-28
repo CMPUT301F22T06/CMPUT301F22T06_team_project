@@ -12,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
+import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
@@ -27,19 +30,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class MealAddEditDialogFragment extends DialogFragment {
+public class MealAddEditDialogFragment extends DialogFragment{
 
     private static Meal selectedMeal = null;
-
-    private Button btnCancel;
-    private Button btnSave;
     private Button btnAddIngredientToMeal;
+    private Button btnAddRecipeToMeal;
 
     private static boolean isAddingNewMeal = false;
     private static boolean isEdittingExistingMeal = false;
 
     View mealAddEditDialogView;
 
+    //Linear layouts for holding the ingredient and recipes the user has selected for the new meal
+    View ingredientsLinearLayout;
+    View recipesLinearLayout;
 
     public static ArrayList<Ingredient> selectedIngredientsToAddToMeal = new ArrayList<>();
     public static ArrayList<Recipe> selectedRecipesToAddToMeal = new ArrayList<>();
@@ -86,13 +90,17 @@ public class MealAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Button btnCancel;
+        Button btnSave;
         selectedIngredientsToAddToMeal.clear(); //clear static list of added ing incase there were some recently added
+        selectedRecipesToAddToMeal.clear();
 
         btnAddIngredientToMeal = view.findViewById(R.id.btn_meal_add_edit_ingredient_add);
-
+        btnAddRecipeToMeal = view.findViewById(R.id.btn_meal_add_edit_recipe_add);
         btnCancel = view.findViewById(R.id.btn_meal_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_meal_add_edit_save);
+        ingredientsLinearLayout = view.findViewById(R.id.ll_meal_add_edit_ingredients);
+        recipesLinearLayout = view.findViewById(R.id.ll_meal_add_edit_recipes);
 
         btnAddIngredientToMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +109,12 @@ public class MealAddEditDialogFragment extends DialogFragment {
             }
         });
 
+        btnAddRecipeToMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddRecipeDialog();
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +132,7 @@ public class MealAddEditDialogFragment extends DialogFragment {
                     MealDBHelper.addMealToDB(newMeal);
 
                     selectedIngredientsToAddToMeal.clear(); //Clear selected ingredients after creating meal and adding to the db
-
+                    selectedRecipesToAddToMeal.clear();
                     isAddingNewMeal = false;
                     dismiss();
 
@@ -126,6 +140,19 @@ public class MealAddEditDialogFragment extends DialogFragment {
             }
         });
 
+    }
+
+    public void updateLinearLayoutIngredientItems(){
+        IngredientMealItemView ingredientMealItemView;
+
+        for(int i = 0; i < selectedIngredientsToAddToMeal.size(); i++){
+            ingredientMealItemView = new IngredientMealItemView(getContext());
+
+            ingredientMealItemView.setName(selectedIngredientsToAddToMeal.get(i).getName());
+            ingredientMealItemView.setAmount(selectedIngredientsToAddToMeal.get(i).getAmount());
+            ingredientMealItemView.setUnit(selectedIngredientsToAddToMeal.get(i).getUnit());
+            ((LinearLayout) ingredientsLinearLayout).addView(ingredientMealItemView);
+        }
     }
 
     //TODO - this USE DBHELPER NOT ADAPTERS
@@ -146,9 +173,16 @@ public class MealAddEditDialogFragment extends DialogFragment {
 
     private void showAddIngredientDialog() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
-        MealAddIngredientDialogFragment editNameDialogFragment =
+        MealAddIngredientDialogFragment addIngredientDialogFragment =
                 MealAddIngredientDialogFragment.newInstance();
-        editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+        addIngredientDialogFragment.show(fm, "fragment_meal_add_ingredient_dialog");
+    }
+
+    private void showAddRecipeDialog() {
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        MealAddRecipeDialogFragment addRecipeDialogFragment =
+                MealAddRecipeDialogFragment.newInstance();
+        addRecipeDialogFragment.show(fm, "fragment_meal_add_recipe_dialog");
     }
 
 }

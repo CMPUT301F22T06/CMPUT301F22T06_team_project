@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.util.ArrayList;
@@ -49,11 +48,11 @@ public class MealsAddIngredientListViewAdapter extends ArrayAdapter<Ingredient> 
 
         //Inflate custom layout for this item
         if(currentItemView == null) {
-            currentItemView = inflater.inflate(R.layout.meal_add_ingredient_list_item, parent, false);
+            currentItemView = inflater.inflate(R.layout.meal_add_ingredient_or_recipe_list_item, parent, false);
         }
 
-        ingredientCheckBox = currentItemView.findViewById(R.id.cb_meal_add_ingredient);
-        ingredientName = currentItemView.findViewById(R.id.tv_meal_add_ingredient_list_item_name);
+        ingredientCheckBox = currentItemView.findViewById(R.id.cb_meal_add_ingredient_or_recipe);
+        ingredientName = currentItemView.findViewById(R.id.tv_meal_add_ingredient_or_recipe_list_item_name);
 
         ingredientName.setText(ingredient.getName());
 
