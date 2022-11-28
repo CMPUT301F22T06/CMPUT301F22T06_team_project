@@ -292,9 +292,9 @@ public class RecipeDBHelper {
                             i.setUnit(unit);
                             i.setLocation(location);
                             i.setCategory(category);
+                            modifyRecipeInDB(recipe, recipe, index);
                         }
                     }
-                    modifyRecipeInDB(recipe, recipe, index);
                     index = index + 1;
                 }
             }
