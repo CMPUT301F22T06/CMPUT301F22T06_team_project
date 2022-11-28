@@ -54,13 +54,14 @@
         android:id="@+id/tv_meal_ingredient_list_item_unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:paddingHorizontal="2dp"
-        android:layout_marginLeft="5dp"
         android:text="Unit"
-        android:translationY="15dp"
-        android:translationX="300dp"
         android:textColor="@color/blue"
         android:textSize="13dp"
-        android:layout_gravity="center"/>
+        android:translationX="275dp"
+        android:translationY="15dp" />
 
 </RelativeLayout>

@@ -241,6 +241,8 @@
                     android:id="@+id/sp_recipe_add_edit_category"
                     android:layout_width="match_parent"
                     android:layout_height="50sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:backgroundTint="@color/dark_blue" />
             </LinearLayout>
 
@@ -340,7 +342,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_marginLeft="10dp"
                     android:textColor="@color/black"
                     android:textSize="13dp"
                     android:text="CANCEL"/>
@@ -350,7 +352,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp"
+
                     android:textColor="@color/black"
                     android:textSize="13dp"
                     android:text="SAVE"/>
