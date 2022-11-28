@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -80,6 +81,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                         selectedIngredient.getLocation(), selectedIngredient.getUnit(), selectedIngredient.getCategory(),
                         selectedIngredient.getAmount() + quantity);
                 modifyIngredientInDB(newIngredient, selectedIngredient, pos);
+                Toast.makeText(v.getContext(), "Make sure to update ingredient details!", Toast.LENGTH_LONG).show();
             }
         });
     }
