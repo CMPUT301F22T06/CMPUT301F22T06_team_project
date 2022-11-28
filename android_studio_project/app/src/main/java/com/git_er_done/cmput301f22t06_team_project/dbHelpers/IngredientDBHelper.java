@@ -61,13 +61,13 @@ public class IngredientDBHelper {
         return singleInstance;
     }
 
-    private static ArrayList<Ingredient> ingredientInStorage = new ArrayList<>();
+    private static ArrayList<Ingredient> ingredientsInStorage = new ArrayList<>();
 
     //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
     //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will
     //  result in the snapshot listeners updating the local storage
     public static ArrayList<Ingredient> getIngredientsFromStorage(){
-        return ingredientInStorage;
+        return ingredientsInStorage;
     }
 
     //TODO - Put newly added ingredients ontop of recyclerview top show user
@@ -238,18 +238,18 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             Ingredient ingredient = createIngredient(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                ingredientInStorage.add(ingredient);
+                                ingredientsInStorage.add(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                ingredientInStorage.set(selectedIngPos, ingredient);
+                                ingredientsInStorage.set(selectedIngPos, ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = ingredientInStorage.indexOf(ingredient);
+                                int position = ingredientsInStorage.indexOf(ingredient);
                                 //If the rvAdapter returns a valid position
                                 if(position != -1){
-                                    ingredientInStorage.remove(position);
+                                    ingredientsInStorage.remove(position);
                                 }
                                 else{
                                     Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM STORAGE");
@@ -323,6 +323,14 @@ public class IngredientDBHelper {
                 IngredientDBHelper.modifyIngredientInDB(newIngredient, anIngredient, i);
             }
         }
+    }
+
+    public static int getIndexOfIngredientFromName(String ingredientName) {
+        for(Ingredient ingredient : ingredientsInStorage)  {
+            if(ingredient.getName().equals(ingredientName))
+                return ingredientsInStorage.indexOf(ingredient);
+        }
+        return -1;
     }
 
 }

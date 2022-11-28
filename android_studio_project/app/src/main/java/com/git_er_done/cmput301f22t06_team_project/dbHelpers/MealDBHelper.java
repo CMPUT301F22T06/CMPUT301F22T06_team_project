@@ -110,8 +110,7 @@ public class MealDBHelper {
     public static ArrayList<Recipe> createRecipeArrayListFromDelimitedString(String delimitedRecipeString){
         ArrayList<Recipe> recipesList = new ArrayList<>();
 
-//        delimitedRecipeString = delimitedRecipeString.replaceFirst("^|", ""); //Remove the first delimiter from the recipe string packet
-        //Split string into individual recies based on | delimiter
+        //Split string into individual recipes based on | delimiter
         String[] recipesStringArray = delimitedRecipeString.replaceFirst("^\\|", "").split("\\|");
 
         //loop through each recipe string packet and split name and servings
@@ -153,6 +152,39 @@ public class MealDBHelper {
         return res;
     }
 
+    public static ArrayList<Ingredient> createIngredientArrayListFromDelimitedString(String delimiteddIngredientString){
+        ArrayList<Ingredient> ingredientsList = new ArrayList<>();
+
+        //Split string into individual recipes based on | delimiter
+        String[] ingredientsStringArray = delimiteddIngredientString.replaceFirst("^\\|", "").split("\\|");
+
+        //loop through each recipe string packet and split name and servings
+        for(int i = 0; i < ingredientsStringArray.length; i++){
+            String[] ingredientNameAndServingString = ingredientsStringArray[i].split("\\,");
+            String name = ingredientNameAndServingString[0];
+            Integer amount = Integer.parseInt(ingredientNameAndServingString[1]);
+            String unit = ingredientNameAndServingString[2];
+
+            //Create a recipe instance referencing the recipes in local storage (which should match the db thanks to the snapshot listener)
+            int ingredientIndex = IngredientDBHelper.getIndexOfIngredientFromName(name);
+            //Find the recipe with the same name
+            Ingredient referenceIngredientFromStorage = IngredientDBHelper.getIngredientsFromStorage().get(ingredientIndex);
+            Ingredient thisMealsIngredientInstance = new Ingredient(
+                    name,
+                    referenceIngredientFromStorage.getDesc(),
+                    referenceIngredientFromStorage.getBestBefore(),
+                    referenceIngredientFromStorage.getLocation(),
+                    unit,
+                    referenceIngredientFromStorage.getCategory(),
+                    amount
+            );
+            ingredientsList.add(thisMealsIngredientInstance);
+        }
+
+
+        return ingredientsList;
+    }
+
 
     //method to convert a retrieved meal POJO HashMap back to its corresponding object instance
     //This is reffered to as 'createIngredient' in the ingredientDBHelper
@@ -167,7 +199,7 @@ public class MealDBHelper {
 
         ArrayList<Recipe> recipes = createRecipeArrayListFromDelimitedString(fromDBbutString.get("recipes"));
 
-        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        ArrayList<Ingredient> ingredients = createIngredientArrayListFromDelimitedString(fromDBbutString.get("ingredients"));
 
         LocalDate date = LocalDate.parse((String) doc.getData().get("date"));
 
