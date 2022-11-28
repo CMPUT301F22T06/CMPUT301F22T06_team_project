@@ -326,7 +326,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
      */
     boolean checkDuplicateInDB(){
         for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
-            if (i.getTitle().equals(etTitle.getText().toString())) {
+            if (i.getTitle().equals(etTitle.getText().toString()) && !isEdittingExistingRecipe) {
                 Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
