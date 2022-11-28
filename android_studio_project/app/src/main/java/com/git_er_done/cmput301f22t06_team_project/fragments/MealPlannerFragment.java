@@ -83,7 +83,6 @@ public class MealPlannerFragment extends Fragment {
         buttonAddMealToCurrentDate = root.findViewById(R.id.btn_meal_add_new_meal);
 
         //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
-//        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
         dummyMeals = Meal.createDummyMealList();
 
         setupMonthDayBinder();
@@ -173,7 +172,6 @@ public class MealPlannerFragment extends Fragment {
     }
 
 
-
     /**
      * Binds the calendar_day_title_container layout to the calendar object.
      * Gives the calendar a header with the associated month and year.
@@ -197,6 +195,7 @@ public class MealPlannerFragment extends Fragment {
 
         };
     }
+
 
     /**
      * ViewContainer for the 'all days of the month' layout of the calendarView
@@ -245,7 +244,6 @@ public class MealPlannerFragment extends Fragment {
     }
 
     public void setupWeekDayBinder(){
-
         weekDayBinder = new WeekDayBinder<DayViewContainer>() {
             @Override
             public void bind(@NonNull DayViewContainer container, WeekDay weekDay) {
@@ -266,6 +264,4 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
-
-
 }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.git_er_done.cmput301f22t06_team_project.R;
 
 // Followed https://blog.netcetera.com/creating-your-first-android-custom-view-f4666925956
-
 /**
  * A custom view for displaying Recipes in the meal planner calendar
  *
@@ -20,10 +19,10 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 @SuppressLint("SetTextI18n")
 public class RecipeMealItemView extends LinearLayout {
 
-    private TextView tv_recipeName;
-    private TextView tv_amount;
-    private Button add;
-    private Button minus;
+    private TextView tvRecipeName;
+    private TextView tvAmount;
+    private Button buttonAddMealRecipeServing;
+    private Button buttonMinusMealRecipeServing;
 
     private String name;
     private Integer amount;
@@ -69,22 +68,22 @@ public class RecipeMealItemView extends LinearLayout {
      */
     private void init() {
         inflate(getContext(), R.layout.meal_recipe_list_item, this);
-        tv_recipeName = findViewById(R.id.tv_meal_recipe_list_item_name);
-        tv_amount = findViewById(R.id.tv_meal_recipe_list_item_servings);
-        add = findViewById(R.id.btn_meal_recipe_add_serving);
-        minus = findViewById(R.id.btn_meal_recipe_minus_serving);
+        tvRecipeName = findViewById(R.id.tv_meal_recipe_list_item_name);
+        tvAmount = findViewById(R.id.tv_meal_recipe_list_item_servings);
+        buttonAddMealRecipeServing = findViewById(R.id.btn_meal_recipe_add_serving);
+        buttonMinusMealRecipeServing = findViewById(R.id.btn_meal_recipe_minus_serving);
         // On click listeners for buttons
-        add.setOnClickListener(v -> {
+        buttonAddMealRecipeServing.setOnClickListener(v -> {
             amount += 1;
-            tv_amount.setText(Integer.toString(amount));
+            tvAmount.setText(Integer.toString(amount));
         });
 
-        minus.setOnClickListener(v -> {
+        buttonMinusMealRecipeServing.setOnClickListener(v -> {
             if (amount >= 1) {
                 amount -= 1;
-                tv_amount.setText(Integer.toString(amount));
+                tvAmount.setText(Integer.toString(amount));
             } else {
-                tv_amount.setText("0");
+                tvAmount.setText("0");
             }
         });
     }
@@ -124,7 +123,7 @@ public class RecipeMealItemView extends LinearLayout {
      */
     public void setAmount(Integer amount) {
         this.amount = amount;
-        tv_amount.setText(Integer.toString(amount));
+        tvAmount.setText(Integer.toString(amount));
     }
 
     /**
@@ -134,7 +133,7 @@ public class RecipeMealItemView extends LinearLayout {
      */
     public void setName(String name) {
         this.name = name;
-        tv_recipeName.setText(name);
+        tvRecipeName.setText(name);
     }
 
     /**
