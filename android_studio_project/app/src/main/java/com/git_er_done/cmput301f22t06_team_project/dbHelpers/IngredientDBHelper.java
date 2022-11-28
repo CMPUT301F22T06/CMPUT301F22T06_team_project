@@ -55,7 +55,7 @@ public class IngredientDBHelper {
 
     /**
      * Static method to create instance of Singleton class
-     * @return
+     * @return a single instance of a new ingredientDBHelper
      */
     public static IngredientDBHelper getInstance()
     {
@@ -193,7 +193,7 @@ public class IngredientDBHelper {
      * This method take a document from firestore and takes the data then converts it into an Ingredient object
      * to return
      *
-     * @param doc
+     * @param doc of type document snapshot
      * @return ingredient of type {@link Ingredient}
      * @see MealDBHelper
      * @see RecipeDBHelper

@@ -45,9 +45,9 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     /**
      * Inflates item layout and creates view holder
      * A viewHolder describes an item and metadata about its place within the RecylerView
-     * @param parent
-     * @param viewType
-     * @return
+     * @param parent of type viewgroup
+     * @param viewType of type int
+     * @return a new viewholder with recipe view
      */
     @NonNull
     @Override
@@ -60,9 +60,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
         // Return a new holder instance
         return new ViewHolder(recipeView);
-//        ViewHolder viewHolder;
-//
-//        return viewHolder;
     }
 
     /**
