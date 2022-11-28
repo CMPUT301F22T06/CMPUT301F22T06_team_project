@@ -18,10 +18,13 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 public class MealAddEditDialogFragment extends DialogFragment {
@@ -36,6 +39,10 @@ public class MealAddEditDialogFragment extends DialogFragment {
     private static boolean isEdittingExistingMeal = false;
 
     View mealAddEditDialogView;
+
+
+    public static ArrayList<Ingredient> selectedIngredientsToAddToMeal = new ArrayList<>();
+    public static ArrayList<Recipe> selectedRecipesToAddToMeal = new ArrayList<>();
 
     /**
      * Required empty public constructor
@@ -80,6 +87,7 @@ public class MealAddEditDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        selectedIngredientsToAddToMeal.clear(); //clear static list of added ing incase there were some recently added
 
         btnAddIngredientToMeal = view.findViewById(R.id.btn_meal_add_edit_ingredient_add);
 
@@ -106,12 +114,14 @@ public class MealAddEditDialogFragment extends DialogFragment {
             public void onClick(View view) {
 
                 if (isAddingNewMeal) {
-                    if (!checkDuplicateInDB()){
-//                        Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
-//                        IngredientDBHelper.addIngredientToDB(newIngredient);
-                        isAddingNewMeal = false;
-                        dismiss();
-                    }
+                    Meal newMeal = new Meal(selectedRecipesToAddToMeal, selectedIngredientsToAddToMeal, MealPlannerFragment.getSelectedDate());
+                    MealDBHelper.addMealToDB(newMeal);
+
+                    selectedIngredientsToAddToMeal.clear(); //Clear selected ingredients after creating meal and adding to the db
+
+                    isAddingNewMeal = false;
+                    dismiss();
+
                 }
             }
         });
