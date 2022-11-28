@@ -103,37 +103,47 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dp">
 
-                <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_weight="0"
-                    android:text="Location: "
-                    android:textSize="18dp"
-                    android:textColor="@color/light_yellow"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Location: "
+                        android:textColor="@color/light_yellow"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/editLocationButton"
+                        android:layout_width="94dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="2"
+                        android:text="Edit Locations"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/locationTextView"
                         android:layout_width="97dp"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:text="Location"
                         android:textAlignment="center"
-                        android:visibility="visible" />
-
-                    <Button
-                        android:id="@+id/EditLocationButton"
-                        android:layout_width="80dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="2"
-                        android:text="Edit"
-                        android:textColor="@color/black"
-                        android:textSize="10dp"
-                        android:visibility="visible" />
+                        android:textColor="@color/light_yellow"
+                        android:textColorHint="@color/light_yellow"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
 
                     <EditText
                         android:id="@+id/addLocation"
@@ -173,12 +183,12 @@
 
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_location"
-                    android:layout_width="match_parent"
+                    android:layout_width="258dp"
                     android:layout_height="48dp"
                     android:backgroundTint="@color/yellow"
                     android:scrollbarSize="200dp"
                     android:textColor="@color/yellow"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
@@ -234,19 +244,32 @@
                             android:minHeight="48dp"
                             android:textColor="@color/light_yellow"
                             android:textColorHint="@color/light_yellow"
-                            android:textSize="10dp" />
+                            android:textSize="10dp"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/editUnitButton"
+                            android:layout_width="94dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="2"
+                            android:text="Edit Units"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            android:visibility="visible" />
 
                         <Button
                             android:id="@+id/addUnitButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             android:width="10dp"
                             android:text="Add"
+                            android:textColor="@color/black"
                             android:textSize="8dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:textColor="@color/black" />
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/deleteUnitButton"
@@ -254,9 +277,11 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:width="10dp"
+                            android:paddingHorizontal="1dp"
                             android:text="Delete"
+                            android:textColor="@color/black"
                             android:textSize="8dp"
-                            android:textColor="@color/black" />
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
@@ -277,13 +302,31 @@
                 android:padding="10dp"
                 android:textColor="@color/yellow">
 
-                <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_weight="0"
-                    android:text="Category: "
-                    android:textColor="@color/light_yellow"
-                    android:textSize="18dp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Category: "
+                        android:textColor="@color/light_yellow"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/editCategoryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Edit Categories"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -296,32 +339,33 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:hint="Add Category"
-                        android:textSize="13dp"
+                        android:paddingRight="10dp"
                         android:textColor="@color/light_yellow"
                         android:textColorHint="@color/light_yellow"
-                        android:paddingRight="10dp"
-                        />
+                        android:textSize="13dp"
+                        android:visibility="gone" />
+
                     <Button
                         android:id="@+id/addCategoryButton"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="Add"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/deleteCategoryButton"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="Delete"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <Spinner

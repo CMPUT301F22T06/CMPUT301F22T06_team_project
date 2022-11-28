@@ -66,10 +66,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     EditText addUnitText;
     Button addUnitButton;
     Button deleteUnitButton;
+    Button editUnitButton;
 
     EditText addCategoryText;
     Button addCategoryButton;
     Button deleteCategoryButton;
+    Button editCategoryButton;
 
     String name;
     String description;
@@ -162,9 +164,27 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 addLocationButton.setVisibility(View.VISIBLE);
                 addLocationText.setVisibility(View.VISIBLE);
                 deleteLocationButton.setVisibility(View.VISIBLE);
-                spLocation.setVisibility(View.VISIBLE);
                 editLocationButton.setVisibility(View.GONE);
-                displayLocationText.setVisibility(View.GONE);
+            }
+        });
+
+        editUnitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addUnitButton.setVisibility(View.VISIBLE);
+                addUnitText.setVisibility(View.VISIBLE);
+                deleteUnitButton.setVisibility(View.VISIBLE);
+                editUnitButton.setVisibility(View.GONE);
+            }
+        });
+
+        editCategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCategoryButton.setVisibility(View.VISIBLE);
+                addCategoryText.setVisibility(View.VISIBLE);
+                deleteCategoryButton.setVisibility(View.VISIBLE);
+                editCategoryButton.setVisibility(View.GONE);
             }
         });
 
@@ -407,7 +427,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spCategory.setSelection(ingredientCategories.indexOf(category));
         etAmount.setText(String.valueOf(amount));
         spUnit.setSelection(ingredientUnits.indexOf(unit));
-        displayLocationText.setText(location);
+
     }
 
 
@@ -425,16 +445,17 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         addLocationText = view.findViewById(R.id.addLocation);
         addLocationButton = view.findViewById(R.id.addLocationButton);
         deleteLocationButton = view.findViewById(R.id.deleteLocationButton);
-        displayLocationText = view.findViewById(R.id.textView);
-        editLocationButton = view.findViewById(R.id.EditLocationButton);
+        editLocationButton = view.findViewById(R.id.editLocationButton);
 
         addUnitText = view.findViewById(R.id.addUnit);
         addUnitButton = view.findViewById(R.id.addUnitButton);
         deleteUnitButton = view.findViewById(R.id.deleteUnitButton);
+        editUnitButton = view.findViewById(R.id.editUnitButton);
 
         addCategoryText = view.findViewById(R.id.addCategory);
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
+        editCategoryButton = view.findViewById(R.id.editCategoryButton);
     }
 
 
