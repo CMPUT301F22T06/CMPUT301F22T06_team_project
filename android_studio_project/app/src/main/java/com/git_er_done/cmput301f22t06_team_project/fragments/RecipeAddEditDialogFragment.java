@@ -40,9 +40,9 @@ import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsVie
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -206,8 +206,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
                         if(spCategory.getAdapter().getCount() > 1){
                             String toDelete = (String) adapterView.getItemAtPosition(i);
-                            RecipeCategory.getInstance().deleteRecipeCategory(toDelete);
-
+                            UserDefinedDBHelper.deleteUserDefined(toDelete, "recipeCategory", 0);
                             //This changes the dropdown value to something that isn't currently selected.
                             if (i == 0) {
                                 spCategory.setSelection(spCategory.getAdapter().getCount() - 1); // Last value in the list
@@ -236,7 +235,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "You can't add an empty category", Toast.LENGTH_LONG).show();
                 }
                 else if (!checkDuplicateInRecyclerView()) {
-                    RecipeCategory.getInstance().addRecipeCategory(categoryText);
+                    UserDefinedDBHelper.addUserDefined(categoryText, "recipeCategory");
                     addCategoryText.setText("");
                 }
             }
@@ -324,7 +323,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         }
         //Checks for duplicate recipe categories
-        for (String i : RecipeCategory.getInstance().getAllRecipeCategories()){
+        for (String i : recipeCategories){
             if (categoryText.equalsIgnoreCase(i)){
                 Toast.makeText(getActivity(), "A recipe category of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
@@ -605,11 +604,13 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     void setupAdapters(){
         context = this.getContext();
         ingredientStorage = IngredientDBHelper.getIngredientsFromStorage();
-
         ArrayAdapter<String> categorySpinnerAdapter =
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, recipeCategories);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
+        UserDefinedDBHelper.setupSnapshotListenerForRecipeCategoryAdapter(categorySpinnerAdapter);
+        UserDefinedDBHelper.addUserDefined("to delete", "recipeCategory");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "recipeCategory", 0);
 
         ArrayList<String> ingredientNames = new ArrayList<>();
         for (Ingredient i: ingredientStorage){

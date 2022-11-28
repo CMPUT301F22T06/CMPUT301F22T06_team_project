@@ -162,6 +162,13 @@ public class RecipeDBHelper {
                 });
     }
 
+    /**
+     * Modifies the data of a recipes that's already in the database.
+     * @param newRecipe of type Recipe
+     * @param oldRecipe of type Recipe
+     * @param pos of type Int
+     */
+
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         selectedRecipePos = pos;
@@ -270,20 +277,25 @@ public class RecipeDBHelper {
         return recipe;
     }
 
-    public static void updateRecipe(String unit, String name){
+    public static void updateRecipe(String unit, String location, String category, String name){
+
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot docs = task.getResult();
+                int index = 0;
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
                     for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
                             i.setUnit(unit);
+                            i.setLocation(location);
+                            i.setCategory(category);
                         }
                     }
-                    addRecipe(recipe);
+                    modifyRecipeInDB(recipe, recipe, index);
+                    index = index + 1;
                 }
             }
         });

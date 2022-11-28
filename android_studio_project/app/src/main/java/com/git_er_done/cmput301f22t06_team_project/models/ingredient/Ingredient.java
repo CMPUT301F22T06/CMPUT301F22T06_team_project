@@ -4,6 +4,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ public class Ingredient implements Cloneable{
     private Integer color;
 
     //Grab singleton arrays for user defined attributes like location and category
-    public static ArrayList<String> ingredientLocations = IngredientLocation.getInstance().getAllLocations();
-    public static ArrayList<String> ingredientCategories = IngredientCategory.getInstance().getAllIngredientCategories();
-    public static ArrayList<String> ingredientUnits = IngredientUnit.getInstance().getAllUnits();
+    public static ArrayList<String> ingredientLocations = UserDefinedDBHelper.getIngredientLocations();
+    public static ArrayList<String> ingredientCategories = UserDefinedDBHelper.getIngredientCategories();
+    public static ArrayList<String> ingredientUnits = UserDefinedDBHelper.getIngredientUnits();
 
 
     /**

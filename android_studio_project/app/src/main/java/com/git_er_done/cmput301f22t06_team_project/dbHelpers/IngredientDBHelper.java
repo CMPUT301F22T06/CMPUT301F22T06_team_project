@@ -53,8 +53,12 @@ public class IngredientDBHelper {
         setupSnapshotListenerForLocalIngredientStorage();
     }
 
-    // Static method to create instance of Singleton class
-    public static IngredientDBHelper getInstance() {
+    /**
+     * Static method to create instance of Singleton class
+     * @return
+     */
+    public static IngredientDBHelper getInstance()
+    {
         if (singleInstance == null)
             singleInstance = new IngredientDBHelper();
         return singleInstance;
@@ -163,8 +167,13 @@ public class IngredientDBHelper {
         });
     }
 
-    //    TODO - only modify attributes that have changed -  for now it modifies all of them
-    public static void modifyIngredientInDB(Ingredient newIngredient, Ingredient oldIngredient, int pos) {
+    /**
+     * Modifies the data of an ingredient that already exists in the database
+     * @param newIngredient of type Ingredient
+     * @param oldIngredient of type Ingredient
+     * @param pos of type int
+     */
+    public static void modifyIngredientInDB(Ingredient newIngredient, Ingredient oldIngredient, int pos){
         String nameOfIngredient = oldIngredient.getName();
         selectedIngPos = pos;
 
@@ -312,7 +321,11 @@ public class IngredientDBHelper {
                 });
     }
 
-    public static void setExpiredIngredientsAmountToZero() {
+    /**
+     * Sets the amount of an ingredient to zero in the database if the ingredient is past its expiry data
+     */
+
+    public static void setExpiredIngredientsAmountToZero(){
         LocalDate today = LocalDate.now();
         for (int i = 0; i < IngredientDBHelper.getIngredientsFromStorage().size(); i++) {
             Ingredient anIngredient = IngredientDBHelper.getIngredientsFromStorage().get(i);
