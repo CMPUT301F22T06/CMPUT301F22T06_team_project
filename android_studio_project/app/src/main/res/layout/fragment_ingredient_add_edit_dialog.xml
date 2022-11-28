@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/red">
+    android:background="@drawable/border">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Name: "
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/light_blue"
                     android:textSize="20dp" />
 
             <EditText
@@ -38,11 +38,14 @@
                 android:hint="Name Here"
                 android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapWords"
-                android:maxLength="35"
-                android:minHeight="48dp"
-                android:textColor="@color/yellow"
-                android:textColorHint="@color/yellow"
-                android:textSize="15dp" />
+                android:maxLength="20"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/light_blue"
+                android:textColorHint="@color/light_blue"
+                android:textSize="15dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                />
         </LinearLayout>
 
             <LinearLayout
@@ -56,20 +59,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description: "
-                android:textColor="@color/yellow"
+                android:textColor="@color/light_blue"
                 android:textSize="18dp"/>
 
-                <EditText
-                    android:id="@+id/et_ingredient_add_edit_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Description Here"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapSentences|textPersonName|textMultiLine"
-                    android:maxLength="120"
-                    android:minHeight="48dp"
-                    android:textColor="@color/light_yellow"
-                    android:textColorHint="@color/light_yellow"
+            <EditText
+                android:id="@+id/et_ingredient_add_edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description Here"
+                android:textColorHint="@color/white_blue"
+                android:textSize="15dp"
+                android:inputType="textCapSentences|textPersonName|textMultiLine"
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:maxLength="100"
+                android:textColor="@color/white_blue"
+                android:imeOptions="actionNext" />
                     android:textSize="15dp" />
         </LinearLayout>
 
@@ -83,7 +88,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/light_blue"
                     android:text="Best Before Date: "
                     android:textSize="18dp"/>
 
@@ -107,7 +112,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_weight="0"
-                    android:orientation="horizontal">
+                    android:text="Location: "
+                    android:textSize="18dp"
+                    android:textColor="@color/light_blue"/>
 
                     <TextView
                         android:layout_width="90dp"
@@ -151,11 +158,14 @@
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:hint="Add Location"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/light_yellow"
-                        android:textColorHint="@color/light_yellow"
                         android:textSize="13dp"
-                        android:visibility="gone" />
+                        android:maxLines="1"
+                        android:maxLength="15"
+                        android:ellipsize="end"
+                        android:textColor="@color/white_blue"
+                        android:textColorHint="@color/white_blue"
+                        android:paddingRight="10dp"
+                         />
 
                     <Button
                         android:id="@+id/addLocationButton"
@@ -183,13 +193,12 @@
 
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_location"
-                    android:layout_width="258dp"
+                    android:layout_width="match_parent"
+                    android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/light_blue"
+                    android:scrollbarSize="200dp"/>
                     android:layout_height="48dp"
-                    android:backgroundTint="@color/yellow"
                     android:scrollbarSize="200dp"
-                    android:textColor="@color/yellow"
-                    android:visibility="visible"
-                    tools:ignore="SpeakableTextPresentCheck" />
             </LinearLayout>
 
             <LinearLayout
@@ -209,7 +218,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Amount: "
-                        android:textColor="@color/yellow"
+                        android:textColor="@color/light_blue"
                         android:textSize="15dp" />
 
                     <EditText
@@ -219,8 +228,12 @@
                         android:inputType="number"
                         android:minHeight="48dp"
                         android:text="1"
-                        android:textColor="@color/yellow"
-                        android:textColorHint="@color/light_yellow"
+                        android:maxLines="1"
+                        android:maxLength="10"
+                        android:ellipsize="end"
+                        android:inputType="number"
+                        android:textColor="@color/light_blue"
+                        android:textColorHint="@color/white_blue"
                         android:textSize="12dp" />
                 </LinearLayout>
 
@@ -230,12 +243,33 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Unit: "
+                        android:textColor="@color/light_blue"
+                        android:textSize="15dp" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/addUnit"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Add Unit"
+                            android:textSize="10dp"
+                            android:maxLines="1"
+                            android:maxLength="10"
+                            android:ellipsize="end"
+                            android:textColor="@color/white_blue"
+                            android:textColorHint="@color/white_blue" />
+
+                        <Button
+                            android:id="@+id/addUnitButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Unit: "
@@ -304,10 +338,9 @@
                     <Spinner
                         android:id="@+id/sp_ingredient_add_edit_unit"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:backgroundTint="@color/yellow"
-                        android:textColor="@color/yellow"
-                        tools:ignore="SpeakableTextPresentCheck" />
+                        android:layout_height="40sp"
+                        android:backgroundTint="@color/light_blue"
+                        android:textColor="@color/light_blue" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -316,7 +349,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:textColor="@color/yellow">
+                android:textColor="@color/light_blue">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -355,12 +388,11 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:hint="Add Category"
-                        android:paddingRight="10dp"
-                        android:textColor="@color/light_yellow"
-                        android:textColorHint="@color/light_yellow"
                         android:textSize="13dp"
+                        android:textColor="@color/white_blue"
+                        android:textColorHint="@color/white_blue"
+                        android:paddingRight="10dp"
                         android:visibility="gone" />
-
                     <Button
                         android:id="@+id/addCategoryButton"
                         android:layout_width="80dp"
@@ -387,10 +419,9 @@
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_category"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:backgroundTint="@color/yellow"
-                    android:textColor="@color/yellow"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/light_blue" />
             </LinearLayout>
 
             <LinearLayout

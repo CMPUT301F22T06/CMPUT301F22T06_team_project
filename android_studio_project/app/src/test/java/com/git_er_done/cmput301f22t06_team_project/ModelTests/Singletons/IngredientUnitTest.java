@@ -15,7 +15,6 @@ public class IngredientUnitTest {
         IngredientUnit unit = IngredientUnit.getInstance();
 
         ArrayList<String> initialUnits = new ArrayList<>();
-        initialUnits.add("Add New Unit");
         initialUnits.add("g");
         initialUnits.add("ml");
         initialUnits.add("L");
@@ -31,7 +30,7 @@ public class IngredientUnitTest {
 
         unit.addUnit("lbs");
         // First user-defined index
-        assertEquals("lbs", unit.getUnitFromIndex(6));
+        assertEquals("lbs", unit.getUnitFromIndex(5));
         // Cleanup
         unit.deleteUnit("lbs");
     }

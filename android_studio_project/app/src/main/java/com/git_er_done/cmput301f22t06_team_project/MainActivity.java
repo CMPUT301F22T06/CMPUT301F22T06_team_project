@@ -17,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    public static ArrayList<Meal> dummyMeals = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         IngredientDBHelper.getInstance();
         RecipeDBHelper.getInstance();
+        MealDBHelper.getInstance();
 
         addMenuProvider(new MenuProvider() {
             @Override

@@ -1,10 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +74,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
      * @param holder ViewHolder
      * @param position Integer - position within the RecyclerView List
      */
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the object instance based on position in recyclerView
@@ -99,15 +98,16 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         unit.setText(ingredient.getUnit());
         ;
         if (ingredient.getAmount()==0) {
-            ingredient.setColor(Color.GREEN);
+            ingredient.setColor(Color.RED);
         }
-        if (ingredient.getColor()!=Color.GREEN){
-            amount.setTextColor(Color.YELLOW);
-            amount.setTextSize(12);
+        if (ingredient.getColor()!=Color.RED){
+
+            amount.setTextColor(R.color.light_blue);
+            //amount.setTextSize(12);
     }
         else{
-            amount.setTextColor(Color.GREEN);
-            amount.setTextSize(20);
+            amount.setTextColor(Color.RED);
+           // amount.setTextSize(20);
         }
     }
 
@@ -182,10 +182,17 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
     }
 
+    /**
+     * Creates a new array list of ingredients
+     * @return - returns a new array of list of ingredients in mIngredients
+     */
     public ArrayList<Ingredient> getIngredientsList(){
         return (ArrayList<Ingredient>) mIngredients;
     }
 
+    /**
+     * This function checks the date if its expired and if it is, it will change it to 0 and change the color.
+     */
     public void setExpiredIngredientsAmountToZero() {
         LocalDate today = LocalDate.now();
         for (int i = 0; i < mIngredients.size(); i++) {
@@ -198,26 +205,46 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
     }
 
+    /**
+     * Delete an item from the array list of ingredients
+     * @param position - the location of where the deleted item will be
+     */
     public void deleteItem(int position){
         mIngredients.remove(position);
         notifyDataSetChanged();
     }
 
+    /**
+     *  Get's the position of the location of where the deleted item and does a 'fake' delete where it show a popup
+     *  This way we can do a makeshift undo. The user would have to click the 'delete' on the popup to delete again.
+     * @param position - posiiton of where the deleted item will be.
+     */
     public void fakeDeleteForUndo(int position){
         rvInterface.onItemDeleted(mIngredients.get(position), position);
     }
 
-
+    /**
+     *  Add a new item into the ingredient list
+     * @param newIngredient - the new ingredient you want to add into the new list.
+     */
     public void addItem(Ingredient newIngredient){
         mIngredients.add(newIngredient);
         notifyDataSetChanged();
     }
 
+    /**
+     * update the ingredient in the list at the position to a new value
+     * @param ing - the ingredient that is to be modified
+     * @param position - the position of where the ingredient is.
+     */
     public void modifyIngredient(Ingredient ing, int position){
         mIngredients.set(position ,ing);
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by name (a-z)
+     */
     public void sortIngredientByName(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -228,6 +255,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the description (alphabetical)
+     */
     public void sortIngredientByDescription(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -238,6 +268,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the best before date (oldest to newest)
+     */
     public void sortIngredientByBestBeforeDate(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -248,6 +281,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the location (alphabetical)
+     */
     public void sortIngredientByLocation(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -258,6 +294,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the category (alphabetical)
+     */
     public void sortIngredientByCategory(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -268,6 +307,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the amount (lowest to highest)
+     */
     public void sortIngredientByAmount(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -278,6 +320,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the unit (alphabetical)
+     */
     public void sortIngredientByUnit(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override

@@ -92,6 +92,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     String ingredients;
     String category;
     String imageURI;
+    String categoryText;
 
     private static boolean isAddingNewRecipe = false;
     private static boolean isEdittingExistingRecipe = false;
@@ -227,16 +228,18 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
 
         addCategoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String CategoryText = String.valueOf(addCategoryText.getText());
-                if (CategoryText != "Add Category") {
-                    RecipeCategory.getInstance().addRecipeCategory(CategoryText);
+                categoryText = String.valueOf(addCategoryText.getText());
+                if (isEmpty(categoryText)){
+                    Toast.makeText(getActivity(), "You can't add an empty category", Toast.LENGTH_LONG).show();
+                }
+                else if (!checkDuplicateInRecyclerView()) {
+                    RecipeCategory.getInstance().addRecipeCategory(categoryText);
                     addCategoryText.setText("");
                 }
             }
@@ -295,7 +298,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        if (!checkDuplicateInDB()){
+                        if (!checkDuplicateInRecyclerView()){
                             Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             RecipeDBHelper.addRecipe(newRecipe);
@@ -310,29 +313,43 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
                 }
 
-            } // broke here
+            }
         });
     }
 
-    boolean checkDuplicateInDB(){
+    /**
+     *  This function checks to see if the inputted title exists already in the recyclerview and outputs a toast if there exists one already
+     *  It will also check the inputted recipe category for existing values
+     * @return True if the title inputted value exists in the database, false otherwise
+     */
+    boolean checkDuplicateInRecyclerView(){
         for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
-            if (i.getTitle().equals(etTitle.getText().toString())) {
+            if (i.getTitle().equals(etTitle.getText().toString()) && !isEdittingExistingRecipe) {
                 Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        }
+        for (String i : RecipeCategory.getInstance().getAllRecipeCategories()){
+            if (categoryText.equalsIgnoreCase(i)){
+                Toast.makeText(getActivity(), "A recipe category of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Checks if the title is empty, if the preptime or servings is 0. If they are, output a toast/
+     * @return - returns true if the title is empty or the preptime/servings is 0. False otherwise.
+     */
     boolean checkExceptions(){
         if (isEmpty(etTitle.getText())){
-            Toast.makeText(getActivity(), "Title can't be empty.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "The title can't be empty", Toast.LENGTH_LONG).show();
             return true;
         }
         else if (etPrep_time.getText().toString().equals(Character.toString('0'))){
             Toast.makeText(getActivity(), "Preptime has to be greater than 0.", Toast.LENGTH_LONG).show();
             return true;
-
         }
         else if (etServings.getText().toString().equals(Character.toString('0'))){
             Toast.makeText(getActivity(), "Servings has to be greater than 0.", Toast.LENGTH_LONG).show();
@@ -435,7 +452,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         imageURI = imageEncoded;
     }
 
-    // Function to check and request permission.
+    /**
+     * This function will check the camera permissions of the program. If the persmissions are accepted, it will open the camera
+     * @param permission - used to check whether or not the permissions is accepted or not
+     * @param requestCode - the camera request code
+     */
     public void checkPermission(String permission, int requestCode)
     {
         if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
@@ -448,10 +469,15 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
     }
 
-    // This function is called when the user accepts or decline the permission.
-    // Request Code is used to check which permission called this function.
-    // This request code is provided when the user is prompt for permission.
 
+    /**
+     * This function is called when the user accepts or decline the permission.
+     * Request Code is used to check which permission called this function.
+     * This request code is provided when the user is prompt for permission.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
     {
@@ -469,6 +495,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Creates a new modified recipe and puts values inputted from the fragment into the recipe.
+     * @return the new created recipe.
+     */
     Recipe modifiedRecipe(){
         Recipe modifiedRecipe = new Recipe(
                 etTitle.getText().toString(),
@@ -484,6 +514,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         return modifiedRecipe;
     }
 
+    /**
+     * Assigns all the values from the fragment views into strings
+     */
     void assignRecipeAttributesFromViews(){
         title = String.valueOf(etTitle.getText());
         comments = String.valueOf(etComments.getText());
@@ -492,6 +525,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         category = spCategory.getSelectedItem().toString();
       }
 
+    /**
+     * Assigns all selected recipe attributes from the fragment args and puts them into variables
+     */
     void assignSelectedRecipeAttributesFromFragmentArgs(){
         //Set associate view items to attributes of selected recipe from view bundle
         title = getArguments().getString("title", "");
@@ -503,6 +539,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         imageURI = getArguments().getString("image", "");
     }
 
+    /**
+     * This function fills the views with the selected reipe attributes.
+     */
     void fillViewsWithSelectedRecipeAttributes(){
         //Update editable attribute views with values of selected recipe instances
         etTitle.setText(title);
@@ -515,6 +554,10 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         view_recipe_image.setImageBitmap(bitmap);
     }
 
+    /**
+     *  This function will attach all the layout views to local instances
+     * @param view - this is the fragment to get all the layout views to attach to local variables
+     */
     void attachLayoutViewsToLocalInstances(View view){
         etTitle = (EditText) view.findViewById(R.id.et_recipe_add_edit_name);
         etServings = (EditText) view.findViewById(R.id.et_recipe_add_edit_servings);
@@ -539,6 +582,9 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
     }
 
+    /**
+     * This function sets up all the adapters by getting them first from the layout view and then assigns them to different things.
+     */
     void setupAdapters(){
         context = this.getContext();
         ingredientStorage = IngredientDBHelper.getIngredientsFromStorage();

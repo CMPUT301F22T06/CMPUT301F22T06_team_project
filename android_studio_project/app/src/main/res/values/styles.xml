@@ -17,12 +17,12 @@
     <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
 
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textColor">@color/light_blue</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
     <style name="MyDatePicker" >
-        <item name="android:textColorPrimary">@color/yellow</item>
-        <item name ="colorControlNormal">@color/yellow</item>
+        <item name="android:textColorPrimary">@color/light_blue</item>
+        <item name ="colorControlNormal">@color/light_blue</item>
     </style>
 
 </resources>

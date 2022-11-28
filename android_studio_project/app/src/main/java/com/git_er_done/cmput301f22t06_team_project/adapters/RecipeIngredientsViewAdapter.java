@@ -25,7 +25,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
     private EditText comment;
     private Button minusButton;
     private Button plusButton;
-    private EditText unit;
+    private TextView unit;
     private Button deleteButton;
 
     public RecipeIngredientsViewAdapter(ArrayList<Ingredient> recipeIngredients, Context context){
@@ -106,7 +106,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
         comment = (EditText) listItem.findViewById(R.id.comment_of_ingredient);
         minusButton = (Button) listItem.findViewById(R.id.minus_button);
         plusButton = (Button) listItem.findViewById(R.id.plus_button);
-        unit = (EditText) listItem.findViewById(R.id.unit_of_ingredient);
+        unit = (TextView) listItem.findViewById(R.id.unit_of_ingredient);
         deleteButton = (Button) listItem.findViewById(R.id.delete_button);
     }
 
