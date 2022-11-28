@@ -19,7 +19,6 @@
                 android:id="@+id/view_recipe_image"
                 android:layout_width="match_parent"
                 android:layout_height="146dp"
-                android:src="@drawable/no_image"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"/>
 
