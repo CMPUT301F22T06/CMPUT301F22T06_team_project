@@ -36,7 +36,6 @@ import java.util.Comparator;
 public class ShoppingListFragment extends Fragment implements ShoppingListRecyclerViewInterface {
 
     private RecyclerView rvShoppingListItems;
-    private FloatingActionButton fabAddShoppingListItem;
     private ShoppingListRecyclerViewAdapter rvAdapter;
 
     ArrayList<Ingredient> testShoppingList;

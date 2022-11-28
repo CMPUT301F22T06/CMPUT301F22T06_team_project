@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.kizitonwose.calendar.core.CalendarDay;
@@ -126,6 +127,8 @@ public class MealPlannerFragment extends Fragment {
 //                MealDBHelper.deleteMealFromDB(dummyMeals.get(0).getId().toString());
             }
         });
+
+        MealDBHelper.setupSnapshotListenerForLocalMealRVAdapter(rvAdapter);
 
         return root;
     }
