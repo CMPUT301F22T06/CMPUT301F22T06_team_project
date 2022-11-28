@@ -12,34 +12,45 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewIngredientsListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewRecipesListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
+import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class MealAddEditDialogFragment extends DialogFragment {
+public class MealAddEditDialogFragment extends DialogFragment{
 
     private static Meal selectedMeal = null;
-
-    private Button btnCancel;
-    private Button btnSave;
     private Button btnAddIngredientToMeal;
+    private Button btnAddRecipeToMeal;
 
     private static boolean isAddingNewMeal = false;
     private static boolean isEdittingExistingMeal = false;
 
     View mealAddEditDialogView;
 
+    ListView selectedNewMealIngredientsListView;
+    ListView selectedNewMealRecipeListView;
+
+    MealsSelectedNewIngredientsListViewAdapter mealsSelectedNewIngredientsListViewAdapter;
+    MealsSelectedNewRecipesListViewAdapter mealsSelectedNewRecipesListViewAdapter;
 
     public static ArrayList<Ingredient> selectedIngredientsToAddToMeal = new ArrayList<>();
     public static ArrayList<Recipe> selectedRecipesToAddToMeal = new ArrayList<>();
@@ -86,13 +97,26 @@ public class MealAddEditDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Button btnCancel;
+        Button btnSave;
         selectedIngredientsToAddToMeal.clear(); //clear static list of added ing incase there were some recently added
+        selectedRecipesToAddToMeal.clear();
 
         btnAddIngredientToMeal = view.findViewById(R.id.btn_meal_add_edit_ingredient_add);
-
+        btnAddRecipeToMeal = view.findViewById(R.id.btn_meal_add_edit_recipe_add);
         btnCancel = view.findViewById(R.id.btn_meal_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_meal_add_edit_save);
+
+        selectedNewMealIngredientsListView = view.findViewById(R.id.lv_meal_add_edit_ingredients);
+        selectedNewMealRecipeListView = view.findViewById(R.id.lv_meal_add_edit_recipes);
+
+
+        mealsSelectedNewIngredientsListViewAdapter = new MealsSelectedNewIngredientsListViewAdapter(getContext(), selectedIngredientsToAddToMeal);
+        selectedNewMealIngredientsListView.setAdapter(mealsSelectedNewIngredientsListViewAdapter);
+
+        mealsSelectedNewRecipesListViewAdapter = new MealsSelectedNewRecipesListViewAdapter(getContext(), selectedRecipesToAddToMeal);
+        selectedNewMealRecipeListView.setAdapter(mealsSelectedNewRecipesListViewAdapter);
+
 
         btnAddIngredientToMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +125,12 @@ public class MealAddEditDialogFragment extends DialogFragment {
             }
         });
 
+        btnAddRecipeToMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddRecipeDialog();
+            }
+        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +148,7 @@ public class MealAddEditDialogFragment extends DialogFragment {
                     MealDBHelper.addMealToDB(newMeal);
 
                     selectedIngredientsToAddToMeal.clear(); //Clear selected ingredients after creating meal and adding to the db
-
+                    selectedRecipesToAddToMeal.clear();
                     isAddingNewMeal = false;
                     dismiss();
 
@@ -134,21 +164,21 @@ public class MealAddEditDialogFragment extends DialogFragment {
      * toast and make it so that the user can't save without having a name.
      * @return True if there already exists a name in the database that exists already. False if it doesn't exist.
      */
-    boolean checkDuplicateInDB(){
-//        for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
-//            if (i.getName().equals(etName.getText().toString())) {
-//                Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        }
-        return false;
-    }
 
+    //pass instance of the adapter for the ingredients selected to the fragment
+    // then notify data set changed before on dismiss on save button click
     private void showAddIngredientDialog() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
-        MealAddIngredientDialogFragment editNameDialogFragment =
-                MealAddIngredientDialogFragment.newInstance();
-        editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+        MealAddIngredientDialogFragment addIngredientDialogFragment =
+                MealAddIngredientDialogFragment.newInstance(mealsSelectedNewIngredientsListViewAdapter);
+        addIngredientDialogFragment.show(fm, "fragment_meal_add_ingredient_dialog");
+    }
+
+    private void showAddRecipeDialog() {
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        MealAddRecipeDialogFragment addRecipeDialogFragment =
+                MealAddRecipeDialogFragment.newInstance(mealsSelectedNewRecipesListViewAdapter);
+        addRecipeDialogFragment.show(fm, "fragment_meal_add_recipe_dialog");
     }
 
 }

@@ -5,15 +5,15 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_meal_add_ingredient_list_item_name"
+        android:id="@+id/tv_meal_add_ingredient_or_recipe_list_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="18sp"
-        android:text="ingredient item">
+        android:text="item">
     </TextView>
 
-    <CheckBox android:id="@+id/cb_meal_add_ingredient"
+    <CheckBox android:id="@+id/cb_meal_add_ingredient_or_recipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

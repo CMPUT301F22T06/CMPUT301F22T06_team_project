@@ -47,7 +47,7 @@
 
     <Button
         android:id="@+id/btn_meal_add_new_meal"
-        android:text="ADD MEAL TO CURRENT DATE"
+        android:text="ADD MEAL TO SELECTED DATE"
         android:layout_width="match_parent"
         android:layout_height="60sp"
         app:layout_constraintBottom_toBottomOf="parent"

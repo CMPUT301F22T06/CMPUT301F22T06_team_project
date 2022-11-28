@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
@@ -32,9 +33,9 @@ import java.util.UUID;
  * Meal keys are their associated UUID
  */
 public class MealDBHelper {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static CollectionReference mealsDB;
-    private int selectedMealPos = -1;
+    private static int selectedMealPos = -1;
     private static MealDBHelper singleInstance = null;
 
     /**
@@ -196,7 +197,7 @@ public class MealDBHelper {
 
     //method to convert a retrieved meal POJO HashMap back to its corresponding object instance
     //This is reffered to as 'createIngredient' in the ingredientDBHelper
-    public Meal createMeal(DocumentSnapshot doc){
+    public static Meal createMeal(DocumentSnapshot doc){
         UUID id = UUID.fromString(doc.getId());
 
         Map<String, Object> fromDB = doc.getData();
@@ -253,8 +254,9 @@ public class MealDBHelper {
                 });
     }
 
-    public void modifyMealInDB(){
-
+    public static void modifyMealInDB(Meal newMeal, Meal oldMeal, int pos){
+        String uuidOfMeal = oldMeal.getId().toString();
+        selectedMealPos = pos;
     }
 
     public void setupSnapshotListenerForLocalMealStorage(){
@@ -285,7 +287,44 @@ public class MealDBHelper {
                                     mealsInStorage.remove(position);
                                 }
                                 else{
-                                    Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM STORAGE");
+                                    Log.e("DB ERROR", "INDEXING ERROR REMOVING MEAL FROM STORAGE");
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    public static void setupSnapshotListenerForLocalMealRVAdapter(MealsRecyclerViewAdapter adapter){
+        db.collection("Meals")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            Meal meal = createMeal(dc.getDocument());
+
+                            if(dc.getType() == DocumentChange.Type.ADDED){
+                                adapter.addMealToRecyclerViewList(meal);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+//                                mealsInStorage.set(selectedMealPos, meal);
+                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
+                            }
+
+                            if(dc.getType() == DocumentChange.Type.REMOVED){
+                                int position = adapter.getMealsList().indexOf(meal);
+                                //If the rvAdapter returns a valid position
+                                if(position != -1){
+                                    adapter.removeMealFromRecyclerViewList(position);
+                                }
+                                else{
+                                    Log.e("DB ERROR", "INDEX ERROR REMOVING MEAL FROM ADAPTER");
                                 }
                             }
                         }
