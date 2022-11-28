@@ -310,15 +310,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         if (sp.getAdapter().getCount() > 1) {
                             String toDelete = (String) adapterView.getItemAtPosition(i);
                             if (type == "location") {
-                                IngredientLocation.getInstance().deleteLocation(toDelete);
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientLocations", 0);
                             }
                             if (type == "unit") {
-                                IngredientUnit.getInstance().deleteUnit(toDelete);
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientUnits", 0);
                             }
                             if (type == "category") {
-                                IngredientCategory.getInstance().deleteCategory(toDelete);
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientCategory", 0);
                             }
                             //This changes the dropdown value to something that isn't currently selected.
