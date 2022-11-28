@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientsFragment;
-import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +34,7 @@ import java.util.Objects;
  * @author Saheel Sarker
  * @ingredientsFragment (for now)
  * @Version 1 (Because I didn't write the version before writing this)
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @see RecipeDBHelper
  */
 public class IngredientDBHelper {
@@ -62,13 +61,13 @@ public class IngredientDBHelper {
         return singleInstance;
     }
 
-    private static ArrayList<Ingredient> ingredientInStorage = new ArrayList<>();
+    private static ArrayList<Ingredient> ingredientsInStorage = new ArrayList<>();
 
     //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
     //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will
     //  result in the snapshot listeners updating the local storage
     public static ArrayList<Ingredient> getIngredientsFromStorage(){
-        return ingredientInStorage;
+        return ingredientsInStorage;
     }
 
     //TODO - Put newly added ingredients ontop of recyclerview top show user
@@ -76,7 +75,7 @@ public class IngredientDBHelper {
      * This method adds an ingredient to our database in the incredient collection
      * @param ingredient of type {@link Ingredient}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void addIngredientToDB(Ingredient ingredient){
@@ -122,7 +121,7 @@ public class IngredientDBHelper {
      * with that name if it's found
      * @param ingredient of type {@link String}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
@@ -202,7 +201,7 @@ public class IngredientDBHelper {
      * to return
      * @param doc
      * @return ingredient of type {@link Ingredient}
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     private static Ingredient createIngredient(DocumentSnapshot doc) {
@@ -239,18 +238,18 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             Ingredient ingredient = createIngredient(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                ingredientInStorage.add(ingredient);
+                                ingredientsInStorage.add(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                ingredientInStorage.set(selectedIngPos, ingredient);
+                                ingredientsInStorage.set(selectedIngPos, ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = ingredientInStorage.indexOf(ingredient);
+                                int position = ingredientsInStorage.indexOf(ingredient);
                                 //If the rvAdapter returns a valid position
                                 if(position != -1){
-                                    ingredientInStorage.remove(position);
+                                    ingredientsInStorage.remove(position);
                                 }
                                 else{
                                     Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM STORAGE");
@@ -324,6 +323,14 @@ public class IngredientDBHelper {
                 IngredientDBHelper.modifyIngredientInDB(newIngredient, anIngredient, i);
             }
         }
+    }
+
+    public static int getIndexOfIngredientFromName(String ingredientName) {
+        for(Ingredient ingredient : ingredientsInStorage)  {
+            if(ingredient.getName().equals(ingredientName))
+                return ingredientsInStorage.indexOf(ingredient);
+        }
+        return -1;
     }
 
 }
