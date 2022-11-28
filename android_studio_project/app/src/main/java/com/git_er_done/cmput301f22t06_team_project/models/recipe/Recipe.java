@@ -4,11 +4,13 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+
 import java.util.ArrayList;
 
 
 public class Recipe implements Cloneable{
-    private ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    private ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
     private String title;
     private String comments;
     private String category;
@@ -38,35 +40,44 @@ public class Recipe implements Cloneable{
         this.servings = servings;
     }
 
+    public Recipe(String title, String comments, String category, int prep_time, int servings, String image) {
+        this.title = title;
+        this.comments = comments;
+        this.category = category;
+        this.prep_time = prep_time;
+        this.servings = servings;
+        this.image = image;
+    }
+
     /**
-     * Returns an {@link ArrayList} of {@link RecipeIngredient}s contained in the Recipe
+     * Returns an {@link ArrayList} of {@link Ingredient}s contained in the Recipe
      * @return The ingredients contained in the recipe
      */
-    public ArrayList<RecipeIngredient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return recipeIngredients;
     }
 
     /**
      * Sets a new list of Ingredients for the recipe, replacing the old list.
-     * @param recipeIngredients An {@link ArrayList} of {@link RecipeIngredient}s to be set.
+     * @param recipeIngredients An {@link ArrayList} of {@link Ingredient}s to be set.
      */
-    public void setIngredientsList(ArrayList<RecipeIngredient> recipeIngredients) { //Got rid of this
+    public void setIngredientsList(ArrayList<Ingredient> recipeIngredients) { //Got rid of this
         this.recipeIngredients = recipeIngredients;
     }
 
     /**
      * Adds a new Ingredient to the recipe alongside the old ones
-     * @param recipeIngredient The new {@link RecipeIngredient} to be added
+     * @param recipeIngredient The new {@link Ingredient} to be added
      */
-    public void addIngredient(RecipeIngredient recipeIngredient) { // I changed this
+    public void addIngredient(Ingredient recipeIngredient) { // I changed this
         recipeIngredients.add(recipeIngredient);
     }
 
     /**
-     * Removes the specified {@link RecipeIngredient} if it exists in the Recipe
+     * Removes the specified {@link Ingredient} if it exists in the Recipe
      * @param recipeIngredient The Ingredient to be removed.
      */
-    public void removeIngredient(RecipeIngredient recipeIngredient) {
+    public void removeIngredient(Ingredient recipeIngredient) {
         if (recipeIngredients.contains(recipeIngredient)) {
             recipeIngredients.remove(recipeIngredient);
         } else {
@@ -78,84 +89,84 @@ public class Recipe implements Cloneable{
      * Creates an {@link ArrayList} of recipes for UI testing
      * @return An {@link ArrayList} of recipes.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public final static ArrayList<Recipe> createRecipeList() {
-        ArrayList<Recipe> testRecipes = new ArrayList<>();
-        // Breakfast
-        Recipe fruit_salad = new Recipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "vegan", 30, 10);
-        RecipeIngredient fruit_salad_sugar = new RecipeIngredient("sugar", "ml", 83, "Boil in saucepan");
-        RecipeIngredient fruit_salad_strawberry = new RecipeIngredient("strawberry", "ml", 500, "Hulled and sliced");
-        RecipeIngredient fruit_salad_apple = new RecipeIngredient("apple", "singles", 2, "Sliced");
-        RecipeIngredient fruit_salad_vanilla_extract = new RecipeIngredient("vanilla extract", "ml", 5, "Stir in with sugar");
-        RecipeIngredient fruit_salad_pineapple = new RecipeIngredient("pineapple", "singles", 1, "Cut into slices");
-        fruit_salad.addIngredient(fruit_salad_apple);
-        fruit_salad.addIngredient(fruit_salad_sugar);
-        fruit_salad.addIngredient(fruit_salad_strawberry);
-        fruit_salad.addIngredient(fruit_salad_vanilla_extract);
-        fruit_salad.addIngredient(fruit_salad_pineapple);
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public final static ArrayList<Recipe> createRecipeList() {
+//        ArrayList<Recipe> testRecipes = new ArrayList<>();
+//        // Breakfast
+//        Recipe fruit_salad = new Recipe("perfect summer fruit salad", "Perfect for the summer and cooling off.", "vegan", 30, 10);
+//        RecipeIngredient fruit_salad_sugar = new RecipeIngredient("sugar", "ml", 83, "Boil in saucepan");
+//        RecipeIngredient fruit_salad_strawberry = new RecipeIngredient("strawberry", "ml", 500, "Hulled and sliced");
+//        RecipeIngredient fruit_salad_apple = new RecipeIngredient("apple", "singles", 2, "Sliced");
+//        RecipeIngredient fruit_salad_vanilla_extract = new RecipeIngredient("vanilla extract", "ml", 5, "Stir in with sugar");
+//        RecipeIngredient fruit_salad_pineapple = new RecipeIngredient("pineapple", "singles", 1, "Cut into slices");
+//        fruit_salad.addIngredient(fruit_salad_apple);
+//        fruit_salad.addIngredient(fruit_salad_sugar);
+//        fruit_salad.addIngredient(fruit_salad_strawberry);
+//        fruit_salad.addIngredient(fruit_salad_vanilla_extract);
+//        fruit_salad.addIngredient(fruit_salad_pineapple);
+//
+//        Recipe spicy_tuna_poke = new Recipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "seafood", 15, 2);
+//        RecipeIngredient poke_tuna = new RecipeIngredient("tuna", "oz", 2, "Cut into 1/2 inch cubes");
+//        RecipeIngredient poke_soy_sauce = new RecipeIngredient("soy sauce", "ml", 30, "Combine with tuna");
+//        RecipeIngredient poke_sesame_oil = new RecipeIngredient("sesame oil", "ml", 5, "Combine with tuna");
+//        RecipeIngredient poke_rice = new RecipeIngredient("rice", "g", 250, "Cook until soft and fluffy");
+//        RecipeIngredient poke_cucumber = new RecipeIngredient("cucumber", "g", 250, "Diced into 1/2 inch cubes");
+//        spicy_tuna_poke.addIngredient(poke_tuna);
+//        spicy_tuna_poke.addIngredient(poke_soy_sauce);
+//        spicy_tuna_poke.addIngredient(poke_sesame_oil);
+//        spicy_tuna_poke.addIngredient(poke_rice);
+//        spicy_tuna_poke.addIngredient(poke_cucumber);
+//
+//        // Lunch
+//        Recipe fried_rice = new Recipe("easy fried rice", "Super simple and super delicious", "meat", 40, 4);
+//        RecipeIngredient fr_rice = new RecipeIngredient("rice", "g", 250, "Must be day old for best results");
+//        RecipeIngredient fr_vegetable_oil = new RecipeIngredient("vegetable oil", "ml", 10, "Heat in pan");
+//        RecipeIngredient fr_egg = new RecipeIngredient("egg", "singles", 2, "Lightly whisked");
+//        RecipeIngredient fr_carrot = new RecipeIngredient("carrot", "singles", 1, "Peeled and grated");
+//        RecipeIngredient fr_bacon = new RecipeIngredient("bacon", "singles", 2, "Chopped and sliced");
+//        fried_rice.addIngredient(fr_rice);
+//        fried_rice.addIngredient(fr_vegetable_oil);
+//        fried_rice.addIngredient(fr_egg);
+//        fried_rice.addIngredient(fr_carrot);
+//        fried_rice.addIngredient(fr_bacon);
+//
+//        Recipe honey_soy_chicken = new Recipe("honey soy chicken", "Sweet and tangy", "poultry", 165, 4);
+//
+//        // Dinner
+//        Recipe pumpkin_soup = new Recipe("pumpkin soup", "Creamy and perfect for the fall season", "vegetarian", 50, 6);
+//        Recipe pad_thai = new Recipe("pad thai", "Best noodle dish around.", "meat", 40, 4);
+//
+//        // Dessert
+//        Recipe vanilla_icecream = new Recipe("vanilla icecream", "Perfect with fresh baked pie.", "dessert", 155, 4);
+//
+//        Recipe bloody_mary = new Recipe("bloody mary", "When you wanna forget everything.", "drink", 2, 1);
+//
+//
+//        // Initialize the recipes
+//        // breakfast
+//        testRecipes.add(fruit_salad);
+//        testRecipes.add(spicy_tuna_poke);
+//
+//        // lunch
+//        testRecipes.add(fried_rice);
+//        testRecipes.add(honey_soy_chicken);
+//
+//        // dinner
+//        testRecipes.add(pumpkin_soup);
+//        testRecipes.add(pad_thai);
+//
+//        // dessert
+//        testRecipes.add(bloody_mary);
+//        testRecipes.add(vanilla_icecream);
+//
+//        return testRecipes;
+//    }
 
-        Recipe spicy_tuna_poke = new Recipe("spicy tuna poke bowl", "Spicy and refreshing taste of the ocean", "seafood", 15, 2);
-        RecipeIngredient poke_tuna = new RecipeIngredient("tuna", "oz", 2, "Cut into 1/2 inch cubes");
-        RecipeIngredient poke_soy_sauce = new RecipeIngredient("soy sauce", "ml", 30, "Combine with tuna");
-        RecipeIngredient poke_sesame_oil = new RecipeIngredient("sesame oil", "ml", 5, "Combine with tuna");
-        RecipeIngredient poke_rice = new RecipeIngredient("rice", "g", 250, "Cook until soft and fluffy");
-        RecipeIngredient poke_cucumber = new RecipeIngredient("cucumber", "g", 250, "Diced into 1/2 inch cubes");
-        spicy_tuna_poke.addIngredient(poke_tuna);
-        spicy_tuna_poke.addIngredient(poke_soy_sauce);
-        spicy_tuna_poke.addIngredient(poke_sesame_oil);
-        spicy_tuna_poke.addIngredient(poke_rice);
-        spicy_tuna_poke.addIngredient(poke_cucumber);
-
-        // Lunch
-        Recipe fried_rice = new Recipe("easy fried rice", "Super simple and super delicious", "meat", 40, 4);
-        RecipeIngredient fr_rice = new RecipeIngredient("rice", "g", 250, "Must be day old for best results");
-        RecipeIngredient fr_vegetable_oil = new RecipeIngredient("vegetable oil", "ml", 10, "Heat in pan");
-        RecipeIngredient fr_egg = new RecipeIngredient("egg", "singles", 2, "Lightly whisked");
-        RecipeIngredient fr_carrot = new RecipeIngredient("carrot", "singles", 1, "Peeled and grated");
-        RecipeIngredient fr_bacon = new RecipeIngredient("bacon", "singles", 2, "Chopped and sliced");
-        fried_rice.addIngredient(fr_rice);
-        fried_rice.addIngredient(fr_vegetable_oil);
-        fried_rice.addIngredient(fr_egg);
-        fried_rice.addIngredient(fr_carrot);
-        fried_rice.addIngredient(fr_bacon);
-
-        Recipe honey_soy_chicken = new Recipe("honey soy chicken", "Sweet and tangy", "poultry", 165, 4);
-
-        // Dinner
-        Recipe pumpkin_soup = new Recipe("pumpkin soup", "Creamy and perfect for the fall season", "vegetarian", 50, 6);
-        Recipe pad_thai = new Recipe("pad thai", "Best noodle dish around.", "meat", 40, 4);
-
-        // Dessert
-        Recipe vanilla_icecream = new Recipe("vanilla icecream", "Perfect with fresh baked pie.", "dessert", 155, 4);
-
-        Recipe bloody_mary = new Recipe("bloody mary", "When you wanna forget everything.", "drink", 2, 1);
-
-
-        // Initialize the recipes
-        // breakfast
-        testRecipes.add(fruit_salad);
-        testRecipes.add(spicy_tuna_poke);
-
-        // lunch
-        testRecipes.add(fried_rice);
-        testRecipes.add(honey_soy_chicken);
-
-        // dinner
-        testRecipes.add(pumpkin_soup);
-        testRecipes.add(pad_thai);
-
-        // dessert
-        testRecipes.add(bloody_mary);
-        testRecipes.add(vanilla_icecream);
-
-        return testRecipes;
-    }
-
-    public ArrayList<RecipeIngredient> getRecipeIngredients() {
+    public ArrayList<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
 
-    public void setRecipeIngredients(ArrayList<RecipeIngredient> recipeIngredients) {
+    public void setRecipeIngredients(ArrayList<Ingredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
 
@@ -258,14 +269,38 @@ public class Recipe implements Cloneable{
     /**
      * Required for indexOf call
      */
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Recipe)) {
-            return false;
-        }
-        Recipe other = (Recipe) o;
-        return title.equalsIgnoreCase(other.getTitle());
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (!(o instanceof Recipe)) {
+//            return false;
+//        }
+//        Recipe other = (Recipe) o;
+//        return title.equalsIgnoreCase(other.getTitle());
+//    }
+//    @Override
+//    public int hashCode() {
+//        final int prime = 31;
+//        int result = 1;
+//        result = prime * result + ((title == null) ? 0 : title.hashCode());
+//        return result;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj)
+//            return true;
+//        if (obj == null)
+//            return false;
+//        if (getClass() != obj.getClass())
+//            return false;
+//        Recipe other = (Recipe) obj;
+//        if (title == null) {
+//            if (other.title != null)
+//                return false;
+//        } else if (!title.equalsIgnoreCase(other.title))
+//            return false;
+//        return true;
+//    }
 
     @Override
     public Recipe clone() {
@@ -277,4 +312,5 @@ public class Recipe implements Cloneable{
             throw new AssertionError();
         }
     }
+
 }

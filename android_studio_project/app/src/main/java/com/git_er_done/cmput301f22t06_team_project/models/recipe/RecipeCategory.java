@@ -13,7 +13,6 @@ public class RecipeCategory{
         private static final RecipeCategory instance = new RecipeCategory();
 
         private RecipeCategory(){
-            recipeCategories.add("Add Category");
             recipeCategories.add("vegetarian");
             recipeCategories.add("vegan");
             recipeCategories.add("seafood");
@@ -36,5 +35,9 @@ public class RecipeCategory{
 
         public void addRecipeCategory(String locationToAdd){
             recipeCategories.add(locationToAdd);
+        }
+
+        public void deleteRecipeCategory(String categoryToDelete) {
+            recipeCategories.remove(categoryToDelete);
         }
 }

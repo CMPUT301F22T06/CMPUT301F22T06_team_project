@@ -12,30 +12,30 @@ public class IngredientLocation {
 
     private static final IngredientLocation instance = new IngredientLocation();
 
-    private IngredientLocation(){
-        locations.add("Add New Location");
+    private IngredientLocation() {
         locations.add("pantry");
         locations.add("fridge");
         locations.add("freezer");
     }
 
-    public static IngredientLocation getInstance(){
+    public static IngredientLocation getInstance() {
         return instance;
     }
 
-    public ArrayList<String> getAllLocations(){
+    public ArrayList<String> getAllLocations() {
         return locations;
     }
 
-    public String getLocationFromIndex(int index){
+    public String getLocationFromIndex(int index) {
         return locations.get(index);
     }
 
-    public void addLocation(String locationToAdd){
+    public void addLocation(String locationToAdd) {
         locations.add(locationToAdd);
     }
 
-    public void deleteLocation(String locationToDelete) {locations.remove(locationToDelete);
+    public void deleteLocation(String locationToDelete) {
+        locations.remove(locationToDelete);
     }
 
 }

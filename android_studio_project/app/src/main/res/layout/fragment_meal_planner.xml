@@ -34,5 +34,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_meal_plans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/btn_meal_add_new_meal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv_meal_planner_calendar"
+        app:layout_constrainedHeight="true"
+        android:paddingBottom="5dp"/>
+
+    <Button
+        android:id="@+id/btn_meal_add_new_meal"
+        android:text="ADD MEAL TO CURRENT DATE"
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_meal_plans"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

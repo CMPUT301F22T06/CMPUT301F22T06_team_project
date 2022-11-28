@@ -7,12 +7,10 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeIngredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,21 +20,22 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Saheel Sarker
  * @see IngredientDBHelper
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipeDBHelper {
@@ -59,12 +58,16 @@ public class RecipeDBHelper {
         return singleInstance;
     }
 
+    public static ArrayList<Recipe> getRecipesFromStorage(){
+        return recipesInStorage;
+    }
+
     /**
      * This method add a recipe to our recipe data base
      * @param recipe of type {@link Recipe}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
@@ -80,16 +83,29 @@ public class RecipeDBHelper {
 
         sendToDb.put("image", recipe.getImage());
 
-        ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
+        ArrayList<Ingredient> recipeIngredients = recipe.getIngredients();
 
         String ingredientFields;
 
-        for (RecipeIngredient i: recipeIngredients) {
+        for (Ingredient i: recipeIngredients) {
             String name = i.getName();
-            String units = i.getUnits();
-            String amount = String.valueOf(i.getAmount());
-            String comment = i.getComment();
-            ingredientFields = units + "|" + String.valueOf(amount) + "|" + comment;
+            String units = i.getDesc();
+            String bestBefore = i.getBestBefore().toString();
+            String comment = i.getLocation();
+            String unit = i.getUnit();
+            String ingredientCategory = i.getCategory();
+            String amount = i.getAmount().toString();
+            String color = i.getColor().toString();
+
+            ingredientFields =
+                    units + "|" +
+                    bestBefore + "|" +
+                    comment + "|" +
+                    unit + "|" +
+                    ingredientCategory + "|" +
+                    amount + "|" +
+                    color;
+
             sendToDb.put(name, ingredientFields);
         }
 
@@ -119,15 +135,16 @@ public class RecipeDBHelper {
 
     /**
      * This delete a recipe from the Recipe data base by
-     * taking a string argument to look for the document with that na,e
+     * taking a string argument to look for the document with that name
      * @param recipe of type {@link String}
      * returns void
      * @param position
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
+        selectedRecipePos = position;
         recipesDB
                 .document(nameofRecipe)
                 .delete()
@@ -145,17 +162,46 @@ public class RecipeDBHelper {
                 });
     }
 
-    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int position){
+    public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
+        selectedRecipePos = pos;
         String nameOfRecipe = oldRecipe.getTitle();
-        if(!Objects.equals(newRecipe.getTitle(), oldRecipe.getTitle())){
-            // This one is special since the title doesn't exist in the details and i cant directly change the id so i have to remove and re-add.
-            deleteRecipe(oldRecipe, position);
-            addRecipe(newRecipe);
+        DocumentReference dr = recipesDB.document(nameOfRecipe);
+        String comments = newRecipe.getComments();
+        String category = newRecipe.getCategory();
+        String prepTime = String.valueOf(newRecipe.getPrep_time());
+        String servings = String.valueOf(newRecipe.getServings());
+        String image = newRecipe.getImage();
+        String firstField = comments + "|" + category+ "|" + prepTime + "|" + servings;
+        dr.update("details", firstField);
+        dr.update("image", image);
+
+        for (Ingredient i: oldRecipe.getIngredients()){
+            dr.update(i.getName(), FieldValue.delete());
         }
-        else{
-            addRecipe(newRecipe);
+
+        String ingredientFields;
+        for (Ingredient i: newRecipe.getIngredients()) {
+            String name = i.getName();
+            String units = i.getDesc();
+            String bestBefore = i.getBestBefore().toString();
+            String comment = i.getLocation();
+            String unit = i.getUnit();
+            String ingredientCategory = i.getCategory();
+            String amount = i.getAmount().toString();
+            String color = i.getColor().toString();
+
+            ingredientFields =
+                    units + "|" +
+                            bestBefore + "|" +
+                            comment + "|" +
+                            unit + "|" +
+                            ingredientCategory + "|" +
+                            amount + "|" +
+                            color;
+            dr.update(name, ingredientFields);
         }
+
     }
 
     /**
@@ -164,15 +210,15 @@ public class RecipeDBHelper {
      * used any at the moment
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
-    public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<RecipeIngredient> ingredientList) {
+    public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<Ingredient> ingredientList) {
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot doc, @Nullable FirebaseFirestoreException error) {
                 Recipe recipe = createRecipe(doc);
-                ArrayList<RecipeIngredient> recipeIngredients = recipe.getIngredients();
-                for (RecipeIngredient i: recipeIngredients){
+                ArrayList<Ingredient> recipeIngredients = recipe.getIngredients();
+                for (Ingredient i: recipeIngredients){
                     ingredientList.add(i);
                 }
                 adapter.notifyDataSetChanged();
@@ -187,7 +233,7 @@ public class RecipeDBHelper {
      * @param doc of type {@link DocumentSnapshot}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     private static Recipe createRecipe(DocumentSnapshot doc) {
         String title = doc.getId();
@@ -211,10 +257,14 @@ public class RecipeDBHelper {
             String[] ingredientDetails = (fromDBbutString.get(key)).split("\\|");
             String name = key;
             String units = ingredientDetails[0];
-            Integer amount = Integer.parseInt(ingredientDetails[1]);
+            LocalDate bestBefore = LocalDate.parse(ingredientDetails[1]);
             String comment = ingredientDetails[2];
-            RecipeIngredient recipeIngredient = new RecipeIngredient(name,units,amount,comment);
-            recipe.addIngredient(recipeIngredient);
+            String unit = ingredientDetails[3];
+            String ingredientCategory = ingredientDetails[4];
+            Integer amount = Integer.parseInt(ingredientDetails[5]);
+            Integer color = Integer.parseInt(ingredientDetails[6]);
+            Ingredient ingredient = new Ingredient(name,units,bestBefore,comment,unit,ingredientCategory,amount,color);
+            recipe.addIngredient(ingredient);
         }
 
         return recipe;
@@ -227,10 +277,10 @@ public class RecipeDBHelper {
                 QuerySnapshot docs = task.getResult();
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
-                    for (RecipeIngredient i: recipe.getIngredients()){
+                    for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
-                            i.setUnits(unit);
+                            i.setUnit(unit);
                         }
                     }
                     addRecipe(recipe);
@@ -323,6 +373,14 @@ public class RecipeDBHelper {
                         }
                     }
                 });
+    }
+
+    public static int getIndexOfRecipeFromTitle(String recipeTitle) {
+        for(Recipe recipe : recipesInStorage)  {
+            if(recipe.getTitle().equals(recipeTitle))
+                return recipesInStorage.indexOf(recipe);
+        }
+        return -1;
     }
 
 }

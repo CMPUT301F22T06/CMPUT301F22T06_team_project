@@ -105,7 +105,7 @@ public class FirebaseTests {
         onView(withId(R.id.navigation_view))
                 .perform(NavigationViewActions.navigateTo(R.id.nav_recipes_menu_item));
 
-        onView(withText("RECIPES FRAGMENT")).check(matches(isDisplayed()));
+        onView(withText("RECIPES")).check(matches(isDisplayed()));
     }
 
     @Test

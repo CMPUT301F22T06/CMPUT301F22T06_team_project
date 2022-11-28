@@ -1,10 +1,14 @@
 package com.git_er_done.cmput301f22t06_team_project.models.meal;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 //TODO - Allow users to copy a meal to a different date
@@ -21,12 +25,20 @@ public class Meal {
     /**
      * List of recipes in this meal. Does not exactly match recipes in storage as serving size can be adjusted by user.
      */
-    ArrayList<Recipe> recipes;
+    ArrayList<Recipe> recipes = new ArrayList<>();
 
     /**
      * List of ingredients in this meal. Does not exactly match ingredients in storage as amount can be adjusted by user.
      */
-    ArrayList<Ingredient> ingredients;
+    ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+    public UUID getId() {
+        return id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 
     /**
      * Date assigned to this meal.
@@ -46,6 +58,21 @@ public class Meal {
         this.date = date;
     }
 
+    /**
+     * This constructor takes a UUID so that a meal instance can be re-created from the hashed POJO in firestore
+     * @param id
+     * @param recipes
+     * @param ingredients
+     * @param date
+     */
+    public Meal(UUID id, ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, LocalDate date) {
+        this.id = id;
+        this.id = UUID.randomUUID();
+        this.recipes = recipes;
+        this.ingredients = ingredients;
+        this.date = date;
+    }
+
 
     public ArrayList<Recipe> getRecipesFromMeal() {
         return recipes;
@@ -55,7 +82,15 @@ public class Meal {
         recipes.add(recipeToAdd);
     }
 
-    public ArrayList<Ingredient> getIngredientsFromMeal() {
+    public ArrayList<Ingredient> getOnlyIngredientsFromMeal(){
+        return this.ingredients;
+    }
+
+    public ArrayList<Recipe> getOnlyRecipesFromMeal(){
+        return this.recipes;
+    }
+
+    public ArrayList<Ingredient> getAllIngredientsFromMeal() {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
         //Gather all ingredients from recipes in this meal
@@ -74,6 +109,46 @@ public class Meal {
 
     public void addIngredientToMeal(Ingredient ingredientToAdd){
         ingredients.add(ingredientToAdd);
+    }
+
+    public static ArrayList<Meal> createDummyMealList(){
+        ArrayList<Meal> dummyMeals = new ArrayList<Meal>();
+        ArrayList<Ingredient> ingredients = IngredientDBHelper.getIngredientsFromStorage();
+        ArrayList<Recipe> recipes = RecipeDBHelper.getRecipesFromStorage();
+
+        Meal meal1 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(0),ingredients.get(1))),
+                LocalDate.now().plus(1, ChronoUnit.DAYS)
+        );
+
+        Meal meal2 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0), recipes.get(1), recipes.get(2), recipes.get(3),recipes.get(0))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9),
+                        ingredients.get(10),ingredients.get(11),ingredients.get(12),ingredients.get(13),
+                        ingredients.get(14),ingredients.get(15),ingredients.get(16),ingredients.get(9),
+                        ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9),
+                        ingredients.get(2),ingredients.get(3),ingredients.get(8),ingredients.get(9))),
+                LocalDate.now()
+        );
+        Meal meal3 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(1))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(4),ingredients.get(5))),
+                LocalDate.now()
+        );
+
+        Meal meal4 = new Meal(
+                new ArrayList<Recipe>(Arrays.asList(recipes.get(0))),
+                new ArrayList<Ingredient>(Arrays.asList(ingredients.get(6),ingredients.get(7))),
+                LocalDate.now().minus(1, ChronoUnit.DAYS)
+        );
+
+        dummyMeals.add(meal1);
+        dummyMeals.add(meal2);
+        dummyMeals.add(meal3);
+        dummyMeals.add(meal4);
+
+        return dummyMeals;
     }
 
 }

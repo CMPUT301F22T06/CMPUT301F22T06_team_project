@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.IngredientsFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,13 +34,13 @@ import java.util.Objects;
  * @author Saheel Sarker
  * @ingredientsFragment (for now)
  * @Version 1 (Because I didn't write the version before writing this)
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @see RecipeDBHelper
  */
 public class IngredientDBHelper {
 
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static final CollectionReference ingredientsDB = db.collection("Ingredients");
+    private static FirebaseFirestore db;
+    private static CollectionReference ingredientsDB;
     private static int selectedIngPos;
     private static IngredientDBHelper singleInstance = null;
 
@@ -47,6 +48,8 @@ public class IngredientDBHelper {
      * Private constructor can only be called when an instance of this singleton is created
      */
     private IngredientDBHelper(){
+        db = FirebaseFirestore.getInstance();
+        ingredientsDB = db.collection("Ingredients");
         setupSnapshotListenerForLocalIngredientStorage();
     }
 
@@ -58,13 +61,13 @@ public class IngredientDBHelper {
         return singleInstance;
     }
 
-    private static ArrayList<Ingredient> ingredientInStorage= new ArrayList<>();
+    private static ArrayList<Ingredient> ingredientsInStorage = new ArrayList<>();
 
     //NO SETTER  - only the snapshot listener callback will update local storage accordinly.
     //  Ingredients add/edit/ deleted will rely on the static DB helper methods which will
     //  result in the snapshot listeners updating the local storage
     public static ArrayList<Ingredient> getIngredientsFromStorage(){
-        return ingredientInStorage;
+        return ingredientsInStorage;
     }
 
     //TODO - Put newly added ingredients ontop of recyclerview top show user
@@ -72,7 +75,7 @@ public class IngredientDBHelper {
      * This method adds an ingredient to our database in the incredient collection
      * @param ingredient of type {@link Ingredient}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void addIngredientToDB(Ingredient ingredient){
@@ -118,7 +121,7 @@ public class IngredientDBHelper {
      * with that name if it's found
      * @param ingredient of type {@link String}
      * @returns void
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     public static void deleteIngredientFromDB(Ingredient ingredient, int position){
@@ -179,7 +182,10 @@ public class IngredientDBHelper {
             dr.update("category", newIngredient.getCategory());
         }
 
-        if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
+        if(newIngredient.getBestBefore().compareTo(LocalDate.now()) < 0){
+            dr.update("amount", "0");
+        }
+        else if(!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())){
             dr.update("amount", newIngredient.getAmount().toString());
         }
 
@@ -195,7 +201,7 @@ public class IngredientDBHelper {
      * to return
      * @param doc
      * @return ingredient of type {@link Ingredient}
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      * @see RecipeDBHelper
      */
     private static Ingredient createIngredient(DocumentSnapshot doc) {
@@ -221,6 +227,7 @@ public class IngredientDBHelper {
     public void setupSnapshotListenerForLocalIngredientStorage(){
         db.collection("Ingredients")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
+
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if(error != null){
@@ -231,24 +238,28 @@ public class IngredientDBHelper {
                         for(DocumentChange dc : value.getDocumentChanges()){
                             Ingredient ingredient = createIngredient(dc.getDocument());
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                ingredientInStorage.add(ingredient);
+                                ingredientsInStorage.add(ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                ingredientInStorage.set(selectedIngPos, ingredient);
+                                ingredientsInStorage.set(selectedIngPos, ingredient);
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = ingredientInStorage.indexOf(ingredient);
+                                int position = ingredientsInStorage.indexOf(ingredient);
                                 //If the rvAdapter returns a valid position
                                 if(position != -1){
-                                    ingredientInStorage.remove(position);
+                                    ingredientsInStorage.remove(position);
                                 }
                                 else{
                                     Log.e("DB ERROR", "ERROR REMOVING INGREDIENT FROM STORAGE");
                                 }
                             }
                         }
+                        //check ingredient best before
+                        // update expired ingredients to zero amount
+
+
                     }
                 });
     }
@@ -290,8 +301,36 @@ public class IngredientDBHelper {
                                 }
                             }
                         }
+//
+                        IngredientsFragment.stopIngredientsFragmentProgressBar();
+
                     }
                 });
+    }
+
+    public static void setExpiredIngredientsAmountToZero(){
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < IngredientDBHelper.getIngredientsFromStorage().size(); i++) {
+            Ingredient anIngredient = IngredientDBHelper.getIngredientsFromStorage().get(i);
+            if (anIngredient.getBestBefore().compareTo(today) < 0) {
+                Ingredient newIngredient = new Ingredient(anIngredient.getName(),
+                        anIngredient.getDesc(),
+                        anIngredient.getBestBefore(),
+                        anIngredient.getLocation(),
+                        anIngredient.getUnit(),
+                        anIngredient.getCategory(),
+                        0);
+                IngredientDBHelper.modifyIngredientInDB(newIngredient, anIngredient, i);
+            }
+        }
+    }
+
+    public static int getIndexOfIngredientFromName(String ingredientName) {
+        for(Ingredient ingredient : ingredientsInStorage)  {
+            if(ingredient.getName().equals(ingredientName))
+                return ingredientsInStorage.indexOf(ingredient);
+        }
+        return -1;
     }
 
 }

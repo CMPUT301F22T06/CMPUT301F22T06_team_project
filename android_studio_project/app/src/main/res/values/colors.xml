@@ -10,9 +10,9 @@
     <color name="aqua">#31A9B8</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_red">#FF553C</color>
-    <color name="red">#CF3721</color>
+    <color name="light_grey">#D2E1E6</color>
+    <color name="blue">#4F77AA</color>
 
-    <color name="yellow">#F5BE41</color>
-    <color name="light_yellow">#FCCB5B</color>
+    <color name="light_blue">#78AED3</color>
+    <color name="white_blue">#AAC9DD</color>
 </resources>

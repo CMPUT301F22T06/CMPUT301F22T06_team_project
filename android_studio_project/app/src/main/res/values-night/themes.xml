@@ -3,7 +3,7 @@
     <style name="Theme.CMPUT301F22T06_team_project" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#F5BE41</item>
-        <item name="colorPrimaryVariant">@color/red</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/grey</item>
@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="colorPrimaryDark">@color/yellow</item>
+        <item name="colorPrimaryDark">@color/light_blue</item>
 
     </style>
 
@@ -27,7 +27,7 @@
     <!-- splash screen theme-->
     <style name="SplashScreen" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
-        <item name="android:statusBarColor">@color/red</item>
+        <item name="android:statusBarColor">@color/blue</item>
 
 
     </style>
