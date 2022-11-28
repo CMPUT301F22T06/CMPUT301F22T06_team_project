@@ -63,7 +63,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_shopping_list, container, false);
 
         rvShoppingListItems = (RecyclerView) root.findViewById(R.id.rv_shopping_list);
-        fabAddShoppingListItem = root.findViewById(R.id.fab_shopping_list_ingredient_add);
         testShoppingList = compareBetweenIDBandMDB();
         setupRecyclerView();
 
