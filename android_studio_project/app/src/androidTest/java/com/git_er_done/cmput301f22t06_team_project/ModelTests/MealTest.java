@@ -2,10 +2,14 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import com.git_er_done.cmput301f22t06_team_project.MainActivity;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.Random;
@@ -27,8 +31,18 @@ public class MealTest {
         return new Meal(new ArrayList<>(), new ArrayList<>(), LocalDate.now().plusDays(1));
     }
 
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityRule =
+            new ActivityScenarioRule<>(MainActivity.class);
+
     @Test
     public void testAddGetIngredients() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Meal mockMeal = makeMeal();
         Ingredient firstIngredient = makeIngredient();
         Ingredient secondIngredient = makeIngredient();
@@ -36,13 +50,19 @@ public class MealTest {
         mockMeal.addIngredientToMeal(firstIngredient);
         mockMeal.addIngredientToMeal(secondIngredient);
 
-        assertEquals(firstIngredient, mockMeal.getIngredientsFromMeal().get(0));
-        assertEquals(firstIngredient, mockMeal.getIngredientsFromMeal().get(1));
-        assertEquals(secondIngredient, mockMeal.getIngredientsFromMeal().get(2));
+        assertEquals(firstIngredient, mockMeal.getOnlyIngredientsFromMeal().get(0));
+        assertEquals(firstIngredient, mockMeal.getOnlyIngredientsFromMeal().get(1));
+        assertEquals(secondIngredient, mockMeal.getOnlyIngredientsFromMeal().get(2));
     }
 
     @Test
     public void testAddGetRecipes() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Meal mockMeal = makeMeal();
         Recipe firstRecipe = makeRecipe();
         Recipe secondRecipe = makeRecipe();
