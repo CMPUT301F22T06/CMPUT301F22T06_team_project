@@ -46,7 +46,7 @@
             android:textColor="@color/black"
             />
 
-        <TextView
+        <EditText
             android:id="@+id/unit_of_ingredient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
