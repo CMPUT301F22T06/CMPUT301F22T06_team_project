@@ -158,39 +158,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             etName.setEnabled(false);
         }
 
-
-//        editLocationButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addLocationButton.setVisibility(View.VISIBLE);
-//                addLocationText.setVisibility(View.VISIBLE);
-//                deleteLocationButton.setVisibility(View.VISIBLE);
-//                editLocationButton.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        editUnitButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addUnitButton.setVisibility(View.VISIBLE);
-//                addUnitText.setVisibility(View.VISIBLE);
-//                deleteUnitButton.setVisibility(View.VISIBLE);
-//                editUnitButton.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        editCategoryButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                addCategoryButton.setVisibility(View.VISIBLE);
-//                addCategoryText.setVisibility(View.VISIBLE);
-//                deleteCategoryButton.setVisibility(View.VISIBLE);
-//                editCategoryButton.setVisibility(View.GONE);
-//            }
-//        });
-
-        //Saheel's code
-
         addUserDefinedStuff(addLocationButton, addLocationText, "location");
         addUserDefinedStuff(addUnitButton, addUnitText, "unit");
         addUserDefinedStuff(addCategoryButton, addCategoryText, "category");
@@ -377,12 +344,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     }
 
-    /**
-     * This function adds the values in the edittext into the spinner. It will check for things like empty values and if the value exists already.
-     * @param addButton - to show which button was pressed (unit, location, category)
-     * @param addText - the value of what was written in the edit text.
-     * @param type -  to find out which addtext and what addbutton to use.
-     */
+
     void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -401,7 +363,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         });
     }
 
-    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+    /**
+     * This function adds the values in the edittext into the spinner. It will check for things like empty values and if the value exists already.
+     * @param addButton - to show which button was pressed (unit, location, category)
+     * @param addText - the value of what was written in the edit text.
+     * @param type -  to find out which addtext and what addbutton to use.
+     */
+    void addUserDefinedStuff(Button addButton, EditText addText, String type){
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -420,9 +388,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
                     addText.setText("");
                 }
-//                            addButton.setVisibility(View.INVISIBLE);
-//                            addText.setVisibility(View.INVISIBLE);
-//                            deleteButton.setVisibility(View.VISIBLE);
             }
         });
     }
