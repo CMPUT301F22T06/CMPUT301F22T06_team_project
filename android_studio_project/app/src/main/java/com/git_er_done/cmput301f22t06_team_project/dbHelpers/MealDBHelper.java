@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -254,9 +255,17 @@ public class MealDBHelper {
                 });
     }
 
-    public static void modifyMealInDB(Meal newMeal, Meal oldMeal, int pos){
+    public static void modifyMealInDB(@NonNull Meal newMeal, @NonNull Meal oldMeal, int pos){
         String uuidOfMeal = oldMeal.getId().toString();
         selectedMealPos = pos;
+
+        DocumentReference dr = mealsDB.document(uuidOfMeal);
+
+        //update the serving size of the recipe in this meal
+        // modify the string delims associated recipe
+        String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getOnlyRecipesFromMeal());
+        dr.update("recipes", recipesDelimString);
+
     }
 
     public void setupSnapshotListenerForLocalMealStorage(){
