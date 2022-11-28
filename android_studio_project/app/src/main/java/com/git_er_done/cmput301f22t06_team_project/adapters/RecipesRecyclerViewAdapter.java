@@ -85,9 +85,13 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         preptime.setText(String.valueOf(recipe.getPrep_time()));
         amount.setText(String.valueOf(recipe.getServings()));
         String uri = recipe.getImage();
-        byte [] encodeByte = Base64.decode(String.valueOf(uri),Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        photo.setImageBitmap(bitmap);
+        if (uri==""){
+            photo.setImageAlpha(R.drawable.no_image);
+    } else{
+            byte [] encodeByte = Base64.decode(String.valueOf(uri),Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            photo.setImageBitmap(bitmap);
+        }
     }
 
     /**

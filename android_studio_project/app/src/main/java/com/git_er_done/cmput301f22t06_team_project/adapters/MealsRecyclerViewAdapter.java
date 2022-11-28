@@ -52,7 +52,6 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         ((LinearLayout)holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         for(int i = 0; i < holder.mealRecipes.size(); i++){
             holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
-
             holder.recipeMealItemView.setName(holder.mealRecipes.get(i).getTitle());
             holder.recipeMealItemView.setAmount(holder.mealRecipes.get(i).getServings());
             ((LinearLayout)holder.recipesLinearLayout).addView(holder.recipeMealItemView);
