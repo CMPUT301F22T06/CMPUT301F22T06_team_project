@@ -277,6 +277,14 @@ public class RecipeDBHelper {
         return recipe;
     }
 
+    /**
+     * Update every recipe to having matching ingredient categories, locations,
+     * and units with what's in the storage
+     * @param unit of type String
+     * @param location of type String
+     * @param category of type String
+     * @param name of type String
+     */
     public static void updateRecipe(String unit, String location, String category, String name){
 
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
