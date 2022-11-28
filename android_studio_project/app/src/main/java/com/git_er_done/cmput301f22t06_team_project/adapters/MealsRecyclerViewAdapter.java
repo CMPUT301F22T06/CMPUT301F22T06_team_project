@@ -109,6 +109,10 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         notifyDataSetChanged();
     }
 
+    public ArrayList<Meal> getMealsList(){
+        return (ArrayList<Meal>) mealRecyclerViewList;
+    }
+
     // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         View ingredientsLinearLayout;
