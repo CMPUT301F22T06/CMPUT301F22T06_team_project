@@ -22,15 +22,6 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-
-                <EditText
-                    android:id="@+id/et_ingredient_add_edit_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name: "
-                    android:textColor="@color/dark_blue"
-                    android:textSize="20dp" />
-
             <EditText
                 android:id="@+id/et_ingredient_add_edit_name"
                 android:layout_width="match_parent"
