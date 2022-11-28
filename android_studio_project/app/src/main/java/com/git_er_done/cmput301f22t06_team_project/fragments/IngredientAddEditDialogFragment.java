@@ -344,15 +344,22 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     }
 
-
+    /**
+     * This function checks if the edit button is pressed and will make the corresponding add,delete and text box visible.
+     * Clicking the edit button will make those things disappear again.
+     * @param addButton - the add button to appear and disappear on edit button click
+     * @param deleteButton - the delete button to appear and disappear on edit button click
+     * @param editButton - the edit button to appear and disappear on edit button click
+     * @param addText - the text box to appear and disappear on edit button click
+     */
     void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (addButton.getVisibility() == View.VISIBLE){
-                    addButton.setVisibility(View.INVISIBLE);
-                    addText.setVisibility(View.INVISIBLE);
-                    deleteButton.setVisibility(View.INVISIBLE);
+                    addButton.setVisibility(View.GONE);
+                    addText.setVisibility(View.GONE);
+                    deleteButton.setVisibility(View.GONE);
                 }
                 else{
                     addButton.setVisibility(View.VISIBLE);
