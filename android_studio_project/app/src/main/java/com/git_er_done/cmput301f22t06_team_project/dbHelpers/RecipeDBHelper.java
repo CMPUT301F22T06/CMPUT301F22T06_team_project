@@ -162,6 +162,13 @@ public class RecipeDBHelper {
                 });
     }
 
+    /**
+     * Modifies the data of a recipes that's already in the database.
+     * @param newRecipe of type Recipe
+     * @param oldRecipe of type Recipe
+     * @param pos of type Int
+     */
+
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
         selectedRecipePos = pos;
@@ -270,20 +277,32 @@ public class RecipeDBHelper {
         return recipe;
     }
 
-    public static void updateRecipe(String unit, String name){
+    /**
+     * This function will update the recipe with the updated recipe ingredient values
+     * @param unit of type string (the recipe ingredient unit)
+     * @param location of type string (the recipe ingredient location)
+     * @param category of type string (the recipe ingredient category)
+     * @param name of type string (the recipe ingredient name)
+     */
+    public static void updateRecipe(String unit, String location, String category, String name){
+
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot docs = task.getResult();
+                int index = 0;
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
                     for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
                             i.setUnit(unit);
+                            i.setLocation(location);
+                            i.setCategory(category);
+                            modifyRecipeInDB(recipe, recipe, index);
                         }
                     }
-                    addRecipe(recipe);
+                    index = index + 1;
                 }
             }
         });
@@ -375,6 +394,11 @@ public class RecipeDBHelper {
                 });
     }
 
+    /**
+     * This function takes in a title of a recipe and it will index through the recipes in storage and return the found recipe or -1 if it wasn't found.
+     * @param recipeTitle of type string
+     * @return the location of the recipe in the storage or -1 if it wasn't found
+     */
     public static int getIndexOfRecipeFromTitle(String recipeTitle) {
         for(Recipe recipe : recipesInStorage)  {
             if(recipe.getTitle().equals(recipeTitle))

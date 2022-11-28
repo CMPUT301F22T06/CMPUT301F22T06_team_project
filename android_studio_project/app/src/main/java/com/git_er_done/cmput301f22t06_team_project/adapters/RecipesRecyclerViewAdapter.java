@@ -22,7 +22,10 @@ import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Adapter used to render each item in the recycler view dynamically
+ * Constructor takes in a list of recipes and an interface reference for handling onItemLongClick events
+ */
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder>{
 
     private final RecipesRecyclerViewInterface rvInterface;
@@ -56,19 +59,13 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         recipeView = inflater.inflate(R.layout.recipe_list_item, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(recipeView);
-
-        //Drawable d = ContextCompat.getDrawable(context, R.drawable.white_background);
-        //recipeView.setBackground(d);
-
-        return viewHolder;
+        return new ViewHolder(recipeView);
     }
 
     /**
      * Set the view attributes based on associated instance data
-     *
-     * @param holder
-     * @param position
+     * @param holder ViewHolder
+     * @param position Integer - position within the RecyclerView List
      */
     @Override
     public void onBindViewHolder(@NonNull RecipesRecyclerViewAdapter.ViewHolder holder, int position) {
@@ -87,8 +84,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         category.setText(recipe.getCategory());
         preptime.setText(String.valueOf(recipe.getPrep_time()));
         amount.setText(String.valueOf(recipe.getServings()));
-        //photo.setImageURI(Uri.parse(recipe.getImage()));
-        //Picasso.get().load(Uri.parse(recipe.getImage())).into(photo);
         String uri = recipe.getImage();
         byte [] encodeByte = Base64.decode(String.valueOf(uri),Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
@@ -97,7 +92,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     /**
      * Determine the number of items (recipe instances) in list
-     *
      * @return Integer - The number of items in the list
      */
     @Override
@@ -108,7 +102,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     /**
      * Return an Ingredient instance which exists in the provided list position
      * @param position - The position of the item within the recipe list
-     * @return
+     * @return boolean
      */
     public Recipe getItem(int position) {
         return mRecipes.get(position);
@@ -142,7 +136,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             servingsTextView = itemView.findViewById(R.id.tv_recipe_list_item_servings);
             recipeImageView = itemView.findViewById(R.id.tv_view_recipe);
 
-
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -158,37 +151,67 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
                     return false;
                 }
             });
-
         }
     }
 
+    /**
+     * Creates a new array list of recipes
+     * @return - arraylist returns a new array of list of recipes in mRecipes
+     */
     public ArrayList<Recipe> getRecipesList(){
         return (ArrayList<Recipe>) mRecipes;
     }
 
+    /**
+     * Delete an item from the array list of ingredients
+     * @param position - the integer location of where the deleted item will be
+     */
     public void deleteRecipe(int position){
         mRecipes.remove(position);
         notifyDataSetChanged();
     }
 
+    /**
+     *  Get's the position of the location of where the deleted item and does a 'fake' delete where it show a popup
+     *  This way we can do a makeshift undo. The user would have to click the 'delete' on the popup to delete again.
+     * @param position - integer position of where the deleted item will be.
+     */
     public void fakeDeleteForUndo(int position){
         rvInterface.onItemDeleted(mRecipes.get(position), position);
     }
 
+    /**
+     * Add a new recipe into the recipe list
+     * @param newRecipe - the new recipe you want to add into the new list. Of type recipe
+     */
     public void addRecipe(Recipe newRecipe){
         mRecipes.add(newRecipe);
         notifyDataSetChanged();
     }
 
+    /**
+     * update the recipe in the list at the position to a new value
+     * @param recipe - the recipe that is to be modified. Of type recipe
+     * @param position - the integer position of where the recipe is.
+     */
     public void modifyRecipe(Recipe recipe, int position){
         mRecipes.set(position, recipe);
         notifyDataSetChanged();
     }
 
+    /**
+     * Gets the id of the item
+     * @param position of the item (integer)
+     * @return position of the item
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
+
+    /**
+     * This will sort all the recipes in the recycler view by the title (alphabetical)
+     */
     public void sortByTitle(){
         Collections.sort(mRecipes, new Comparator<Recipe>(){
             @Override
@@ -198,6 +221,10 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         });
         notifyDataSetChanged();
     }
+
+    /**
+     * This will sort all the recipes in the recycler view by the category (alphabetical)
+     */
     public void sortByCategory(){
         Collections.sort(mRecipes, new Comparator<Recipe>(){
             @Override
@@ -207,6 +234,10 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         });
         notifyDataSetChanged();
     }
+
+    /**
+     * This will sort all the recipes in the recycler view by the serving size (lowest to highest)
+     */
     public void sortByServings(){
         Collections.sort(mRecipes, new Comparator<Recipe>(){
             @Override
@@ -216,6 +247,10 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         });
         notifyDataSetChanged();
     }
+
+    /**
+     * This will sort all the recipes in the recycler view by the prep time (lowest to highest)
+     */
     public void sortByPrepTime(){
         Collections.sort(mRecipes, new Comparator<Recipe>(){
             @Override
@@ -225,8 +260,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         });
         notifyDataSetChanged();
     }
-
-
 }
 
 

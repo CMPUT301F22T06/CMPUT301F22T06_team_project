@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,11 +22,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -124,8 +132,109 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 //        itemTouchHelper.attachToRecyclerView(rvShoppingListItems);
     }
 
+    /**
+     * Finds the difference between what's in the storage and what we need for the current meal plan
+     * and create a shopping list based on what's not in the storage
+     */
+    public static void compareBetweenIDBandMDB () {
+        // We need some way to get these arrayLists
+        ArrayList<Meal> mealPlansFromMDB = new ArrayList<>();
+
+        //Meal 1
+        ArrayList<Ingredient> ingredientsInMeal = new ArrayList<>();
+        ArrayList<Recipe> recipesInMeal = new ArrayList<>();
+        //Recipe 1
+        Ingredient apple1 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 3);
+        Ingredient orange1 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
+        Ingredient banana1 = new Ingredient("banana", " ", LocalDate.now(), " ", " ", " ", 1);
+        Recipe recipe = new Recipe("fruit salad", " ", " ", 0, 2);
+        recipe.addIngredient(apple1);
+        recipe.addIngredient(orange1);
+        recipe.addIngredient(banana1);
+        recipesInMeal.add(recipe);
+
+        //Ingredients
+        Ingredient apple2 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 10);
+        Ingredient orange2 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
+        ingredientsInMeal.add(apple2);
+        ingredientsInMeal.add(orange2);
+
+        Meal meel = new Meal(recipesInMeal, ingredientsInMeal, LocalDate.now());
+        mealPlansFromMDB.add(meel);
+
+        //Meal 2
+        ArrayList<Ingredient> ingredientsInMeal2 = new ArrayList<>();
+        ArrayList<Recipe> recipesInMeal2 = new ArrayList<>();
+        //Recipe 2
+
+        Ingredient cream = new Ingredient("cream", " ", LocalDate.now(), " ", " ", " ", 2);
+        Ingredient sugar = new Ingredient("sugar", " ", LocalDate.now(), " ", " ", " ", 6);
+        Ingredient eggs = new Ingredient("eggs", " ", LocalDate.now(), " ", " ", " ", 1);
+        Ingredient ice = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 50);
+        Recipe iceCream = new Recipe("Icecream", " ", " ", 0, 1);
+        iceCream.addIngredient(cream);
+        iceCream.addIngredient(sugar);
+        iceCream.addIngredient(eggs);
+        iceCream.addIngredient(ice);
+        recipesInMeal2.add(iceCream);
+
+        //Ingredients (None)
+
+        Meal meel2 = new Meal(recipesInMeal2, ingredientsInMeal2, LocalDate.now());
+        mealPlansFromMDB.add(meel2);
+        ArrayList<Ingredient> totalIngredientsforMealPlan = new ArrayList<>();
+
+        for (Meal meal: mealPlansFromMDB){ // Get all the ingredients and total them from the meal plans
+             ArrayList<Ingredient> ingredientsFromMeal = meal.getAllIngredientsFromMeal();
+             for (Ingredient i: ingredientsFromMeal){
+                 if(totalIngredientsforMealPlan.contains(i)){
+                     int index = totalIngredientsforMealPlan.indexOf(i);
+                     Ingredient ingredientToAdd = totalIngredientsforMealPlan.get(index);
+                     ingredientToAdd.setAmount(ingredientToAdd.getAmount()+i.getAmount());
+                 }
+                 else {
+                     totalIngredientsforMealPlan.add(i);
+                 }
+             }
+        }
+
+        //Storage
+        ArrayList<Ingredient> ingredientsFromIDB = new ArrayList<>();
+        Ingredient apple3 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 21);
+        Ingredient orange3 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 30);
+        Ingredient ice2 = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 40);
+        ingredientsFromIDB.add(apple3);
+        ingredientsFromIDB.add(orange3);
+        ingredientsFromIDB.add(ice2);
+
+        for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
+            if (ingredientsFromIDB.contains(i)){
+                int index = ingredientsFromIDB.indexOf(i);
+                Ingredient ingredientToSub = ingredientsFromIDB.get(index);
+                ingredientToSub.setAmount(ingredientToSub.getAmount() - i.getAmount());
+            }
+            else {
+                Ingredient iClone = i.clone();
+                iClone.setAmount(-i.getAmount());
+                ingredientsFromIDB.add(iClone);
+            }
+        }
+
+        ArrayList<Ingredient> shoppingList = new ArrayList<>();
+        for (Ingredient i: ingredientsFromIDB){ //Any ingredient in the ingredientFromDB list that's zero gets added to the shopping List
+            if (i.getAmount() < 0){
+                Ingredient iClone = i.clone();
+                iClone.setAmount(-i.getAmount()); //reverse the negative sign
+                shoppingList.add(iClone);
+            }
+        }
+
+    }
+
     @Override
     public void onItemLongClick(int position) {
 
     }
+
+
 }
