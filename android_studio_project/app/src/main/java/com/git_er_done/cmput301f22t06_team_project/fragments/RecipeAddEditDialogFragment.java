@@ -84,6 +84,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button addCategoryButton;
     private Button deleteCategoryButton;
     private TextView addCategoryTitle;
+    private Button editCategoryButton;
 
     String title;
     String prep_time;
@@ -280,6 +281,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
             }
         });
 
+        editUserDefinedStuff(addCategoryButton, deleteCategoryButton, editCategoryButton, addCategoryText);
+
         //TODO - Save the added/edited ingredient attributes to the selected instance
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,6 +361,26 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         else{
             return false;
         }
+    }
+
+    void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
+        //set OnClickListeners for each of the 'edit' buttons. All of these buttons will make their respective
+        //add and delete buttons, along with editText boxes appear.
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (addButton.getVisibility() == View.VISIBLE){
+                    addButton.setVisibility(View.GONE);
+                    addText.setVisibility(View.GONE);
+                    deleteButton.setVisibility(View.GONE);
+                }
+                else{
+                    addButton.setVisibility(View.VISIBLE);
+                    addText.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     /**
@@ -580,6 +603,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         addCategoryButton = view.findViewById(R.id.addCategoryButton);
         addCategoryTitle = view.findViewById(R.id.categoryTitle);
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
+        editCategoryButton = view.findViewById(R.id.editCategoryButton);
     }
 
     /**
