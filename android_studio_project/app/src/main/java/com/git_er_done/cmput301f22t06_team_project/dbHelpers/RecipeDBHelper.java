@@ -277,20 +277,25 @@ public class RecipeDBHelper {
         return recipe;
     }
 
-    public static void updateRecipe(String unit, String name){
+    public static void updateRecipe(String unit, String location, String category, String name){
+
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot docs = task.getResult();
+                int index = 0;
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
                     for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
                             i.setUnit(unit);
+                            i.setLocation(location);
+                            i.setCategory(category);
                         }
                     }
-                    addRecipe(recipe);
+                    modifyRecipeInDB(recipe, recipe, index);
+                    index = index + 1;
                 }
             }
         });

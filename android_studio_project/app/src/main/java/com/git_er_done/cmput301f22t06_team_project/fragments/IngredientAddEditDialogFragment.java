@@ -24,6 +24,7 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
@@ -190,6 +191,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         );
                         modifyIngredient(newIngredient);
                         IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        RecipeDBHelper.updateRecipe(newIngredient.getUnit(), newIngredient.getLocation(), newIngredient.getCategory(), newIngredient.getName());
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
                         isEdittingExistingIngredient = false;
                         dismiss();
