@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * @author Saheel Sarker
  * @see IngredientDBHelper
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipeDBHelper {
@@ -67,7 +67,7 @@ public class RecipeDBHelper {
      * @param recipe of type {@link Recipe}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
@@ -140,7 +140,7 @@ public class RecipeDBHelper {
      * returns void
      * @param position
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
@@ -210,7 +210,7 @@ public class RecipeDBHelper {
      * used any at the moment
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<Ingredient> ingredientList) {
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -233,7 +233,7 @@ public class RecipeDBHelper {
      * @param doc of type {@link DocumentSnapshot}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     private static Recipe createRecipe(DocumentSnapshot doc) {
         String title = doc.getId();
@@ -373,6 +373,14 @@ public class RecipeDBHelper {
                         }
                     }
                 });
+    }
+
+    public static int getIndexOfRecipeFromTitle(String recipeTitle) {
+        for(Recipe recipe : recipesInStorage)  {
+            if(recipe.getTitle().equals(recipeTitle))
+                return recipesInStorage.indexOf(recipe);
+        }
+        return -1;
     }
 
 }

@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         IngredientDBHelper.getInstance();
         RecipeDBHelper.getInstance();
+        MealDBHelper.getInstance();
 
         addMenuProvider(new MenuProvider() {
             @Override

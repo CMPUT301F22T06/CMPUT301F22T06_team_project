@@ -58,6 +58,21 @@ public class Meal {
         this.date = date;
     }
 
+    /**
+     * This constructor takes a UUID so that a meal instance can be re-created from the hashed POJO in firestore
+     * @param id
+     * @param recipes
+     * @param ingredients
+     * @param date
+     */
+    public Meal(UUID id, ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, LocalDate date) {
+        this.id = id;
+        this.id = UUID.randomUUID();
+        this.recipes = recipes;
+        this.ingredients = ingredients;
+        this.date = date;
+    }
+
 
     public ArrayList<Recipe> getRecipesFromMeal() {
         return recipes;
