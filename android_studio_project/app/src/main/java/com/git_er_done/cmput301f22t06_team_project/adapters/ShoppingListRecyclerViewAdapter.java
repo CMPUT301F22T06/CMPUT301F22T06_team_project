@@ -27,11 +27,11 @@ import java.util.List;
 public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ViewHolder>{
 
     private final ShoppingListRecyclerViewInterface rvInterface;
-    private List<ShoppingListIngredient> mShoppingList;
+    private List<Ingredient> mShoppingList;
 
     View shoppingListView;
 
-    public ShoppingListRecyclerViewAdapter(ArrayList<ShoppingListIngredient> testShoppingList, ShoppingListRecyclerViewInterface rvInterface) {
+    public ShoppingListRecyclerViewAdapter(ArrayList<Ingredient> testShoppingList, ShoppingListRecyclerViewInterface rvInterface) {
         mShoppingList = testShoppingList;
         this.rvInterface = rvInterface;
     }
@@ -53,7 +53,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the object instance based on position in recyclerView
-        ShoppingListIngredient shoppingListIngredient = mShoppingList.get(position);
+        Ingredient shoppingListIngredient = mShoppingList.get(position);
 
         TextView name = holder.nameTextView;
         TextView description = holder.descriptionTextView;
@@ -84,6 +84,11 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                 Toast.makeText(v.getContext(), "Make sure to update ingredient details!", Toast.LENGTH_LONG).show();
             }
         });
+        name.setText(shoppingListIngredient.getName());
+        description.setText(shoppingListIngredient.getDesc());
+        category.setText(shoppingListIngredient.getCategory());
+        amount.setText(shoppingListIngredient.getAmount().toString());
+        unit.setText(shoppingListIngredient.getUnit());
     }
 
     @Override
