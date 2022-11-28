@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * @author Saheel Sarker
  * @see IngredientDBHelper
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @version 1 Since this is the first time I'm commenting
  */
 public class RecipeDBHelper {
@@ -67,7 +67,7 @@ public class RecipeDBHelper {
      * @param recipe of type {@link Recipe}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void addRecipe(Recipe recipe){
         HashMap<String, String> sendToDb = new HashMap<>();
@@ -140,7 +140,7 @@ public class RecipeDBHelper {
      * returns void
      * @param position
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void deleteRecipe(Recipe recipe, int position){
         String nameofRecipe = recipe.getTitle();
@@ -161,6 +161,13 @@ public class RecipeDBHelper {
                     }
                 });
     }
+
+    /**
+     * Modifies the data of a recipes that's already in the database.
+     * @param newRecipe of type Recipe
+     * @param oldRecipe of type Recipe
+     * @param pos of type Int
+     */
 
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
         // Really scuffed way of doing this, but I couldn't think of a better way.
@@ -210,7 +217,7 @@ public class RecipeDBHelper {
      * used any at the moment
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     public static void setRecipeIngredientAdapter(String title, RecipeIngredientsViewAdapter adapter, ArrayList<Ingredient> ingredientList) {
         recipesDB.document(title).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -233,7 +240,7 @@ public class RecipeDBHelper {
      * @param doc of type {@link DocumentSnapshot}
      * returns void
      * @see IngredientDBHelper
-     * @see MealPlannerDBHelper
+     * @see MealDBHelper
      */
     private static Recipe createRecipe(DocumentSnapshot doc) {
         String title = doc.getId();
@@ -270,20 +277,25 @@ public class RecipeDBHelper {
         return recipe;
     }
 
-    public static void updateRecipe(String unit, String name){
+    public static void updateRecipe(String unit, String location, String category, String name){
+
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 QuerySnapshot docs = task.getResult();
+                int index = 0;
                 for(QueryDocumentSnapshot doc: docs) {
                     Recipe recipe = createRecipe(doc);
                     for (Ingredient i: recipe.getIngredients()){
                         if (i.getName().equals(name)){
                             Log.d(TAG, "MOMOMO");
                             i.setUnit(unit);
+                            i.setLocation(location);
+                            i.setCategory(category);
+                            modifyRecipeInDB(recipe, recipe, index);
                         }
                     }
-                    addRecipe(recipe);
+                    index = index + 1;
                 }
             }
         });
@@ -373,6 +385,14 @@ public class RecipeDBHelper {
                         }
                     }
                 });
+    }
+
+    public static int getIndexOfRecipeFromTitle(String recipeTitle) {
+        for(Recipe recipe : recipesInStorage)  {
+            if(recipe.getTitle().equals(recipeTitle))
+                return recipesInStorage.indexOf(recipe);
+        }
+        return -1;
     }
 
 }
