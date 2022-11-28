@@ -158,35 +158,35 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         }
 
 
-        editLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addLocationButton.setVisibility(View.VISIBLE);
-                addLocationText.setVisibility(View.VISIBLE);
-                deleteLocationButton.setVisibility(View.VISIBLE);
-                editLocationButton.setVisibility(View.GONE);
-            }
-        });
-
-        editUnitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addUnitButton.setVisibility(View.VISIBLE);
-                addUnitText.setVisibility(View.VISIBLE);
-                deleteUnitButton.setVisibility(View.VISIBLE);
-                editUnitButton.setVisibility(View.GONE);
-            }
-        });
-
-        editCategoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addCategoryButton.setVisibility(View.VISIBLE);
-                addCategoryText.setVisibility(View.VISIBLE);
-                deleteCategoryButton.setVisibility(View.VISIBLE);
-                editCategoryButton.setVisibility(View.GONE);
-            }
-        });
+//        editLocationButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addLocationButton.setVisibility(View.VISIBLE);
+//                addLocationText.setVisibility(View.VISIBLE);
+//                deleteLocationButton.setVisibility(View.VISIBLE);
+//                editLocationButton.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        editUnitButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addUnitButton.setVisibility(View.VISIBLE);
+//                addUnitText.setVisibility(View.VISIBLE);
+//                deleteUnitButton.setVisibility(View.VISIBLE);
+//                editUnitButton.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        editCategoryButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                addCategoryButton.setVisibility(View.VISIBLE);
+//                addCategoryText.setVisibility(View.VISIBLE);
+//                deleteCategoryButton.setVisibility(View.VISIBLE);
+//                editCategoryButton.setVisibility(View.GONE);
+//            }
+//        });
 
         //Saheel's code
 
@@ -197,6 +197,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
         deleteUserDefinedStuff(spUnit, deleteUnitButton, "unit");
+
+        editUserDefinedStuff(addLocationButton, deleteLocationButton, editLocationButton, addLocationText);
+        editUserDefinedStuff(addCategoryButton, deleteCategoryButton, editCategoryButton, addCategoryText);
+        editUserDefinedStuff(addUnitButton, deleteUnitButton, editUnitButton, addUnitText);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -328,6 +332,24 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     }
 
+    void editUserDefinedStuff(Button addButton, Button deleteButton, Button editButton, EditText addText){
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (addButton.getVisibility() == View.VISIBLE){
+                    addButton.setVisibility(View.INVISIBLE);
+                    addText.setVisibility(View.INVISIBLE);
+                    deleteButton.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    addButton.setVisibility(View.VISIBLE);
+                    addText.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
     void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,33 +367,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
                     addText.setText("");
                 }
-//                            addButton.setVisibility(View.INVISIBLE);
-//                            addText.setVisibility(View.INVISIBLE);
-//                            deleteButton.setVisibility(View.VISIBLE);
             }
         });
-//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (adapterView.getItemAtPosition(i) == message){
-////                    addButton.setVisibility(View.VISIBLE);
-////                    addText.setVisibility(View.VISIBLE);
-////                    deleteButton.setVisibility(View.INVISIBLE);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
     }
-
-
-
-
+    
     void modifyIngredient(Ingredient ingredient){
         Ingredient modifiedIngredient = ingredient;
 

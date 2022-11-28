@@ -235,55 +235,71 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/addUnit"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Add Unit"
-                            android:minHeight="48dp"
-                            android:textColor="@color/light_yellow"
-                            android:textColorHint="@color/light_yellow"
-                            android:textSize="10dp"
-                            android:visibility="gone" />
-
-                        <Button
-                            android:id="@+id/editUnitButton"
-                            android:layout_width="94dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="2"
-                            android:text="Edit Units"
-                            android:textColor="@color/black"
-                            android:textSize="10dp"
-                            android:visibility="visible" />
-
-                        <Button
-                            android:id="@+id/addUnitButton"
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="1"
-                            android:width="10dp"
-                            android:text="Add"
-                            android:textColor="@color/black"
-                            android:textSize="8dp"
-                            android:visibility="gone" />
+                            android:text="Unit: "
+                            android:textColor="@color/yellow"
+                            android:textSize="15dp" />
 
-                        <Button
-                            android:id="@+id/deleteUnitButton"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:width="10dp"
-                            android:paddingHorizontal="1dp"
-                            android:text="Delete"
-                            android:textColor="@color/black"
-                            android:textSize="8dp"
-                            android:visibility="gone" />
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/editUnitButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:text="Edit Units"
+                                android:textColor="@color/black"
+                                android:textSize="10dp"
+                                android:visibility="visible" />
+
+                            <EditText
+                                android:id="@+id/addUnit"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Add Unit"
+                                android:minHeight="48dp"
+                                android:textColor="@color/light_yellow"
+                                android:textColorHint="@color/light_yellow"
+                                android:textSize="10dp"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/addUnitButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:width="10dp"
+                                android:text="Add"
+                                android:textColor="@color/black"
+                                android:textSize="8dp"
+                                android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/deleteUnitButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:width="10dp"
+                                android:paddingHorizontal="1dp"
+                                android:text="Delete"
+                                android:textColor="@color/black"
+                                android:textSize="8dp"
+                                android:visibility="gone" />
+
+                        </RelativeLayout>
 
                     </LinearLayout>
+
+
 
                     <Spinner
                         android:id="@+id/sp_ingredient_add_edit_unit"
