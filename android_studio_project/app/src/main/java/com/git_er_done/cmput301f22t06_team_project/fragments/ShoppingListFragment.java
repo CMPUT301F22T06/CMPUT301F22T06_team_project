@@ -149,18 +149,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         recipe.addIngredient(banana1);
         recipesInMeal.add(recipe);
 
-        //Recipe 2
-        Ingredient cream = new Ingredient("cream", " ", LocalDate.now(), " ", " ", " ", 2);
-        Ingredient sugar = new Ingredient("sugar", " ", LocalDate.now(), " ", " ", " ", 6);
-        Ingredient eggs = new Ingredient("eggs", " ", LocalDate.now(), " ", " ", " ", 1);
-        Ingredient ice = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 50);
-        Recipe iceCream = new Recipe("Icecream", " ", " ", 0, 2);
-        iceCream.addIngredient(cream);
-        iceCream.addIngredient(sugar);
-        iceCream.addIngredient(eggs);
-        iceCream.addIngredient(ice);
-        recipesInMeal.add(iceCream);
-
         //Ingredients
         Ingredient apple2 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 10);
         Ingredient orange2 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
@@ -169,6 +157,27 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 
         Meal meel = new Meal(recipesInMeal, ingredientsInMeal, LocalDate.now());
         mealPlansFromMDB.add(meel);
+
+        //Meal 2
+        ArrayList<Ingredient> ingredientsInMeal2 = new ArrayList<>();
+        ArrayList<Recipe> recipesInMeal2 = new ArrayList<>();
+        //Recipe 2
+
+        Ingredient cream = new Ingredient("cream", " ", LocalDate.now(), " ", " ", " ", 2);
+        Ingredient sugar = new Ingredient("sugar", " ", LocalDate.now(), " ", " ", " ", 6);
+        Ingredient eggs = new Ingredient("eggs", " ", LocalDate.now(), " ", " ", " ", 1);
+        Ingredient ice = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 50);
+        Recipe iceCream = new Recipe("Icecream", " ", " ", 0, 1);
+        iceCream.addIngredient(cream);
+        iceCream.addIngredient(sugar);
+        iceCream.addIngredient(eggs);
+        iceCream.addIngredient(ice);
+        recipesInMeal2.add(iceCream);
+
+        //Ingredients (None)
+
+        Meal meel2 = new Meal(recipesInMeal2, ingredientsInMeal2, LocalDate.now());
+        mealPlansFromMDB.add(meel2);
         ArrayList<Ingredient> totalIngredientsforMealPlan = new ArrayList<>();
 
         for (Meal meal: mealPlansFromMDB){ // Get all the ingredients and total them from the meal plans
@@ -189,8 +198,10 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         ArrayList<Ingredient> ingredientsFromIDB = new ArrayList<>();
         Ingredient apple3 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 21);
         Ingredient orange3 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 30);
+        Ingredient ice2 = new Ingredient("ice", " ", LocalDate.now(), " ", " ", " ", 40);
         ingredientsFromIDB.add(apple3);
         ingredientsFromIDB.add(orange3);
+        ingredientsFromIDB.add(ice2);
 
         for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
             if (ingredientsFromIDB.contains(i)){
