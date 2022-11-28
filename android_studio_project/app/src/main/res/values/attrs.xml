@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IngredientMealItemView">
+        <attr name="ing_name" format="string"/>
+        <attr name="ing_amount" format="string"/>
+        <attr name="ing_unit" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="RecipeMealItemView">
+        <attr name="rec_name" format="string"/>
+        <attr name="rec_amount" format="string"/>
+    </declare-styleable>
+</resources>

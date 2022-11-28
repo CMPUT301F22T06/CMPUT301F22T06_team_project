@@ -15,7 +15,6 @@ public class RecipeCategoryTest {
         RecipeCategory category = RecipeCategory.getInstance();
 
         ArrayList<String> initialCategories = new ArrayList<>();
-        initialCategories.add("Add Category");
         initialCategories.add("vegetarian");
         initialCategories.add("vegan");
         initialCategories.add("seafood");
@@ -31,6 +30,6 @@ public class RecipeCategoryTest {
         RecipeCategory category = RecipeCategory.getInstance();
 
         category.addRecipeCategory("beef");
-        assertEquals("beef", category.getRecipeCategoryFromIndex(7));
+        assertEquals("beef", category.getRecipeCategoryFromIndex(6));
     }
 }

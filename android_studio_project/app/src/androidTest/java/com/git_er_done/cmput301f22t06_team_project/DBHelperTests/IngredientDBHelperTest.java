@@ -77,7 +77,7 @@ public class IngredientDBHelperTest {
 
         // Allow database time to give data
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -115,14 +115,13 @@ public class IngredientDBHelperTest {
         Ingredient firstIngredient = makeIngredient(1);
         Ingredient secondIngredient = makeIngredient(2);
         ArrayList<Ingredient> ingFromDB;
-        ArrayList<String> namesFromDB = new ArrayList<>();
         int updatedIndex = -1;
 
         IngredientDBHelper.addIngredientToDB(firstIngredient);
 
         // Allow database time to give data
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -142,7 +141,6 @@ public class IngredientDBHelperTest {
                 updatedIndex = i;
                 break;
             }
-//            namesFromDB.add(ingFromDB.get(i).getName());
         }
 
         if (updatedIndex == -1) {

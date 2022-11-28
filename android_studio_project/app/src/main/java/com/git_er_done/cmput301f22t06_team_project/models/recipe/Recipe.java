@@ -270,14 +270,38 @@ public class Recipe implements Cloneable{
     /**
      * Required for indexOf call
      */
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Recipe)) {
-            return false;
-        }
-        Recipe other = (Recipe) o;
-        return title.equalsIgnoreCase(other.getTitle());
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (!(o instanceof Recipe)) {
+//            return false;
+//        }
+//        Recipe other = (Recipe) o;
+//        return title.equalsIgnoreCase(other.getTitle());
+//    }
+//    @Override
+//    public int hashCode() {
+//        final int prime = 31;
+//        int result = 1;
+//        result = prime * result + ((title == null) ? 0 : title.hashCode());
+//        return result;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj)
+//            return true;
+//        if (obj == null)
+//            return false;
+//        if (getClass() != obj.getClass())
+//            return false;
+//        Recipe other = (Recipe) obj;
+//        if (title == null) {
+//            if (other.title != null)
+//                return false;
+//        } else if (!title.equalsIgnoreCase(other.title))
+//            return false;
+//        return true;
+//    }
 
     @Override
     public Recipe clone() {
@@ -289,4 +313,5 @@ public class Recipe implements Cloneable{
             throw new AssertionError();
         }
     }
+
 }
