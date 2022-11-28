@@ -9,7 +9,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import java.util.ArrayList;
 
 
-public class Recipe implements Cloneable{
+public class Recipe implements Cloneable {
     private ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
     private String title;
     private String comments;
@@ -26,11 +26,12 @@ public class Recipe implements Cloneable{
 
     /**
      * Creates a new Recipe object.
-     * @param title The name of the Recipe
-     * @param comments A brief description of the Recipe
-     * @param category The user-defined category of the Recipe
+     *
+     * @param title     The name of the Recipe
+     * @param comments  A brief description of the Recipe
+     * @param category  The user-defined category of the Recipe
      * @param prep_time The time it takes to prepare the Recipe
-     * @param servings The number of people this Recipe serves
+     * @param servings  The number of people this Recipe serves
      */
     public Recipe(String title, String comments, String category, int prep_time, int servings) {
         this.title = title;
@@ -51,6 +52,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Returns an {@link ArrayList} of {@link Ingredient}s contained in the Recipe
+     *
      * @return The ingredients contained in the recipe
      */
     public ArrayList<Ingredient> getIngredients() {
@@ -59,6 +61,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new list of Ingredients for the recipe, replacing the old list.
+     *
      * @param recipeIngredients An {@link ArrayList} of {@link Ingredient}s to be set.
      */
     public void setIngredientsList(ArrayList<Ingredient> recipeIngredients) { //Got rid of this
@@ -67,6 +70,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Adds a new Ingredient to the recipe alongside the old ones
+     *
      * @param recipeIngredient The new {@link Ingredient} to be added
      */
     public void addIngredient(Ingredient recipeIngredient) { // I changed this
@@ -75,6 +79,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Removes the specified {@link Ingredient} if it exists in the Recipe
+     *
      * @param recipeIngredient The Ingredient to be removed.
      */
     public void removeIngredient(Ingredient recipeIngredient) {
@@ -87,6 +92,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Creates an {@link ArrayList} of recipes for UI testing
+     *
      * @return An {@link ArrayList} of recipes.
      */
 //    @RequiresApi(api = Build.VERSION_CODES.O)
@@ -161,7 +167,6 @@ public class Recipe implements Cloneable{
 //
 //        return testRecipes;
 //    }
-
     public ArrayList<Ingredient> getRecipeIngredients() {
         return recipeIngredients;
     }
@@ -172,6 +177,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Returns the Name of the recipe as a {@link String}
+     *
      * @return The title of the Recipe
      */
     public String getTitle() {
@@ -180,6 +186,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new name for the recipe, overwriting the old one.
+     *
      * @param title The new name as a {@link String}
      */
     public void setTitle(String title) {
@@ -188,6 +195,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Returns the description of the recipe as a {@link String}
+     *
      * @return The description of the recipe.
      */
     public String getComments() {
@@ -196,6 +204,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new description for the recipe, overwriting the old one.
+     *
      * @param comments The description to be set as a {@link String}
      */
     public void setComments(String comments) {
@@ -204,6 +213,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Returns the category of the recipe as a {@link String}
+     *
      * @return The category of the recipe.
      */
     public String getCategory() {
@@ -212,6 +222,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new category for the recipe, overwriting the old one.
+     *
      * @param category The new category of the Recipe as a {@link String}
      */
     public void setCategory(String category) {
@@ -219,7 +230,8 @@ public class Recipe implements Cloneable{
     }
 
     /**
-     *  Returns the amount of time it takes to make the recipe as an int
+     * Returns the amount of time it takes to make the recipe as an int
+     *
      * @return The time the recipe takes to cook
      */
     public Integer getPrep_time() {
@@ -228,6 +240,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new cooking time for the recipe, overwriting the old one.
+     *
      * @param prep_time The new cooking time as an int.
      */
     public void setPrep_time(Integer prep_time) {
@@ -236,6 +249,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Returns the number of people the recipe can serve
+     *
      * @return The number of people that can be fed with the recipe
      */
     public Integer getServings() {
@@ -244,6 +258,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets a new number of servings, overwriting the old one
+     *
      * @param servings The new number of servings
      */
     public void setServings(Integer servings) {
@@ -251,7 +266,8 @@ public class Recipe implements Cloneable{
     }
 
     /**
-     *  Returns the image uri so we can access and show it later
+     * Returns the image uri so we can access and show it later
+     *
      * @return The image uri
      */
     public String getImage() {
@@ -260,6 +276,7 @@ public class Recipe implements Cloneable{
 
     /**
      * Sets the new image, overwritting the old one
+     *
      * @param image the new image
      */
     public void setImage(String image) {
@@ -302,6 +319,11 @@ public class Recipe implements Cloneable{
 //        return true;
 //    }
 
+    /**
+     * Creates a field-for-field copy of the given Recipe.
+     *
+     * @return A field-for-field copy of the original Recipe.
+     */
     @Override
     public Recipe clone() {
         try {
