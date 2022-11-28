@@ -28,10 +28,7 @@ import java.util.List;
 //TODO - add swipe to delete an ingredient or recipe from a meal
 public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecyclerViewAdapter.ViewHolder>{
 
-//    private final IngredientsRecyclerViewInterface rvInterface;
     private List<Meal> mealRecyclerViewList = new ArrayList<>();
-
-    View mealView;
 
     @NonNull
     @Override
@@ -39,7 +36,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         // Inflate the custom layout
-        mealView = inflater.inflate(R.layout.meal_list_item, parent, false);
+        View mealView = inflater.inflate(R.layout.meal_list_item, parent, false);
 
         // Return a new holder instance
         return new MealsRecyclerViewAdapter.ViewHolder(mealView);
@@ -47,32 +44,11 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //Get the meal at this position in the list
-        Meal meal = mealRecyclerViewList.get(position);
+        Meal meal = mealRecyclerViewList.get(position); //Get the meal at this position in the list
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
         holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
-//        holder.mealIngredientListViewAdapter.clear();
-//        holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
-//
-//        holder.mealRecipeListViewAdapter.clear();
-//        holder.mealRecipes = meal.getOnlyRecipesFromMeal();
-
-//        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
-//        for(int i = 0; i < holder.mealRecipes.size(); i++){
-//            holder.mealRecipeListViewAdapter.add(holder.mealRecipes.get(i));
-//            holder.mealRecipeListViewAdapter.notifyDataSetChanged();
-//        }
-//        holder.mealRecipeListViewAdapter.setListViewHeightBasedOnChildren(holder.recipesListView);
-
-//        //Loop  through all the ingredients in a meal and add them to the adapter for the ingredient listview for this particular meal
-//        for(int i = 0; i < holder.mealIngredients.size(); i++){
-//            holder.mealIngredientListViewAdapter.add(holder.mealIngredients.get(i));
-//            holder.mealIngredientListViewAdapter.notifyDataSetChanged();
-//        }
-//        holder.mealIngredientListViewAdapter.setListViewHeightBasedOnChildren(holder.ingredientsListView);
-
-        ((LinearLayout)holder.recipesLinearLayout).removeAllViews();
+        ((LinearLayout)holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         for(int i = 0; i < holder.mealRecipes.size(); i++){
             holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
 
@@ -81,7 +57,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             ((LinearLayout)holder.recipesLinearLayout).addView(holder.recipeMealItemView);
         }
 
-        ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews();
+        ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         for(int i = 0; i < holder.mealIngredients.size(); i++){
             holder.ingredientMealItemView = new IngredientMealItemView(holder.itemView.getContext());
 
@@ -112,28 +88,23 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         notifyDataSetChanged();
     }
 
-    public void deleteItem(int position){
+    public void removeMealFromRecyclerViewList(int position){
         mealRecyclerViewList.remove(position);
         notifyDataSetChanged();
     }
 
-    public void addItem(Meal newMeal){
+    public void addMealToRecyclerViewList(Meal newMeal){
         mealRecyclerViewList.add(newMeal);
         notifyDataSetChanged();
     }
 
-    public void modifyMealInAdapter(Meal meal, int position){
+    public void modifyMealInRecyclerViewList(Meal meal, int position){
         mealRecyclerViewList.set(position, meal);
         notifyDataSetChanged();
     }
 
     // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // Your holder should contain a member variable
-        // for any view that will be set as you render a row
-        ListView ingredientsListView;
-        ListView recipesListView;
-
         View ingredientsLinearLayout;
         View recipesLinearLayout;
 
@@ -141,11 +112,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         RecipeMealItemView recipeMealItemView;
 
         ArrayList<Recipe> mealRecipes = new ArrayList<>();
-//        MealRecipeListViewAdapter mealRecipeListViewAdapter = new MealRecipeListViewAdapter(mealView.getContext(), mealRecipes);
-
         ArrayList<Ingredient> mealIngredients = new ArrayList<>();
-//        MealIngredientListViewAdapter mealIngredientListViewAdapter = new MealIngredientListViewAdapter(mealView.getContext(), mealIngredients);
-
 
         //Constructor accepts entire item row and does view lookups to find each subview
         public ViewHolder(View itemView) {
@@ -154,29 +121,6 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
             ingredientsLinearLayout = itemView.findViewById(R.id.ll_ingredients);
             recipesLinearLayout = itemView.findViewById(R.id.ll_recipes);
-
-//            recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);
-//            recipesListView.setScrollContainer(false);
-//            recipesListView.setAdapter(mealRecipeListViewAdapter);
-//
-//            ingredientsListView = itemView.findViewById(R.id.lv_ingredients_in_meal);
-//            ingredientsListView.setScrollContainer(false);
-//            ingredientsListView.setAdapter(mealIngredientListViewAdapter);
-
-//            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View view) {
-//                    if(rvInterface != null){
-//                        int pos = getAdapterPosition();
-//                        //ensure pos long clicked is valid
-//                        if(pos != RecyclerView.NO_POSITION){
-//                            rvInterface.onItemLongClick(pos);
-//                            return true;
-//                        }
-//                    }
-//                    return false;
-//                }
-//            });
         }
     }
 }
