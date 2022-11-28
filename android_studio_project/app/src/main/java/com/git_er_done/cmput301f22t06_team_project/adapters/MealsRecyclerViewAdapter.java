@@ -1,13 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static com.git_er_done.cmput301f22t06_team_project.MainActivity.dummyMeals;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,8 +50,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         for(int i = 0; i < holder.mealRecipes.size(); i++){
             holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
 
-            holder.recipeMealItemView.setName(holder.mealRecipes.get(i).getTitle());
-            holder.recipeMealItemView.setAmount(holder.mealRecipes.get(i).getServings());
+            holder.recipeMealItemView.setTitle(holder.mealRecipes.get(i).getTitle());
+            holder.recipeMealItemView.setServings(holder.mealRecipes.get(i).getServings());
             ((LinearLayout)holder.recipesLinearLayout).addView(holder.recipeMealItemView);
         }
 

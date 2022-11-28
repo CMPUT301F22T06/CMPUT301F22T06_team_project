@@ -39,8 +39,6 @@ public class MealsSelectedNewIngredientsListViewAdapter extends ArrayAdapter<Ing
         Ingredient ingredient = this.getItem(position);
 
         IngredientMealItemView ingredientMealItemView;
-        TextView ingredientName;
-        TextView amount;
 
         //Inflate custom layout for this item
         if(currentItemView == null) {
@@ -48,16 +46,9 @@ public class MealsSelectedNewIngredientsListViewAdapter extends ArrayAdapter<Ing
         }
 
         ingredientMealItemView = new IngredientMealItemView(currentItemView.getContext());
-
         ingredientMealItemView.setName(ingredient.getName());
         ingredientMealItemView.setAmount(ingredient.getAmount());
         ingredientMealItemView.setUnit(ingredient.getUnit());
-
-//        ingredientName = currentItemView.findViewById(R.id.tv_meal_ingredient_list_item_name);
-//        amount = currentItemView.findViewById(R.id.tv_meal_ingredient_list_item_amount);
-//
-//        ingredientName.setText(ingredient.getName());
-//        amount.setText(ingredient.getAmount().toString());
 
         ingredientMealItemView.buttonAddMealIngredientAmount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,13 +65,12 @@ public class MealsSelectedNewIngredientsListViewAdapter extends ArrayAdapter<Ing
             @Override
             public void onClick(View view) {
                 int indexOfCurrentIngredient = selectedIngredientsToAddToMeal.indexOf(ingredient);
-                if(ingredient.getAmount() >0) {
+                if(ingredient.getAmount() > 1) {
                     selectedIngredientsToAddToMeal.get(indexOfCurrentIngredient).setAmount(ingredient.getAmount() - 1);
                     ingredientMealItemView.setAmount(selectedIngredientsToAddToMeal.get(indexOfCurrentIngredient).getAmount());
                 }
             }
         });
-
 
         return ingredientMealItemView;
     }

@@ -20,6 +20,7 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewIngredientsListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewRecipesListViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
@@ -27,6 +28,8 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,6 +50,7 @@ public class MealAddEditDialogFragment extends DialogFragment{
     ListView selectedNewMealRecipeListView;
 
     MealsSelectedNewIngredientsListViewAdapter mealsSelectedNewIngredientsListViewAdapter;
+    MealsSelectedNewRecipesListViewAdapter mealsSelectedNewRecipesListViewAdapter;
 
     public static ArrayList<Ingredient> selectedIngredientsToAddToMeal = new ArrayList<>();
     public static ArrayList<Recipe> selectedRecipesToAddToMeal = new ArrayList<>();
@@ -102,12 +106,16 @@ public class MealAddEditDialogFragment extends DialogFragment{
         btnAddRecipeToMeal = view.findViewById(R.id.btn_meal_add_edit_recipe_add);
         btnCancel = view.findViewById(R.id.btn_meal_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_meal_add_edit_save);
+
         selectedNewMealIngredientsListView = view.findViewById(R.id.lv_meal_add_edit_ingredients);
         selectedNewMealRecipeListView = view.findViewById(R.id.lv_meal_add_edit_recipes);
 
 
         mealsSelectedNewIngredientsListViewAdapter = new MealsSelectedNewIngredientsListViewAdapter(getContext(), selectedIngredientsToAddToMeal);
         selectedNewMealIngredientsListView.setAdapter(mealsSelectedNewIngredientsListViewAdapter);
+
+        mealsSelectedNewRecipesListViewAdapter = new MealsSelectedNewRecipesListViewAdapter(getContext(), selectedRecipesToAddToMeal);
+        selectedNewMealRecipeListView.setAdapter(mealsSelectedNewRecipesListViewAdapter);
 
 
         btnAddIngredientToMeal.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +177,7 @@ public class MealAddEditDialogFragment extends DialogFragment{
     private void showAddRecipeDialog() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         MealAddRecipeDialogFragment addRecipeDialogFragment =
-                MealAddRecipeDialogFragment.newInstance();
+                MealAddRecipeDialogFragment.newInstance(mealsSelectedNewRecipesListViewAdapter);
         addRecipeDialogFragment.show(fm, "fragment_meal_add_recipe_dialog");
     }
 

@@ -17,6 +17,8 @@ import android.widget.ListView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsAddRecipeListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewIngredientsListViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewRecipesListViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
@@ -34,6 +36,9 @@ public class MealAddRecipeDialogFragment extends DialogFragment {
     private Button btnAddSelectedRecipesToMeal;
     ListView listViewAddRecipesToMeal;
 
+    static MealsSelectedNewRecipesListViewAdapter mealsSelectedNewRecipesListViewAdapter;
+
+
     /**
      * Mandatory empty constructor
      */
@@ -41,8 +46,9 @@ public class MealAddRecipeDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static MealAddRecipeDialogFragment newInstance() {
+    public static MealAddRecipeDialogFragment newInstance(MealsSelectedNewRecipesListViewAdapter adapter) {
         MealAddRecipeDialogFragment fragment = new MealAddRecipeDialogFragment();
+        mealsSelectedNewRecipesListViewAdapter = adapter;
         return fragment;
     }
 
@@ -82,6 +88,7 @@ public class MealAddRecipeDialogFragment extends DialogFragment {
                 for(Recipe recipe : recipeArrayList){
                     if(recipe.isChecked()){
                         selectedRecipesToAddToMeal.add(recipe);
+                        mealsSelectedNewRecipesListViewAdapter.notifyDataSetChanged();
                     }
                     recipe.setChecked(false); //ensure afterwards that all recipes are set back to unchecked
                 }
