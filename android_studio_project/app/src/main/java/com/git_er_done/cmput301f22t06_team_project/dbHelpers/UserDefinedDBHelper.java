@@ -175,23 +175,26 @@ public class UserDefinedDBHelper {
                                 newArray.add(key);
                             }
                             if(dc.getType() == DocumentChange.Type.MODIFIED) {
-                                if (documentSnapshot.getId() == "ingredientCategories"){
+                                if (documentSnapshot.getId().equals("ingredientCategory")){
                                     ingredientCategoryAdapter.clear();
                                     for (String i: newArray){
                                         ingredientCategoryAdapter.add(i);
                                     };
+                                    ingredientCategoryAdapter.notifyDataSetChanged();
                                 }
-                                if (documentSnapshot.getId() == "ingredientUnits"){
+                                if (documentSnapshot.getId().equals("ingredientUnits")){
                                     ingredientUnitAdapter.clear();
                                     for (String i: newArray){
                                         ingredientUnitAdapter.add(i);
                                     };
+                                    ingredientUnitAdapter.notifyDataSetChanged();
                                 }
-                                if (documentSnapshot.getId() == "ingredientLocations"){
+                                if (documentSnapshot.getId().equals("ingredientLocations")){
                                     ingredientLocationAdapter.clear();
                                     for (String i: newArray){
                                         ingredientLocationAdapter.add(i);
                                     }
+                                    ingredientLocationAdapter.notifyDataSetChanged();
                                 }
                             }
                         }

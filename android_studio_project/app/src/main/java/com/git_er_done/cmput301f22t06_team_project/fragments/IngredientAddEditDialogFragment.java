@@ -155,7 +155,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             etName.setEnabled(false);
         }
 
-        //Saheel's code
 
         addUserDefinedStuff(addLocationButton, addLocationText, "location");
         addUserDefinedStuff(addUnitButton, addUnitText, "unit");
@@ -482,6 +481,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ingredientUnits);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        //Set adapters to corresponding spinners
+        spLocation.setAdapter(locationSpinnerAdapter);
+        spCategory.setAdapter(categorySpinnerAdapter);
+        spUnit.setAdapter(unitSpinnerAdapter);
+
         UserDefinedDBHelper.setupSnapshotListenerForIngredientUserDefinedAdapter(
                 unitSpinnerAdapter,
                 locationSpinnerAdapter,
@@ -493,11 +497,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
         UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
-
-        //Set adapters to corresponding spinners
-        spLocation.setAdapter(locationSpinnerAdapter);
-        spCategory.setAdapter(categorySpinnerAdapter);
-        spUnit.setAdapter(unitSpinnerAdapter);
     }
 
     /**
