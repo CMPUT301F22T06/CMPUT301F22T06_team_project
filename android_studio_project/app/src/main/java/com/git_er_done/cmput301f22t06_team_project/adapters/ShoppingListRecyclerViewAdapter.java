@@ -62,11 +62,11 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         TextView unit = holder.unitTextView;
         Button gotButton = holder.gotButton;
 
-        name.setText(shoppingListIngredient.getIngredient().getName());
-        description.setText(shoppingListIngredient.getIngredient().getDesc());
-        category.setText(shoppingListIngredient.getIngredient().getCategory());
-        amount.setText(shoppingListIngredient.getIngredient().getAmount().toString());
-        unit.setText(shoppingListIngredient.getIngredient().getUnit());
+        name.setText(shoppingListIngredient.getName());
+        description.setText(shoppingListIngredient.getDesc());
+        category.setText(shoppingListIngredient.getCategory());
+        amount.setText(shoppingListIngredient.getAmount().toString());
+        unit.setText(shoppingListIngredient.getUnit());
 
         gotButton.setOnClickListener(new View.OnClickListener() {
             @Override
