@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Saheel Sarker
  * @ingredientsAddEditFragment and @recipesAddEditFragment (for now)
  * @Version 1 (Because I didn't write the version before writing this)
- * @see MealPlannerDBHelper
+ * @see MealDBHelper
  * @see RecipeDBHelper
  * @see IngredientDBHelper
  */
@@ -234,6 +234,4 @@ public class UserDefinedDBHelper {
                     }
                 });
     }
-
-
 }
