@@ -5,4 +5,9 @@
         <attr name="amount" format="string"/>
         <attr name="unit" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="RecipeMealItemView">
+        <attr name="name" format="string"/>
+        <attr name="amount" format="string"/>
+    </declare-styleable>
 </resources>
