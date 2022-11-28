@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,13 +22,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -127,12 +132,32 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 //        itemTouchHelper.attachToRecyclerView(rvShoppingListItems);
     }
 
-    private void compareBetweenIDBandMDB () {
+    public static void compareBetweenIDBandMDB () {
         // We need some way to get these arrayLists
-        ArrayList<Meal> mealPlansFromMDB = null; //MealPleanDB
+        ArrayList<Meal> mealPlansFromMDB = new ArrayList<>();
+
+        //Meal 1
+        Ingredient apple1 = new Ingredient("apple", " ", LocalDate.now(), " ", " ", " ", 3);
+        Ingredient ingredient1 = new Ingredient("orange", " ", LocalDate.now(), " ", " ", " ", 4);
+        Ingredient ingredient2 = new Ingredient("banana", " ", LocalDate.now(), " ", " ", " ", 1);
+        Recipe recipe = new Recipe("fruit salad", " ", " ", 0, 2);
+        recipe.addIngredient(apple1);
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+        Ingredient ingredientClone = apple1.clone();
+        ingredientClone.setAmount(10);
+        ArrayList<Ingredient> ingredientsInMeal = new ArrayList<>();
+        ingredientsInMeal.add(ingredientClone);
+        ingredientsInMeal.add(ingredient1.clone());
+        ArrayList<Recipe> recipesInMeal = new ArrayList<>();
+        recipesInMeal.add(recipe);
+
+        Meal meel = new Meal(recipesInMeal, ingredientsInMeal, LocalDate.now());
+        mealPlansFromMDB.add(meel);
         ArrayList<Ingredient> totalIngredientsforMealPlan = new ArrayList<>();
+
         for (Meal meal: mealPlansFromMDB){ // Get all the ingredients and total them from the meal plans
-             ArrayList<Ingredient> ingredientsFromMeal = meal.getIngredientsFromMeal();
+             ArrayList<Ingredient> ingredientsFromMeal = meal.getAllIngredientsFromMeal();
              for (Ingredient i: ingredientsFromMeal){
                  Boolean alreadyInTotalIngredients = false;
                  for (Ingredient j: totalIngredientsforMealPlan){
@@ -147,7 +172,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
              }
         }
 
-        ArrayList<Ingredient> ingredientsFromIDB = null; //IngredientDB
+        ArrayList<Ingredient> ingredientsFromIDB = new ArrayList<>();
+        ingredientsFromIDB.add()
         for (Ingredient i: totalIngredientsforMealPlan){ // This'll take the difference between what's in the IngredientDB and the totalIngredients for the meal plan
             Boolean alreadyInIDB = false;
             for (Ingredient j: ingredientsFromIDB){
