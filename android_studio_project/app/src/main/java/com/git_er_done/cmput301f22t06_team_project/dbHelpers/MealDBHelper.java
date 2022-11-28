@@ -255,7 +255,7 @@ public class MealDBHelper {
                 });
     }
 
-    public static void modifyMealInDB(Meal newMeal, Meal oldMeal, int pos){
+    public static void modifyMealInDB(@NonNull Meal newMeal, @NonNull Meal oldMeal, int pos){
         String uuidOfMeal = oldMeal.getId().toString();
         selectedMealPos = pos;
 
