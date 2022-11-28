@@ -277,6 +277,13 @@ public class RecipeDBHelper {
         return recipe;
     }
 
+    /**
+     * This function will update the recipe with the updated recipe ingredient values
+     * @param unit of type string (the recipe ingredient unit)
+     * @param location of type string (the recipe ingredient location)
+     * @param category of type string (the recipe ingredient category)
+     * @param name of type string (the recipe ingredient name)
+     */
     public static void updateRecipe(String unit, String location, String category, String name){
 
         recipesDB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -387,6 +394,11 @@ public class RecipeDBHelper {
                 });
     }
 
+    /**
+     * This function takes in a title of a recipe and it will index through the recipes in storage and return the found recipe or -1 if it wasn't found.
+     * @param recipeTitle of type string
+     * @return the location of the recipe in the storage or -1 if it wasn't found
+     */
     public static int getIndexOfRecipeFromTitle(String recipeTitle) {
         for(Recipe recipe : recipesInStorage)  {
             if(recipe.getTitle().equals(recipeTitle))

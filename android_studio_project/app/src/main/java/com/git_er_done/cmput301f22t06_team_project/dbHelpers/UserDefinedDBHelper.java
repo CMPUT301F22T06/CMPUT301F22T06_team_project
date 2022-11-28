@@ -246,6 +246,4 @@ public class UserDefinedDBHelper {
                     }
                 });
     }
-
-
 }
