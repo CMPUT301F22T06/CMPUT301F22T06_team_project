@@ -97,7 +97,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private static boolean isAddingNewRecipe = false;
     private static boolean isEdittingExistingRecipe = false;
     ArrayList<Ingredient> recipeIngredients = new ArrayList<>();
-    ArrayList<String> ingredientNames = new ArrayList<>(); // For ingredients that are in the recipe
 
     int SELECT_PICTURE = 200;
     private static final int CAMERA_PERMISSION_CODE = 100;
@@ -525,7 +524,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
         ArrayList<Ingredient> modifiedRecipeIngredients = recipeIngredientsViewAdapter.getRecipeIngredients();
         modifiedRecipe.setImage(imageURI);
-        modifiedRecipe.setIngredientsList(modifiedRecipeIngredients); // Saheel
+        modifiedRecipe.setIngredientsList(modifiedRecipeIngredients);
         return modifiedRecipe;
     }
 
@@ -618,7 +617,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         }
         ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
         spIngredients_dropdown.setAdapter(recipeAdapter);
-        recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,context); // Saheel did this
+        recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,context);
         lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);
 
     }

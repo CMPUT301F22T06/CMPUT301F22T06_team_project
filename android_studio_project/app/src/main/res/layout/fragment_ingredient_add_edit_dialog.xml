@@ -126,6 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="2"
                         android:text="Edit Locations"
                         android:textColor="@color/black"
@@ -140,7 +141,7 @@
 
                     <TextView
                         android:id="@+id/locationTextView"
-                        android:layout_width="97dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:text="Location"
@@ -164,13 +165,15 @@
                         android:textColorHint="@color/white_blue"
                         android:visibility="gone"
                         android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp"
                          />
 
                     <Button
                         android:id="@+id/addLocationButton"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:text="Add"
                         android:textColor="@color/black"
@@ -179,9 +182,9 @@
 
                     <Button
                         android:id="@+id/deleteLocationButton"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:text="Delete"
                         android:textColor="@color/black"
@@ -196,6 +199,7 @@
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/light_blue"
                     android:textColor="@color/light_blue"
+                    android:layout_marginLeft="10dp"
                     android:scrollbarSize="200dp"/>
 
             </LinearLayout>
@@ -302,6 +306,7 @@
                             android:layout_weight="1"
                             android:width="10dp"
                             android:paddingHorizontal="1dp"
+                            android:layout_marginEnd="5dp"
                             android:text="Delete"
                             android:textColor="@color/black"
                             android:textSize="8dp"
@@ -373,7 +378,7 @@
                         android:visibility="gone" />
                     <Button
                         android:id="@+id/addCategoryButton"
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
@@ -384,9 +389,9 @@
 
                     <Button
                         android:id="@+id/deleteCategoryButton"
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:text="Delete"
                         android:textColor="@color/black"

@@ -120,9 +120,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     /**
      * Returns an inflated instance of this dialog fragments XML layout
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
+     * @param inflater of type layoutinflator
+     * @param container of type viewgroup
+     * @param savedInstanceState of type bundle
      * @return View - Inflated dialog fragment layout
      */
     @Nullable
@@ -138,8 +138,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * View item variables are assigned to their associated xml view items.
      * During an add, each field is left empty.
      * During an edit, each field is filled in with the associated parameters of the selected ingredient item
-     * @param view
-     * @param savedInstanceState
+     * @param view of type view
+     * @param savedInstanceState of type bundle
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -153,7 +153,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             etName.setEnabled(false);
         }
 
-
+        // Button checking
         addUserDefinedStuff(addLocationButton, addLocationText, "location");
         addUserDefinedStuff(addUnitButton, addUnitText, "unit");
         addUserDefinedStuff(addCategoryButton, addCategoryText, "category");
@@ -175,11 +175,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         });
 
-        //TODO - Save the added/editted ingredient attributes to the selected instance
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO - Check that all the current entries are valid
                 //TODO - Add prompt asking user if they're sure they want to save the new/eddited ingredient
                 int day = dpBestBeforeDate.getDayOfMonth();
                 int year = dpBestBeforeDate.getYear();
@@ -242,7 +240,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      * @return - true if the value wanting to add to the dropdown exists, false otherwise
      */
     boolean checkDuplicateInUserDefined(String userDefinedText, String type){
-        if (type == "location") {
+        if (type.equals("location")) {
             for (String i : UserDefinedDBHelper.getIngredientLocations()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -250,7 +248,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
-        if (type == "unit") {
+        if (type.equals("unit")) {
             for (String i : UserDefinedDBHelper.getIngredientUnits()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -258,7 +256,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
             }
         }
-        if (type == "category") {
+        if (type.equals("category")) {
             for (String i : UserDefinedDBHelper.getIngredientCategories()){
                 if (userDefinedText.equalsIgnoreCase(i)) {
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
@@ -311,13 +309,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     public void onClick(View view) {
                         if (sp.getAdapter().getCount() > 1) {
                             String toDelete = (String) adapterView.getItemAtPosition(i);
-                            if (type == "location") {
+                            if (type.equals("location")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientLocations", 0);
                             }
-                            if (type == "unit") {
+                            if (type.equals("unit")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientUnits", 0);
                             }
-                            if (type == "category") {
+                            if (type.equals("category")) {
                                 UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientCategory", 0);
                             }
                             //This changes the dropdown value to something that isn't currently selected.
@@ -338,7 +336,6 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
     }
 
     /**
@@ -381,13 +378,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 if (isEmpty(text)) {
                     Toast.makeText(getActivity(), "This value can't be empty", Toast.LENGTH_LONG).show();
                 } else if (!checkDuplicateInUserDefined(text, type)) {
-                    if (type == "location") {
+                    if (type.equals("location")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientLocations");
                     }
-                    if (type == "unit") {
+                    if (type.equals("unit")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientUnits");
                     }
-                    if (type == "category") {
+                    if (type.equals("category")) {
                         UserDefinedDBHelper.addUserDefined(text, "ingredientCategory");
                     }
                     addText.setText("");
@@ -533,9 +530,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     /**
      * This function takes in a year, month and date and turns them into integers.
-     * @param year
-     * @param month
-     * @param date
+     * @param year of type string
+     * @param month of type string
+     * @param date of type string
      * @return - returns the dates that were converted to a string and put together in a tpe localdate.
      */
     public LocalDate getLocalDateFromStringArray(String year, String month, String date){
