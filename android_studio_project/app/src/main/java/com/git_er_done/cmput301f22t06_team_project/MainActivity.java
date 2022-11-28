@@ -23,6 +23,7 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper
 import com.git_er_done.cmput301f22t06_team_project.fragments.ShoppingListFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
@@ -58,6 +59,15 @@ public class MainActivity extends AppCompatActivity {
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
         UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
+        Ingredient toDeleteIngredient = new Ingredient("to delete", " ", LocalDate.now(), " ", " ", " ", 0, 0);
+        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
+        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
+
+        ArrayList<Recipe> randomRecipes = new ArrayList<>();
+        ArrayList<Ingredient> randomIngredients = new ArrayList<>();
+        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
+        MealDBHelper.addMealToDB(toDeleteMeal);
+        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()));
 
         addMenuProvider(new MenuProvider() {
             @Override
@@ -106,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-
-        ShoppingListFragment.compareBetweenIDBandMDB();
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

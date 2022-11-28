@@ -17,7 +17,7 @@ import java.util.UUID;
  * Meal model class.
  * Consists of an id, a list of recipes, list of ingredients, and date.
  */
-public class Meal {
+public class Meal implements Cloneable{
     /**
      * id for storing the meal in the DB
      */
@@ -130,8 +130,11 @@ public class Meal {
      */
     public ArrayList<Ingredient> getAllIngredientsFromMeal() {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
-
+        ArrayList<Ingredient> ingredientsCopy = new ArrayList<>();
         for (Ingredient i: ingredients){
+            ingredientsCopy.add(i.clone());
+        }
+        for (Ingredient i: ingredientsCopy){
             if (allIngredients.contains(i)) {
                int index = allIngredients.indexOf(i);
                Ingredient ingredientInTotal = allIngredients.get(index);
@@ -141,8 +144,12 @@ public class Meal {
                 allIngredients.add(i);
             }
         }
+        ArrayList<Recipe> recipesCopy = new ArrayList<>();
+        for (Recipe i: recipes){
+            recipesCopy.add(i.clone());
+        }
 
-        for (Recipe j: recipes){
+        for (Recipe j: recipesCopy){
             ArrayList<Ingredient> ingredientsInRecipe = j.getIngredients();
             int servings = j.getServings();
             for (Ingredient i: ingredientsInRecipe){
@@ -214,6 +221,17 @@ public class Meal {
         dummyMeals.add(meal4);
 
         return dummyMeals;
+    }
+
+    @Override
+    public Meal clone() {
+        try {
+            Meal clone = (Meal) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
 }

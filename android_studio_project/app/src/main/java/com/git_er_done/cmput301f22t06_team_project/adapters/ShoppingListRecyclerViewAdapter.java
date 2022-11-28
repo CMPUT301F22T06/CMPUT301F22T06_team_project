@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 
 import java.util.ArrayList;
@@ -20,11 +21,11 @@ import java.util.List;
 public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<ShoppingListRecyclerViewAdapter.ViewHolder>{
 
     private final ShoppingListRecyclerViewInterface rvInterface;
-    private List<ShoppingListIngredient> mShoppingList;
+    private List<Ingredient> mShoppingList;
 
     View shoppingListView;
 
-    public ShoppingListRecyclerViewAdapter(ArrayList<ShoppingListIngredient> testShoppingList, ShoppingListRecyclerViewInterface rvInterface) {
+    public ShoppingListRecyclerViewAdapter(ArrayList<Ingredient> testShoppingList, ShoppingListRecyclerViewInterface rvInterface) {
         mShoppingList = testShoppingList;
         this.rvInterface = rvInterface;
     }
@@ -46,7 +47,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the object instance based on position in recyclerView
-        ShoppingListIngredient shoppingListIngredient = mShoppingList.get(position);
+        Ingredient shoppingListIngredient = mShoppingList.get(position);
 
         TextView name = holder.nameTextView;
         TextView description = holder.descriptionTextView;
@@ -54,11 +55,11 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
         TextView amount = holder.amountTextView;
         TextView unit = holder.unitTextView;
 
-        name.setText(shoppingListIngredient.getIngredient().getName());
-        description.setText(shoppingListIngredient.getIngredient().getDesc());
-        category.setText(shoppingListIngredient.getIngredient().getCategory());
-        amount.setText(shoppingListIngredient.getIngredient().getAmount().toString());
-        unit.setText(shoppingListIngredient.getIngredient().getUnit());
+        name.setText(shoppingListIngredient.getName());
+        description.setText(shoppingListIngredient.getDesc());
+        category.setText(shoppingListIngredient.getCategory());
+        amount.setText(shoppingListIngredient.getAmount().toString());
+        unit.setText(shoppingListIngredient.getUnit());
     }
 
     @Override
