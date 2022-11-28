@@ -35,11 +35,16 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     namespace 'com.git_er_done.cmput301f22t06_team_project'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
     // Instrumentation Tests
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'

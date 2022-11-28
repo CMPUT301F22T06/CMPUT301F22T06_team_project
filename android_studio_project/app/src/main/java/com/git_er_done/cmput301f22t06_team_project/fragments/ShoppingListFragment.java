@@ -132,6 +132,10 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
 //        itemTouchHelper.attachToRecyclerView(rvShoppingListItems);
     }
 
+    /**
+     * Finds the difference between what's in the storage and what we need for the current meal plan
+     * and create a shopping list based on what's not in the storage
+     */
     public static void compareBetweenIDBandMDB () {
         // We need some way to get these arrayLists
         ArrayList<Meal> mealPlansFromMDB = new ArrayList<>();

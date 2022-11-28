@@ -15,7 +15,7 @@
             android:title="Meal Planner"
             android:icon="@drawable/meal_plan_icon"
             android:iconTintMode="multiply"
-            android:iconTint="@color/light_blue"/>
+            android:iconTint="@color/blue"/>
 
     </group>
 

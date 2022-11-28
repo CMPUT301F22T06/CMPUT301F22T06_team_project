@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/blue"
+    android:background="@color/light_blue"
     tools:context=".MainActivity">
 
 
@@ -21,7 +21,7 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/light_blue"
         android:elevation="4dp"
         app:menu="@menu/ingredient_sort_menu"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        android:background="@color/blue"
+        android:background="@color/light_blue"
         android:backgroundTintMode="add"
         app:itemTextColor="@color/light_grey"
         app:navGraph="@navigation/nav_graph" />
@@ -60,9 +60,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_menu"
-        app:itemIconTint="@color/light_blue"
+        app:itemIconTint="@color/white_blue"
         app:itemTextAppearance="@style/TopBarText"
-        app:itemTextColor="@color/blue"
+        app:itemTextColor="@color/light_blue"
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

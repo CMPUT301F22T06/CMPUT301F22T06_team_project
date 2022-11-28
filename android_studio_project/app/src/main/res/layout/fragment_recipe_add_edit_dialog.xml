@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@drawable/border">
+    android:background="@drawable/edit_border">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
                 android:id="@+id/view_recipe_image"
                 android:layout_width="match_parent"
                 android:layout_height="146dp"
+                android:src="@drawable/no_image"
                 android:paddingRight="5dp"
                 android:paddingTop="5dp"/>
 
@@ -45,7 +46,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Name: "
-                                android:textColor="@color/light_blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="20dp" />
 
                             <!--        TODO Replace a carriage return with ' next '-->
@@ -59,8 +60,8 @@
                                 android:maxLines="1"
                                 android:maxLength="20"
                                 android:ellipsize="end"
-                                android:textColorHint="@color/white_blue"
-                                android:textColor="@color/light_blue"
+                                android:textColorHint="@color/blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="15dp"
                                 android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
                                 />
@@ -91,7 +92,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="Preptime: "
-                                android:textColor="@color/light_blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="18dp" />
 
                             <!--        TODO Replace a carriage return with ' next '-->
@@ -105,7 +106,7 @@
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:text="1"
-                                android:textColor="@color/light_blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="15dp" />
                         </LinearLayout>
 
@@ -119,7 +120,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Serves: "
-                                android:textColor="@color/light_blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="18dp" />
 
                             <EditText
@@ -132,7 +133,7 @@
                                 android:maxLines="1"
                                 android:ellipsize="end"
                                 android:text="1"
-                                android:textColor="@color/light_blue"
+                                android:textColor="@color/dark_blue"
                                 android:textSize="15dp" />
                         </LinearLayout>
 
@@ -144,21 +145,20 @@
                     android:layout_width="40dp"
                     android:layout_height="45dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:drawableTop="@drawable/upload_image"
                     android:gravity="center"
                     android:paddingLeft="17dp"
-
                     android:paddingTop="8dp"
                     android:textColor="@color/black" />
 
                 <Button
                     android:id="@+id/btn_recipe_add_edit_camera"
                     android:layout_width="40dp"
-                    android:layout_height="43dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/camera"
                     android:gravity="center"
-
                     android:textColor="@color/black"
                     android:translationY="-65dp" />
 
@@ -169,62 +169,79 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/categoryTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Category: "
-                    android:textColor="@color/light_blue"
-                    android:textSize="18dp"
-                    android:paddingLeft="10dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/categoryTitle"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingLeft="10dp">
+                        android:text="Category: "
+                        android:textColor="@color/dark_blue"
+                        android:textSize="18dp"
+                        android:paddingLeft="10dp"/>
 
-                        <EditText
-                            android:id="@+id/addCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:hint="Add Recipe Category"
-                            android:textSize="10dp"
-                            android:maxLines="1"
-                            android:maxLength="15"
-                            android:ellipsize="end"
-                            android:textColorHint="@color/white_blue"
-                            android:textColor="@color/white_blue" />
+                    <Button
+                        android:id="@+id/editCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Edit Categories"
+                        android:textColor="@color/black"
+                        android:layout_marginRight="10dp"
+                        />
+                </LinearLayout>
 
-                        <Button
-                            android:id="@+id/addCategoryButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Add"
-                            android:textSize="10dp"
-                            android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp">
 
-                        <Button
-                            android:id="@+id/deleteCategoryButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Delete"
-                            android:textSize="10dp"
-                            android:textColor="@color/black"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"/>
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/addCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:ellipsize="end"
+                        android:hint="Add Category"
+                        android:maxLength="15"
+                        android:maxLines="1"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
+                        android:textSize="13dp"
+                        android:visibility="gone" />
 
-                    <Spinner
-                        android:id="@+id/sp_recipe_add_edit_category"
-                        android:layout_width="match_parent"
-                        android:layout_height="50sp"
-                        android:backgroundTint="@color/light_blue" />
+                    <Button
+                        android:id="@+id/addCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Add"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
+                    <Button
+                        android:id="@+id/deleteCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:text="Delete"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
 
+                <Spinner
+                    android:id="@+id/sp_recipe_add_edit_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:backgroundTint="@color/dark_blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -238,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ingredients: "
                     android:textSize="20dp"
-                    android:textColor="@color/light_blue"/>
+                    android:textColor="@color/dark_blue"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,8 +268,8 @@
                         android:layout_weight="1"
                         android:layout_marginTop="10dp"
                         android:layout_height="40sp"
-                        android:textColor="@color/light_blue"
-                        android:backgroundTint="@color/light_blue"
+                        android:textColor="@color/dark_blue"
+                        android:backgroundTint="@color/blue"
                         />
 
                     <Button
@@ -260,15 +277,12 @@
                         android:layout_width="10dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_margin="3dp"
                         android:textColor="@color/black"
                         android:textSize="13dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="3dp"
                         android:text="Add"/>
-
                 </LinearLayout>
-
-
-                <!--        TODO Replace a carriage return with ' next ' action-->
 
                 <ListView
                     android:id="@+id/lv_recipe_add_edit_ingredients_view"
@@ -281,15 +295,7 @@
                     android:imeOptions="actionNext"
                     android:textSize="18dp" >
                 </ListView>
-
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginTop="5dp"
-                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -306,25 +312,23 @@
                         android:layout_height="wrap_content"
                         android:text="Comments: "
                         android:textSize="20dp"
-                        android:textColor="@color/light_blue"/>
+                        android:textColor="@color/dark_blue"/>
 
                     <EditText
                         android:id="@+id/et_recipe_add_edit_comments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter recipe comments "
-                        android:textColorHint="@color/white_blue"
+                        android:textColorHint="@color/blue"
                         android:inputType="textCapSentences|textPersonName|textMultiLine"
                         android:gravity="top"
-                        android:textColor="@color/light_blue"
+                        android:textColor="@color/dark_blue"
                         android:maxLines="5"
                         android:maxLength="100"
                         android:ellipsize="end"
                         android:textSize="18dp"/>
-
                 </LinearLayout>
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"

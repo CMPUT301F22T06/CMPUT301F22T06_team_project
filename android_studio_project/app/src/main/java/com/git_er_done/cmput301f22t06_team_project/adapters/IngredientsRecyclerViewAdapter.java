@@ -124,7 +124,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
     /**
      * Return an Ingredient instance which exists in the provided list position
      * @param position - The position of the item within the ingredient list
-     * @return
+     * @return boolean
      */
     public Ingredient getItem(int position) {
         return mIngredients.get(position);
@@ -163,7 +163,6 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
             //set expired ingredients to 0 amount
             setExpiredIngredientsAmountToZero();
 
-
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -182,10 +181,17 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
     }
 
+    /**
+     * Creates a new array list of ingredients
+     * @return - arraylist returns a new array of list of ingredients in mIngredients
+     */
     public ArrayList<Ingredient> getIngredientsList(){
         return (ArrayList<Ingredient>) mIngredients;
     }
 
+    /**
+     * This function checks the date if its expired and if it is, it will change it to 0 and change the color.
+     */
     public void setExpiredIngredientsAmountToZero() {
         LocalDate today = LocalDate.now();
         for (int i = 0; i < mIngredients.size(); i++) {
@@ -198,26 +204,46 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         }
     }
 
+    /**
+     * Delete an item from the array list of ingredients
+     * @param position - the integer location of where the deleted item will be
+     */
     public void deleteItem(int position){
         mIngredients.remove(position);
         notifyDataSetChanged();
     }
 
+    /**
+     *  Get's the position of the location of where the deleted item and does a 'fake' delete where it show a popup
+     *  This way we can do a makeshift undo. The user would have to click the 'delete' on the popup to delete again.
+     * @param position - integer position of where the deleted item will be.
+     */
     public void fakeDeleteForUndo(int position){
         rvInterface.onItemDeleted(mIngredients.get(position), position);
     }
 
-
+    /**
+     *  Add a new item into the ingredient list
+     * @param newIngredient - the new ingredient you want to add into the new list. Of type ingredient.
+     */
     public void addItem(Ingredient newIngredient){
         mIngredients.add(newIngredient);
         notifyDataSetChanged();
     }
 
+    /**
+     * update the ingredient in the list at the position to a new value
+     * @param ing - the ingredient that is to be modified. Of type ingredient
+     * @param position - the integer position of where the ingredient is.
+     */
     public void modifyIngredient(Ingredient ing, int position){
         mIngredients.set(position ,ing);
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by name (a-z)
+     */
     public void sortIngredientByName(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -228,6 +254,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the description (alphabetical)
+     */
     public void sortIngredientByDescription(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -238,6 +267,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the best before date (oldest to newest)
+     */
     public void sortIngredientByBestBeforeDate(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -248,6 +280,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the location (alphabetical)
+     */
     public void sortIngredientByLocation(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -258,6 +293,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the category (alphabetical)
+     */
     public void sortIngredientByCategory(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -268,6 +306,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the amount (lowest to highest)
+     */
     public void sortIngredientByAmount(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
@@ -278,6 +319,9 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         notifyDataSetChanged();
     }
 
+    /**
+     * This will sort all the ingredients in the recycler view by the unit (alphabetical)
+     */
     public void sortIngredientByUnit(){
         Collections.sort(mIngredients, new Comparator<Ingredient>(){
             @Override
