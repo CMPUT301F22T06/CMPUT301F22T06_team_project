@@ -110,6 +110,10 @@ public class MealDBHelper {
     public static ArrayList<Recipe> createRecipeArrayListFromDelimitedString(String delimitedRecipeString){
         ArrayList<Recipe> recipesList = new ArrayList<>();
 
+        if(delimitedRecipeString.equals("")){
+            return recipesList;
+        }
+
         //Split string into individual recipes based on | delimiter
         String[] recipesStringArray = delimitedRecipeString.replaceFirst("^\\|", "").split("\\|");
 
@@ -154,6 +158,10 @@ public class MealDBHelper {
 
     public static ArrayList<Ingredient> createIngredientArrayListFromDelimitedString(String delimiteddIngredientString){
         ArrayList<Ingredient> ingredientsList = new ArrayList<>();
+
+        if(delimiteddIngredientString.equals("")){
+            return ingredientsList;
+        }
 
         //Split string into individual recipes based on | delimiter
         String[] ingredientsStringArray = delimiteddIngredientString.replaceFirst("^\\|", "").split("\\|");

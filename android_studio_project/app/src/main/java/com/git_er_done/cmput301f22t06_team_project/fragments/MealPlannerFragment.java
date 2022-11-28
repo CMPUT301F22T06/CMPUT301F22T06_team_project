@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -118,8 +119,10 @@ public class MealPlannerFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                MealDBHelper.addMealToDB(dummyMeals.get(0));
+                showAddDialog();
 
+                //For quick and dirty tests
+//                MealDBHelper.addMealToDB(dummyMeals.get(0));
 //                MealDBHelper.deleteMealFromDB(dummyMeals.get(0).getId().toString());
             }
         });
@@ -267,5 +270,12 @@ public class MealPlannerFragment extends Fragment {
                 return new DayViewContainer(view);
             }
         };
+    }
+
+    private void showAddDialog() {
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        MealAddEditDialogFragment editNameDialogFragment =
+                MealAddEditDialogFragment.newInstance();
+        editNameDialogFragment.show(fm, "fragment_meal_add_edit_dialog");
     }
 }
