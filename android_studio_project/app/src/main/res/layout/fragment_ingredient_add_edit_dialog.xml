@@ -27,16 +27,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                    android:ellipsize="end"
                     android:hint="Name Here"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:maxLength="20"
                     android:maxLines="1"
-                    android:ellipsize="end"
                     android:textColor="@color/light_blue"
                     android:textColorHint="@color/light_blue"
-                    android:textSize="15dp"
-                    />
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/et_ingredient_add_edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:hint="Name Here"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapSentences|textPersonName|textMultiLine"
+                    android:maxLength="100"
+                    android:maxLines="5"
+                    android:textColor="@color/white_blue"
+                    android:textColorHint="@color/white_blue"
+                    android:textSize="15dp" />
+
             </LinearLayout>
 
             <LinearLayout
