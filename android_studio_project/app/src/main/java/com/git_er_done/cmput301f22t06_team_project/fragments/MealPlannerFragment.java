@@ -158,7 +158,7 @@ public class MealPlannerFragment extends Fragment {
                     else{
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
-                        dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
+                        dateBackground.setBackgroundColor(getResources().getColor(R.color.light_blue));
                     }
                 }
             }

@@ -2,16 +2,18 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests;
 
 import static org.junit.Assert.assertEquals;
 
+import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class RecipeTest {
 
-    public static RecipeIngredient makeRecipeIngredient() {
-        return new RecipeIngredient("Potato", "singles", 2, "Russet");
+    public static Ingredient makeRecipeIngredient() {
+        return new Ingredient("potato", "Russet", LocalDate.now().plusMonths(4), "pantry", "singles", "grain", 5);
     }
 
     public static Recipe makeRecipe() {
@@ -25,7 +27,7 @@ public class RecipeTest {
     public void testRecipeGetSet() {
         // TODO: Test Ingredient list once new ingredient is merged into main
         Recipe mockRecipe = makeRecipe();
-        RecipeIngredient mockIngredient = makeRecipeIngredient();
+        Ingredient mockIngredient = makeRecipeIngredient();
 
         // Test getters
         assertEquals("Ham Sandwich", mockRecipe.getTitle());
@@ -47,7 +49,7 @@ public class RecipeTest {
         assertEquals(1, (int) mockRecipe.getServings());
         mockRecipe.addIngredient(mockIngredient);
 
-        ArrayList<RecipeIngredient> retrievedIngredients = mockRecipe.getIngredients();
+        ArrayList<Ingredient> retrievedIngredients = mockRecipe.getIngredients();
         assertEquals(mockIngredient, retrievedIngredients.get(0));
     }
 

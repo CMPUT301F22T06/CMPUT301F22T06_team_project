@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@color/red">
+    android:background="@drawable/border">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,6 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/view_recipe_image"
+                android:layout_width="match_parent"
+                android:layout_height="146dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,7 +45,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Name: "
-                                android:textColor="@color/yellow"
+                                android:textColor="@color/light_blue"
                                 android:textSize="20dp" />
 
                             <!--        TODO Replace a carriage return with ' next '-->
@@ -49,9 +56,11 @@
                                 android:hint="Name Here"
                                 android:imeOptions="actionNext"
                                 android:inputType="textPersonName|textCapWords"
-                                android:maxLength="55"
-                                android:textColorHint="@color/light_yellow"
-                                android:textColor="@color/yellow"
+                                android:maxLines="1"
+                                android:maxLength="20"
+                                android:ellipsize="end"
+                                android:textColorHint="@color/white_blue"
+                                android:textColor="@color/light_blue"
                                 android:textSize="15dp"
                                 android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
                                 />
@@ -65,27 +74,6 @@
                         android:orientation="horizontal"
                         android:paddingLeft="10dp">
 
-                        <Button
-                            android:id="@+id/btn_recipe_add_edit_camera"
-                            android:layout_width="40dp"
-                            android:layout_height="43dp"
-                            android:layout_gravity="center"
-                            android:drawableTop="@drawable/camera"
-                            android:gravity="center"
-
-                            android:textColor="@color/black" />
-
-                        <Button
-                            android:id="@+id/btn_recipe_add_edit_upload"
-                            android:layout_width="40dp"
-                            android:layout_height="45dp"
-                            android:paddingLeft="17dp"
-                            android:paddingTop="8dp"
-                            android:layout_marginLeft="5dp"
-                            android:drawableTop="@drawable/upload_image"
-
-                            android:gravity="center"
-                            android:textColor="@color/black" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -103,7 +91,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:text="Preptime: "
-                                android:textColor="@color/yellow"
+                                android:textColor="@color/light_blue"
                                 android:textSize="18dp" />
 
                             <!--        TODO Replace a carriage return with ' next '-->
@@ -114,8 +102,10 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:maxLength="5"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:text="1"
-                                android:textColor="@color/yellow"
+                                android:textColor="@color/light_blue"
                                 android:textSize="15dp" />
                         </LinearLayout>
 
@@ -129,7 +119,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Serves: "
-                                android:textColor="@color/yellow"
+                                android:textColor="@color/light_blue"
                                 android:textSize="18dp" />
 
                             <EditText
@@ -139,19 +129,39 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
                                 android:maxLength="3"
+                                android:maxLines="1"
+                                android:ellipsize="end"
                                 android:text="1"
-                                android:textColor="@color/yellow"
+                                android:textColor="@color/light_blue"
                                 android:textSize="15dp" />
                         </LinearLayout>
 
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/view_recipe_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingRight="5dp" />
+                <Button
+                    android:id="@+id/btn_recipe_add_edit_upload"
+                    android:layout_width="40dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:drawableTop="@drawable/upload_image"
+                    android:gravity="center"
+                    android:paddingLeft="17dp"
+
+                    android:paddingTop="8dp"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:id="@+id/btn_recipe_add_edit_camera"
+                    android:layout_width="40dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:drawableTop="@drawable/camera"
+                    android:gravity="center"
+
+                    android:textColor="@color/black"
+                    android:translationY="-65dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -164,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Category: "
-                    android:textColor="@color/yellow"
+                    android:textColor="@color/light_blue"
                     android:textSize="18dp"
                     android:paddingLeft="10dp"/>
 
@@ -181,8 +191,11 @@
                             android:layout_weight="2"
                             android:hint="Add Recipe Category"
                             android:textSize="10dp"
-                            android:textColorHint="@color/light_yellow"
-                            android:textColor="@color/light_yellow" />
+                            android:maxLines="1"
+                            android:maxLength="15"
+                            android:ellipsize="end"
+                            android:textColorHint="@color/white_blue"
+                            android:textColor="@color/white_blue" />
 
                         <Button
                             android:id="@+id/addCategoryButton"
@@ -209,7 +222,7 @@
                         android:id="@+id/sp_recipe_add_edit_category"
                         android:layout_width="match_parent"
                         android:layout_height="50sp"
-                        android:backgroundTint="@color/yellow" />
+                        android:backgroundTint="@color/light_blue" />
 
 
             </LinearLayout>
@@ -225,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ingredients: "
                     android:textSize="20dp"
-                    android:textColor="@color/yellow"/>
+                    android:textColor="@color/light_blue"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -238,8 +251,8 @@
                         android:layout_weight="1"
                         android:layout_marginTop="10dp"
                         android:layout_height="40sp"
-                        android:textColor="@color/yellow"
-                        android:backgroundTint="@color/yellow"
+                        android:textColor="@color/light_blue"
+                        android:backgroundTint="@color/light_blue"
                         />
 
                     <Button
@@ -293,17 +306,20 @@
                         android:layout_height="wrap_content"
                         android:text="Comments: "
                         android:textSize="20dp"
-                        android:textColor="@color/yellow"/>
+                        android:textColor="@color/light_blue"/>
 
                     <EditText
                         android:id="@+id/et_recipe_add_edit_comments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter recipe comments "
-                        android:textColorHint="@color/light_yellow"
+                        android:textColorHint="@color/white_blue"
                         android:inputType="textCapSentences|textPersonName|textMultiLine"
                         android:gravity="top"
-                        android:textColor="@color/yellow"
+                        android:textColor="@color/light_blue"
+                        android:maxLines="5"
+                        android:maxLength="100"
+                        android:ellipsize="end"
                         android:textSize="18dp"/>
 
                 </LinearLayout>
