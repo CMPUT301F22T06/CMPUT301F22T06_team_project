@@ -2,8 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 //import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +12,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +26,6 @@ import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecycl
 import com.git_er_done.cmput301f22t06_team_project.adapters.ShoppingListRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
-import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
@@ -66,6 +62,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
         rvShoppingListItems = (RecyclerView) root.findViewById(R.id.rv_shopping_list);
         fabAddShoppingListItem = root.findViewById(R.id.fab_shopping_list_ingredient_add);
         testShoppingList = compareBetweenIDBandMDB();
+        rvAdapter.setmShoppingList(testShoppingList);
         setupRecyclerView();
 
         requireActivity().addMenuProvider(new MenuProvider() {

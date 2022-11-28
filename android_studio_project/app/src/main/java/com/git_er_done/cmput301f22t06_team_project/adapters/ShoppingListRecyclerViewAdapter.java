@@ -2,7 +2,6 @@ package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.getIndexOfIngredientFromName;
 import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.modifyIngredientInDB;
-import static com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient.testShoppingList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.ShoppingListRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.shoppingList.ShoppingListIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +116,13 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
             unitTextView = itemView.findViewById(R.id.tv_shopping_list_item_unit);
             gotButton = itemView.findViewById(R.id.got_shopping_list_item_button);
 
+        }
+    }
+
+    public void setmShoppingList(ArrayList<Ingredient> shoppingList){
+        mShoppingList.clear();
+        for(Ingredient i: shoppingList){
+            mShoppingList.add(i);
         }
     }
 }
