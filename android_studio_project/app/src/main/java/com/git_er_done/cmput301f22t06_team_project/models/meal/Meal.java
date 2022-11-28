@@ -67,7 +67,6 @@ public class Meal {
      */
     public Meal(UUID id, ArrayList<Recipe> recipes, ArrayList<Ingredient> ingredients, LocalDate date) {
         this.id = id;
-        this.id = UUID.randomUUID();
         this.recipes = recipes;
         this.ingredients = ingredients;
         this.date = date;
