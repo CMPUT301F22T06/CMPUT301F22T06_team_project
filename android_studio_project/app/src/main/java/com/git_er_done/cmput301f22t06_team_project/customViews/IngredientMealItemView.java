@@ -78,23 +78,17 @@ public class IngredientMealItemView extends LinearLayout {
         add = findViewById(R.id.btn_meal_ingredient_add_amount);
         minus = findViewById(R.id.btn_meal_ingredient_minus_amount);
         // On click listeners for buttons
-        add.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                amount += 1;
-                tv_amount.setText(Integer.toString(amount));
-            }
+        add.setOnClickListener(v -> {
+            amount += 1;
+            tv_amount.setText(Integer.toString(amount));
         });
 
-        minus.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (amount >= 1) {
-                    amount -= 1;
-                    tv_amount.setText(Integer.toString(amount));
-                } else {
-                    tv_amount.setText("0");
-                }
+        minus.setOnClickListener(v -> {
+            if (amount >= 1) {
+                amount -= 1;
+                tv_amount.setText(Integer.toString(amount));
+            } else {
+                tv_amount.setText("0");
             }
         });
     }
@@ -121,14 +115,18 @@ public class IngredientMealItemView extends LinearLayout {
     }
 
     /**
-     * @return
+     * Returns the currently displayed amount of ingredients
+     *
+     * @return The current number of ingredients as an {@link Integer} wrapper
      */
     public Integer getAmount() {
         return amount;
     }
 
     /**
-     * @param amount
+     * Sets the value to be displayed
+     *
+     * @param amount The number to be displayed as an {@link Integer} wrapper
      */
     public void setAmount(Integer amount) {
         this.amount = amount;
@@ -136,7 +134,9 @@ public class IngredientMealItemView extends LinearLayout {
     }
 
     /**
-     * @param unit
+     * Sets the units to be displayed
+     *
+     * @param unit The unit of measure of the ingredient as a {@link String}
      */
     public void setUnit(String unit) {
         this.unit = unit;
@@ -144,14 +144,18 @@ public class IngredientMealItemView extends LinearLayout {
     }
 
     /**
-     * @return
+     * Returns the currently displayed unit of measure
+     *
+     * @return The displayed Unit of Measure as a {@link String}
      */
     public String getUnit() {
         return unit;
     }
 
     /**
-     * @param name
+     * Sets the name to be displayed beside the counter
+     *
+     * @param name The name of the Ingredient being displayed as a {@link String}
      */
     public void setName(String name) {
         this.name = name;
@@ -159,7 +163,9 @@ public class IngredientMealItemView extends LinearLayout {
     }
 
     /**
-     * @return
+     * Returns the currently displayed Ingredient name
+     *
+     * @return the name of the displayed ingredient as a {@link String}
      */
     public String getName() {
         return name;
