@@ -27,14 +27,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
+import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 //TODO - ON START, CHECK IF ANY INGREDIENTS ARE PAST DUE DATE. IF THEY ARE , SET COUNT TO ZERO AND HIGHLIGH
 //  ITEM IN INGREDIENT LIST RED WITH TOAST MESSAGE.
@@ -183,7 +189,55 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
 
     @Override
     public void onItemDeleted(Ingredient ing, int position) {
-            Snackbar snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
+        // Check if Ingredient is used in a recipe
+        ArrayList<Recipe> recipes = RecipeDBHelper.getRecipesFromStorage();
+        ArrayList<String> recipeIngredients = new ArrayList<>();
+        for (int i = 0; i < recipes.size(); i++) {
+            ArrayList<Ingredient> ingredientsArray = recipes.get(i).getIngredients();
+            for (int j = 0; j < ingredientsArray.size(); j++) {
+                recipeIngredients.add(ingredientsArray.get(j).getName());
+            }
+        }
+        // Check if Ingredient is used in a meal plan
+        ArrayList<Meal> meals = MealDBHelper.getMealsFromStorage();
+        ArrayList<String> mealIngredients = new ArrayList<>();
+        for (int i = 0; i < meals.size(); i++) {
+            ArrayList<Ingredient> ingredientsArray= meals.get(i).getOnlyIngredientsFromMeal();
+            for (int j = 0; j < ingredientsArray.size(); j++) {
+                mealIngredients.add(ingredientsArray.get(j).getName());
+            }
+        }
+
+        Snackbar snackbar;
+        if (recipeIngredients.contains(ing.getName())) {
+            snackbar = Snackbar.make(this.getView(), "Can't delete this because it is used in a recipe!",
+                    Snackbar.LENGTH_SHORT);
+            snackbar.addCallback(new Snackbar.Callback() {
+
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                        // IF Snackbar closed on its own, item was NOT deleted
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        } else if (mealIngredients.contains(ing.getName())){
+            snackbar = Snackbar.make(this.getView(), "Can't delete this because it is used in a planned meal!",
+                    Snackbar.LENGTH_SHORT);
+            snackbar.addCallback(new Snackbar.Callback() {
+
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                        // IF Snackbar closed on its own, item was NOT deleted
+                        rvAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+        } else {
+            snackbar = Snackbar.make(this.getView(), "Are You sure you want to delete this?",
                     Snackbar.LENGTH_LONG);
             snackbar.setAction("DELETE", v -> IngredientDBHelper.deleteIngredientFromDB(ing, position));
             snackbar.addCallback(new Snackbar.Callback() {
@@ -196,7 +250,8 @@ public class IngredientsFragment extends Fragment implements IngredientsRecycler
                     }
                 }
             });
-            snackbar.show();
+        }
+        snackbar.show();
     }
 
     static public void stopIngredientsFragmentProgressBar() {
