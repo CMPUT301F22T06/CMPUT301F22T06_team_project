@@ -90,20 +90,43 @@ public class Meal {
         return this.recipes;
     }
 
+
+    /**
+     * Gets all the ingredients for a meal by combining the ingredients for the meal plan with the
+     * ingredients that's needed for all the recipes in the meal
+     * @return allIngredients which is an ArrayList<Ingredient>
+     */
     public ArrayList<Ingredient> getAllIngredientsFromMeal() {
         ArrayList<Ingredient> allIngredients = new ArrayList<>();
 
-        //Gather all ingredients from recipes in this meal
-        //Loop through each recipe in the meal
-        for(int i = 0; i < recipes.size(); i++){
-            //Loop through all ingredients in the current recipe
-//            ArrayList<RecipeIngredient> ingredientsInRecipe = recipes.get(i).getRecipeIngredients();
-//            for(int j = 0; j < ingredientsInRecipe.size(); j++){
-//                //TODO - If ingredient is already in the resulting arraylist, increase amount
-//            }
+        for (Ingredient i: ingredients){
+            if (allIngredients.contains(i)) {
+               int index = allIngredients.indexOf(i);
+               Ingredient ingredientInTotal = allIngredients.get(index);
+               ingredientInTotal.setAmount(ingredientInTotal.getAmount() + i.getAmount());
+            }
+            else{
+                allIngredients.add(i);
+            }
         }
 
-        allIngredients.addAll(ingredients);
+        for (Recipe j: recipes){
+            ArrayList<Ingredient> ingredientsInRecipe = j.getIngredients();
+            int servings = j.getServings();
+            for (Ingredient i: ingredientsInRecipe){
+                i.setAmount(i.getAmount()*servings);
+                if (allIngredients.contains(i)) {
+                    int index = allIngredients.indexOf(i);
+                    Ingredient ingredientInTotal = allIngredients.get(index);
+                    ingredientInTotal.setAmount(ingredientInTotal.getAmount() + i.getAmount());
+                }
+                else{
+                    allIngredients.add(i);
+                }
+            }
+        }
+
+//        allIngredients.addAll(ingredients);
         return allIngredients;
     }
 

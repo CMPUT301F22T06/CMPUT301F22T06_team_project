@@ -20,6 +20,7 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.fragments.ShoppingListFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.google.android.material.navigation.NavigationView;
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+
+        ShoppingListFragment.compareBetweenIDBandMDB();
 
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
