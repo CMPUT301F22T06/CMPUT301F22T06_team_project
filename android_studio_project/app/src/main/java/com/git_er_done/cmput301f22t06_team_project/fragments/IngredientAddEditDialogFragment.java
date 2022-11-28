@@ -203,7 +203,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
 
                     if (isAddingNewIngredient) {
-                        if (!checkDuplicateInDB()){
+                        if (!checkDuplicateInRecyclerView()){
                             Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
                             IngredientDBHelper.addIngredientToDB(newIngredient);
                             isAddingNewIngredient = false;
@@ -216,11 +216,11 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     }
 
     /**
-     * This function checks to see if the name of the ingredient inputted already exists in the DB. otherwise show
+     * This function checks to see if the name of the ingredient inputted already exists in the recycler view. otherwise show
      * toast and make it so that the user can't save without having a name.
      * @return True if there already exists a name in the database that exists already. False if it doesn't exist.
      */
-    boolean checkDuplicateInDB(){
+    boolean checkDuplicateInRecyclerView(){
         for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getName().equals(etName.getText().toString())) {
                 Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();

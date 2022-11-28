@@ -238,7 +238,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 if (isEmpty(categoryText)){
                     Toast.makeText(getActivity(), "You can't add an empty category", Toast.LENGTH_LONG).show();
                 }
-                else if (!checkDuplicateInDB()) {
+                else if (!checkDuplicateInRecyclerView()) {
                     RecipeCategory.getInstance().addRecipeCategory(categoryText);
                     addCategoryText.setText("");
                 }
@@ -298,7 +298,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     }
 
                     if(isAddingNewRecipe){
-                        if (!checkDuplicateInDB()){
+                        if (!checkDuplicateInRecyclerView()){
                             Recipe newRecipe = modifiedRecipe();
                             // Still need to add recipeIngredients here somehow
                             RecipeDBHelper.addRecipe(newRecipe);
@@ -318,11 +318,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     }
 
     /**
-     *  This function checks to see if the inputted title exists already in the database and outputs a toast if there exists one already
+     *  This function checks to see if the inputted title exists already in the recyclerview and outputs a toast if there exists one already
      *  It will also check the inputted recipe category for existing values
      * @return True if the title inputted value exists in the database, false otherwise
      */
-    boolean checkDuplicateInDB(){
+    boolean checkDuplicateInRecyclerView(){
         for (Recipe i : rvAdapter.getRecipesList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getTitle().equals(etTitle.getText().toString()) && !isEdittingExistingRecipe) {
                 Toast.makeText(getActivity(), "A recipe of the same name exists already.", Toast.LENGTH_LONG).show();
