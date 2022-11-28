@@ -1,5 +1,6 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
+import static com.git_er_done.cmput301f22t06_team_project.MainActivity.dummyMeals;
 import static com.kizitonwose.calendar.core.ExtensionsKt.firstDayOfWeekFromLocale;
 
 import android.annotation.SuppressLint;
@@ -17,13 +18,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.kizitonwose.calendar.core.CalendarDay;
 import com.kizitonwose.calendar.core.CalendarMonth;
@@ -40,8 +40,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 
 //TODO - FIX if the fragment is left, and then returned too, the selected date is no longer highlighted
 /**
@@ -66,6 +64,8 @@ public class MealPlannerFragment extends Fragment {
     WeekDayBinder weekDayBinder;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd");
 
+    Button buttonAddMealToCurrentDate;
+
     /**
      * Required empty public constructor
      */
@@ -78,15 +78,15 @@ public class MealPlannerFragment extends Fragment {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_meal_planner, container, false);
 
         calendarView = root.findViewById(R.id.cv_meal_planner_calendar);
-        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
+//        weekCalendarView = root.findViewById(R.id.cv_meal_planner_week_calendar);
         rvMeals = root.findViewById(R.id.rv_meal_plans);
+        buttonAddMealToCurrentDate = root.findViewById(R.id.btn_meal_add_new_meal);
 
-        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
-
+        //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
+        dummyMeals = Meal.createDummyMealList();
 
         setupMonthDayBinder();
         setupMonthHeaderBinder();
-
         setupWeekDayBinder();
 
 
@@ -100,19 +100,25 @@ public class MealPlannerFragment extends Fragment {
         calendarView.setDayBinder(monthDayBinder);
         calendarView.setMonthHeaderBinder(monthHeaderFooterBinder);
 
-        LocalDate startDateForWeek = LocalDate.now().minus(14, ChronoUnit.DAYS);
-        LocalDate endDateForWeek = LocalDate.now().plus(14, ChronoUnit.DAYS);
-
-        weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
-        weekCalendarView.scrollToDate(LocalDate.now());
-        weekCalendarView.setDayBinder(weekDayBinder);
-        weekCalendarView.setVisibility(View.INVISIBLE);
+//        LocalDate startDateForWeek = LocalDate.now().minus(14, ChronoUnit.DAYS);
+//        LocalDate endDateForWeek = LocalDate.now().plus(14, ChronoUnit.DAYS);
+//        weekCalendarView.setup(startDateForWeek, endDateForWeek, dayOfWeek);
+//        weekCalendarView.scrollToDate(LocalDate.now());
+//        weekCalendarView.setDayBinder(weekDayBinder);
+//        weekCalendarView.setVisibility(View.INVISIBLE);
 
         setupRecyclerView();
 
-        ArrayList<Meal> dummyMeals = Meal.createDummyMealList();
-        rvAdapter.addItem(dummyMeals.get(0));
-        rvAdapter.addItem(dummyMeals.get(1));
+        selectedDate = LocalDate.now();
+        calendarView.notifyDateChanged(selectedDate);
+        rvAdapter.updateRVToSelectedDate(selectedDate);
+
+        buttonAddMealToCurrentDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         return root;
     }
@@ -154,32 +160,7 @@ public class MealPlannerFragment extends Fragment {
 //                        textView.setBackgroundResource(R.drawable.selection_background);
                         dateBackground.setBackgroundColor(getResources().getColor(R.color.light_blue));
                     }
-
                 }
-
-//                if(container.calendarDay.getPosition() == DayPosition.MonthDate){
-//                    text.setVisibility(View.VISIBLE);
-//                    if(container.calendarDay.getDate() == selectedDate){
-//                        text.setTextColor(Color.WHITE);
-////                        textView.setBackgroundResource(R.drawable.selection_background);
-//                        dateBackground.setBackgroundColor(getResources().getColor(R.color.black));
-//                    }
-//                    else{
-//                        text.setBackground(null);
-//                        //For todays date
-//                        if(container.calendarDay.getDate().equals(LocalDate.now())){
-//                            text.setTextColor(Color.BLACK);
-//                            dateBackground.setBackgroundColor(Color.WHITE);
-//                        }
-//                        else{
-//                            text.setTextColor(Color.BLACK);
-//                            dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
-//                        }
-//                    }
-//                }
-//                else{
-//                    text.setVisibility(View.INVISIBLE);
-//                }
             }
 
             @NonNull
@@ -189,7 +170,6 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
-
 
 
     /**
@@ -215,6 +195,7 @@ public class MealPlannerFragment extends Fragment {
 
         };
     }
+
 
     /**
      * ViewContainer for the 'all days of the month' layout of the calendarView
@@ -251,37 +232,6 @@ public class MealPlannerFragment extends Fragment {
                         }
 
                     }
-
-
-
-//                    //If the date belongs to the current calendar month
-//                    if(calendarDay.getPosition() == DayPosition.MonthDate){
-//
-//                        //if we select an already selected date
-//                        if(currentSelection == calendarDay.getDate()){
-//                            selectedDate = null;
-//                            //reload date so the daybinder is called and we can remove the selection background
-//                            calendarView.notifyDateChanged(currentSelection);
-//                        }
-//                        //if we select a date that is not already selected
-//                        else{
-//                            //Only allow user to select a date if there is not one selected yet.
-//                            //This ensures only one date is selected at a time.
-//                            if(selectedDate == null) {
-//                                selectedDate = calendarDay.getDate();
-//                                calendarView.notifyDateChanged(calendarDay.getDate());
-//
-//                                if (currentSelection != null) {
-//                                    // need to also reload the previously selected date to remove selection background
-//                                    calendarView.notifyDateChanged(calendarDay.getDate());
-//                                }
-//                            }
-//                            else{
-//                                selectedDate = currentSelection;
-////                                Toast.makeText(getContext(), "Date: " + selectedDate.toString() + " is already selected!", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    }
                 }
             });
         }
@@ -294,7 +244,6 @@ public class MealPlannerFragment extends Fragment {
     }
 
     public void setupWeekDayBinder(){
-
         weekDayBinder = new WeekDayBinder<DayViewContainer>() {
             @Override
             public void bind(@NonNull DayViewContainer container, WeekDay weekDay) {
@@ -315,5 +264,4 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
-
 }
