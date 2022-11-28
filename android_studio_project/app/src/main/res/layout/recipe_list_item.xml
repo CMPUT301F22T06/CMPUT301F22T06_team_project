@@ -11,7 +11,8 @@
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:paddingHorizontal="10dp"
-        android:paddingVertical="10dp"/>
+        android:paddingVertical="10dp"
+        android:src="@drawable/no_image"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:textSize="24dp"
             android:textStyle="bold"
             android:paddingHorizontal="5dp"
@@ -35,8 +36,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:text="PrepTime"
-            android:textColor="@color/light_blue"
-            android:translationX="91dp"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
             android:translationY="10dp" />
 
         <TextView
@@ -46,7 +47,7 @@
             android:layout_weight="0"
             android:paddingHorizontal="5dp"
             android:text="Prep. Time (in Minutes)"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:translationY="-15dp" />
 
         <TextView
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:text="Serving size"
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:translationY="-5dp" />
 
         <TextView
@@ -64,8 +65,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:text="Serving size"
-            android:textColor="@color/light_blue"
-            android:translationX="95dp"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
             android:translationY="-35dp" />
 
         <TextView
@@ -73,7 +74,7 @@
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:text="Category: "
-            android:textColor="@color/light_blue"
+            android:textColor="@color/dark_blue"
             android:translationY="-15dp" />
 
 
@@ -83,8 +84,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="5dp"
             android:text="Category"
-            android:textColor="@color/light_blue"
-            android:translationX="95dp"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
             android:translationY="-35dp"
             />
         <TextView
@@ -92,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comments"
-            android:textColor="@color/light_blue" />
+            android:textColor="@color/dark_blue" />
 
 
 

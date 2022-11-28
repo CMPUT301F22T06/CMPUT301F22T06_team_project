@@ -58,9 +58,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(recipeView);
 
-        //Drawable d = ContextCompat.getDrawable(context, R.drawable.white_background);
-        //recipeView.setBackground(d);
-
         return viewHolder;
     }
 
@@ -89,10 +86,16 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         amount.setText(String.valueOf(recipe.getServings()));
         //photo.setImageURI(Uri.parse(recipe.getImage()));
         //Picasso.get().load(Uri.parse(recipe.getImage())).into(photo);
+
         String uri = recipe.getImage();
-        byte [] encodeByte = Base64.decode(String.valueOf(uri),Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        photo.setImageBitmap(bitmap);
+        if (uri==""){
+            photo.setImageAlpha(R.drawable.no_image);
+        }
+        else {
+            byte[] encodeByte = Base64.decode(String.valueOf(uri), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            photo.setImageBitmap(bitmap);
+        }
     }
 
     /**

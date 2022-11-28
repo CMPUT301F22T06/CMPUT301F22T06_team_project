@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="NAME"
         android:textColor="@color/black"
-        android:layout_marginLeft="10sp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="5sp"
         android:textSize="16dp"
         android:layout_gravity="center"/>
