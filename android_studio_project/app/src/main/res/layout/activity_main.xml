@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/red"
+    android:background="@color/blue"
     tools:context=".MainActivity">
 
 
@@ -45,9 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        android:background="@color/red"
+        android:background="@color/blue"
         android:backgroundTintMode="add"
-        app:itemTextColor="@color/light_red"
+        app:itemTextColor="@color/light_grey"
         app:navGraph="@navigation/nav_graph" />
         </LinearLayout>
 
@@ -60,9 +60,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_menu"
-        app:itemIconTint="@color/yellow"
+        app:itemIconTint="@color/light_blue"
         app:itemTextAppearance="@style/TopBarText"
-        app:itemTextColor="@color/red"
+        app:itemTextColor="@color/blue"
         app:menu="@menu/main_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -84,7 +84,6 @@ public class MealPlannerFragment extends Fragment {
         buttonAddMealToCurrentDate = root.findViewById(R.id.btn_meal_add_new_meal);
 
         //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
-//        ArrayList<Ingredient> getIngredientsFromStorage = IngredientDBHelper.getIngredientsFromStorage();
         dummyMeals = Meal.createDummyMealList();
 
         setupMonthDayBinder();
@@ -163,7 +162,7 @@ public class MealPlannerFragment extends Fragment {
                     else{
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
-                        dateBackground.setBackgroundColor(getResources().getColor(R.color.yellow));
+                        dateBackground.setBackgroundColor(getResources().getColor(R.color.light_blue));
                     }
                 }
             }
@@ -175,7 +174,6 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
-
 
 
     /**
@@ -201,6 +199,7 @@ public class MealPlannerFragment extends Fragment {
 
         };
     }
+
 
     /**
      * ViewContainer for the 'all days of the month' layout of the calendarView
@@ -249,7 +248,6 @@ public class MealPlannerFragment extends Fragment {
     }
 
     public void setupWeekDayBinder(){
-
         weekDayBinder = new WeekDayBinder<DayViewContainer>() {
             @Override
             public void bind(@NonNull DayViewContainer container, WeekDay weekDay) {
@@ -270,6 +268,4 @@ public class MealPlannerFragment extends Fragment {
             }
         };
     }
-
-
 }

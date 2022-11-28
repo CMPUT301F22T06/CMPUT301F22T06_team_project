@@ -2,6 +2,7 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests.Singletons;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 
@@ -17,7 +18,6 @@ public class IngredientCategoryTest {
     @Test
     public void testGetAllCategories() {
         ArrayList<String> initialCategories = new ArrayList<>();
-        initialCategories.add("Add New Category");
         initialCategories.add("dairy");
         initialCategories.add("fruit");
         initialCategories.add("grain");
@@ -37,22 +37,21 @@ public class IngredientCategoryTest {
     public void testAddGetCategory() {
         IngredientCategory category = IngredientCategory.getInstance();
 
-        category.addIngredientCategory("grain");
+        category.addIngredientCategory("starch");
         // First user-defined index
-        assertEquals("grain", category.getIngredientCategoryFromIndex(9));
+        assertEquals("starch", category.getIngredientCategoryFromIndex(8));
         // Cleanup
-        category.deleteCategory("grain");
+        category.deleteCategory("starch");
     }
 
     @Test
     public void testDeleteCategory() {
         IngredientCategory category = IngredientCategory.getInstance();
 
-        category.addIngredientCategory("grain");
+        category.addIngredientCategory("starch");
+        assertTrue(category.getAllIngredientCategories().contains("starch"));
 
-        category.deleteCategory("grain");
-        //System.err.println(category.getAllIngredientCategories().contains("grain"));
-        //System.err.println(category.getAllIngredientCategories());
-        assertFalse(category.getAllIngredientCategories().contains("grain"));
+        category.deleteCategory("starch");
+        assertFalse(category.getAllIngredientCategories().contains("starch"));
     }
 }
