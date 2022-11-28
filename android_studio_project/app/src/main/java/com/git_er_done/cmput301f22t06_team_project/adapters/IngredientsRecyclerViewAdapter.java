@@ -1,10 +1,8 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper.setExpiredIngredientsAmountToZero;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +74,7 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
      * @param holder ViewHolder
      * @param position Integer - position within the RecyclerView List
      */
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the object instance based on position in recyclerView
@@ -99,15 +98,16 @@ public class IngredientsRecyclerViewAdapter extends RecyclerView.Adapter<Ingredi
         unit.setText(ingredient.getUnit());
         ;
         if (ingredient.getAmount()==0) {
-            ingredient.setColor(Color.GREEN);
+            ingredient.setColor(Color.RED);
         }
-        if (ingredient.getColor()!=Color.GREEN){
-            amount.setTextColor(Color.YELLOW);
-            amount.setTextSize(12);
+        if (ingredient.getColor()!=Color.RED){
+
+            amount.setTextColor(R.color.light_blue);
+            //amount.setTextSize(12);
     }
         else{
-            amount.setTextColor(Color.GREEN);
-            amount.setTextSize(20);
+            amount.setTextColor(Color.RED);
+           // amount.setTextSize(20);
         }
     }
 

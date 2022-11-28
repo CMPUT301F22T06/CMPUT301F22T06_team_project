@@ -31,6 +31,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
+import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -154,9 +155,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
         //Saheel's code
 
-        addUserDefinedStuff(spLocation, addLocationButton, addLocationText, deleteLocationButton, "Add New Location", "Add Location", "location");
-        addUserDefinedStuff(spUnit, addUnitButton, addUnitText, deleteUnitButton, "Add New Unit", "Add Unit", "unit");
-        addUserDefinedStuff(spCategory,addCategoryButton, addCategoryText, deleteCategoryButton, "Add New Category", "Add Category", "category");
+        addUserDefinedStuff(addLocationButton, addLocationText, "location");
+        addUserDefinedStuff(addUnitButton, addUnitText, "unit");
+        addUserDefinedStuff(addCategoryButton, addCategoryText, "category");
 
         deleteUserDefinedStuff(spLocation, deleteLocationButton, "location");
         deleteUserDefinedStuff(spCategory, deleteCategoryButton, "category");
@@ -181,18 +182,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 int year = dpBestBeforeDate.getYear();
                 int month = dpBestBeforeDate.getMonth();
                 assignIngredientAttributesFromViews();
-                if (isEmpty(etName.getText())) {
-                    Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
-                }
-                else if (etAmount.getText().toString().equals(Character.toString('0'))) {
-                    Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
-                }
-                else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
-                    Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
-                }
-                else {
+                if (!checkExceptions()){
                     if (isEdittingExistingIngredient) {
-
                         int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
                         Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
                         Ingredient oldIngredient = new Ingredient(
@@ -207,37 +198,106 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         modifyIngredient(newIngredient);
                         IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
-                        //                    checkAndEditRecipesUnits();
                         isEdittingExistingIngredient = false;
                         dismiss();
                     }
 
                     if (isAddingNewIngredient) {
-                        if (checkDuplicateInDB()){
-                            Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
-                        }
-                        else{
+                        if (!checkDuplicateInDB()){
                             Ingredient newIngredient = new Ingredient(name, description, LocalDate.of(year, month + 1, day), location, unit, category, amount);
                             IngredientDBHelper.addIngredientToDB(newIngredient);
                             isAddingNewIngredient = false;
                             dismiss();
                         }
                     }
-
                 }
             }
         });
     }
 
+    /**
+     * This function checks to see if the name of the ingredient inputted already exists in the DB. otherwise show
+     * toast and make it so that the user can't save without having a name.
+     * @return True if there already exists a name in the database that exists already. False if it doesn't exist.
+     */
     boolean checkDuplicateInDB(){
         for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
             if (i.getName().equals(etName.getText().toString())) {
+                Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * This function checks to see if a value added into any of the userdefined dropdowns (units, location, category) already exist.
+     * If the value exists, return true, if not, return false.
+     * @param userDefinedText - this is the text that wants to be added into the dropdown
+     * @param type - this tells the program which 'add' button the user clicked.
+     * @return - true if the value wanting to add to the dropdown exists, false otherwise
+     */
+    boolean checkDuplicateInUserDefined(String userDefinedText, String type){
+        if (type == "location") {
+            for (String i : IngredientLocation.getInstance().getAllLocations()){
+                if (userDefinedText.equalsIgnoreCase(i)){
+                    Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            }
+        }
+        if (type == "unit") {
+            for (String i : IngredientUnit.getInstance().getAllUnits()){
+                if (userDefinedText.equalsIgnoreCase(i)){
+                    Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            }
+        }
+        if (type == "category") {
+            for (String i : IngredientCategory.getInstance().getAllIngredientCategories()){
+                if (userDefinedText.equalsIgnoreCase(i)) {
+                    Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This function checks for if the name is empty, if the amount is 0 and if the date inputted is in the past. A toast will be shown with a description
+     * @return True if name is empty, if amount is 0, if date is in the past, false otherwise
+     */
+    boolean checkExceptions(){
+        int day = dpBestBeforeDate.getDayOfMonth();
+        int year = dpBestBeforeDate.getYear();
+        int month = dpBestBeforeDate.getMonth();
+        if (isEmpty(etName.getText())) {
+            Toast.makeText(getActivity(), "Name can't be empty.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (etAmount.getText().toString().equals(Character.toString('0'))) {
+            Toast.makeText(getActivity(), "Amount has to be greater than 0.", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (LocalDate.of(year, month + 1, day).isBefore(LocalDate.now())){
+            Toast.makeText(getActivity(), "Best before date can't be in the past", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     *  This function is called when the 'delete' button is pressed and will delete the corresponding selected item in the spinner
+     *  The function will also bar the user from deleting all items and will force the user to always keep one.
+     *  When deleting an item in the spinner, the spinner will autoselect a different value.
+     * @param sp - the spinner that the value will be deleted from
+     * @param deleteButton - which delete button that was selected (there are 3. unit, category, location)
+     * @param type - to check which spinner and delete button to use.
+     */
     void deleteUserDefinedStuff(Spinner sp, Button deleteButton, String type){
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -277,12 +337,20 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     }
 
-    void addUserDefinedStuff(Spinner sp, Button addButton, EditText addText, Button deleteButton, String message, String notEqual, String type){
+    /**
+     * This function adds the values in the edittext into the spinner. It will check for things like empty values and if the value exists already.
+     * @param addButton - to show which button was pressed (unit, location, category)
+     * @param addText - the value of what was written in the edit text.
+     * @param type -  to find out which addtext and what addbutton to use.
+     */
+    void addUserDefinedStuff(Button addButton, EditText addText, String type){
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String text = String.valueOf(addText.getText());
-                if (text != notEqual) {
+                if (isEmpty(text)) {
+                    Toast.makeText(getActivity(), "This value can't be empty", Toast.LENGTH_LONG).show();
+                } else if (!checkDuplicateInUserDefined(text, type)) {
                     if (type == "location") {
                         IngredientLocation.getInstance().addLocation(text);
                     }
@@ -294,33 +362,16 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     }
                     addText.setText("");
                 }
-//                            addButton.setVisibility(View.INVISIBLE);
-//                            addText.setVisibility(View.INVISIBLE);
-//                            deleteButton.setVisibility(View.VISIBLE);
+
             }
         });
-//        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (adapterView.getItemAtPosition(i) == message){
-////                    addButton.setVisibility(View.VISIBLE);
-////                    addText.setVisibility(View.VISIBLE);
-////                    deleteButton.setVisibility(View.INVISIBLE);
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
     }
 
-
-
-
+    /**
+     * This function creates a new ingredient and passes in all the values that were inputted into the fragment
+     * The function new ingredient is then saved to be added into the database later.
+     * @param ingredient - the ingredient that is being edited.
+     */
     void modifyIngredient(Ingredient ingredient){
         Ingredient modifiedIngredient = ingredient;
 
@@ -337,7 +388,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
     }
 
-
+    /**
+     * This function assigns all the attributes from the views into variables.
+     */
     void assignIngredientAttributesFromViews(){
         name = String.valueOf(etName.getText());
         description = String.valueOf(etDescription.getText());
@@ -351,7 +404,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         location = spLocation.getSelectedItem().toString();
     }
 
-
+    /**
+     * This function gets all the fragment arguments and puts them into corresponding variables.
+     */
     void assignSelectedIngredientAttributesFromFragmentArgs(){
         //Set associated view items to attributes of selected ingredient from argument bundle passed to this fragment on creation
         name = getArguments().getString("name", "---");
@@ -363,7 +418,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         unit = getArguments().getString("unit", "---");
     }
 
-
+    /**
+     * This function will fill all the views with the selected ingredient attributes
+     */
     void fillViewsWithSelectedIngredientAttributes(){
         //Update editable attribute views with values of selected ingredient instances
         etName.setText(name);
@@ -378,7 +435,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spUnit.setSelection(ingredientUnits.indexOf(unit));
     }
 
-
+    /**
+     * This function will attach all the layout views to local instances
+     * @param view - this is the fragment to get all the layout views to attach to local instances
+     */
     void attachLayoutViewsToLocalInstances(View view){
         etName = (EditText) view.findViewById(R.id.et_ingredient_add_edit_name);
         etDescription = (EditText) view.findViewById(R.id.et_ingredient_add_edit_description);
@@ -403,7 +463,9 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
     }
 
-
+    /**
+     * This function sets up all the adapters by getting them first from the layout views and then assigns them to different things.
+     */
     void setupAdapters(){
         //Declare and instantiate adapters for spinners
         ArrayAdapter<String> locationSpinnerAdapter =
@@ -424,7 +486,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         spUnit.setAdapter(unitSpinnerAdapter);
     }
 
-
+    /**
+     * This function takes in a year, month and date and turns them into integers.
+     * @param year
+     * @param month
+     * @param date
+     * @return - returns the dates that were converted to a string and put together in a tpe localdate.
+     */
     public LocalDate getLocalDateFromStringArray(String year, String month, String date){
         LocalDate localDate = LocalDate.of(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(date));
         return localDate;
