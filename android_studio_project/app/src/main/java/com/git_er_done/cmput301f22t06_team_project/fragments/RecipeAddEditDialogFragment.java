@@ -208,8 +208,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
                         if(spCategory.getAdapter().getCount() > 1){
                             String toDelete = (String) adapterView.getItemAtPosition(i);
-                            RecipeCategory.getInstance().deleteRecipeCategory(toDelete);
-
+                            UserDefinedDBHelper.deleteUserDefined(toDelete, "recipeCategory", 0);
                             //This changes the dropdown value to something that isn't currently selected.
                             if (i == 0) {
                                 spCategory.setSelection(spCategory.getAdapter().getCount() - 1); // Last value in the list
@@ -595,6 +594,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategory.setAdapter(categorySpinnerAdapter);
         UserDefinedDBHelper.setupSnapshotListenerForRecipeCategoryAdapter(categorySpinnerAdapter);
+        UserDefinedDBHelper.addUserDefined("to delete", "recipeCategory");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "recipeCategory", 0);
 
         ArrayList<String> ingredientNames = new ArrayList<>();
         for (Ingredient i: ingredientStorage){

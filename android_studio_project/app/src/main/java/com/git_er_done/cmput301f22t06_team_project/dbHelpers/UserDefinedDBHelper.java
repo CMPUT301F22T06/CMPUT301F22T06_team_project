@@ -123,9 +123,6 @@ public class UserDefinedDBHelper {
 
 
     public static void setupSnapshotListenerForRecipeCategoryAdapter(
-//            ArrayAdapter<String> ingredientUnitAdapter,
-//            ArrayAdapter<String> ingredientLocationAdapter,
-//            ArrayAdapter<String> ingredientCategoryAdapter,
             ArrayAdapter<String> recipeCategoryAdapter){
         db.collection("UserDefined")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -144,30 +141,57 @@ public class UserDefinedDBHelper {
                                 newArray.add(key);
                             }
                             if(dc.getType() == DocumentChange.Type.MODIFIED) {
-//                                if (documentSnapshot.getId() == "ingredientCategories"){
-//                                    ingredientCategoryAdapter.clear();
-//                                    for (String i: newArray){
-//                                        ingredientCategoryAdapter.add(i);
-//                                    };
-//                                }
-//                                if (documentSnapshot.getId() == "ingredientUnits"){
-//                                    ingredientUnitAdapter.clear();
-//                                    for (String i: newArray){
-//                                        ingredientUnitAdapter.add(i);
-//                                    };
-//                                }
-//                                if (documentSnapshot.getId() == "ingredientLocations"){
-//                                    ingredientUnitAdapter.clear();
-//                                    for (String i: newArray){
-//                                        ingredientUnitAdapter.add(i);
-//                                    };
-//                                }
                                 if (documentSnapshot.getId().equals("recipeCategory")){
                                     recipeCategoryAdapter.clear();
                                     for (String i: newArray){
                                         recipeCategoryAdapter.add(i);
                                     };
                                     recipeCategoryAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    public static void setupSnapshotListenerForIngredientUserDefinedAdapter(
+            ArrayAdapter<String> ingredientUnitAdapter,
+            ArrayAdapter<String> ingredientLocationAdapter,
+            ArrayAdapter<String> ingredientCategoryAdapter){
+        db.collection("UserDefined")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null){
+                            Log.e("DB ERROR", error.getMessage());
+                            return;
+                        }
+
+                        for(DocumentChange dc : value.getDocumentChanges()){
+                            DocumentSnapshot documentSnapshot = dc.getDocument();
+                            Map<String, Object> map = documentSnapshot.getData();
+                            ArrayList<String> newArray = new ArrayList<>();
+                            for (String key: map.keySet()){
+                                newArray.add(key);
+                            }
+                            if(dc.getType() == DocumentChange.Type.MODIFIED) {
+                                if (documentSnapshot.getId() == "ingredientCategories"){
+                                    ingredientCategoryAdapter.clear();
+                                    for (String i: newArray){
+                                        ingredientCategoryAdapter.add(i);
+                                    };
+                                }
+                                if (documentSnapshot.getId() == "ingredientUnits"){
+                                    ingredientUnitAdapter.clear();
+                                    for (String i: newArray){
+                                        ingredientUnitAdapter.add(i);
+                                    };
+                                }
+                                if (documentSnapshot.getId() == "ingredientLocations"){
+                                    ingredientLocationAdapter.clear();
+                                    for (String i: newArray){
+                                        ingredientLocationAdapter.add(i);
+                                    }
                                 }
                             }
                         }

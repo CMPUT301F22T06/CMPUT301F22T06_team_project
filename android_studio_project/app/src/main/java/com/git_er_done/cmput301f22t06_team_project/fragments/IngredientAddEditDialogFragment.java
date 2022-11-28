@@ -27,11 +27,13 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
+import com.google.firebase.firestore.auth.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -309,12 +311,15 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                             String toDelete = (String) adapterView.getItemAtPosition(i);
                             if (type == "location") {
                                 IngredientLocation.getInstance().deleteLocation(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientLocations", 0);
                             }
                             if (type == "unit") {
                                 IngredientUnit.getInstance().deleteUnit(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientUnits", 0);
                             }
                             if (type == "category") {
                                 IngredientCategory.getInstance().deleteCategory(toDelete);
+                                UserDefinedDBHelper.deleteUserDefined(toDelete, "ingredientCategory", 0);
                             }
                             //This changes the dropdown value to something that isn't currently selected.
                             if (i == 0) {
@@ -352,13 +357,13 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "This value can't be empty", Toast.LENGTH_LONG).show();
                 } else if (!checkDuplicateInUserDefined(text, type)) {
                     if (type == "location") {
-                        IngredientLocation.getInstance().addLocation(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientLocations");
                     }
                     if (type == "unit") {
-                        IngredientUnit.getInstance().addUnit(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientUnits");
                     }
                     if (type == "category") {
-                        IngredientCategory.getInstance().addIngredientCategory(text);
+                        UserDefinedDBHelper.addUserDefined(text, "ingredientCategory");
                     }
                     addText.setText("");
                 }
@@ -479,6 +484,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         ArrayAdapter<String> unitSpinnerAdapter =
                 new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, ingredientUnits);
         categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        UserDefinedDBHelper.setupSnapshotListenerForIngredientUserDefinedAdapter(
+                unitSpinnerAdapter,
+                locationSpinnerAdapter,
+                categorySpinnerAdapter);
+
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientUnits");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
+        UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
+        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
 
         //Set adapters to corresponding spinners
         spLocation.setAdapter(locationSpinnerAdapter);
