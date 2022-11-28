@@ -172,8 +172,6 @@
                         android:ellipsize="end"
                         android:textColor="@color/dark_blue"
                         android:textColorHint="@color/blue"
-                        android:textColor="@color/white_blue"
-                        android:textColorHint="@color/white_blue"
                         android:visibility="gone"
                         android:paddingRight="10dp"
                         android:layout_marginLeft="10dp"
