@@ -79,6 +79,12 @@ public class RecipeDBHelperTest {
             namesFromDB.add(recFromDB.get(i).getTitle());
         }
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         assertTrue(namesFromDB.contains(mockRecipe.getTitle()));
 
         RecipeDBHelper.deleteRecipe(mockRecipe, 0);
