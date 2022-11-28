@@ -138,7 +138,7 @@ public class RecipeDBHelper {
      * taking a string argument to look for the document with that name
      * @param recipe of type {@link String}
      * returns void
-     * @param position
+     * @param position - the {@link Integer} position of the recipe in the list.
      * @see IngredientDBHelper
      * @see MealDBHelper
      */
@@ -164,9 +164,9 @@ public class RecipeDBHelper {
 
     /**
      * Modifies the data of a recipes that's already in the database.
-     * @param newRecipe of type Recipe
-     * @param oldRecipe of type Recipe
-     * @param pos of type Int
+     * @param newRecipe of type {@link Recipe}
+     * @param oldRecipe of type {@link Recipe}
+     * @param pos of type {@link Integer}
      */
 
     public static void modifyRecipeInDB(Recipe newRecipe, Recipe oldRecipe, int pos){
@@ -208,7 +208,6 @@ public class RecipeDBHelper {
                             color;
             dr.update(name, ingredientFields);
         }
-
     }
 
     /**
@@ -229,7 +228,6 @@ public class RecipeDBHelper {
                     ingredientList.add(i);
                 }
                 adapter.notifyDataSetChanged();
-
             }
         });
     }
@@ -273,16 +271,15 @@ public class RecipeDBHelper {
             Ingredient ingredient = new Ingredient(name,units,bestBefore,comment,unit,ingredientCategory,amount,color);
             recipe.addIngredient(ingredient);
         }
-
         return recipe;
     }
 
     /**
      * This function will update the recipe with the updated recipe ingredient values
-     * @param unit of type string (the recipe ingredient unit)
-     * @param location of type string (the recipe ingredient location)
-     * @param category of type string (the recipe ingredient category)
-     * @param name of type string (the recipe ingredient name)
+     * @param unit of type {@link String} (the recipe ingredient unit)
+     * @param location of type {@link String}  (the recipe ingredient location)
+     * @param category of type {@link String}  (the recipe ingredient category)
+     * @param name of type {@link String}  (the recipe ingredient name)
      */
     public static void updateRecipe(String unit, String location, String category, String name){
 
@@ -386,7 +383,6 @@ public class RecipeDBHelper {
                                 }
                             }
                         }
-
                         if (adapter.getRecipesList().size() == recipesInStorage.size() ){
                             RecipesFragment.stopRecipesFragmentProgressBar();
                         }
@@ -396,7 +392,7 @@ public class RecipeDBHelper {
 
     /**
      * This function takes in a title of a recipe and it will index through the recipes in storage and return the found recipe or -1 if it wasn't found.
-     * @param recipeTitle of type string
+     * @param recipeTitle of type {@link String}
      * @return the location of the recipe in the storage or -1 if it wasn't found
      */
     public static int getIndexOfRecipeFromTitle(String recipeTitle) {
@@ -406,6 +402,5 @@ public class RecipeDBHelper {
         }
         return -1;
     }
-
 }
 

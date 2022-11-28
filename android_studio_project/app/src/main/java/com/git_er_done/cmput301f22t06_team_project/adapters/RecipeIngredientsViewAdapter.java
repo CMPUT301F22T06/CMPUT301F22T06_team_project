@@ -35,7 +35,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
     private Button deleteButton;
 
     /**
-     * THis initializes the adapter
+     * This initializes the adapter
      * @param recipeIngredients which is a ArrayList<Ingredient>
      * @param context which is a Context
      */
@@ -51,7 +51,7 @@ public class RecipeIngredientsViewAdapter extends ArrayAdapter<Ingredient> {
      * @param position which is the position of a row in the list of type int
      * @param convertView which is the current row of type View
      * @param parent which is the listview that the row is in
-     * @return
+     * @return listitem of type view
      */
 
     @Override
