@@ -36,7 +36,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
-import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
@@ -44,7 +43,6 @@ import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -239,7 +237,6 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "You can't add an empty category", Toast.LENGTH_LONG).show();
                 }
                 else if (!checkDuplicateInRecyclerView()) {
-                    RecipeCategory.getInstance().addRecipeCategory(categoryText);
                     UserDefinedDBHelper.addUserDefined(categoryText, "recipeCategory");
                     addCategoryText.setText("");
                 }
@@ -330,7 +327,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 return true;
             }
         }
-        for (String i : RecipeCategory.getInstance().getAllRecipeCategories()){
+        for (String i : recipeCategories){
             if (categoryText.equalsIgnoreCase(i)){
                 Toast.makeText(getActivity(), "A recipe category of the same name exists already.", Toast.LENGTH_LONG).show();
                 return true;

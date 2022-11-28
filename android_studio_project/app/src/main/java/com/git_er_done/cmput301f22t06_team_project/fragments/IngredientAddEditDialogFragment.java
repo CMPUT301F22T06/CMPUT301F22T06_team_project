@@ -1,13 +1,11 @@
 package com.git_er_done.cmput301f22t06_team_project.fragments;
 
 import static android.text.TextUtils.isEmpty;
-import static androidx.fragment.app.FragmentManager.TAG;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientCategories;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientLocations;
 import static com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient.ingredientUnits;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +24,8 @@ import androidx.fragment.app.DialogFragment;
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
-import com.google.firebase.firestore.auth.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -240,7 +232,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
      */
     boolean checkDuplicateInUserDefined(String userDefinedText, String type){
         if (type == "location") {
-            for (String i : IngredientLocation.getInstance().getAllLocations()){
+            for (String i : UserDefinedDBHelper.getIngredientLocations()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;
@@ -248,7 +240,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         }
         if (type == "unit") {
-            for (String i : IngredientUnit.getInstance().getAllUnits()){
+            for (String i : UserDefinedDBHelper.getIngredientUnits()){
                 if (userDefinedText.equalsIgnoreCase(i)){
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;
@@ -256,7 +248,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
             }
         }
         if (type == "category") {
-            for (String i : IngredientCategory.getInstance().getAllIngredientCategories()){
+            for (String i : UserDefinedDBHelper.getIngredientCategories()){
                 if (userDefinedText.equalsIgnoreCase(i)) {
                     Toast.makeText(getActivity(), "Something with this name exists already.", Toast.LENGTH_LONG).show();
                     return true;

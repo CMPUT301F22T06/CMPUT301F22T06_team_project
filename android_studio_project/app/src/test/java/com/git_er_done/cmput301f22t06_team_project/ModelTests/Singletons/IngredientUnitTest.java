@@ -3,8 +3,6 @@ package com.git_er_done.cmput301f22t06_team_project.ModelTests.Singletons;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
-
 import org.junit.Test;
 
 import java.util.ArrayList;

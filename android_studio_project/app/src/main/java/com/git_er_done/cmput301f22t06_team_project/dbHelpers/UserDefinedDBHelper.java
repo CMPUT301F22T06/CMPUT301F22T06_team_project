@@ -1,25 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.dbHelpers;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
-import com.git_er_done.cmput301f22t06_team_project.fragments.RecipesFragment;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientCategory;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientLocation;
-import com.git_er_done.cmput301f22t06_team_project.models.ingredient.IngredientUnit;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
-import com.git_er_done.cmput301f22t06_team_project.models.recipe.RecipeCategory;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,11 +14,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
