@@ -1,22 +1,20 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
 import static com.git_er_done.cmput301f22t06_team_project.MainActivity.dummyMeals;
-import static com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment.getSelectedDate;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
+import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
@@ -26,10 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO - add a prompt that tells the user if they don't have any meals planned on the selected date
+//TODO - if a user sets an ingredient amount or recipe serving to zero, prompt to ask if they are sure and that it will be removed from the meal if so
+//TODO - add swipe to delete an ingredient or recipe from a meal
 public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecyclerViewAdapter.ViewHolder>{
 
 //    private final IngredientsRecyclerViewInterface rvInterface;
-    private List<Meal> mMeals = new ArrayList<>();
+    private List<Meal> mealRecyclerViewList = new ArrayList<>();
 
     View mealView;
 
@@ -48,7 +48,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //Get the meal at this position in the list
-        Meal meal = mMeals.get(position);
+        Meal meal = mealRecyclerViewList.get(position);
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
         holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
@@ -72,28 +72,29 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 //        }
 //        holder.mealIngredientListViewAdapter.setListViewHeightBasedOnChildren(holder.ingredientsListView);
 
-        ((LinearLayout)holder.linearRecipes).removeAllViews(); //remove
+        ((LinearLayout)holder.recipesLinearLayout).removeAllViews();
         for(int i = 0; i < holder.mealRecipes.size(); i++){
+            holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
 
-            TextView tvRecipeName = new TextView(holder.itemView.getContext());
-            tvRecipeName.setText(holder.mealRecipes.get(i).getTitle());
-            tvRecipeName.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            ((LinearLayout)holder.linearRecipes).addView(tvRecipeName);
+            holder.recipeMealItemView.setName(holder.mealRecipes.get(i).getTitle());
+            holder.recipeMealItemView.setAmount(holder.mealRecipes.get(i).getServings());
+            ((LinearLayout)holder.recipesLinearLayout).addView(holder.recipeMealItemView);
         }
 
-        ((LinearLayout)holder.linearIngredients).removeAllViews();
+        ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews();
         for(int i = 0; i < holder.mealIngredients.size(); i++){
-            TextView textView = new TextView(holder.itemView.getContext());
-            textView.setText(holder.mealIngredients.get(i).getName());
-            textView.setLayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            ((LinearLayout)holder.linearIngredients).addView(textView);
-        }
+            holder.ingredientMealItemView = new IngredientMealItemView(holder.itemView.getContext());
 
+            holder.ingredientMealItemView.setName(holder.mealIngredients.get(i).getName());
+            holder.ingredientMealItemView.setAmount(holder.mealIngredients.get(i).getAmount());
+            holder.ingredientMealItemView.setUnit(holder.mealIngredients.get(i).getUnit());
+            ((LinearLayout) holder.ingredientsLinearLayout).addView(holder.ingredientMealItemView);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mMeals.size();
+        return mealRecyclerViewList.size();
     }
 
     /**
@@ -101,28 +102,28 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
      * This is called each time the user selects a new date (current date changes)
      */
     public void updateRVToSelectedDate(LocalDate newlySelectedDate){
-        mMeals.clear();
+        mealRecyclerViewList.clear();
         //Loop through all dummy meals - only add ones with selected date as date to the adapter
         for(int i = 0; i < dummyMeals.size(); i++){
             if(dummyMeals.get(i).getDate().equals(newlySelectedDate)){
-                mMeals.add(dummyMeals.get(i));
+                mealRecyclerViewList.add(dummyMeals.get(i));
             }
         }
         notifyDataSetChanged();
     }
 
     public void deleteItem(int position){
-        mMeals.remove(position);
+        mealRecyclerViewList.remove(position);
         notifyDataSetChanged();
     }
 
     public void addItem(Meal newMeal){
-        mMeals.add(newMeal);
+        mealRecyclerViewList.add(newMeal);
         notifyDataSetChanged();
     }
 
     public void modifyMealInAdapter(Meal meal, int position){
-        mMeals.set(position, meal);
+        mealRecyclerViewList.set(position, meal);
         notifyDataSetChanged();
     }
 
@@ -133,14 +134,17 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         ListView ingredientsListView;
         ListView recipesListView;
 
-        View linearIngredients;
-        View linearRecipes;
+        View ingredientsLinearLayout;
+        View recipesLinearLayout;
+
+        IngredientMealItemView ingredientMealItemView;
+        RecipeMealItemView recipeMealItemView;
 
         ArrayList<Recipe> mealRecipes = new ArrayList<>();
-        MealRecipeListViewAdapter mealRecipeListViewAdapter = new MealRecipeListViewAdapter(mealView.getContext(), mealRecipes);
+//        MealRecipeListViewAdapter mealRecipeListViewAdapter = new MealRecipeListViewAdapter(mealView.getContext(), mealRecipes);
 
         ArrayList<Ingredient> mealIngredients = new ArrayList<>();
-        MealIngredientListViewAdapter mealIngredientListViewAdapter = new MealIngredientListViewAdapter(mealView.getContext(), mealIngredients);
+//        MealIngredientListViewAdapter mealIngredientListViewAdapter = new MealIngredientListViewAdapter(mealView.getContext(), mealIngredients);
 
 
         //Constructor accepts entire item row and does view lookups to find each subview
@@ -148,17 +152,16 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             // Stores itemView in a public final member variable that can be used to access context from any ViewHolder instance
             super(itemView);
 
-            linearIngredients = itemView.findViewById(R.id.ll_ingredients);
+            ingredientsLinearLayout = itemView.findViewById(R.id.ll_ingredients);
+            recipesLinearLayout = itemView.findViewById(R.id.ll_recipes);
 
-            linearRecipes = itemView.findViewById(R.id.ll_recipes);
-
-            recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);
-            recipesListView.setScrollContainer(false);
-            recipesListView.setAdapter(mealRecipeListViewAdapter);
-
-            ingredientsListView = itemView.findViewById(R.id.lv_ingredients_in_meal);
-            ingredientsListView.setScrollContainer(false);
-            ingredientsListView.setAdapter(mealIngredientListViewAdapter);
+//            recipesListView = itemView.findViewById(R.id.lv_recipes_in_meal);
+//            recipesListView.setScrollContainer(false);
+//            recipesListView.setAdapter(mealRecipeListViewAdapter);
+//
+//            ingredientsListView = itemView.findViewById(R.id.lv_ingredients_in_meal);
+//            ingredientsListView.setScrollContainer(false);
+//            ingredientsListView.setAdapter(mealIngredientListViewAdapter);
 
 //            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 //                @Override
