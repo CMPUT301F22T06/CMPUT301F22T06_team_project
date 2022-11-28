@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class MealsAddIngredientListViewAdapter extends ArrayAdapter<Ingredient> 
     public MealsAddIngredientListViewAdapter(@NonNull Context context, ArrayList<Ingredient> arrayList) {
         super(context, 0, arrayList);
         inflater = LayoutInflater.from(context);
-
     }
 
     @NonNull

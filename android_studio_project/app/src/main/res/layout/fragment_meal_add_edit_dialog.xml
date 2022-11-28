@@ -29,11 +29,10 @@
                 android:textStyle="bold"
                 android:textSize="18sp"/>
 
-                <LinearLayout
-                    android:id="@+id/ll_meal_add_edit_recipes"
+                <ListView
+                    android:id="@+id/lv_meal_add_edit_recipes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:layout_height="200dp"/>
 
                 <Button
                     android:id="@+id/btn_meal_add_edit_recipe_add"
@@ -57,11 +56,11 @@
                     android:textStyle="bold"
                     android:textSize="18sp"/>
 
-                <LinearLayout
-                    android:id="@+id/ll_meal_add_edit_ingredients"
+                <ListView
+                    android:id="@+id/lv_meal_add_edit_ingredients"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
+                    android:layout_height="200dp"/>
+
 
                 <Button
                     android:id="@+id/btn_meal_add_edit_ingredient_add"

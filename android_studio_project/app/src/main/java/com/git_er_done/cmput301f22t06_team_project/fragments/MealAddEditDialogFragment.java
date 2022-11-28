@@ -13,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.adapters.MealsSelectedNewIngredientsListViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
@@ -41,9 +43,10 @@ public class MealAddEditDialogFragment extends DialogFragment{
 
     View mealAddEditDialogView;
 
-    //Linear layouts for holding the ingredient and recipes the user has selected for the new meal
-    View ingredientsLinearLayout;
-    View recipesLinearLayout;
+    ListView selectedNewMealIngredientsListView;
+    ListView selectedNewMealRecipeListView;
+
+    MealsSelectedNewIngredientsListViewAdapter mealsSelectedNewIngredientsListViewAdapter;
 
     public static ArrayList<Ingredient> selectedIngredientsToAddToMeal = new ArrayList<>();
     public static ArrayList<Recipe> selectedRecipesToAddToMeal = new ArrayList<>();
@@ -99,8 +102,13 @@ public class MealAddEditDialogFragment extends DialogFragment{
         btnAddRecipeToMeal = view.findViewById(R.id.btn_meal_add_edit_recipe_add);
         btnCancel = view.findViewById(R.id.btn_meal_add_edit_cancel);
         btnSave = view.findViewById(R.id.btn_meal_add_edit_save);
-        ingredientsLinearLayout = view.findViewById(R.id.ll_meal_add_edit_ingredients);
-        recipesLinearLayout = view.findViewById(R.id.ll_meal_add_edit_recipes);
+        selectedNewMealIngredientsListView = view.findViewById(R.id.lv_meal_add_edit_ingredients);
+        selectedNewMealRecipeListView = view.findViewById(R.id.lv_meal_add_edit_recipes);
+
+
+        mealsSelectedNewIngredientsListViewAdapter = new MealsSelectedNewIngredientsListViewAdapter(getContext(), selectedIngredientsToAddToMeal);
+        selectedNewMealIngredientsListView.setAdapter(mealsSelectedNewIngredientsListViewAdapter);
+
 
         btnAddIngredientToMeal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,39 +150,19 @@ public class MealAddEditDialogFragment extends DialogFragment{
 
     }
 
-    public void updateLinearLayoutIngredientItems(){
-        IngredientMealItemView ingredientMealItemView;
-
-        for(int i = 0; i < selectedIngredientsToAddToMeal.size(); i++){
-            ingredientMealItemView = new IngredientMealItemView(getContext());
-
-            ingredientMealItemView.setName(selectedIngredientsToAddToMeal.get(i).getName());
-            ingredientMealItemView.setAmount(selectedIngredientsToAddToMeal.get(i).getAmount());
-            ingredientMealItemView.setUnit(selectedIngredientsToAddToMeal.get(i).getUnit());
-            ((LinearLayout) ingredientsLinearLayout).addView(ingredientMealItemView);
-        }
-    }
-
     //TODO - this USE DBHELPER NOT ADAPTERS
     /**
      * This function checks to see if the name of the ingredient inputted already exists in the DB. otherwise show
      * toast and make it so that the user can't save without having a name.
      * @return True if there already exists a name in the database that exists already. False if it doesn't exist.
      */
-    boolean checkDuplicateInDB(){
-//        for (Ingredient i : rvAdapter.getIngredientsList()){ // Checks to see if there exists an ingredient of the same name already
-//            if (i.getName().equals(etName.getText().toString())) {
-//                Toast.makeText(getActivity(), "An ingredient of the same name exists already.", Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        }
-        return false;
-    }
 
+    //pass instance of the adapter for the ingredients selected to the fragment
+    // then notify data set changed before on dismiss on save button click
     private void showAddIngredientDialog() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         MealAddIngredientDialogFragment addIngredientDialogFragment =
-                MealAddIngredientDialogFragment.newInstance();
+                MealAddIngredientDialogFragment.newInstance(mealsSelectedNewIngredientsListViewAdapter);
         addIngredientDialogFragment.show(fm, "fragment_meal_add_ingredient_dialog");
     }
 
