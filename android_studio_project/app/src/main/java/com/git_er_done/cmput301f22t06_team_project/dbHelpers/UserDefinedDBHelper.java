@@ -127,17 +127,29 @@ public class UserDefinedDBHelper {
                                 newArray.add(key);
                             }
                             if(dc.getType() == DocumentChange.Type.MODIFIED) {
-                                if (documentSnapshot.getId() == "ingredientCategory"){
-                                    ingredientCategories = newArray;
+                                if (documentSnapshot.getId().equals("ingredientCategory")) {
+                                    ingredientCategories.clear();
+                                    for (String i : newArray) {
+                                        ingredientCategories.add(i);
+                                    }
                                 }
-                                if (documentSnapshot.getId() == "ingredientUnits"){
-                                    ingredientUnits = newArray;
+                                if (documentSnapshot.getId().equals("ingredientUnits")){
+                                    ingredientUnits.clear();
+                                    for (String i : newArray) {
+                                        ingredientUnits.add(i);
+                                    }
                                 }
-                                if (documentSnapshot.getId() == "ingredientLocations"){
-                                    ingredientLocations = newArray;
+                                if (documentSnapshot.getId().equals("ingredientLocations")){
+                                    ingredientLocations.clear();
+                                    for (String i : newArray) {
+                                        ingredientLocations.add(i);
+                                    }
                                 }
                                 if (documentSnapshot.getId().equals("recipeCategory")){
-                                    recipeCategories = newArray;
+                                    recipeCategories.clear();
+                                    for (String i : newArray) {
+                                        recipeCategories.add(i);
+                                    }
                                 }
                             }
                         }
