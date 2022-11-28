@@ -5,6 +5,10 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * A class representing an ingredient in storage. Stores the name, a description, the best before
+ * date, storage location, unit of measure, category, amount, and display colour of the ingredient.
+ */
 public class Ingredient implements Cloneable {
     private String name;
     private String desc;
@@ -45,7 +49,7 @@ public class Ingredient implements Cloneable {
     }
 
     /**
-     * Creates a new Ingredient object
+     * Creates a new Ingredient object with a defined colour.
      *
      * @param name       The name of the ingredient as a {@link String}.
      * @param desc       A description of the ingredient as a {@link String}.
@@ -243,7 +247,9 @@ public class Ingredient implements Cloneable {
         return name.equalsIgnoreCase(other.getName());
     }
 
-    /** Creates a field-for-field copy of the given Ingredient.
+    /**
+     * Creates a field-for-field copy of the given Ingredient.
+     *
      * @return A field-for-field copy of the original Ingredient.
      */
     @Override
