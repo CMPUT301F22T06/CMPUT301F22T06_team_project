@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,37 +15,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Name: "
-                    android:textColor="@color/light_blue"
-                    android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/et_ingredient_add_edit_name"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Name Here"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-                android:imeOptions="actionNext"
-                android:inputType="textPersonName|textCapWords"
-                android:maxLength="20"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textColor="@color/light_blue"
-                android:textColorHint="@color/light_blue"
-                android:textSize="15dp"
-                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
-                />
-        </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Name: "
+                        android:textColor="@color/light_blue"
+                        android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/et_ingredient_add_edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                    android:hint="Name Here"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textCapWords"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/light_blue"
+                    android:textColorHint="@color/light_blue"
+                    android:textSize="15dp"
+                    />
+            </LinearLayout>
 
             <LinearLayout
             android:layout_width="match_parent"
@@ -73,7 +73,9 @@
                 android:maxLength="100"
                 android:textColor="@color/white_blue"
                 android:imeOptions="actionNext" />
-        </LinearLayout>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,20 +104,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="10dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="90dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:text="Location: "
-                    android:textSize="18dp"
-                    android:textColor="@color/light_blue"/>
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Location: "
+                        android:textColor="@color/light_blue"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <Button
+                        android:id="@+id/editLocationButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="2"
+                        android:text="Edit Locations"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/locationTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="Location"
+                        android:textAlignment="center"
+                        android:textColor="@color/light_blue"
+                        android:textColorHint="@color/light_blue"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
 
                     <EditText
                         android:id="@+id/addLocation"
@@ -129,40 +163,45 @@
                         android:ellipsize="end"
                         android:textColor="@color/white_blue"
                         android:textColorHint="@color/white_blue"
+                        android:visibility="gone"
                         android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp"
                          />
 
                     <Button
                         android:id="@+id/addLocationButton"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:text="Add"
-                        android:textSize="10dp"
                         android:textColor="@color/black"
-                        android:layout_marginLeft="10dp"
-                         />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/deleteLocationButton"
-                        android:layout_width="80dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:text="Delete"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
                 <Spinner
                     android:id="@+id/sp_ingredient_add_edit_location"
+                    android:layout_height="48dp"
                     android:layout_width="match_parent"
-                    android:layout_height="40sp"
                     android:backgroundTint="@color/light_blue"
                     android:textColor="@color/light_blue"
+                    android:layout_marginLeft="10dp"
                     android:scrollbarSize="200dp"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -189,11 +228,12 @@
                         android:id="@+id/et_ingredient_add_edit_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:minHeight="48dp"
                         android:text="1"
                         android:maxLines="1"
                         android:maxLength="5"
                         android:ellipsize="end"
-                        android:inputType="number"
                         android:textColor="@color/light_blue"
                         android:textColorHint="@color/white_blue"
                         android:textSize="12dp" />
@@ -205,12 +245,29 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Unit: "
-                        android:textColor="@color/light_blue"
-                        android:textSize="15dp" />
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Unit: "
+                            android:layout_weight="1"
+                            android:textColor="@color/light_blue"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/editUnitButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Edit Units"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            android:visibility="visible" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -223,24 +280,24 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Add Unit"
+                            android:minHeight="48dp"
+                            android:textColor="@color/light_blue"
+                            android:textColorHint="@color/light_blue"
                             android:textSize="10dp"
-                            android:maxLines="1"
-                            android:maxLength="10"
-                            android:ellipsize="end"
-                            android:textColor="@color/white_blue"
-                            android:textColorHint="@color/white_blue" />
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/addUnitButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
                             android:layout_weight="1"
                             android:width="10dp"
                             android:text="Add"
+                            android:textColor="@color/black"
                             android:textSize="8dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:textColor="@color/black" />
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/deleteUnitButton"
@@ -248,9 +305,13 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:width="10dp"
+                            android:paddingHorizontal="1dp"
+                            android:layout_marginEnd="5dp"
                             android:text="Delete"
+                            android:textColor="@color/black"
                             android:textSize="8dp"
-                            android:textColor="@color/black" />
+                            android:visibility="gone" />
+
 
                     </LinearLayout>
 
@@ -261,6 +322,7 @@
                         android:backgroundTint="@color/light_blue"
                         android:textColor="@color/light_blue" />
                 </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -270,13 +332,31 @@
                 android:padding="10dp"
                 android:textColor="@color/light_blue">
 
-                <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
                     android:layout_weight="0"
-                    android:text="Category: "
-                    android:textColor="@color/light_blue"
-                    android:textSize="18dp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Category: "
+                        android:textColor="@color/light_blue"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/editCategoryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Edit Categories"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -295,28 +375,28 @@
                         android:textColor="@color/white_blue"
                         android:textColorHint="@color/white_blue"
                         android:paddingRight="10dp"
-                        />
+                        android:visibility="gone" />
                     <Button
                         android:id="@+id/addCategoryButton"
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:text="Add"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/deleteCategoryButton"
-                        android:layout_width="80dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:text="Delete"
-                        android:textSize="10dp"
-                        android:layout_marginLeft="10dp"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="10dp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <Spinner
@@ -340,7 +420,8 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:text="CANCEL"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/btn_ingredient_add_edit_save"
@@ -349,11 +430,14 @@
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     android:text="SAVE"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+
     </ScrollView>
 
 </RelativeLayout>
