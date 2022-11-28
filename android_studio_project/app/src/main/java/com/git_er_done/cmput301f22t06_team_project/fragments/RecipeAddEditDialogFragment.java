@@ -241,6 +241,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                 }
                 else if (!checkDuplicateInDB()) {
                     RecipeCategory.getInstance().addRecipeCategory(categoryText);
+                    UserDefinedDBHelper.addUserDefined(categoryText, "recipeCategory");
                     addCategoryText.setText("");
                 }
             }
