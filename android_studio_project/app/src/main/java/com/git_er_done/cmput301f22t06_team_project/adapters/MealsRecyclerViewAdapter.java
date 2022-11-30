@@ -1,11 +1,10 @@
 package com.git_er_done.cmput301f22t06_team_project.adapters;
 
-import static com.git_er_done.cmput301f22t06_team_project.fragments.MealAddEditDialogFragment.selectedRecipesToAddToMeal;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import com.git_er_done.cmput301f22t06_team_project.R;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.MealDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.customViews.IngredientMealItemView;
 import com.git_er_done.cmput301f22t06_team_project.customViews.RecipeMealItemView;
-import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
@@ -50,47 +48,53 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
         holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
-        ((LinearLayout)holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
-        for(int i = 0; i < holder.mealRecipes.size(); i++){
-            Recipe currentRecipe = holder.mealRecipes.get(i);
-            holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
 
-            holder.recipeMealItemView.setTitle(holder.mealRecipes.get(i).getTitle());
-            holder.recipeMealItemView.setServings(holder.mealRecipes.get(i).getServings());
+        if (holder.mealRecipes.size() > 0) {
+            ((LinearLayout) holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
+            for (int i = 0; i < holder.mealRecipes.size(); i++) {
+                Recipe currentRecipe = holder.mealRecipes.get(i);
+                holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
 
-            holder.recipeMealItemView.buttonAddMealRecipeServing.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(currentRecipe.getServings() < 999) {
-                        //update the serving size of the particular recipe modified
-                        ArrayList<Recipe> modifedRecipes = meal.getRecipesFromMeal();
-                        int recipeIndex = modifedRecipes.indexOf(currentRecipe);
-                        modifedRecipes.get(recipeIndex).setServings(currentRecipe.getServings()+1);
+                holder.recipeMealItemView.setTitle(holder.mealRecipes.get(i).getTitle());
+                holder.recipeMealItemView.setServings(holder.mealRecipes.get(i).getServings());
 
-                        Meal newMeal = new Meal(meal.getId(),modifedRecipes, meal.getOnlyIngredientsFromMeal(), MealPlannerFragment.getSelectedDate());
+                holder.recipeMealItemView.buttonAddMealRecipeServing.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentRecipe.getServings() < 999) {
+                            //update the serving size of the particular recipe modified
+                            ArrayList<Recipe> modifedRecipes = meal.getRecipesFromMeal();
+                            int recipeIndex = modifedRecipes.indexOf(currentRecipe);
+                            modifedRecipes.get(recipeIndex).setServings(currentRecipe.getServings() + 1);
 
-                        MealDBHelper.modifyMealInDB(newMeal,meal,holder.getAdapterPosition());
+                            Meal newMeal = new Meal(meal.getId(), modifedRecipes, meal.getOnlyIngredientsFromMeal(), MealPlannerFragment.getSelectedDate());
+
+                            MealDBHelper.modifyMealInDB(newMeal, meal, holder.getAdapterPosition());
+                        }
                     }
-                }
-            });
+                });
 
-            holder.recipeMealItemView.buttonMinusMealRecipeServing.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(currentRecipe.getServings() > 0) {
-                        //update the serving size of the particular recipe modified
-                        ArrayList<Recipe> modifedRecipes = meal.getRecipesFromMeal();
-                        int recipeIndex = modifedRecipes.indexOf(currentRecipe);
-                        modifedRecipes.get(recipeIndex).setServings(currentRecipe.getServings()-1);
+                holder.recipeMealItemView.buttonMinusMealRecipeServing.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentRecipe.getServings() > 0) {
+                            //update the serving size of the particular recipe modified
+                            ArrayList<Recipe> modifedRecipes = meal.getRecipesFromMeal();
+                            int recipeIndex = modifedRecipes.indexOf(currentRecipe);
+                            modifedRecipes.get(recipeIndex).setServings(currentRecipe.getServings() - 1);
 
-                        Meal newMeal = new Meal(meal.getId(),modifedRecipes, meal.getOnlyIngredientsFromMeal(), MealPlannerFragment.getSelectedDate());
+                            Meal newMeal = new Meal(meal.getId(), modifedRecipes, meal.getOnlyIngredientsFromMeal(), MealPlannerFragment.getSelectedDate());
 
-                        MealDBHelper.modifyMealInDB(newMeal,meal,holder.getAdapterPosition());
+                            MealDBHelper.modifyMealInDB(newMeal, meal, holder.getAdapterPosition());
+                        }
                     }
-                }
-            });
+                });
 
-            ((LinearLayout)holder.recipesLinearLayout).addView(holder.recipeMealItemView);
+                ((LinearLayout) holder.recipesLinearLayout).addView(holder.recipeMealItemView);
+            }
+        }
+        else{
+            //If meal contains no recipes, make the recipes title invisible
         }
 
         ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews(); //Remove views previously bound for a different date
@@ -102,6 +106,13 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             holder.ingredientMealItemView.setUnit(holder.mealIngredients.get(i).getUnit());
             ((LinearLayout) holder.ingredientsLinearLayout).addView(holder.ingredientMealItemView);
         }
+
+        holder.deleteMealButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MealDBHelper.deleteMealFromDB(meal.getId().toString());
+            }
+        });
     }
 
     @Override
@@ -129,8 +140,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         notifyDataSetChanged();
     }
 
-    public void removeMealFromRecyclerViewList(int position){
-        mealRecyclerViewList.remove(position);
+    public void removeMealFromRecyclerViewList(String uuidString){
+        mealRecyclerViewList.remove(getAdapterPositionOfMealFromUUID(uuidString));
         notifyDataSetChanged();
     }
 
@@ -148,10 +159,30 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         return (ArrayList<Meal>) mealRecyclerViewList;
     }
 
+    public Meal getMealFromUUID(String mealUUIDString){
+        for(int i = 0; i < mealRecyclerViewList.size(); i++){
+            if((mealRecyclerViewList.get(i).getId().toString()).equals(mealUUIDString)){
+                return  mealRecyclerViewList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public int getAdapterPositionOfMealFromUUID(String mealUUIDString){
+        int res = -1;
+        for(int i = 0; i < mealRecyclerViewList.size(); i++){
+            if((mealRecyclerViewList.get(i).getId().toString()).equals(mealUUIDString)){
+                return  i;
+            }
+        }
+        return res;
+    }
+
     // Direct reference to each of the views within a data item. Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         View ingredientsLinearLayout;
         View recipesLinearLayout;
+        Button deleteMealButton;
 
         IngredientMealItemView ingredientMealItemView;
         RecipeMealItemView recipeMealItemView;
@@ -166,6 +197,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
             ingredientsLinearLayout = itemView.findViewById(R.id.ll_ingredients);
             recipesLinearLayout = itemView.findViewById(R.id.ll_recipes);
+            deleteMealButton = itemView.findViewById(R.id.btn_meal_delete_meal);
         }
     }
 }

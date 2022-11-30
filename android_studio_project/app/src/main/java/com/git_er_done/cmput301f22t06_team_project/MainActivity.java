@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Recipe> randomRecipes = new ArrayList<>();
         ArrayList<Ingredient> randomIngredients = new ArrayList<>();
-        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
-        MealDBHelper.addMealToDB(toDeleteMeal);
-        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()));
+//        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
+//        MealDBHelper.addMealToDB(toDeleteMeal);
+//        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()), );
 
         addMenuProvider(new MenuProvider() {
             @Override

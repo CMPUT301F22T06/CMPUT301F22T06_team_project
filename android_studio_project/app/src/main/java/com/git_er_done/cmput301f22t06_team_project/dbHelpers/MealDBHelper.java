@@ -286,14 +286,7 @@ public class MealDBHelper {
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = mealsInStorage.indexOf(meal);
-                                //If the rvAdapter returns a valid position
-                                if(position != -1){
-                                    mealsInStorage.remove(position);
-                                }
-                                else{
-                                    Log.e("DB ERROR", "INDEXING ERROR REMOVING MEAL FROM STORAGE");
-                                }
+                                mealsInStorage.remove(getListPositionOfMealFromUUID(meal.getId().toString()));
                             }
                         }
                     }
@@ -323,17 +316,20 @@ public class MealDBHelper {
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = adapter.getMealsList().indexOf(meal);
-                                //If the rvAdapter returns a valid position
-                                if(position != -1){
-                                    adapter.removeMealFromRecyclerViewList(position);
-                                }
-                                else{
-                                    Log.e("DB ERROR", "INDEX ERROR REMOVING MEAL FROM ADAPTER");
-                                }
+                                    adapter.removeMealFromRecyclerViewList(meal.getId().toString());
                             }
                         }
                     }
                 });
+    }
+
+    public int getListPositionOfMealFromUUID(String mealUUIDString){
+        int res = -1;
+        for(int i = 0; i < mealsInStorage.size(); i++){
+            if((mealsInStorage.get(i).getId().toString()).equals(mealUUIDString)){
+                return  i;
+            }
+        }
+        return res;
     }
 }
