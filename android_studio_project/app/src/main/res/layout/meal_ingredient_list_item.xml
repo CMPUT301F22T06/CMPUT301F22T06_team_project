@@ -21,13 +21,13 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/btn_meal_ingredient_add_amount"
+        android:id="@+id/btn_meal_ingredient_minus_amount"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginHorizontal="5dp"
         android:translationX="110dp"
-        android:text="+"/>
+        android:text="-"/>
 
     <TextView
         android:id="@+id/tv_meal_ingredient_list_item_amount"
@@ -42,13 +42,13 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/btn_meal_ingredient_minus_amount"
+        android:id="@+id/btn_meal_ingredient_add_amount"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginHorizontal="5dp"
         android:translationX="220dp"
-        android:text="-"/>
+        android:text="+"/>
 
     <TextView
         android:id="@+id/tv_meal_ingredient_list_item_unit"
