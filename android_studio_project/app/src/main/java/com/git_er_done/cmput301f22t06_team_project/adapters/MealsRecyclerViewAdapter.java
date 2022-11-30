@@ -48,9 +48,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         holder.mealIngredients = meal.getOnlyIngredientsFromMeal();
         holder.mealRecipes = meal.getOnlyRecipesFromMeal();
 
-
+        ((LinearLayout) holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         if (holder.mealRecipes.size() > 0) {
-            ((LinearLayout) holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
             for (int i = 0; i < holder.mealRecipes.size(); i++) {
                 Recipe currentRecipe = holder.mealRecipes.get(i);
                 holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
