@@ -51,7 +51,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
         ((LinearLayout) holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         if (holder.mealRecipes.size() > 0) {
-            holder.mealRecipeHeaderLabel.setVisibility(View.VISIBLE);
+            holder.mealRecipesHeaderLabel.setVisibility(View.VISIBLE);
             for (int i = 0; i < holder.mealRecipes.size(); i++) {
                 Recipe currentRecipe = holder.mealRecipes.get(i);
                 holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
@@ -93,20 +93,26 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
                 ((LinearLayout) holder.recipesLinearLayout).addView(holder.recipeMealItemView);
             }
+        } else {
+            //If meal contains no recipes, make the recipes title invisible
+            holder.mealRecipesHeaderLabel.setVisibility(View.INVISIBLE);
+        }
+
+        ((LinearLayout) holder.ingredientsLinearLayout).removeAllViews(); //Remove views previously bound for a different date
+        if (holder.mealIngredients.size() > 0) {
+            holder.mealIngredientsHeaderLabel.setVisibility(View.VISIBLE);
+            for (int i = 0; i < holder.mealIngredients.size(); i++) {
+                holder.ingredientMealItemView = new IngredientMealItemView(holder.itemView.getContext());
+
+                holder.ingredientMealItemView.setName(holder.mealIngredients.get(i).getName());
+                holder.ingredientMealItemView.setAmount(holder.mealIngredients.get(i).getAmount());
+                holder.ingredientMealItemView.setUnit(holder.mealIngredients.get(i).getUnit());
+                ((LinearLayout) holder.ingredientsLinearLayout).addView(holder.ingredientMealItemView);
+            }
         }
         else{
-            //If meal contains no recipes, make the recipes title invisible
-            holder.mealRecipeHeaderLabel.setVisibility(View.INVISIBLE);
-        }
-
-        ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews(); //Remove views previously bound for a different date
-        for(int i = 0; i < holder.mealIngredients.size(); i++){
-            holder.ingredientMealItemView = new IngredientMealItemView(holder.itemView.getContext());
-
-            holder.ingredientMealItemView.setName(holder.mealIngredients.get(i).getName());
-            holder.ingredientMealItemView.setAmount(holder.mealIngredients.get(i).getAmount());
-            holder.ingredientMealItemView.setUnit(holder.mealIngredients.get(i).getUnit());
-            ((LinearLayout) holder.ingredientsLinearLayout).addView(holder.ingredientMealItemView);
+            //If meal contains no ingredients, make the ingredients title invisible
+            holder.mealIngredientsHeaderLabel.setVisibility(View.INVISIBLE);
         }
 
         holder.deleteMealButton.setOnClickListener(new View.OnClickListener() {
@@ -128,9 +134,12 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
      */
     public void updateRVToSelectedDate(LocalDate newlySelectedDate){
         mealRecyclerViewList.clear();
+        notifyDataSetChanged();
+
+        ArrayList<Meal> mealsInStorage = (ArrayList<Meal>) MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).clone();
 
         for(int i = 0; i < MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).size(); i++){
-            mealRecyclerViewList.add(MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).get(i));
+            mealRecyclerViewList.add(mealsInStorage.get(i));
         }
 
         //Loop through all dummy meals - only add ones with selected date as date to the adapter
@@ -143,13 +152,23 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
     }
 
     public void removeMealFromRecyclerViewList(String uuidString){
-        mealRecyclerViewList.remove(getAdapterPositionOfMealFromUUID(uuidString));
-        notifyDataSetChanged();
+        if(getAdapterPositionOfMealFromUUID(uuidString) != -1){
+            mealRecyclerViewList.remove(getAdapterPositionOfMealFromUUID(uuidString));
+            notifyDataSetChanged();
+        }
     }
 
     public void addMealToRecyclerViewList(Meal newMeal){
         mealRecyclerViewList.add(newMeal);
         notifyDataSetChanged();
+    }
+
+    public void modifyMealInRecyclerViewListWithUUID(Meal  meal, String uuidString){
+        int pos = getAdapterPositionOfMealFromUUID(uuidString);
+        if(pos != -1){
+            mealRecyclerViewList.set(pos, meal);
+            notifyItemChanged(pos);
+        }
     }
 
     public void modifyMealInRecyclerViewList(Meal meal, int position){
@@ -185,7 +204,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         View ingredientsLinearLayout;
         View recipesLinearLayout;
         Button deleteMealButton;
-        TextView mealRecipeHeaderLabel;
+        TextView mealRecipesHeaderLabel;
+        TextView mealIngredientsHeaderLabel;
 
         IngredientMealItemView ingredientMealItemView;
         RecipeMealItemView recipeMealItemView;
@@ -201,7 +221,8 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             ingredientsLinearLayout = itemView.findViewById(R.id.ll_ingredients);
             recipesLinearLayout = itemView.findViewById(R.id.ll_recipes);
             deleteMealButton = itemView.findViewById(R.id.btn_meal_delete_meal);
-            mealRecipeHeaderLabel = itemView.findViewById(R.id.tv_meal_recipes_header_label);
+            mealRecipesHeaderLabel = itemView.findViewById(R.id.tv_meal_recipes_header_label);
+            mealIngredientsHeaderLabel = itemView.findViewById(R.id.tv_meal_ingredients_header_label);
         }
     }
 }

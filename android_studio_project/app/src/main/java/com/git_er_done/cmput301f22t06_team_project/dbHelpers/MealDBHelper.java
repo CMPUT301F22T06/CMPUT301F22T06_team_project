@@ -307,12 +307,15 @@ public class MealDBHelper {
                             Meal meal = createMeal(dc.getDocument());
 
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                adapter.addMealToRecyclerViewList(meal);
+                                if(!adapter.getMealsList().contains(meal)) {
+                                    adapter.addMealToRecyclerViewList(meal);
+                                }
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
 //                                mealsInStorage.set(selectedMealPos, meal);
-                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
+//                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
+                                adapter.modifyMealInRecyclerViewListWithUUID(meal, meal.getId().toString());
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){

@@ -114,7 +114,7 @@ public class MealPlannerFragment extends Fragment {
 
         selectedDate = LocalDate.now();
         calendarView.notifyDateChanged(selectedDate);
-        rvAdapter.updateRVToSelectedDate(selectedDate);
+//        rvAdapter.updateRVToSelectedDate(selectedDate);
 
         buttonAddMealToCurrentDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +131,12 @@ public class MealPlannerFragment extends Fragment {
         MealDBHelper.setupSnapshotListenerForLocalMealRVAdapter(rvAdapter);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        rvAdapter.updateRVToSelectedDate(selectedDate);
     }
 
     private void setupRecyclerView(){
