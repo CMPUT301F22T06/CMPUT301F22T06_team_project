@@ -266,6 +266,7 @@
                         android:textColor="@color/dark_blue"/>
 
                     <Button
+                        android:id="@+id/openIngredientAddPage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

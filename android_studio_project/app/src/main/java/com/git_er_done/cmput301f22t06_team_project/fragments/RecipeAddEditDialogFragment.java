@@ -34,13 +34,22 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.git_er_done.cmput301f22t06_team_project.R;
+import com.git_er_done.cmput301f22t06_team_project.adapters.IngredientsRecyclerViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipeIngredientsViewAdapter;
 import com.git_er_done.cmput301f22t06_team_project.adapters.RecipesRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.callbacks.SwipeToDeleteIngredientCallback;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.IngredientDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.RecipeDBHelper;
 import com.git_er_done.cmput301f22t06_team_project.dbHelpers.UserDefinedDBHelper;
+import com.git_er_done.cmput301f22t06_team_project.interfaces.IngredientsRecyclerViewInterface;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
@@ -74,6 +83,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private Button btnCamera;
     private Button btnCancel;
     private Button btnSave;
+    private Button openIngredientButton;
 
     RecipeIngredientsViewAdapter recipeIngredientsViewAdapter;
 
@@ -104,6 +114,8 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
     private static final int REQUEST_IMAGE_CAPTURE = 111;
     Context context;
     Bitmap imageBitmap = null;
+
+    RecyclerView rvIngredients;
 
     /**
      * Empty constructor required
@@ -305,6 +317,28 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         }
                     }
                 }
+            }
+        });
+
+        openIngredientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IngredientsRecyclerViewAdapter ivAdapter = new IngredientsRecyclerViewAdapter(new IngredientsRecyclerViewInterface() {
+                    @Override
+                    public void onItemLongClick(int position) {
+
+                    }
+
+                    @Override
+                    public void onItemDeleted(Ingredient ing, int position) {
+
+                    }
+                });
+                FragmentManager fm = requireActivity().getSupportFragmentManager();
+                IngredientAddEditDialogFragment editNameDialogFragment =
+                        IngredientAddEditDialogFragment.newInstance(
+                                ivAdapter);
+                editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
             }
         });
     }
@@ -595,6 +629,7 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         addCategoryTitle = view.findViewById(R.id.categoryTitle);
         deleteCategoryButton = view.findViewById(R.id.deleteCategoryButton);
         editCategoryButton = view.findViewById(R.id.editCategoryButton);
+        openIngredientButton = view.findViewById(R.id.openIngredientAddPage);
     }
 
     /**
