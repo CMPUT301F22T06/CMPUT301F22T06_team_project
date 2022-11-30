@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +51,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
 
         ((LinearLayout) holder.recipesLinearLayout).removeAllViews(); //Remove views previously bound for a different date
         if (holder.mealRecipes.size() > 0) {
+            holder.mealRecipeHeaderLabel.setVisibility(View.VISIBLE);
             for (int i = 0; i < holder.mealRecipes.size(); i++) {
                 Recipe currentRecipe = holder.mealRecipes.get(i);
                 holder.recipeMealItemView = new RecipeMealItemView(holder.itemView.getContext());
@@ -94,6 +96,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         }
         else{
             //If meal contains no recipes, make the recipes title invisible
+            holder.mealRecipeHeaderLabel.setVisibility(View.INVISIBLE);
         }
 
         ((LinearLayout)holder.ingredientsLinearLayout).removeAllViews(); //Remove views previously bound for a different date
@@ -182,6 +185,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         View ingredientsLinearLayout;
         View recipesLinearLayout;
         Button deleteMealButton;
+        TextView mealRecipeHeaderLabel;
 
         IngredientMealItemView ingredientMealItemView;
         RecipeMealItemView recipeMealItemView;
@@ -197,6 +201,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
             ingredientsLinearLayout = itemView.findViewById(R.id.ll_ingredients);
             recipesLinearLayout = itemView.findViewById(R.id.ll_recipes);
             deleteMealButton = itemView.findViewById(R.id.btn_meal_delete_meal);
+            mealRecipeHeaderLabel = itemView.findViewById(R.id.tv_meal_recipes_header_label);
         }
     }
 }
