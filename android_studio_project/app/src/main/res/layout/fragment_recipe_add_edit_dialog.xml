@@ -273,6 +273,7 @@
                         android:text="Add new ingredient"
                         android:textColor="@color/black"
                         android:textSize="10dp"
+                        android:layout_marginRight="10dp"
                         />
                 </LinearLayout>
                 <LinearLayout

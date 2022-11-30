@@ -55,6 +55,7 @@ import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 //https://guides.codepath.com/android/using-dialogfragment  helpful resource
@@ -89,11 +90,14 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
 
     ArrayList<Ingredient> ingredientStorage;
 
+    ArrayList<String> ingredientNames;
+
     private EditText addCategoryText;
     private Button addCategoryButton;
     private Button deleteCategoryButton;
     private TextView addCategoryTitle;
     private Button editCategoryButton;
+    ArrayAdapter<String> recipeAdapter;
 
     String title;
     String prep_time;
@@ -339,6 +343,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
                         IngredientAddEditDialogFragment.newInstance(
                                 ivAdapter);
                 editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+                ingredientNames.clear();
+                for(Ingredient i: ingredientStorage){
+                    ingredientNames.add(i.getName());
+                }
+                recipeAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -646,11 +655,11 @@ public class RecipeAddEditDialogFragment extends DialogFragment {
         UserDefinedDBHelper.addUserDefined("to delete", "recipeCategory");
         UserDefinedDBHelper.deleteUserDefined("to delete", "recipeCategory", 0);
 
-        ArrayList<String> ingredientNames = new ArrayList<>();
+        ingredientNames = new ArrayList<>();
         for (Ingredient i: ingredientStorage){
             ingredientNames.add(i.getName());
         }
-        ArrayAdapter<String> recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
+        recipeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ingredientNames);
         spIngredients_dropdown.setAdapter(recipeAdapter);
         recipeIngredientsViewAdapter = new RecipeIngredientsViewAdapter(recipeIngredients,context);
         lvIngredients_view.setAdapter(recipeIngredientsViewAdapter);

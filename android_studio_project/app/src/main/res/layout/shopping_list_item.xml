@@ -10,7 +10,7 @@
     android:orientation="horizontal"
     android:background="@drawable/border">
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_recipe_add"
+        android:id="@+id/fab_shopping_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_add_24"
