@@ -118,6 +118,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         return frag;
     }
 
+
+
     /**
      * Returns an inflated instance of this dialog fragments XML layout
      * @param inflater of type layoutinflator
@@ -185,19 +187,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 assignIngredientAttributesFromViews();
                 if (!checkExceptions()){
                     if (isEdittingExistingIngredient) {
-                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
-                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        Ingredient oldIngredient = new Ingredient(
-                                newIngredient.getName(),
-                                newIngredient.getDesc(),
-                                newIngredient.getBestBefore(),
-                                newIngredient.getLocation(),
-                                newIngredient.getUnit(),
-                                newIngredient.getCategory(),
-                                newIngredient.getAmount()
-                        );
-                        modifyIngredient(newIngredient);
-                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
+                        ArrayList<Ingredient> ingredientsFromStorage= IngredientDBHelper.getIngredientsFromStorage();
+                        Ingredient newIngredient = modifiedIngredient();
+                        int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
+                        IngredientDBHelper.modifyIngredientInDB(newIngredient, newIngredient, selectedIngredientIndex);
                         RecipeDBHelper.updateRecipe(newIngredient.getUnit(), newIngredient.getLocation(), newIngredient.getCategory(), newIngredient.getName());
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
                         isEdittingExistingIngredient = false;
@@ -215,6 +208,23 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 }
             }
         });
+    }
+
+    public Ingredient modifiedIngredient () {
+        Ingredient modifiedIngredient = si.clone();
+
+        modifiedIngredient.setName(etName.getText().toString());
+        modifiedIngredient.setDesc(etDescription.getText().toString());
+        modifiedIngredient.setBestBefore(getLocalDateFromStringArray(
+                String.valueOf(dpBestBeforeDate.getYear()),
+                String.valueOf(dpBestBeforeDate.getMonth() + 1), //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
+                String.valueOf(dpBestBeforeDate.getDayOfMonth())
+        ));
+        modifiedIngredient.setAmount(Integer.parseInt(String.valueOf(etAmount.getText())));
+        modifiedIngredient.setUnit(spUnit.getSelectedItem().toString());
+        modifiedIngredient.setCategory(spCategory.getSelectedItem().toString());
+        modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
+        return  modifiedIngredient;
     }
 
     /**

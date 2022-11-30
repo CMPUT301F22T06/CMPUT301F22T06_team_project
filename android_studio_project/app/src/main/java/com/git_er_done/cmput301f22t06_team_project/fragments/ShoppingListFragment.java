@@ -126,7 +126,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new ShoppingListRecyclerViewAdapter(testShoppingList, this);
+        rvAdapter = new ShoppingListRecyclerViewAdapter(testShoppingList, this, requireActivity());
         rvShoppingListItems.setAdapter(rvAdapter);
         rvShoppingListItems.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
