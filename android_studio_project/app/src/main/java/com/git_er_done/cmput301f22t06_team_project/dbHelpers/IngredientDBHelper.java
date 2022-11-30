@@ -177,7 +177,9 @@ public class IngredientDBHelper {
 
         if (newIngredient.getBestBefore().compareTo(LocalDate.now()) < 0) {
             dr.update("amount", "0");
-        } else if (!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())) {
+        }
+
+        if (!Objects.equals(newIngredient.getAmount(), oldIngredient.getAmount())) {
             dr.update("amount", newIngredient.getAmount().toString());
         }
 

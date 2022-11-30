@@ -130,8 +130,9 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                             FragmentManager fm = fragment.getSupportFragmentManager();
                             IngredientAddEditDialogFragment editNameDialogFragment =
                                     IngredientAddEditDialogFragment.newInstance(
-                                            ingredientFromStorage, ivAdapter);
+                                            ingredientFromStorage, shoppingListIngredient, ivAdapter);
                             editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+
 
                         }
                     }

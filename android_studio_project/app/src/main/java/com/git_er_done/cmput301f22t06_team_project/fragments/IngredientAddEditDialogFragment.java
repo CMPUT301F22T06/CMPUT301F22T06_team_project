@@ -41,6 +41,7 @@ import java.util.ArrayList;
 public class IngredientAddEditDialogFragment extends DialogFragment {
 
     static Ingredient si = null;
+    static Ingredient shopi = null;
     static IngredientsRecyclerViewAdapter rvAdapter = null;
 
     private EditText etName;
@@ -79,6 +80,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     private static boolean isAddingNewIngredient = false;
     private static boolean isEdittingExistingIngredient = false;
+    private static boolean isAddingFromShoppingList = false;
 
     /**
      * Empty constructor required
@@ -119,6 +121,27 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
     }
 
 
+    public static IngredientAddEditDialogFragment newInstance(Ingredient selectedIngredient, Ingredient ingredientFromShoppingList, IngredientsRecyclerViewAdapter adapter){
+        //Assign local references to arguments passed to this fragment
+        shopi = ingredientFromShoppingList;
+        si = selectedIngredient;
+        rvAdapter = adapter;
+
+        IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("name",  selectedIngredient.getName());
+        args.putString("description", selectedIngredient.getDesc());
+        args.putStringArrayList("bestBeforeDate", selectedIngredient.getBestBeforeStringArrayList());
+        args.putString("location", selectedIngredient.getLocation());
+        args.putString("category", selectedIngredient.getCategory());
+        args.putInt("amount", 0);
+        args.putString("unit", selectedIngredient.getUnit());
+        frag.setArguments(args);
+
+        isAddingFromShoppingList = true;
+        return frag;
+    }
+
 
     /**
      * Returns an inflated instance of this dialog fragments XML layout
@@ -150,6 +173,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         setupAdapters();
 
         if(isEdittingExistingIngredient) {
+            assignSelectedIngredientAttributesFromFragmentArgs();
+            fillViewsWithSelectedIngredientAttributes();
+            etName.setEnabled(false);
+        }
+
+        if(isAddingFromShoppingList) {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
             etName.setEnabled(false);
@@ -204,6 +233,18 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                             isAddingNewIngredient = false;
                             dismiss();
                         }
+                    }
+
+                    if (isAddingFromShoppingList){
+                        ArrayList<Ingredient> ingredientsFromStorage= IngredientDBHelper.getIngredientsFromStorage();
+                        Ingredient newIngredient = modifiedIngredient();
+                        int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
+                        Ingredient oldIngredient = ingredientsFromStorage.get(selectedIngredientIndex);
+                        Ingredient ingredientToAddto = oldIngredient.clone();
+                        ingredientToAddto.setAmount(ingredientToAddto.getAmount() + newIngredient.getAmount());
+                        IngredientDBHelper.modifyIngredientInDB(ingredientToAddto, oldIngredient, selectedIngredientIndex);
+                        isAddingFromShoppingList = false;
+                        dismiss();
                     }
                 }
             }
