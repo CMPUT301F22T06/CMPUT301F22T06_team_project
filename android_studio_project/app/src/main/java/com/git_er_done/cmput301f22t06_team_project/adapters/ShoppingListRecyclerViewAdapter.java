@@ -135,6 +135,7 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                                     IngredientAddEditDialogFragment.newInstance(
                                             ingredientFromStorage, shoppingListIngredient, ivAdapter);
                             editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
+
                         }
                     }
                 }

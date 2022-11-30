@@ -219,7 +219,8 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         ArrayList<Ingredient> ingredientsFromStorage= IngredientDBHelper.getIngredientsFromStorage();
                         Ingredient newIngredient = modifiedIngredient();
                         int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
-                        IngredientDBHelper.modifyIngredientInDB(newIngredient, newIngredient, selectedIngredientIndex);
+                        Ingredient oldIngredient = ingredientsFromStorage.get(selectedIngredientIndex);
+                        IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
                         RecipeDBHelper.updateRecipe(newIngredient.getUnit(), newIngredient.getLocation(), newIngredient.getCategory(), newIngredient.getName());
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
                         isEdittingExistingIngredient = false;
@@ -241,6 +242,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
                         Ingredient oldIngredient = ingredientsFromStorage.get(selectedIngredientIndex);
                         Ingredient ingredientToAddto = oldIngredient.clone();
+                        ingredientToAddto.setBestBefore(modifiedIngredient().getBestBefore());
+                        ingredientToAddto.setLocation(modifiedIngredient().getLocation());
+                        ingredientToAddto.setCategory(modifiedIngredient().getCategory());
+                        ingredientToAddto.setColor(modifiedIngredient().getColor());
+                        ingredientToAddto.setUnit(modifiedIngredient().getUnit());
+                        ingredientToAddto.setDesc(modifiedIngredient().getDesc());
                         ingredientToAddto.setAmount(ingredientToAddto.getAmount() + newIngredient.getAmount());
                         IngredientDBHelper.modifyIngredientInDB(ingredientToAddto, oldIngredient, selectedIngredientIndex);
                         isAddingFromShoppingList = false;
