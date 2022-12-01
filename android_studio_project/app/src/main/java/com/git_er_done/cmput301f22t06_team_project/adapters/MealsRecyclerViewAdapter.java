@@ -78,7 +78,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
                 holder.recipeMealItemView.buttonMinusMealRecipeServing.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (currentRecipe.getServings() > 0) {
+                        if (currentRecipe.getServings() > 1) {
                             //update the serving size of the particular recipe modified
                             ArrayList<Recipe> modifedRecipes = meal.getRecipesFromMeal();
                             int recipeIndex = modifedRecipes.indexOf(currentRecipe);
@@ -128,7 +128,7 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
                 holder.ingredientMealItemView.buttonMinusMealIngredientAmount.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (currentIngredient.getAmount() > 0) {
+                        if (currentIngredient.getAmount() > 1) {
                             //update the amount of the particular ingredient modified
                             ArrayList<Ingredient> modifedIngredients = meal.getOnlyIngredientsFromMeal();
                             int ingredientIndex = modifedIngredients.indexOf(currentIngredient);
@@ -167,21 +167,26 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
      * This is called each time the user selects a new date (current date changes)
      */
     public void updateRVToSelectedDate(LocalDate newlySelectedDate){
+        mealRecyclerViewList = new ArrayList<>();
         mealRecyclerViewList.clear();
         notifyDataSetChanged();
 
-        ArrayList<Meal> mealsInStorage = (ArrayList<Meal>) MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).clone();
+        ArrayList<Meal> mealsInStorageAtThisDate = (ArrayList<Meal>) MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).clone();
 
-        for(int i = 0; i < MealDBHelper.getMealsFromStorageAtDate(newlySelectedDate).size(); i++){
-            mealRecyclerViewList.add(mealsInStorage.get(i));
+        for(int i = 0; i < mealsInStorageAtThisDate.size(); i++){
+            //If the meal does not already exist in the recyclerview, then add it
+            if(mealRecyclerViewList.size() > 0){
+                for(int j= 0; j < mealRecyclerViewList.size(); j++){
+                    if(!mealRecyclerViewList.get(j).getId().equals(mealsInStorageAtThisDate.get(i).getId())){
+                        mealRecyclerViewList.add(mealsInStorageAtThisDate.get(i));
+                    }
+                }
+            }
+            else{
+                mealRecyclerViewList.add(mealsInStorageAtThisDate.get(i));
+            }
+            notifyDataSetChanged();
         }
-
-        //Loop through all dummy meals - only add ones with selected date as date to the adapter
-//        for(int i = 0; i < dummyMeals.size(); i++){
-//            if(dummyMeals.get(i).getDate().equals(newlySelectedDate)){
-//                mealRecyclerViewList.add(dummyMeals.get(i));
-//            }
-//        }
         notifyDataSetChanged();
     }
 
