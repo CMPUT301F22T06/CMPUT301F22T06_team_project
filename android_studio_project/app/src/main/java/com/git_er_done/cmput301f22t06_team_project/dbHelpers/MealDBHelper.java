@@ -47,7 +47,7 @@ public class MealDBHelper {
     private MealDBHelper(){
         db = FirebaseFirestore.getInstance();
         mealsDB = db.collection("Meals");
-        setupSnapshotListenerForLocalMealStorage();
+//        setupSnapshotListenerForLocalMealStorage();
     }
 
     public static MealDBHelper getInstance(){
@@ -69,7 +69,7 @@ public class MealDBHelper {
         //loop through all meals in storage, add any that share the provided date to return list
         for(int i = 0; i < mealsInStorage.size(); i++){
             if(mealsInStorage.get(i).getDate().equals(providedDate)){
-                mealsForThisDate.add(mealsInStorage.get(i));
+                mealsForThisDate.add(mealsInStorage.get(i).clone());
             }
         }
 
@@ -260,7 +260,7 @@ public class MealDBHelper {
 
         //update the serving size of the recipe in this meal
         // modify the string delims associated recipe
-        String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getOnlyRecipesFromMeal());
+        String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getRecipesFromMeal());
         dr.update("recipes", recipesDelimString);
 
         String ingredientsDelimString = createDelimitedStringFromMealIngredientsArrayList(newMeal.getOnlyIngredientsFromMeal());
@@ -268,34 +268,40 @@ public class MealDBHelper {
 
     }
 
-    public void setupSnapshotListenerForLocalMealStorage(){
-        db.collection("Meals")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null){
-                            Log.e("DB ERROR", error.getMessage());
-                            return;
-                        }
-
-                        for(DocumentChange dc : value.getDocumentChanges()){
-                            Meal meal = createMeal(dc.getDocument());
-
-                            if(dc.getType() == DocumentChange.Type.ADDED){
-                                mealsInStorage.add(meal);
-                            }
-
-                            if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                mealsInStorage.set(selectedMealPos, meal);
-                            }
-
-                            if(dc.getType() == DocumentChange.Type.REMOVED){
-                                mealsInStorage.remove(getListPositionOfMealFromUUID(meal.getId().toString()));
-                            }
-                        }
-                    }
-                });
-    }
+//    public void setupSnapshotListenerForLocalMealStorage(){
+//        db.collection("Meals")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if(error != null){
+//                            Log.e("DB ERROR", error.getMessage());
+//                            return;
+//                        }
+//
+//                        for(DocumentChange dc : value.getDocumentChanges()){
+//                            Meal meal = createMeal(dc.getDocument());
+//
+//                            if(dc.getType() == DocumentChange.Type.ADDED){
+//                                mealsInStorage.add(meal);
+//                            }
+//
+//                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+//                                mealsInStorage.set(selectedMealPos, meal);
+//                            }
+//
+//                            if(dc.getType() == DocumentChange.Type.REMOVED){
+//                                int position = getListPositionOfMealFromUUID(meal.getId().toString());
+//                                if(position != -1){
+//                                    mealsInStorage.remove(position);
+//                                }
+//                                else{
+//                                    Log.d("MealDBHelper", "meal in storage not found. Index is -1");
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 
     public static void setupSnapshotListenerForLocalMealRVAdapter(MealsRecyclerViewAdapter adapter){
         db.collection("Meals")
@@ -311,6 +317,7 @@ public class MealDBHelper {
                             Meal meal = createMeal(dc.getDocument());
 
                             if(dc.getType() == DocumentChange.Type.ADDED){
+                                mealsInStorage.add(meal);
                                 if(!adapter.getMealsList().contains(meal)) {
                                     if(meal.getDate().equals(MealPlannerFragment.getSelectedDate())){
                                         adapter.addMealToRecyclerViewList(meal);
@@ -319,20 +326,29 @@ public class MealDBHelper {
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                mealsInStorage.set(selectedMealPos, meal);
 //                                mealsInStorage.set(selectedMealPos, meal);
 //                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
                                 adapter.modifyMealInRecyclerViewListWithUUID(meal, meal.getId().toString());
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                    adapter.removeMealFromRecyclerViewList(meal.getId().toString());
+                                int position = getListPositionOfMealFromUUID(meal.getId().toString());
+                                if(position != -1){
+                                    mealsInStorage.remove(position);
+                                }
+                                else{
+                                    Log.d("MealDBHelper", "meal in storage not found. Index is -1");
+                                }
+
+                                adapter.removeMealFromRecyclerViewList(meal.getId().toString());
                             }
                         }
                     }
                 });
     }
 
-    public int getListPositionOfMealFromUUID(String mealUUIDString){
+    public static int getListPositionOfMealFromUUID(String mealUUIDString){
         int res = -1;
         for(int i = 0; i < mealsInStorage.size(); i++){
             if((mealsInStorage.get(i).getId().toString()).equals(mealUUIDString)){
