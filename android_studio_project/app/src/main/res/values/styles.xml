@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomText" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FF1C1C</item>
+    </style>
+
+    <style name="TopBarText" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/comicsans</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/purple_500</item>
+
+
+
+    </style>
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@style/TextAppearance.AppCompat">
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/light_blue</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+    <style name="MyDatePicker" >
+        <item name="android:textColorPrimary">@color/dark_blue</item>
+        <item name ="colorControlNormal">@color/dark_blue</item>
+    </style>
+
+</resources>

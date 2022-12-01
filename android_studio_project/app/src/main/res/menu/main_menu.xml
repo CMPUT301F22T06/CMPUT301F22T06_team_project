@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+        <item android:id="@+id/nav_ingredients_menu_item"
+            android:title="Ingredients"
+            android:icon="@drawable/ic_baseline_food_bank_24"/>
+        <item android:id="@+id/nav_recipes_menu_item"
+            android:title="Recipes"
+            android:icon="@drawable/recipe_icon"/>
+        <item android:id="@+id/nav_shopping_list_menu_item"
+            android:title="Shopping List"
+            android:icon="@drawable/shopping_list_icon"/>
+        <item android:id="@+id/nav_meal_planner_menu_item"
+            android:title="Meal Planner"
+            android:icon="@drawable/meal_plan_icon"
+            android:iconTintMode="multiply"
+            android:iconTint="@color/blue"/>
+
+    </group>
+
+<!--    <group android:checkableBehavior="single">-->
+<!--        <item android:title="Search">-->
+<!--            <menu>-->
+<!--                <item android:id="@+id/nav_search"-->
+<!--                    android:title="Search Recipe"-->
+<!--&lt;!&ndash;                    android:icon="@drawable/ic_baseline_manage_search_24"&ndash;&gt;-->
+<!--                    />-->
+<!--            </menu>-->
+<!--        </item>-->
+<!--    </group>-->
+</menu>

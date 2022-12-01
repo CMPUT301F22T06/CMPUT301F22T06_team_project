@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle"><stroke android:width= "1dip" android:color="@color/red"/>-->
+<!--</shape>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/border">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_shopping_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:translationX="345dp"
+        app:backgroundTint="@color/dark_blue" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cardview_default_radius"
+        android:layout_marginHorizontal="@dimen/cardview_default_radius"
+        android:layout_marginVertical="@dimen/cardview_default_radius"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:translationX="-50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_shopping_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAME"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
+            android:layout_marginHorizontal="10dp"
+            android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_shopping_list_item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textColor="@color/dark_blue" />
+
+            <TextView
+                android:id="@+id/tv_shopping_list_item_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Amount"
+                android:textColor="@color/dark_blue" />
+
+            <TextView
+                android:id="@+id/tv_shopping_list_item_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Unit"
+                android:textColor="@color/dark_blue" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_shopping_list_item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textColor="@color/dark_blue"
+            android:layout_marginHorizontal="10dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

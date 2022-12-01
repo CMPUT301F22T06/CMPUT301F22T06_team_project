@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/border"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/tv_view_recipe"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
+        android:src="@drawable/no_image"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/dark_blue"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            android:paddingHorizontal="5dp"
+            />
+        <TextView
+            android:id="@+id/tv_recipe_list_item_preptime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="PrepTime"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
+            android:translationY="10dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_preptime_label"
+            android:layout_width="81dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingHorizontal="5dp"
+            android:text="Prep. Time (in Minutes)"
+            android:textColor="@color/dark_blue"
+            android:translationY="-15dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_servings_label"
+            android:layout_width="81dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="Serving size"
+            android:textColor="@color/dark_blue"
+            android:translationY="-5dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_servings"
+            android:layout_width="117dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="Serving size"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
+            android:translationY="-35dp" />
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_category_label"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="Category: "
+            android:textColor="@color/dark_blue"
+            android:translationY="-15dp" />
+
+
+        <TextView
+            android:id="@+id/tv_recipe_list_item_category"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="5dp"
+            android:text="Category"
+            android:textColor="@color/dark_blue"
+            android:translationX="75dp"
+            android:translationY="-35dp"
+            />
+        <TextView
+            android:id="@+id/tv_recipe_list_item_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comments"
+            android:textColor="@color/dark_blue" />
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

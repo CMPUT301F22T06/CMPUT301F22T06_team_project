@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="48sp"
+    android:layout_margin="5dp"
+    android:background="@drawable/border"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_meal_recipe_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NAME"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="5sp"
+        android:textSize="16dp"
+        android:translationX="10dp"
+        android:translationY="10dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_meal_recipe_minus_serving"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
+        android:translationX="110dp"
+        android:text="-"
+         />
+
+    <TextView
+        android:id="@+id/tv_meal_recipe_list_item_servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:text="0"
+        android:translationX="180dp"
+        android:translationY="15dp"
+        android:textColor="@color/blue"
+        android:textSize="15dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_meal_recipe_add_serving"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
+        android:translationX="220dp"
+        android:text="+"/>
+
+    <TextView
+        android:id="@+id/tv_meal_recipe_list_item_servings_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:text="Servings"
+        android:textColor="@color/blue"
+        android:translationY="15dp"
+        android:translationX="275dp"
+        android:textSize="13sp"
+        android:layout_gravity="center"/>
+
+</RelativeLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:shape="rectangle"><stroke android:width= "1dip" android:color="@color/red"/>-->
+<!--</shape>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/border"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/cardview_default_radius"
+        android:layout_marginHorizontal="@dimen/cardview_default_radius"
+        android:layout_marginVertical="@dimen/cardview_default_radius"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tv_ingredient_list_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAME"
+            android:textStyle="bold"
+            android:textColor="@color/dark_blue"
+            android:textSize="25dp"
+            android:translationX="20dp" />
+
+        <TextView
+            android:id="@+id/tv_ingredient_list_item_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textColor="@color/dark_blue"
+            android:translationX="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_location_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location: "
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_best_before_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:paddingHorizontal="15dp"
+                android:text="Best Before:"
+                android:layout_gravity="center"
+                android:textColor="@color/dark_blue"
+                android:translationX="30dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_best_before_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="1dp"
+                android:text="Best before date"
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_category_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category: "
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_amount_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="center"
+                android:paddingHorizontal="1dp"
+                android:text="Amount: "
+                android:textColor="@color/dark_blue"
+                android:translationX="30dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Amount"
+                android:textColor="@color/dark_blue"
+                android:translationX="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ingredient_list_item_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="2dp"
+                android:text="Unit"
+                android:textColor="@color/dark_blue"
+                android:translationX="25dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

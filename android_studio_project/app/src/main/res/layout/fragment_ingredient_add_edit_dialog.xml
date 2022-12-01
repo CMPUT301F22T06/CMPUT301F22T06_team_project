@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/edit_border">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name: "
+                    android:textColor="@color/dark_blue"
+                    android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/et_ingredient_add_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name Here"
+
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/dark_blue"
+                android:textColorHint="@color/blue"
+                android:textSize="15dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789 -"
+                />
+        </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description: "
+                android:textColor="@color/dark_blue"
+                android:textSize="18dp"/>
+
+            <EditText
+                android:id="@+id/et_ingredient_add_edit_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description Here"
+                android:textColorHint="@color/blue"
+                android:textSize="15dp"
+                android:inputType="textCapSentences|textPersonName|textMultiLine"
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:maxLength="100"
+                android:textColor="@color/dark_blue"
+                android:imeOptions="actionNext" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/dark_blue"
+                    android:text="Best Before Date: "
+                    android:textSize="18dp"/>
+
+                <DatePicker
+                    android:id="@+id/dp_ingredient_add_edit_best_before_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner"
+                    android:spinnersShown="true"
+                    android:theme="@style/MyDatePicker" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Location: "
+                        android:textColor="@color/dark_blue"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"/>
+
+                    <Button
+                        android:id="@+id/editLocationButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="2"
+                        android:text="Edit Locations"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/locationTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:text="Location"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
+                        android:textSize="15dp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/addLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:hint="Add Location"
+                        android:textSize="13dp"
+                        android:maxLines="1"
+                        android:maxLength="15"
+                        android:ellipsize="end"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
+                        android:visibility="gone"
+                        android:paddingRight="10dp"
+                        android:layout_marginLeft="10dp"
+                         />
+
+                    <Button
+                        android:id="@+id/addLocationButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="Add"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/deleteLocationButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:text="Delete"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/sp_ingredient_add_edit_location"
+                    android:layout_height="48dp"
+                    android:layout_width="match_parent"
+                    android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/dark_blue"
+                    android:layout_marginLeft="10dp"
+                    android:scrollbarSize="200dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Amount: "
+                        android:textColor="@color/dark_blue"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/et_ingredient_add_edit_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:minHeight="48dp"
+                        android:text="1"
+                        android:maxLines="1"
+                        android:maxLength="5"
+                        android:ellipsize="end"
+                        android:textColor="@color/dark_blue"
+                        android:textColorHint="@color/blue"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Unit: "
+                            android:layout_weight="1"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="15dp" />
+
+                        <Button
+                            android:id="@+id/editUnitButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="Edit Units"
+                            android:textColor="@color/black"
+                            android:textSize="10dp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/addUnit"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Add Unit"
+                            android:maxLines="2"
+                            android:maxLength="10"
+                            android:minHeight="48dp"
+                            android:textColor="@color/dark_blue"
+                            android:textColorHint="@color/blue"
+                            android:textSize="10dp"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/addUnitButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:text="Add"
+                            android:textColor="@color/black"
+                            android:textSize="8dp"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/deleteUnitButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:width="10dp"
+                            android:paddingHorizontal="1dp"
+                            android:layout_marginEnd="10dp"
+                            android:text="Delete"
+                            android:textColor="@color/black"
+                            android:textSize="8dp"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+
+                    <Spinner
+                        android:id="@+id/sp_ingredient_add_edit_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="40sp"
+                        android:backgroundTint="@color/light_blue"
+                        android:textColor="@color/dark_blue"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:textColor="@color/dark_blue">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_weight="0"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:text="Category: "
+                        android:textColor="@color/dark_blue"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/editCategoryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Edit Categories"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/addCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Add Category"
+                        android:textSize="13dp"
+                        android:maxLines="1"
+                        android:maxLength="25"
+                        android:textColorHint="@color/blue"
+                        android:textColor="@color/dark_blue"
+                        android:paddingRight="10dp"
+                        android:visibility="gone" />
+                    <Button
+                        android:id="@+id/addCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="Add"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/deleteCategoryButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:text="Delete"
+                        android:textColor="@color/black"
+                        android:textSize="10dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/sp_ingredient_add_edit_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:backgroundTint="@color/light_blue"
+                    android:textColor="@color/dark_blue" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_ingredient_add_edit_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:text="CANCEL"
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <Button
+                    android:id="@+id/btn_ingredient_add_edit_save"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:text="SAVE"
+                    android:textColor="@color/black"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>
