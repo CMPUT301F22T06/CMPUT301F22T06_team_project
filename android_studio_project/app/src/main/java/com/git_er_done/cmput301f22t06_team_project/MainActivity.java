@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         IngredientDBHelper.getInstance();
         RecipeDBHelper.getInstance();
         MealDBHelper.getInstance();
-        UserDefinedDBHelper.getInstance(); // Saheel was here
+        UserDefinedDBHelper.getInstance();
 
 //        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
 //        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
@@ -72,14 +72,10 @@ public class MainActivity extends AppCompatActivity {
         addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-//                menuInflater.inflate(R.menu.ingredient_sort_menu, menu);
-                // Add menu options here
-
             }
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-
                 // Handle Menu Options Selection Here
 
                 return false;

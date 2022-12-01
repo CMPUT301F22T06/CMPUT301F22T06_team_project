@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
@@ -46,7 +47,7 @@ public class MealDBHelper {
     private MealDBHelper(){
         db = FirebaseFirestore.getInstance();
         mealsDB = db.collection("Meals");
-        setupSnapshotListenerForLocalMealStorage();
+//        setupSnapshotListenerForLocalMealStorage();
     }
 
     public static MealDBHelper getInstance(){
@@ -68,7 +69,7 @@ public class MealDBHelper {
         //loop through all meals in storage, add any that share the provided date to return list
         for(int i = 0; i < mealsInStorage.size(); i++){
             if(mealsInStorage.get(i).getDate().equals(providedDate)){
-                mealsForThisDate.add(mealsInStorage.get(i));
+                mealsForThisDate.add(mealsInStorage.get(i).clone());
             }
         }
 
@@ -259,46 +260,48 @@ public class MealDBHelper {
 
         //update the serving size of the recipe in this meal
         // modify the string delims associated recipe
-        String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getOnlyRecipesFromMeal());
+        String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getRecipesFromMeal());
         dr.update("recipes", recipesDelimString);
 
+        String ingredientsDelimString = createDelimitedStringFromMealIngredientsArrayList(newMeal.getOnlyIngredientsFromMeal());
+        dr.update("ingredients", ingredientsDelimString);
+
     }
 
-    public void setupSnapshotListenerForLocalMealStorage(){
-        db.collection("Meals")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null){
-                            Log.e("DB ERROR", error.getMessage());
-                            return;
-                        }
-
-                        for(DocumentChange dc : value.getDocumentChanges()){
-                            Meal meal = createMeal(dc.getDocument());
-
-                            if(dc.getType() == DocumentChange.Type.ADDED){
-                                mealsInStorage.add(meal);
-                            }
-
-                            if(dc.getType() == DocumentChange.Type.MODIFIED){
-                                mealsInStorage.set(selectedMealPos, meal);
-                            }
-
-                            if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = mealsInStorage.indexOf(meal);
-                                //If the rvAdapter returns a valid position
-                                if(position != -1){
-                                    mealsInStorage.remove(position);
-                                }
-                                else{
-                                    Log.e("DB ERROR", "INDEXING ERROR REMOVING MEAL FROM STORAGE");
-                                }
-                            }
-                        }
-                    }
-                });
-    }
+//    public void setupSnapshotListenerForLocalMealStorage(){
+//        db.collection("Meals")
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if(error != null){
+//                            Log.e("DB ERROR", error.getMessage());
+//                            return;
+//                        }
+//
+//                        for(DocumentChange dc : value.getDocumentChanges()){
+//                            Meal meal = createMeal(dc.getDocument());
+//
+//                            if(dc.getType() == DocumentChange.Type.ADDED){
+//                                mealsInStorage.add(meal);
+//                            }
+//
+//                            if(dc.getType() == DocumentChange.Type.MODIFIED){
+//                                mealsInStorage.set(selectedMealPos, meal);
+//                            }
+//
+//                            if(dc.getType() == DocumentChange.Type.REMOVED){
+//                                int position = getListPositionOfMealFromUUID(meal.getId().toString());
+//                                if(position != -1){
+//                                    mealsInStorage.remove(position);
+//                                }
+//                                else{
+//                                    Log.d("MealDBHelper", "meal in storage not found. Index is -1");
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 
     public static void setupSnapshotListenerForLocalMealRVAdapter(MealsRecyclerViewAdapter adapter){
         db.collection("Meals")
@@ -314,26 +317,44 @@ public class MealDBHelper {
                             Meal meal = createMeal(dc.getDocument());
 
                             if(dc.getType() == DocumentChange.Type.ADDED){
-                                adapter.addMealToRecyclerViewList(meal);
+                                mealsInStorage.add(meal);
+                                if(!adapter.getMealsList().contains(meal)) {
+                                    if(meal.getDate().equals(MealPlannerFragment.getSelectedDate())){
+                                        adapter.addMealToRecyclerViewList(meal);
+                                    }
+                                }
                             }
 
                             if(dc.getType() == DocumentChange.Type.MODIFIED){
+                                mealsInStorage.set(selectedMealPos, meal);
 //                                mealsInStorage.set(selectedMealPos, meal);
-                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
+//                                adapter.modifyMealInRecyclerViewList(meal, selectedMealPos);
+                                adapter.modifyMealInRecyclerViewListWithUUID(meal, meal.getId().toString());
                             }
 
                             if(dc.getType() == DocumentChange.Type.REMOVED){
-                                int position = adapter.getMealsList().indexOf(meal);
-                                //If the rvAdapter returns a valid position
+                                int position = getListPositionOfMealFromUUID(meal.getId().toString());
                                 if(position != -1){
-                                    adapter.removeMealFromRecyclerViewList(position);
+                                    mealsInStorage.remove(position);
                                 }
                                 else{
-                                    Log.e("DB ERROR", "INDEX ERROR REMOVING MEAL FROM ADAPTER");
+                                    Log.d("MealDBHelper", "meal in storage not found. Index is -1");
                                 }
+
+                                adapter.removeMealFromRecyclerViewList(meal.getId().toString());
                             }
                         }
                     }
                 });
+    }
+
+    public static int getListPositionOfMealFromUUID(String mealUUIDString){
+        int res = -1;
+        for(int i = 0; i < mealsInStorage.size(); i++){
+            if((mealsInStorage.get(i).getId().toString()).equals(mealUUIDString)){
+                return  i;
+            }
+        }
+        return res;
     }
 }
