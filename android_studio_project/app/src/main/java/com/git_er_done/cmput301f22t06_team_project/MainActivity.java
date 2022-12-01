@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         IngredientDBHelper.getInstance();
         RecipeDBHelper.getInstance();
         MealDBHelper.getInstance();
-        UserDefinedDBHelper.getInstance(); // Saheel was here
+        UserDefinedDBHelper.getInstance();
 
         UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
@@ -60,26 +60,16 @@ public class MainActivity extends AppCompatActivity {
         UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
         UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
         Ingredient toDeleteIngredient = new Ingredient("to delete", " ", LocalDate.now(), " ", " ", " ", 0, 0);
-        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
-        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
-
-        ArrayList<Recipe> randomRecipes = new ArrayList<>();
-        ArrayList<Ingredient> randomIngredients = new ArrayList<>();
-        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
-        MealDBHelper.addMealToDB(toDeleteMeal);
-        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()));
+//        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
+//        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
 
         addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-//                menuInflater.inflate(R.menu.ingredient_sort_menu, menu);
-                // Add menu options here
-
             }
 
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-
                 // Handle Menu Options Selection Here
 
                 return false;

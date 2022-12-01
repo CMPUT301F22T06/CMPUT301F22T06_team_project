@@ -86,7 +86,7 @@ public class MealPlannerFragment extends Fragment {
         buttonAddMealToCurrentDate = root.findViewById(R.id.btn_meal_add_new_meal);
 
         //DUMMY DATA FOR TESTING BEFORE BACKEND IS SET UP
-        dummyMeals = Meal.createDummyMealList();
+//        dummyMeals = Meal.createDummyMealList();
 
         setupMonthDayBinder();
         setupMonthHeaderBinder();
@@ -114,7 +114,7 @@ public class MealPlannerFragment extends Fragment {
 
         selectedDate = LocalDate.now();
         calendarView.notifyDateChanged(selectedDate);
-        rvAdapter.updateRVToSelectedDate(selectedDate);
+//        rvAdapter.updateRVToSelectedDate(selectedDate);
 
         buttonAddMealToCurrentDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +131,14 @@ public class MealPlannerFragment extends Fragment {
         MealDBHelper.setupSnapshotListenerForLocalMealRVAdapter(rvAdapter);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        selectedDate = LocalDate.now();
+//        rvAdapter.updateRVToSelectedDate(selectedDate);
+        calendarView.notifyDateChanged(selectedDate);
     }
 
     private void setupRecyclerView(){
@@ -160,7 +168,7 @@ public class MealPlannerFragment extends Fragment {
                 //if the date is within the current month
                 if(container.calendarDay.getPosition() == DayPosition.MonthDate){
                     //If the date is equal to the selectedDate
-                    if(container.calendarDay.getDate() == selectedDate){
+                    if(container.calendarDay.getDate().equals(selectedDate)){
                         text.setTextColor(Color.WHITE);
 //                        textView.setBackgroundResource(R.drawable.selection_background);
                         dateBackground.setBackgroundColor(getResources().getColor(R.color.black));

@@ -135,6 +135,9 @@ public class MealAddEditDialogFragment extends DialogFragment{
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                selectedIngredientsToAddToMeal.clear(); //Clear selected ingredients after creating meal and adding to the db
+                selectedRecipesToAddToMeal.clear();
+                isAddingNewMeal = false;
                 dismiss();
             }
         });
@@ -142,7 +145,6 @@ public class MealAddEditDialogFragment extends DialogFragment{
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (isAddingNewMeal) {
                     Meal newMeal = new Meal(selectedRecipesToAddToMeal, selectedIngredientsToAddToMeal, MealPlannerFragment.getSelectedDate());
                     MealDBHelper.addMealToDB(newMeal);

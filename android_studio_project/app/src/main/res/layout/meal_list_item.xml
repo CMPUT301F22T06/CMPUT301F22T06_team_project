@@ -3,18 +3,39 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/meal_border">
+    android:background="@drawable/meal_border"
+    android:layout_marginVertical="6sp">
 
-    <TextView
-        android:id="@+id/tv_meal_recipes_header_label"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recipes: "
-        android:paddingHorizontal="15dp"
-        android:layout_marginLeft="10dp"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/dark_blue"/>
+        android:layout_height="30sp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_meal_recipes_header_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recipes:"
+            android:paddingHorizontal="15dp"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_weight="12"
+            android:textColor="@color/dark_blue"/>
+
+        <Button
+            android:id="@+id/btn_meal_delete_meal"
+            android:layout_width="45sp"
+            android:layout_height="40sp"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:text="X"
+            android:layout_weight="1"
+            android:textColor="@color/red"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_recipes"
@@ -40,7 +61,7 @@
         android:paddingHorizontal="15dp"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="@color/dark_blue"/>
 
     <ListView
