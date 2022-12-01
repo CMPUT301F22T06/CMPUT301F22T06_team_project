@@ -3,6 +3,9 @@ package com.git_er_done.cmput301f22t06_team_project.adapters;
 import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -135,7 +139,6 @@ public class ShoppingListRecyclerViewAdapter extends RecyclerView.Adapter<Shoppi
                                     IngredientAddEditDialogFragment.newInstance(
                                             ingredientFromStorage, shoppingListIngredient, ivAdapter);
                             editNameDialogFragment.show(fm, "fragment_ingredient_add_edit_dialog");
-
                         }
                     }
                 }

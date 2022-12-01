@@ -251,6 +251,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                         ingredientToAddto.setAmount(ingredientToAddto.getAmount() + newIngredient.getAmount());
                         IngredientDBHelper.modifyIngredientInDB(ingredientToAddto, oldIngredient, selectedIngredientIndex);
                         isAddingFromShoppingList = false;
+
                         dismiss();
                     }
                 }

@@ -53,21 +53,21 @@ public class MainActivity extends AppCompatActivity {
         MealDBHelper.getInstance();
         UserDefinedDBHelper.getInstance(); // Saheel was here
 
-        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
-        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
-        UserDefinedDBHelper.addUserDefined("to delete", "ingredientUnits");
-        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
-        UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
-        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
-        Ingredient toDeleteIngredient = new Ingredient("to delete", " ", LocalDate.now(), " ", " ", " ", 0, 0);
-        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
-        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
-
-        ArrayList<Recipe> randomRecipes = new ArrayList<>();
-        ArrayList<Ingredient> randomIngredients = new ArrayList<>();
-        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
-        MealDBHelper.addMealToDB(toDeleteMeal);
-        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()));
+//        UserDefinedDBHelper.addUserDefined("to delete", "ingredientCategory");
+//        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientCategory", 0);
+//        UserDefinedDBHelper.addUserDefined("to delete", "ingredientUnits");
+//        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientUnits", 0);
+//        UserDefinedDBHelper.addUserDefined("to delete", "ingredientLocations");
+//        UserDefinedDBHelper.deleteUserDefined("to delete", "ingredientLocations", 0);
+//        Ingredient toDeleteIngredient = new Ingredient("to delete", " ", LocalDate.now(), " ", " ", " ", 0, 0);
+//        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
+//        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
+//
+//        ArrayList<Recipe> randomRecipes = new ArrayList<>();
+//        ArrayList<Ingredient> randomIngredients = new ArrayList<>();
+//        Meal toDeleteMeal = new Meal(randomRecipes, randomIngredients, LocalDate.now());
+//        MealDBHelper.addMealToDB(toDeleteMeal);
+//        MealDBHelper.deleteMealFromDB(String.valueOf(toDeleteMeal.getId()));
 
         addMenuProvider(new MenuProvider() {
             @Override
