@@ -69,8 +69,12 @@ public class MealAddRecipeDialogFragment extends DialogFragment {
         btnAddSelectedRecipesToMeal = view.findViewById(R.id.btn_meal_add_recipe_add_selected_items);
         listViewAddRecipesToMeal = view.findViewById(R.id.lv_recipes_available_to_add_to_meal);
         ArrayList<Recipe> recipeArrayList = RecipeDBHelper.getRecipesFromStorage();
+        ArrayList<Recipe> recipeArrayList1 = new ArrayList<>();
+        for (Recipe i: recipeArrayList){
+            recipeArrayList1.add(i.clone());
+        }
 
-        mealsAddRecipeListViewAdapter = new MealsAddRecipeListViewAdapter(getContext(), recipeArrayList);
+        mealsAddRecipeListViewAdapter = new MealsAddRecipeListViewAdapter(getContext(), recipeArrayList1);
         listViewAddRecipesToMeal.setAdapter(mealsAddRecipeListViewAdapter);
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +89,7 @@ public class MealAddRecipeDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 //loop through all recipes. Add whatever is checked to the array of ing to be added
-                for(Recipe recipe : recipeArrayList){
+                for(Recipe recipe : recipeArrayList1){
                     if(recipe.isChecked()){
                         selectedRecipesToAddToMeal.add(recipe);
                         mealsSelectedNewRecipesListViewAdapter.notifyDataSetChanged();

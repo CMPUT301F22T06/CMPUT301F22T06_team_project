@@ -21,13 +21,13 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/btn_meal_recipe_add_serving"
+        android:id="@+id/btn_meal_recipe_minus_serving"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginHorizontal="5dp"
         android:translationX="110dp"
-        android:text="+"
+        android:text="-"
          />
 
     <TextView
@@ -43,13 +43,13 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/btn_meal_recipe_minus_serving"
+        android:id="@+id/btn_meal_recipe_add_serving"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginHorizontal="5dp"
         android:translationX="220dp"
-        android:text="-"/>
+        android:text="+"/>
 
     <TextView
         android:id="@+id/tv_meal_recipe_list_item_servings_label"

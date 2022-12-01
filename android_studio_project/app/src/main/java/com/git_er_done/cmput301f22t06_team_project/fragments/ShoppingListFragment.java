@@ -126,7 +126,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
     }
 
     private void setupRecyclerView(){
-        rvAdapter = new ShoppingListRecyclerViewAdapter(testShoppingList, this);
+        rvAdapter = new ShoppingListRecyclerViewAdapter(testShoppingList, this, requireActivity());
         rvShoppingListItems.setAdapter(rvAdapter);
         rvShoppingListItems.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(rvAdapter));
@@ -139,6 +139,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListRecycl
      * @return
      */
     public static ArrayList<Ingredient> compareBetweenIDBandMDB () {
+        Ingredient toDeleteIngredient = new Ingredient("to delete", " ", LocalDate.now(), " ", " ", " ", 0, 0);
+        IngredientDBHelper.addIngredientToDB(toDeleteIngredient);
+        IngredientDBHelper.deleteIngredientFromDB(toDeleteIngredient, 0);
         ArrayList<Meal> mealPlansFromMDB = MealDBHelper.getMealsFromStorage();
         ArrayList<Meal> mealPlansCopy = new ArrayList<>();
         for (Meal i: mealPlansFromMDB){

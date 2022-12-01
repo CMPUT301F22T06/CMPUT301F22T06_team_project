@@ -41,6 +41,7 @@ import java.util.ArrayList;
 public class IngredientAddEditDialogFragment extends DialogFragment {
 
     static Ingredient si = null;
+    static Ingredient shopi = null;
     static IngredientsRecyclerViewAdapter rvAdapter = null;
 
     private EditText etName;
@@ -79,6 +80,7 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
 
     private static boolean isAddingNewIngredient = false;
     private static boolean isEdittingExistingIngredient = false;
+    private static boolean isAddingFromShoppingList = false;
 
     /**
      * Empty constructor required
@@ -118,6 +120,29 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         return frag;
     }
 
+
+    public static IngredientAddEditDialogFragment newInstance(Ingredient selectedIngredient, Ingredient ingredientFromShoppingList, IngredientsRecyclerViewAdapter adapter){
+        //Assign local references to arguments passed to this fragment
+        shopi = ingredientFromShoppingList;
+        si = selectedIngredient;
+        rvAdapter = adapter;
+
+        IngredientAddEditDialogFragment frag = new IngredientAddEditDialogFragment();
+        Bundle args = new Bundle();
+        args.putString("name",  selectedIngredient.getName());
+        args.putString("description", selectedIngredient.getDesc());
+        args.putStringArrayList("bestBeforeDate", selectedIngredient.getBestBeforeStringArrayList());
+        args.putString("location", selectedIngredient.getLocation());
+        args.putString("category", selectedIngredient.getCategory());
+        args.putInt("amount", 0);
+        args.putString("unit", selectedIngredient.getUnit());
+        frag.setArguments(args);
+
+        isAddingFromShoppingList = true;
+        return frag;
+    }
+
+
     /**
      * Returns an inflated instance of this dialog fragments XML layout
      * @param inflater of type layoutinflator
@@ -148,6 +173,12 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
         setupAdapters();
 
         if(isEdittingExistingIngredient) {
+            assignSelectedIngredientAttributesFromFragmentArgs();
+            fillViewsWithSelectedIngredientAttributes();
+            etName.setEnabled(false);
+        }
+
+        if(isAddingFromShoppingList) {
             assignSelectedIngredientAttributesFromFragmentArgs();
             fillViewsWithSelectedIngredientAttributes();
             etName.setEnabled(false);
@@ -185,18 +216,10 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                 assignIngredientAttributesFromViews();
                 if (!checkExceptions()){
                     if (isEdittingExistingIngredient) {
-                        int selectedIngredientIndex = rvAdapter.getIngredientsList().indexOf(si);
-                        Ingredient newIngredient = rvAdapter.getIngredientsList().get(selectedIngredientIndex);
-                        Ingredient oldIngredient = new Ingredient(
-                                newIngredient.getName(),
-                                newIngredient.getDesc(),
-                                newIngredient.getBestBefore(),
-                                newIngredient.getLocation(),
-                                newIngredient.getUnit(),
-                                newIngredient.getCategory(),
-                                newIngredient.getAmount()
-                        );
-                        modifyIngredient(newIngredient);
+                        ArrayList<Ingredient> ingredientsFromStorage= IngredientDBHelper.getIngredientsFromStorage();
+                        Ingredient newIngredient = modifiedIngredient();
+                        int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
+                        Ingredient oldIngredient = ingredientsFromStorage.get(selectedIngredientIndex);
                         IngredientDBHelper.modifyIngredientInDB(newIngredient, oldIngredient, selectedIngredientIndex);
                         RecipeDBHelper.updateRecipe(newIngredient.getUnit(), newIngredient.getLocation(), newIngredient.getCategory(), newIngredient.getName());
                         //TODO - this adds duplicate items to ingredient list . Redo this to edit the existing recipes NOT add a new recipe.
@@ -212,9 +235,45 @@ public class IngredientAddEditDialogFragment extends DialogFragment {
                             dismiss();
                         }
                     }
+
+                    if (isAddingFromShoppingList){
+                        ArrayList<Ingredient> ingredientsFromStorage= IngredientDBHelper.getIngredientsFromStorage();
+                        Ingredient newIngredient = modifiedIngredient();
+                        int selectedIngredientIndex = ingredientsFromStorage.indexOf(newIngredient);
+                        Ingredient oldIngredient = ingredientsFromStorage.get(selectedIngredientIndex);
+                        Ingredient ingredientToAddto = oldIngredient.clone();
+                        ingredientToAddto.setBestBefore(modifiedIngredient().getBestBefore());
+                        ingredientToAddto.setLocation(modifiedIngredient().getLocation());
+                        ingredientToAddto.setCategory(modifiedIngredient().getCategory());
+                        ingredientToAddto.setColor(modifiedIngredient().getColor());
+                        ingredientToAddto.setUnit(modifiedIngredient().getUnit());
+                        ingredientToAddto.setDesc(modifiedIngredient().getDesc());
+                        ingredientToAddto.setAmount(ingredientToAddto.getAmount() + newIngredient.getAmount());
+                        IngredientDBHelper.modifyIngredientInDB(ingredientToAddto, oldIngredient, selectedIngredientIndex);
+                        isAddingFromShoppingList = false;
+
+                        dismiss();
+                    }
                 }
             }
         });
+    }
+
+    public Ingredient modifiedIngredient () {
+        Ingredient modifiedIngredient = si.clone();
+
+        modifiedIngredient.setName(etName.getText().toString());
+        modifiedIngredient.setDesc(etDescription.getText().toString());
+        modifiedIngredient.setBestBefore(getLocalDateFromStringArray(
+                String.valueOf(dpBestBeforeDate.getYear()),
+                String.valueOf(dpBestBeforeDate.getMonth() + 1), //NOTE: Date picker month is 0 indexed, localDate is 1 indexed
+                String.valueOf(dpBestBeforeDate.getDayOfMonth())
+        ));
+        modifiedIngredient.setAmount(Integer.parseInt(String.valueOf(etAmount.getText())));
+        modifiedIngredient.setUnit(spUnit.getSelectedItem().toString());
+        modifiedIngredient.setCategory(spCategory.getSelectedItem().toString());
+        modifiedIngredient.setLocation(spLocation.getSelectedItem().toString());
+        return  modifiedIngredient;
     }
 
     /**
