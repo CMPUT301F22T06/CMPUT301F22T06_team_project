@@ -102,11 +102,45 @@ public class MealsRecyclerViewAdapter extends RecyclerView.Adapter<MealsRecycler
         if (holder.mealIngredients.size() > 0) {
             holder.mealIngredientsHeaderLabel.setVisibility(View.VISIBLE);
             for (int i = 0; i < holder.mealIngredients.size(); i++) {
+                Ingredient currentIngredient = holder.mealIngredients.get(i);
                 holder.ingredientMealItemView = new IngredientMealItemView(holder.itemView.getContext());
 
                 holder.ingredientMealItemView.setName(holder.mealIngredients.get(i).getName());
                 holder.ingredientMealItemView.setAmount(holder.mealIngredients.get(i).getAmount());
                 holder.ingredientMealItemView.setUnit(holder.mealIngredients.get(i).getUnit());
+
+                holder.ingredientMealItemView.buttonAddMealIngredientAmount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentIngredient.getAmount() < 999) {
+                            //update the amount of the particular ingredient modified
+                            ArrayList<Ingredient> modifedIngredients = meal.getOnlyIngredientsFromMeal();
+                            int recipeIndex = modifedIngredients.indexOf(currentIngredient);
+                            modifedIngredients.get(recipeIndex).setAmount(currentIngredient.getAmount() + 1);
+
+                            Meal newMeal = new Meal(meal.getId(), meal.getOnlyRecipesFromMeal(), modifedIngredients, MealPlannerFragment.getSelectedDate());
+
+                            MealDBHelper.modifyMealInDB(newMeal, meal, holder.getAdapterPosition());
+                        }
+                    }
+                });
+
+                holder.ingredientMealItemView.buttonMinusMealIngredientAmount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentIngredient.getAmount() > 0) {
+                            //update the amount of the particular ingredient modified
+                            ArrayList<Ingredient> modifedIngredients = meal.getOnlyIngredientsFromMeal();
+                            int ingredientIndex = modifedIngredients.indexOf(currentIngredient);
+                            modifedIngredients.get(ingredientIndex).setAmount(currentIngredient.getAmount() - 1);
+
+                            Meal newMeal = new Meal(meal.getId(), meal.getOnlyRecipesFromMeal(), modifedIngredients, MealPlannerFragment.getSelectedDate());
+
+                            MealDBHelper.modifyMealInDB(newMeal, meal, holder.getAdapterPosition());
+                        }
+                    }
+                });
+
                 ((LinearLayout) holder.ingredientsLinearLayout).addView(holder.ingredientMealItemView);
             }
         }

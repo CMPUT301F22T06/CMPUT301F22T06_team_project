@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.git_er_done.cmput301f22t06_team_project.adapters.MealsRecyclerViewAdapter;
+import com.git_er_done.cmput301f22t06_team_project.fragments.MealPlannerFragment;
 import com.git_er_done.cmput301f22t06_team_project.models.ingredient.Ingredient;
 import com.git_er_done.cmput301f22t06_team_project.models.meal.Meal;
 import com.git_er_done.cmput301f22t06_team_project.models.recipe.Recipe;
@@ -262,6 +263,9 @@ public class MealDBHelper {
         String recipesDelimString = createDelimitedStringFromMealRecipesArrayList(newMeal.getOnlyRecipesFromMeal());
         dr.update("recipes", recipesDelimString);
 
+        String ingredientsDelimString = createDelimitedStringFromMealIngredientsArrayList(newMeal.getOnlyIngredientsFromMeal());
+        dr.update("ingredients", ingredientsDelimString);
+
     }
 
     public void setupSnapshotListenerForLocalMealStorage(){
@@ -308,7 +312,9 @@ public class MealDBHelper {
 
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 if(!adapter.getMealsList().contains(meal)) {
-                                    adapter.addMealToRecyclerViewList(meal);
+                                    if(meal.getDate().equals(MealPlannerFragment.getSelectedDate())){
+                                        adapter.addMealToRecyclerViewList(meal);
+                                    }
                                 }
                             }
 
